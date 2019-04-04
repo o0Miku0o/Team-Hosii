@@ -75,9 +75,6 @@
     <ClInclude Include="BreakStarGenerator.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sturn.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="StageSelectObjEarth.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -171,6 +168,9 @@
     <ClInclude Include="MyGame\My\My.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Saturn.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame\My\CGDM.cpp">
@@ -231,9 +231,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BreakStar.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Sturn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="StageSelectObjEarth.cpp">
@@ -321,6 +318,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\My\My.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Saturn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -89,7 +89,7 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-
+		
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
