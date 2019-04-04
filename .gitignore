@@ -1,6 +1,8 @@
 .vs/
 ☆い/Debug/
 ☆い/☆い/Debug/
+x64/
+☆い/x64/
 # Build and Release Folders
 bin-debug/
 bin-release/
