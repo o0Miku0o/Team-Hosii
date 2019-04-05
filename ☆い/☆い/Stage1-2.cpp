@@ -7,6 +7,7 @@
 #include "AlienGenerator.h"
 #include "Alien.h"
 #include "Meteo.h"
+#include "StageManager.h"
 
 namespace Stage12
 {
@@ -83,7 +84,11 @@ namespace Stage12
 		int iArr[2] = { 24,23 };
 		sg->Bridge(2, iArr, pStArr);
 		/*データの初期化*/
-
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->bClearFragmentNumMax = 3;
+			++sm->bNextStage;
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

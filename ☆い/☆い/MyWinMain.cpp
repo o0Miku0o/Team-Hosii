@@ -163,7 +163,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	/*JoyPad２*/
 	JoyPad joy2;
 	//乱数の初期化
-	srand(/**(unsigned int)time(nullptr)/*/0/**/);
+	srand(/**/(unsigned int)time(nullptr)/*/0/**/);
 	//ゲームの初期化処理
 	Init();
 	//アプリケーションまたはデバイスドライバの

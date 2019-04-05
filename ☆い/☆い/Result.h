@@ -1,23 +1,20 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Title
+namespace Result
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Image iHo;
-		Image iShi;
-		Image iBoshi;
-		Image iStart;
+		Image iWord;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
 	private:
 		void Init();
-		void Finalize();
+		void Finalize();      
 	};
 	typedef RS *RS_ptr;
 	/*タスクオブジェクトクラス*/
@@ -25,15 +22,11 @@ namespace Title
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Rec rHo;
-		Rec rShi;
-		Rec rBoshi;
-		Rec rStart;
-		Animation aAnimator1;
-		Animation aAnimator2;
-		float fZoom;
-		float fStartImgSrcY;
-		bool bShineFlag;
+		Rec rPlayer;
+		Rec rWord;
+		byte bNextStage;
+		byte bMoveStarIdx;
+		byte bScore;
 
 		Obj() {}
 		~Obj() {}
@@ -45,6 +38,4 @@ namespace Title
 		void Update();
 		void Render();
 	}*OBJ_ptr;
-	void AnimHo(byte * const bFrame, byte * const bAnim, byte * const bAnim2);
-	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2);
 }

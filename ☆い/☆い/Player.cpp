@@ -66,18 +66,24 @@ namespace Player
 		}
 		if (!Find<Beam::Obj>("ビームタスク"))
 		{
-			fSPAngle = max(min(fSPAngle - pad->GetAxisL().GetY() * 0.2f, 198.f), 162.f);
+			float fSpd = 0.2f, fAng = 0.3f;
+			if (pad->On(J_BUT_5))
+			{
+				fSpd = 0.1f;
+				fAng = 0.1f;
+			}
+			fSPAngle = max(min(fSPAngle - pad->GetAxisL().GetY() * fSpd, 198.f), 162.f);
 			fPAngle =
 				max
 				(
 					min
 					(
-						fPAngle + pad->GetAxisR().GetY() * 0.3f,
+						fPAngle + pad->GetAxisR().GetY() * fAng,
 						rBase.GetDeg(&pStandardPoint) + 215
 					),
 					rBase.GetDeg(&pStandardPoint) + 145
 				);
-			if (pad->NowBut(J_BUT_5) == 1)
+			if (pad->NowBut(J_BUT_2) == 1)
 			{
 				fSPAngle = 180.f;
 				fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;

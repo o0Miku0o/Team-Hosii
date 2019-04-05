@@ -59,6 +59,12 @@ namespace Stage13
 		rPlanetJ.SetDeg(90);
 		rPlanetN = Rec(1350, 680, 16 * 14, 16 * 14);
 		rPlanetN.SetDeg(90);
+	
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->bClearFragmentNumMax = 2;
+			++sm->bNextStage;
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

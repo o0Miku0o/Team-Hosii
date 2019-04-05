@@ -69,9 +69,11 @@ namespace Cursor
 		}
 		if (auto ti = Find<Title::Obj>("タイトルタスク"))
 		{
+			ti->fStartImgSrcY = 0.f;
 			ti->rStart.Scaling(16 * 30.f, 16 * 5.f);
 			if (ti->rStart.CheckHit(&rCursorBase.GetPos()))
 			{
+				ti->fStartImgSrcY = 1.f;
 				ti->rStart.Scaling(16 * 30.f * 1.5f, 16 * 5.f * 1.5f);
 				if (kb->Down(VK_RETURN))
 				{
@@ -81,7 +83,7 @@ namespace Cursor
 					Pause(2);
 					return;
 				}
-				if (pad->Down(J_BUT_2))
+				if (pad->Down(J_BUT_6))
 				{
 					RemoveAll();
 					Add<StageManager::Obj>();
@@ -98,14 +100,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN))
-				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Stage11::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_2))
+				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					Add<Stage11::Obj>();
@@ -121,14 +116,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN))
-				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Stage21::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_2))
+				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					Add<Stage21::Obj>();
@@ -144,14 +132,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN))
-				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Stage31::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_2))
+				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					Add<Stage31::Obj>();
@@ -167,14 +148,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rUranus.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN))
-				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Stage41::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_2))
+				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					Add<Stage41::Obj>();
@@ -190,14 +164,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rBH.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN))
-				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Stage51::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_2))
+				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					Add<Stage51::Obj>();
@@ -215,7 +182,7 @@ namespace Cursor
 		{
 			Frec src(16.f * 32, 16.f, 16.f, 16.f);
 			rCursorBase.Draw(&res->iStageImg, &src);
-			rCursorBase.Draw();
+			//rCursorBase.Draw();
 		}
 	}
 }

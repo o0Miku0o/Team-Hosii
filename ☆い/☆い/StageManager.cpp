@@ -3,6 +3,7 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
+#include "Result.h"
 
 namespace StageManager
 {
@@ -79,7 +80,8 @@ namespace StageManager
 		/*タスクの生成*/
 		//Add<StageSelect::Obj>();
 		/*データの初期化*/
-
+		bClearFragmentNumMax = 2;
+		bClearFragmentNum = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -89,7 +91,22 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-
+		if (bClearFragmentNum >= bClearFragmentNumMax)
+		{
+			bClearFragmentNum = 0;
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			auto re = Add<Result::Obj>();
+			re->bNextStage = bNextStage;
+			if (usBeamCount <= bClearFragmentNumMax)
+			{
+				re->bScore = 3;
+			}
+			else if(usBeamCount <= u_short(bClearFragmentNumMax * 1.5f))
+			{
+				re->bScore = 2;
+			}
+			usBeamCount = 0;
+		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()

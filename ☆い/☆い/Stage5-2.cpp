@@ -81,9 +81,10 @@ namespace Stage52
 		bf->Bridge(1, &Point(Rec::Win.r*0.3f, Rec::Win.b*0.3f), &fSize, &ciMode);
 		/*データの初期化*/
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
-			res->wsBGM.PlayL();
+			sm->bClearFragmentNumMax = 1;
+			++sm->bNextStage;
 		}
 	}
 	/*タスクの終了処理*/

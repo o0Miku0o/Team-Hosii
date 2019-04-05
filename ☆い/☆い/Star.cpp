@@ -53,6 +53,8 @@ namespace Star
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 			rStar.Draw(&res->iStageImg, &src, true);
+			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
+
 			//rStar.Draw();
 			//if (iChange == 0)
 			//{
@@ -74,7 +76,7 @@ namespace Star
 			//{
 			//	rStar.Draw(&res->iStarimage, tmp*iChange, 0, tmp, tmp);
 			//}
-			cStarhitbase.Draw();
+			//cStarhitbase.Draw();
 		}
 	}
 	void Obj::CheckHit(TaskBase* fr)
@@ -95,6 +97,10 @@ namespace Star
 			//{
 			//	iChange = 0;
 			//}
+			if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+			{
+				++sm->bClearFragmentNum;
+			}
 			Remove(fr);
 			/*oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;*/

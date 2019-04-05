@@ -87,9 +87,10 @@ namespace Stage41
 
 		/*データの初期化*/
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
-			res->wsBGM.PlayL();
+			sm->bClearFragmentNumMax = 2;
+			sm->bNextStage = 11;
 		}
 	}
 	/*タスクの終了処理*/

@@ -114,6 +114,10 @@ namespace BreakStar
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cHitbase.CheckHit(&cHit))
 		{
+			if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+			{
+				--sm->usBeamCount;
+			}
 			auto res = RB::Find<StageManager::RS>("ステージ統括リソース");
 			if (iChange > 25)
 			{

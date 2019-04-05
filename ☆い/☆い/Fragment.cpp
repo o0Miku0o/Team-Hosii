@@ -144,7 +144,7 @@ namespace Fragment
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 		}
-		cFragmentHitBase.Draw();
+		//cFragmentHitBase.Draw();
 	}
 
 	void Obj::Checkhitbeam(TaskBase* bm)

@@ -141,6 +141,7 @@
     <ClInclude Include="Neptune.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="Stage1-1.h" />
     <ClInclude Include="Stage1-2.h" />
     <ClInclude Include="Stage1-3.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="MyWinMain.cpp" />
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="Stage1-1.cpp" />
     <ClCompile Include="Stage1-2.cpp" />
     <ClCompile Include="Stage1-3.cpp" />

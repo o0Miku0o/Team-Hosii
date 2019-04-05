@@ -107,15 +107,20 @@ bool MS::GetMouseState()
 	POINT point;
 	GetCursorPos(&point);
 	ScreenToClient(hWnd, &point);
-	instance->pos.x = (float)point.x;
-	instance->pos.y = (float)point.y;
-
+	/**/instance->pos = { (float)point.x, (float)point.y };
+	/*/instance->pos = Rec::AdjustCamPos(&Point((float)point.x, (float)point.y));/**/
 	return 0;
 }
 /*インスタンスのアドレスを取得*/
 MS *MS::GetState()
 {
 	return instance;
+}
+/*マウスカーソルの表示の有無*/
+bool MS::Visible(const bool bVisible)
+{
+	while (ShowCursor(bVisible) != -1);
+	return 1;
 }
 /*現在のマウス入力状態を取得*/
 byte MS::Now(const MouseButton but_)
@@ -190,8 +195,12 @@ Vector2::Vector2(const Vector2 &cpy_)
 //
 void Vector2::SetVec(const float angleD_, const float dist_)
 {
-	x = cos(DtoR(angleD_)) * dist_;
-	y = sin(DtoR(angleD_)) * dist_;
+	const double ang = (double)DtoR(ModAngle(angleD_));
+	x = (float)cos_fast(ang) * dist_;
+	y = (float)sin_fast(ang) * dist_;
+
+	//x = cos(DtoR(angleD_)) * dist_;
+	//y = sin(DtoR(angleD_)) * dist_;
 }
 //
 const float Vector2::GetX() const
@@ -375,7 +384,12 @@ const HDC Image::GetImageHandle() const
 	return hBmpDC;
 }
 //
-const HBITMAP Image::GetMaskHandle() const
+const HDC Image::GetMaskHandle() const
+{
+	return hMaskBmpDC;
+}
+//
+const HBITMAP Image::GetMaskBitMap() const
 {
 	return hMaskBmp;
 }
@@ -408,7 +422,7 @@ Font::Font()
 	:
 	hf(nullptr),
 	hOff(Rec::GetOffScreenHandle()),
-	col(RGB(255, 255, 255))
+	col(WHITE_COLOR)
 {
 
 }
@@ -418,7 +432,7 @@ Font::~Font()
 	Release();
 }
 //
-bool Font::FontCreate(const char *fontname_, const FontOP *fontoption_, int h_, float angleD_)
+bool Font::FontCreate(const char *fontname_, int h_, float angleD_, const FontOP *fontoption_)
 {
 	hf = CreateFont
 	(
@@ -663,7 +677,7 @@ void WSound::PlayL()
 {
 	if (!bIsPlaying)
 	{
-		bIsPlaying ^= 1;
+		bIsPlaying = true;
 		Play();
 	}
 }
@@ -1098,6 +1112,15 @@ const float Rec::GetCameraPosY()
 {
 	return Cam.y;
 }
+//画面を塗りつぶす
+void Rec::FullPaint(const COLORREF ccColor)
+{
+	auto hBlush = CreateSolidBrush(ccColor);
+	auto hOld = SelectObject(off, hBlush);
+	Rectangle(off, 0, 0, (int)Win.r, (int)Win.b);
+	SelectObject(off, hOld);
+	DeleteObject(hBlush);
+}
 //カメラを移動
 void Rec::MoveCamera(const Vector2 * const vMove)
 {
@@ -1120,7 +1143,7 @@ HDC Rec::GetOffScreenHandle()
 }
 //コンストラクタ
 Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float angleD_)
-	:w(w_), h(h_)
+	:w(w_), h(h_), cColor(WHITE_COLOR)
 {
 	p[CENTER].x = cx_;
 	p[CENTER].y = cy_;
@@ -1159,10 +1182,14 @@ Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float
 	};
 
 	//原点に合わせて回転
+	const double ang = (double)DtoR(ModAngle(angleD_));
 	for (int i = 0; i < POINT_MAX - 1; ++i)
 	{
-		p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
-		p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
+		p[i].x = float(cos_fast(ang) * pp[i][0] - sin_fast(ang) * pp[i][1]);
+		p[i].y = float(sin_fast(ang) * pp[i][0] + cos_fast(ang) * pp[i][1]);
+
+		//p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
+		//p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
 	}
 
 	for (int i = 0; i < POINT_MAX - 1; ++i)
@@ -1174,17 +1201,24 @@ Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float
 }
 //コンストラクタ
 Rec::Rec()
-	:dx(0.f), dy(0.f), angle(0), w(0.f), h(0.f)
+	:dx(0.f), dy(0.f), angle(0), w(0.f), h(0.f), cColor(WHITE_COLOR)
 {
 	for (int i = 0; i < POINT_MAX; ++i)
 		p[i] = { 0.,0. };
 }
 //コピーコンストラクタ
 Rec::Rec(const Rec & cpyrec_)
-	:dx(cpyrec_.dx), dy(cpyrec_.dy), angle(cpyrec_.angle), w(cpyrec_.w), h(cpyrec_.h)
+	:dx(cpyrec_.dx), dy(cpyrec_.dy), angle(cpyrec_.angle), w(cpyrec_.w), h(cpyrec_.h), cColor(cpyrec_.cColor)
 {
 	for (int i = 0; i < POINT_MAX; ++i)
 		p[i] = cpyrec_.p[i];
+}
+//
+const COLORREF Rec::SetColor(const COLORREF ccColor)
+{
+	auto cOld = cColor;
+	cColor = ccColor;
+	return cOld;
 }
 //矩形を移動させる
 void Rec::SetPos(const Point * const pos_)
@@ -1234,7 +1268,7 @@ void Rec::Scaling(const float recw_, const float rech_)
 	//dy = (float)Sqrt((unsigned long)(bufx * bufx + bufy * bufy)) * 0.5f;
 	dy = Sqrt(bufx * bufx + bufy * bufy) * 0.5f;
 
-	const float ang = ModAngle(angle);
+	double ang = (double)ModAngle(angle);
 	if (ang < -1.f || ang > 1.f)
 	{
 		//原点を中心とした位置に移動
@@ -1245,10 +1279,14 @@ void Rec::Scaling(const float recw_, const float rech_)
 			{ -dx ,  dy },
 			{  dx ,  dy },
 		};
+		ang = (double)DtoR((float)ang);
 		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
-			p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
+			p[i].x = float(cos_fast(ang) * pp[i][0] - sin_fast(ang) * pp[i][1]);
+			p[i].y = float(sin_fast(ang) * pp[i][0] + cos_fast(ang) * pp[i][1]);
+
+			//p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
+			//p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
 		}
 	}
 	for (int i = 0; i < POINT_MAX - 1; ++i)
@@ -1273,13 +1311,17 @@ void Rec::SetDeg(const float angleD_)
 	};
 
 	//原点に合わせて回転
-	const float ang = ModAngle(angle);
+	double ang = (double)ModAngle(angle);
 	if (ang < -1.f || ang > 1.f)
 	{
+		ang = (double)DtoR((float)ang);
 		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
-			p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
+			p[i].x = float(cos_fast(ang) * pp[i][0] - sin_fast(ang) * pp[i][1]);
+			p[i].y = float(sin_fast(ang) * pp[i][0] + cos_fast(ang) * pp[i][1]);
+
+			//p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
+			//p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
 		}
 
 		for (int i = 0; i < POINT_MAX - 1; ++i)
@@ -1336,62 +1378,12 @@ void Rec::Draw(Image * const mybitmap_, const bool rot_)
 				dp[i].y = (long)pp[i][1];
 			}
 			/**/
-			PlgBlt(off, dp, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
+			PlgBlt(off, dp, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
 			/**/
 		}
-		else/**/ PlgBlt(off, dp, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskHandle(), 0, 0);
+		else/**/ PlgBlt(off, dp, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 	}
-	else PlgBlt(off, dp, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskHandle(), 0, 0);
-	//if (!dOption->bRotation)
-	//{
-	//	if (dOption->bTransparent)
-	//	{
-	//		TransparentBlt(off, (int)p[TOP_LEFT].x, (int)p[TOP_LEFT].y, (int)w, (int)h, mybitmap_->hBmpDC, 0, 0, mybitmap_->BmpInfo.bmWidth, mybitmap_->BmpInfo.bmHeight, TRANSPARENT_COLOR);
-	//	}
-	//	else
-	//	{
-	//		StretchBlt(off, (int)p[TOP_LEFT].x, (int)p[TOP_LEFT].y, (int)w, (int)h, mybitmap_->hBmpDC, 0, 0, mybitmap_->BmpInfo.bmWidth, mybitmap_->BmpInfo.bmHeight, SRCCOPY);
-	//	}
-	//}
-	//else
-	//{
-	//	POINT dp[3];
-	//	for (int i = 0; i < 3; ++i)
-	//	{
-	//		dp[i].x = (long)p[i].x;
-	//		dp[i].y = (long)p[i].y;
-	//	}
-
-	//	//回転と平行移動と拡縮に合わせて描画
-	//	const float ang = ModAngle(angle);
-	//	if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
-	//	{
-	//		//原点を中心とした位置に移動
-	//		float  pp[3][2] =
-	//		{
-	//			{ -dx , -dy },
-	//			{ dx , -dy },
-	//			{ -dx ,  dy },
-	//		};
-
-	//		for (int i = 0; i < 3; ++i)
-	//		{
-	//			pp[i][0] += p[CENTER].x;
-	//			pp[i][1] += p[CENTER].y;
-	//		}
-
-	//		for (int i = 0; i < 3; ++i)
-	//		{
-	//			dp[i].x = (long)pp[i][0];
-	//			dp[i].y = (long)pp[i][1];
-	//		}
-
-	//		/**/
-	//		PlgBlt(off, dp, mybitmap_->hBmpDC, mybitmap_->BmpInfo.bmWidth / 2, 0, mybitmap_->BmpInfo.bmWidth / 2, mybitmap_->BmpInfo.bmHeight, mybitmap_->hMaskBmp, mybitmap_->BmpInfo.bmWidth / 2, 0);
-	//		/**/
-	//	}
-	//	else/**/ PlgBlt(off, dp, mybitmap_->hBmpDC, 0, 0, mybitmap_->BmpInfo.bmWidth / 2, mybitmap_->BmpInfo.bmHeight, mybitmap_->hMaskBmp, 0, 0);
-	//}
+	else PlgBlt(off, dp, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 }
 //読み込んでおいたビットマップを描画(回転も可)
 void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot_)
@@ -1435,107 +1427,109 @@ void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot
 				dp[i].y = (long)pp[i][1];
 			}
 			/**/
-			PlgBlt(off, dp, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t);
+			PlgBlt(off, dp, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
 			/**/
 		}
-		else PlgBlt(off, dp, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskHandle(), (int)frSrc->l, (int)frSrc->t);
+		else PlgBlt(off, dp, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 	}
-	else PlgBlt(off, dp, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskHandle(), (int)frSrc->l, (int)frSrc->t);
-	//if (!dOption->bRotation)
-	//{
-	//	if (dOption->bTransparent)
-	//	{
-	//		TransparentBlt(off, (int)p[TOP_LEFT].x, (int)p[TOP_LEFT].y, (int)w, (int)h, mybitmap_->hBmpDC, (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, TRANSPARENT_COLOR);
-	//	}
-	//	else
-	//	{
-	//		StretchBlt(off, (int)p[TOP_LEFT].x, (int)p[TOP_LEFT].y, (int)w, (int)h, mybitmap_->hBmpDC, (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, SRCCOPY);
-	//	}
-	//}
-	//else
-	//{
-	//	POINT dp[3];
-	//	for (int i = 0; i < 3; ++i)
-	//	{
-	//		dp[i].x = (long)p[i].x;
-	//		dp[i].y = (long)p[i].y;
-	//	}
-
-	//	//回転と平行移動と拡縮に合わせて描画
-	//	//180度に近いときだけ回転用バッファを使用
-	//	const float ang = ModAngle(angle);
-	//	if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
-	//	{
-	//		//原点を中心とした位置に移動
-	//		float  pp[3][2] =
-	//		{
-	//			{ -dx , -dy },
-	//		{ dx , -dy },
-	//		{ -dx ,  dy },
-	//		};
-
-	//		for (int i = 0; i < 3; ++i)
-	//		{
-	//			pp[i][0] += p[CENTER].x;
-	//			pp[i][1] += p[CENTER].y;
-	//		}
-
-	//		for (int i = 0; i < 3; ++i)
-	//		{
-	//			dp[i].x = (long)pp[i][0];
-	//			dp[i].y = (long)pp[i][1];
-	//		}
-
-	//		/**/
-	//		PlgBlt(off, dp, mybitmap_->hBmpDC, int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->hMaskBmp, int(frSrc->l + frSrc->r), (int)frSrc->t);
-	//		/**/
-	//	}
-	//	else PlgBlt(off, dp, mybitmap_->hBmpDC, (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->hMaskBmp, (int)frSrc->l, (int)frSrc->t);
-	//}
+	else PlgBlt(off, dp, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 }
 //
 void Rec::DrawAlpha(Image * const mybitmap_, byte alpha_)
 {
-	if (AdjustCamPos(&p[CENTER]).x - w > Win.r) return;
-	if (AdjustCamPos(&p[CENTER]).y - h > Win.b) return;
-	if (AdjustCamPos(&p[CENTER]).x + w < Win.l) return;
-	if (AdjustCamPos(&p[CENTER]).y + h < Win.t) return;
-
 	POINT dp;
 	dp.x = (long)AdjustCamPos(&p[TOP_LEFT]).x;
 	dp.y = (long)AdjustCamPos(&p[TOP_LEFT]).y;
 
-	BLENDFUNCTION bfu;
-	bfu.BlendOp = AC_SRC_OVER;
-	bfu.BlendFlags = 0;
-	bfu.SourceConstantAlpha = alpha_;
-	bfu.AlphaFormat = 0;
+	if (dp.x - w > Win.r) return;
+	if (dp.y - h > Win.b) return;
+	if (dp.x + w < Win.l) return;
+	if (dp.y + h < Win.t) return;
 
-	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
+	BLENDFUNCTION bfu = {};
+	bfu.BlendOp = AC_SRC_OVER;
+	bfu.SourceConstantAlpha = alpha_;
+
+	auto hBufDc = CreateCompatibleDC(off);
+	auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
+	SelectObject(hBufDc, hBufBmp);
+
+	POINT pBufArr[3] =
+	{
+		{0, 0},
+		{mybitmap_->GetBmpInfo().bmWidth, 0},
+		{0, mybitmap_->GetBmpInfo().bmHeight},
+	};
+
+	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
+
+	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+
+	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
+
+	DeleteObject(hBufBmp);
+	DeleteDC(hBufDc);
+}
+//
+void Rec::DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alpha_)
+{
+	POINT dp;
+	dp.x = (long)AdjustCamPos(&p[TOP_LEFT]).x;
+	dp.y = (long)AdjustCamPos(&p[TOP_LEFT]).y;
+
+	if (dp.x - w > Win.r) return;
+	if (dp.y - h > Win.b) return;
+	if (dp.x + w < Win.l) return;
+	if (dp.y + h < Win.t) return;
+
+	BLENDFUNCTION bfu = {};
+	bfu.BlendOp = AC_SRC_OVER;
+	bfu.SourceConstantAlpha = alpha_;
+
+	auto hBufDc = CreateCompatibleDC(off);
+	auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
+	SelectObject(hBufDc, hBufBmp);
+
+	POINT pBufArr[3] =
+	{
+		{0, 0},
+		{mybitmap_->GetBmpInfo().bmWidth, 0},
+		{0, mybitmap_->GetBmpInfo().bmHeight},
+	};
+
+	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
+
+	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
+
+	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
+
+	DeleteObject(hBufBmp);
+	DeleteDC(hBufDc);
 }
 //矩形の外枠を描画するメンバ関数
-void Rec::Draw(int r_, int g_, int b_)
+void Rec::Draw()
 {
 	if (AdjustCamPos(&p[CENTER]).x - w > Win.r) return;
 	if (AdjustCamPos(&p[CENTER]).y - h > Win.b) return;
 	if (AdjustCamPos(&p[CENTER]).x + w < Win.l) return;
 	if (AdjustCamPos(&p[CENTER]).y + h < Win.t) return;
 
-	POINT dp[4];
+	POINT dp[5];
 	for (int i = 0; i < 4; ++i)
 	{
 		dp[i].x = (long)AdjustCamPos(&p[i]).x;
 		dp[i].y = (long)AdjustCamPos(&p[i]).y;
 	}
 
-	HPEN hPen = CreatePen(PS_SOLID, 0, RGB(r_, g_, b_));
+	Swap(dp[BOTTOM_LEFT].x, dp[BOTTOM_RIGHT].x);
+	Swap(dp[BOTTOM_LEFT].y, dp[BOTTOM_RIGHT].y);
+
+	dp[4] = dp[TOP_LEFT];
+
+	HPEN hPen = CreatePen(PS_SOLID, 0, cColor);
 	HGDIOBJ old = SelectObject(off, hPen);
 
-	MoveToEx(off, dp[TOP_LEFT].x, dp[TOP_LEFT].y, NULL);
-	LineTo(off, dp[TOP_RIGHT].x, dp[TOP_RIGHT].y);
-	LineTo(off, dp[BOTTOM_RIGHT].x, dp[BOTTOM_RIGHT].y);
-	LineTo(off, dp[BOTTOM_LEFT].x, dp[BOTTOM_LEFT].y);
-	LineTo(off, dp[TOP_LEFT].x, dp[TOP_LEFT].y);
+	Polyline(off, dp, sizeof(dp) / sizeof(dp[0]));
 
 	SelectObject(off, old);
 	DeleteObject(hPen);
@@ -1597,23 +1591,26 @@ bool Rec::CheckHit(const Rec * const rec_)
 }
 bool Rec::CheckHit(const Point * const pos_)
 {
-	const float ang = ModAngle(angle);
+	double ang = (double)ModAngle(angle);
 	if ((ang >= -1 && ang <= 1) || (ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
 	{
 		return (pos_->x > p[TOP_LEFT].x && pos_->x < p[TOP_RIGHT].x &&
 			pos_->y > p[TOP_LEFT].y && pos_->y < p[BOTTOM_LEFT].y);
 	}
-
+	ang = (double)DtoR((float)ang);
 	float dist = GetDist(pos_->x, pos_->y);
 	Point pp = { pos_->x - p[CENTER].x,pos_->y - p[CENTER].y };
-	float r1 = 0.f, r2 = 0.f;
+	double r1 = 0., r2 = 0.;
 	if (pp.x != 0.f)
 	{
-		r1 = atan(pp.y / pp.x);
+		r1 = (double)atan(pp.y / pp.x);
 	}
-	else r1 = DtoR(360.f);
-	r2 = r1 - DtoR(angle);
-	pp = { dist * cos(r2),dist * sin(r2) };
+	else r1 = (double)DtoR(ModAngle(360.f));
+	r2 = r1 - ang;
+
+	pp = { dist * (float)cos_fast(r2),dist * (float)sin_fast(r2) };
+	//pp = { dist * cos(r2),dist * sin(r2) };
+
 	pp.x += p[CENTER].x;
 	pp.y += p[CENTER].y;
 
@@ -1624,23 +1621,27 @@ bool Rec::CheckHit(const Point * const pos_)
 }
 bool Rec::CheckHit(const float x_, const float y_)
 {
-	const float ang = ModAngle(angle);
+	double ang = (double)ModAngle(angle);
 	if ((ang >= -1 && ang <= 1) || (ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
 	{
 		return (x_ > p[TOP_LEFT].x && x_ < p[TOP_RIGHT].x &&
 			y_ > p[TOP_LEFT].y && y_ < p[BOTTOM_LEFT].y);
 	}
-
+	ang = (double)DtoR((float)ang);
 	float dist = GetDist(x_, y_);
 	Point pp = { x_ - p[CENTER].x,y_ - p[CENTER].y };
-	float r1 = 0.f, r2 = 0.f;
+	double r1 = 0., r2 = 0.;
 	if (pp.x != 0.f)
 	{
-		r1 = atan(pp.y / pp.x);
+		r1 = (double)atan(pp.y / pp.x);
 	}
-	else r1 = DtoR(360.f);
-	r2 = r1 - DtoR(angle);
-	pp = { dist * cos(r2),dist * sin(r2) };
+	else r1 = (double)DtoR(ModAngle(360.f));
+
+	r2 = r1 - ang;
+
+	pp = { dist * (float)cos_fast(r2),dist * (float)sin_fast(r2) };
+	//pp = { dist * cos(r2),dist * sin(r2) };
+
 	pp.x += p[CENTER].x;
 	pp.y += p[CENTER].y;
 
@@ -1776,13 +1777,13 @@ const Point &Rec::GetBR() const
 /*円クラス*/
 /*コンストラクタ*/
 Circle::Circle()
-	: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(RGB(255, 255, 255)), center({ 0.f,0.f }), radius(1.f)
+	: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(WHITE_COLOR), center({ 0.f,0.f }), radius(1.f)
 {
 
 }
 /*コンストラクタ*/
 Circle::Circle(const Point * const position_, const float radius_)
-	: hPen(nullptr), color(RGB(255, 255, 255)), center(*position_), radius(radius_)
+	: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(WHITE_COLOR), center(*position_), radius(radius_)
 {
 
 }
@@ -1825,26 +1826,24 @@ const float Circle::GetRadius() const
 /*描画*/
 void Circle::Draw()
 {
-	if (Rec::AdjustCamPos(&center).x - radius * 2.f > Rec::Win.r) return;
-	if (Rec::AdjustCamPos(&center).y - radius * 2.f > Rec::Win.b) return;
-	if (Rec::AdjustCamPos(&center).x + radius * 2.f < Rec::Win.l) return;
-	if (Rec::AdjustCamPos(&center).x + radius * 2.f < Rec::Win.t) return;
-
-	Point dp;
-	dp = Rec::AdjustCamPos(&center);
+	Point dp = Rec::AdjustCamPos(&center);
+	if (dp.x - radius > Rec::Win.r) return;
+	if (dp.y - radius > Rec::Win.b) return;
+	if (dp.x + radius < Rec::Win.l) return;
+	if (dp.x + radius < Rec::Win.t) return;
 
 	/*描画用ペンを作成*/
-	hPen = CreatePen(PS_SOLID, 1, color);
+	hPen = CreatePen(PS_INSIDEFRAME, 1, color);
 	/*offがペンを使うようにする*/
-	HGDIOBJ old = SelectObject(hOff, hPen);
+	HGDIOBJ hOldPen = SelectObject(hOff, hPen);
+	HGDIOBJ hOldBlush = SelectObject(hOff, GetStockObject(NULL_BRUSH));
+
 	/*円の描画開始*/
-	MoveToEx(hOff, int(dp.x + cos(DtoR(-1.f)) * radius), int(dp.y + sin(DtoR(-1.f)) * radius), nullptr);
-	for (int i = 0; i < 360; ++i)
-	{
-		LineTo(hOff, int(dp.x + cos(DtoR((float)i)) * radius), int(dp.y + sin(DtoR((float)i)) * radius));
-	}
+	Ellipse(hOff, int(dp.x - radius), int(dp.y - radius), int(dp.x + radius), int(dp.y + radius));
+
 	/*offが使う描画オブジェクトを元に戻す*/
-	SelectObject(hOff, old);
+	SelectObject(hOff, hOldPen);
+	SelectObject(hOff, hOldBlush);
 	/*ペンを破棄*/
 	DeleteObject(hPen);
 	hPen = nullptr;
@@ -1878,7 +1877,7 @@ Line::Line()
 	:
 	hPen(nullptr),
 	hOff(Rec::GetOffScreenHandle()),
-	color(RGB(255, 255, 255)),
+	color(WHITE_COLOR),
 	spos({ 0.f, 0.f }),
 	epos({ 1.f, 0.f }),
 	width(1)
@@ -1897,7 +1896,7 @@ Line::Line(const Point * const spos_, const Point * const epos_)
 	:
 	hPen(nullptr),
 	hOff(Rec::GetOffScreenHandle()),
-	color(RGB(255, 255, 255)),
+	color(WHITE_COLOR),
 	spos(*spos_),
 	epos(*epos_),
 	width(1)
@@ -1944,7 +1943,10 @@ void Line::SetPos(const Point * const spos_, const float angleD_, const float le
 
 	len = len_;
 
-	epos = Point(cos(DtoR(angle)) * len, sin(DtoR(angle)) * len);
+	const float ang = DtoR(ModAngle(angle));
+	epos = Point((float)cos_fast(ang) * len, (float)sin_fast(ang) * len);
+
+	//epos = Point(cos(DtoR(angle)) * len, sin(DtoR(angle)) * len);
 
 	epos.x += spos.x;
 	epos.y += spos.y;
@@ -1994,7 +1996,10 @@ void Line::SetDeg(const float angleD_)
 {
 	angle = angleD_;
 
-	epos = Point(cos(DtoR(angle)) * len, sin(DtoR(angle)) * len);
+	const float ang = DtoR(ModAngle(angle));
+	epos = Point((float)cos_fast(ang) * len, (float)sin_fast(ang) * len);
+
+	//epos = Point(cos(DtoR(angle)) * len, sin(DtoR(angle)) * len);
 
 	epos.x += spos.x;
 	epos.y += spos.y;
@@ -2007,7 +2012,10 @@ void Line::SetLen(const float len_)
 	len = len_;
 	if (len_)
 	{
-		epos = Point(cos(DtoR(angle)) * len_, sin(DtoR(angle)) * len_);
+		const float ang = DtoR(ModAngle(angle));
+		epos = Point((float)cos_fast(ang) * len_, (float)sin_fast(ang) * len_);
+
+		//epos = Point(cos(DtoR(angle)) * len_, sin(DtoR(angle)) * len_);
 
 		epos.x += spos.x;
 		epos.y += spos.y;
@@ -2115,11 +2123,18 @@ const Point &Line::GetPOI(const Line * const line_)
 /*移動*/
 void Line::Move(const float movespd_)
 {
-	spos.x += cos(DtoR(angle)) * movespd_;
-	spos.y += sin(DtoR(angle)) * movespd_;
+	const double ang = (double)DtoR(ModAngle(angle));
+	spos.x += (float)cos_fast(ang) * movespd_;
+	spos.y += (float)sin_fast(ang) * movespd_;
 
-	epos.x += cos(DtoR(angle)) * movespd_;
-	epos.y += sin(DtoR(angle)) * movespd_;
+	epos.x += (float)cos_fast(ang) * movespd_;
+	epos.y += (float)sin_fast(ang) * movespd_;
+
+	//spos.x += cos(DtoR(angle)) * movespd_;
+	//spos.y += sin(DtoR(angle)) * movespd_;
+
+	//epos.x += cos(DtoR(angle)) * movespd_;
+	//epos.y += sin(DtoR(angle)) * movespd_;
 }
 /*描画*/
 void Line::Draw()
@@ -2209,18 +2224,16 @@ bool FileIO::LoadFile(void * const buf_, const int elementsize_)
 bool FileIO::Open(const char *filename_, const char *format_)
 {
 	fopen_s(&fp, filename_, format_);
-	if (fp == nullptr)
-		return 1;
-	return 0;
+	if (!fp) return 0;
+	return 1;
 }
 //
 bool FileIO::Close()
 {
-	if (fp == nullptr)
-		return 1;
+	if (!fp) return 0;
 	fclose(fp);
 	fp = nullptr;
-	return 0;
+	return 1;
 }
 
 //タイマークラス
@@ -2265,7 +2278,238 @@ void Timer::Stop()
 	active = false;
 }
 
-#ifdef _DEBUG
-Point DBG::spDrawPos;
-Font DBG::sfFont;
-#endif
+Pixel::Pixel()
+	:
+	pPos({}),
+	cColor(0),
+	hOff(Rec::GetOffScreenHandle()),
+	bSize(3)
+{
+}
+Pixel::Pixel(const Point &crefpPos, const COLORREF ccColor, const byte cbSize)
+	:
+	pPos(crefpPos),
+	cColor(ccColor),
+	hOff(Rec::GetOffScreenHandle()),
+	bSize(cbSize)
+{
+}
+Pixel::Pixel(const Pixel &crefPixel)
+	:
+	pPos(crefPixel.pPos),
+	cColor(crefPixel.cColor),
+	hOff(Rec::GetOffScreenHandle()),
+	bSize(crefPixel.bSize)
+{
+}
+const Point Pixel::SetPos(const Point * const cppPos)
+{
+	const Point cpOld = pPos;
+	pPos = *cppPos;
+	return cpOld;
+}
+const COLORREF Pixel::SetColor(const COLORREF ccColor)
+{
+	const COLORREF ccOld = cColor;
+	cColor = ccColor;
+	return ccOld;
+}
+const byte Pixel::SetSize(const byte cbSize)
+{
+	const byte cbOld = bSize;
+	bSize = cbSize;
+	return cbOld;
+}
+const Point &Pixel::GetPos() const
+{
+	return pPos;
+}
+const float Pixel::GetPosX() const
+{
+	return pPos.x;
+}
+const float Pixel::GetPosY() const
+{
+	return pPos.y;
+}
+void Pixel::Draw() const
+{
+	Point pDp = Rec::AdjustCamPos(&pPos);
+	if (pDp.x < Rec::Win.l) return;
+	if (pDp.x > Rec::Win.r) return;
+	if (pDp.y < Rec::Win.t) return;
+	if (pDp.y > Rec::Win.b) return;
+
+	auto hPen = CreatePen(PS_SOLID, 1, cColor);
+	auto hOldPen = SelectObject(hOff, hPen);
+	auto hBlush = CreateSolidBrush(cColor);
+	auto hOldBlush = SelectObject(hOff, hBlush);
+
+	Rectangle(hOff, int(pDp.x - ((bSize - 1) * 0.5f)), int(pDp.y - ((bSize - 1) * 0.5f)), int(pDp.x + ((bSize - 1) * 0.5f)), int(pDp.y + ((bSize - 1) * 0.5f)));
+
+	SelectObject(hOff, hOldPen);
+	SelectObject(hOff, hOldBlush);
+	DeleteObject(hPen);
+	DeleteObject(hBlush);
+}
+
+Particle * Particle::sppTop = nullptr;
+
+void Particle::Update()
+{
+	for (auto &vp : vpPix)
+	{
+		if (vp.bLifeCount >= bLifeMax)
+		{
+			vp.pPos = vp.pIniPos;
+			vp.bLifeCount = byte(rand() % bLifeMax);
+		}
+		{
+			const char cRand = char(rand() % 201 - 100);
+			const byte bR = Max(Min(GetRValue(vp.cColor) + cRand, 255), 0);
+			const byte bG = Max(Min(GetGValue(vp.cColor) + cRand, 255), 0);
+			const byte bB = Max(Min(GetBValue(vp.cColor) + cRand, 255), 0);
+			const COLORREF cCol = RGB(bR, bG, bB);
+			vp.pPix.SetColor(cCol);
+		}
+		vp.fSpdX = cos_fast(vp.fAngle + vp.fRandX) * vp.fSpd;
+		vp.fSpdY = sin_fast(vp.fAngle + vp.fRandY) * vp.fSpd;
+		vp.pPos.x += vp.fSpdX;
+		vp.pPos.y += vp.fSpdY;
+		vp.pPix.SetPos(&vp.pPos);
+		++vp.bLifeCount;
+	}
+}
+void Particle::Draw() const
+{
+	for (auto &vp : vpPix)
+	{
+		vp.pPix.Draw();
+	}
+}
+void Particle::UpdateAll()
+{
+	auto pIt = sppTop;
+	while (pIt)
+	{
+		if (pIt->bUpdateFlag) pIt->Update();
+
+		pIt = pIt->next;
+	}
+}
+void Particle::DrawAll()
+{
+	auto pIt = sppTop;
+	while (pIt)
+	{
+		if (pIt->bUpdateFlag) pIt->Draw();
+
+		pIt = pIt->next;
+	}
+}
+
+Particle::Particle()
+	:
+	vpPix({}), bLifeMax(100), next(nullptr), prev(nullptr), bUpdateFlag(false)
+{
+	if (!sppTop)
+	{
+		sppTop = this;
+		return;
+	}
+	auto pIt = sppTop;
+	while (pIt->next)
+	{
+		auto pBuf = pIt;
+		pIt = pIt->next;
+		pIt->prev = pBuf;
+	}
+	pIt->next = this;
+	this->prev = pIt;
+}
+Particle::~Particle()
+{
+	if (!this->prev)
+	{
+		sppTop = this->next;
+		if (!sppTop) return;
+		sppTop->prev = nullptr;
+		return;
+	}
+	auto pPre = this->prev;
+	auto pNext = this->next;
+	pPre->next = pNext;
+}
+void Particle::SetNum(const unsigned int cuiNum)
+{
+	auto vpTmp = vpPix;
+	vpPix.clear();
+	for (unsigned int ui = 0; ui < cuiNum; ++ui)
+	{
+		_vP vpT;
+		if (vpTmp.size() > ui) vpT = vpTmp[ui];
+		vpPix.emplace_back(vpT);
+	}
+}
+void Particle::SetSize(const byte cbSize)
+{
+	for (auto &vp : vpPix)
+	{
+		vp.pPix.SetSize(cbSize);
+	}
+}
+void Particle::SetInitPos(const Point * const cppPos, const short csMax, const short csMin)
+{
+	for (auto &vp : vpPix)
+	{
+		vp.pIniPos = Point(cppPos->x + (rand() % ((csMax << 1) + 1) + csMin), cppPos->y + (rand() % ((csMax << 1) + 1) + csMin));
+		vp.pPos = vp.pIniPos;
+		vp.pPix.SetPos(&vp.pPos);
+	}
+}
+void Particle::SetLife(const byte cbLifeMax)
+{
+	bLifeMax = cbLifeMax;
+	for (auto &vp : vpPix)
+	{
+		vp.bLifeCount = byte(rand() % bLifeMax);
+	}
+}
+void Particle::SetSpd(const float cfSpd, const short csMax, const short csMin)
+{
+	for (auto &vp : vpPix)
+	{
+		vp.fSpd = cfSpd + (rand() % ((csMax << 1) + 1) + csMin);
+	}
+}
+void Particle::SetAngle(const float cfAngle, const short csMax, const short csMin)
+{
+	const fixed cfAng = DtoR(ModAngle(cfAngle));
+	for (auto &vp : vpPix)
+	{
+		vp.fAngle = cfAng;
+		vp.fRandX = DtoR(float(rand() % ((csMax << 1) + 1) + csMin));
+		vp.fRandY = DtoR(float(rand() % ((csMax << 1) + 1) + csMin));
+	}
+}
+void Particle::SetColor(const COLORREF ccColor, const char ccMax, const char ccMin)
+{
+	for (auto &vp : vpPix)
+	{
+		vp.cColor = ccColor;
+		const char cRand = char(rand() % ((ccMax)+1) + ccMin);
+		const byte bR = Max(Min(GetRValue(ccColor) + cRand, 255), 0);
+		const byte bG = Max(Min(GetGValue(ccColor) + cRand, 255), 0);
+		const byte bB = Max(Min(GetBValue(ccColor) + cRand, 255), 0);
+		const COLORREF cCol = RGB(bR, bG, bB);
+		vp.pPix.SetColor(cCol);
+	}
+}
+void Particle::Play()
+{
+	if (!bUpdateFlag) bUpdateFlag = true;
+}
+void Particle::Stop()
+{
+	if (bUpdateFlag) bUpdateFlag = false;
+}
