@@ -46,6 +46,7 @@ namespace Stage51
 		float fSize = 250.f;
 		const int ciMode = 0;
 		bf->Bridge(1, &Point(Rec::Win.r*0.5f, Rec::Win.b*0.5f), &fSize, &ciMode);
+
 		/*データの初期化*/
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))

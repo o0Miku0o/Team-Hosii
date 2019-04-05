@@ -7,18 +7,20 @@
 #include "StageSelectObjAsteroid.h"
 #include "Cursor.h"
 
+//tamesi
+#include "StageLoad.h"
 
 namespace StageSelect
 {
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-		
+
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
-		
+
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -26,7 +28,7 @@ namespace StageSelect
 		/*タスク名設定*/
 		SetName("ステージ選択タスク");
 		/*リソース生成*/
-	
+
 		/*タスクの生成*/
 		Add<StageSelectObjGalaxy::Obj>();
 		Add<StageSelectObjBH::Obj>();
@@ -47,7 +49,14 @@ namespace StageSelect
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-
+		//tamesi
+		const auto kb = KB::GetState();
+		if (kb->Now('O') == 1)
+		{
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			Add<StageLoad::Obj>();
+			Pause(2);
+		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
