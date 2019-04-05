@@ -63,11 +63,11 @@ public:
 private:
 	//
 	static ResourceBase *top;
+	
+	std::string rname;
 	ResourceBase *next;
 	ResourceBase *prev;
 	
-	std::string rname;
-
 	virtual void Init() = 0;
 	virtual void Finalize() = 0;
 }RB;
@@ -82,14 +82,11 @@ public:
 	TaskBase();
 	virtual ~TaskBase() {};
 private:
-	TaskBase *next;
-	TaskBase *prev;
-
 	static TaskBase *top;
 	
-	TaskBase * parent;
-
 	std::string tname;
+	TaskBase *next;
+	TaskBase *prev;
 	int tstate;
 	bool updflag;
 	u_long wait;
@@ -213,8 +210,6 @@ public:
 	static void Remove(TaskBase *endtask_);
 
 	static void RemoveAll(const char *taskname_ = nullptr, RemoveFlag rflag_ = REMOVE_NAME);
-
-	void Parent(TaskBase * parenttask_);
 
 	void SetName(const char *taskname_);
 

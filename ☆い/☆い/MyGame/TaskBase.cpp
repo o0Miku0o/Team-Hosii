@@ -54,7 +54,6 @@ TaskBase::TaskBase()
 {
 	this->next = nullptr;
 	this->prev = nullptr;
-	this->parent = nullptr;
 	this->wait = 0;
 	this->updflag = true;
 	this->tstate = ACTIVE;
@@ -103,26 +102,6 @@ bool TaskBase::SysUpdate()
 			}
 			else if (it->tstate == END)
 			{
-				for (TB_ptr child = top; child != nullptr;)
-				{
-					TB_ptr c_next = child->next;
-					TB_ptr c_prev = child->prev;
-
-					if (child->parent == it)
-					{
-
-						child->Finalize();
-
-						delete child;
-
-						if (c_prev) c_prev->next = c_next;
-						else top = c_next;
-						child = c_next;
-						if (child) child->prev = c_prev;
-					}
-					else child = c_next;
-				}
-
 				TB_ptr next = it->next;
 				TB_ptr prev = it->prev;
 
@@ -167,13 +146,6 @@ void TaskBase::SysRender()
 void TaskBase::Remove(TaskBase *endtask_)
 {
 	if (endtask_) endtask_->tstate = END;
-	for (auto it = top; it; it = it->next)
-	{
-		if (it->parent == endtask_)
-		{
-			it->tstate = END;
-		}
-	}
 }
 
 void TaskBase::RemoveAll(const char *taskname_, RemoveFlag rflag_)
@@ -202,11 +174,6 @@ void TaskBase::RemoveAll(const char *taskname_, RemoveFlag rflag_)
 			else now->tstate = END;
 		}
 	}
-}
-
-void TaskBase::Parent(TaskBase * parenttask_)
-{
-	this->parent = parenttask_;
 }
 
 void TaskBase::SetName(const char *taskname_)
