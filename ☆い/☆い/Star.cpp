@@ -74,7 +74,9 @@ namespace Star
 			//{
 			//	rStar.Draw(&res->iStarimage, tmp*iChange, 0, tmp, tmp);
 			//}
+#ifdef _DEBUG
 			cStarhitbase.Draw();
+#endif // _DEBUG	
 		}
 	}
 	void Obj::CheckHit(TaskBase* fr)

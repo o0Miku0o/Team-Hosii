@@ -103,7 +103,9 @@ namespace BreakStar
 			//{
 			//	rStar.Draw(&res->iStarimage, tmp*iChange, 0, tmp, tmp);
 			//}
+#ifdef _DEBUG
 			cHitbase.Draw();
+#endif // _DEBUG
 		}
 	}
 	void Obj::CheckHit(TaskBase* bm)
@@ -144,22 +146,22 @@ namespace BreakStar
 			//}
 			//else
 			//{
-				if (iChange > 35)
+			if (iChange > 35)
+			{
+				if (res)
 				{
-					if (res)
-					{
-						res->wsTest3.Play();
-					}
-					auto fg = Add<FragmentGenerator::Obj>();
-					//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
-					Point pArr[5] = {
-						Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
-						Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
-					};
-					int iColor[5] = {};
-					fg->Bridge(5, pArr, iColor);
-					Remove(this);
+					res->wsTest3.Play();
 				}
+				auto fg = Add<FragmentGenerator::Obj>();
+				//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
+				Point pArr[5] = {
+					Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
+					Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
+				};
+				int iColor[5] = {};
+				fg->Bridge(5, pArr, iColor);
+				Remove(this);
+			}
 			//}
 			Remove(bm);
 			bHitAct = true;

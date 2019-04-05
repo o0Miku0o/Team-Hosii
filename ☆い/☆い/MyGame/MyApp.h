@@ -6,5 +6,5 @@
 #include "TaskBase.h"
 
 //ウィンドウタイトル名
-const char WINNAME[] = "DollsWorld";
-const char WINCLASS[] = "MyWindow";
+const char WINNAME[] = "☆い";
+const char WINCLASS[] = "Hosii";

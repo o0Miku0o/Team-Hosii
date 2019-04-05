@@ -18,12 +18,12 @@ namespace Cursor
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-		
+
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
-		
+
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -31,7 +31,7 @@ namespace Cursor
 		/*タスク名設定*/
 		SetName("カーソルタスク");
 		/*リソース生成*/
-	
+
 		/*タスクの生成*/
 
 		/*データの初期化*/
@@ -77,7 +77,7 @@ namespace Cursor
 				{
 					RemoveAll();
 					Add<StageManager::Obj>();
-					Add<StageSelect::Obj>(); 
+					Add<StageSelect::Obj>();
 					Pause(2);
 					return;
 				}
@@ -85,7 +85,7 @@ namespace Cursor
 				{
 					RemoveAll();
 					Add<StageManager::Obj>();
-					Add<StageSelect::Obj>(); 
+					Add<StageSelect::Obj>();
 					Pause(2);
 					return;
 				}
@@ -215,7 +215,9 @@ namespace Cursor
 		{
 			Frec src(16.f * 32, 16.f, 16.f, 16.f);
 			rCursorBase.Draw(&res->iStageImg, &src);
+#ifdef _DEBUG
 			rCursorBase.Draw();
+#endif // _DEBUG
 		}
 	}
 }
