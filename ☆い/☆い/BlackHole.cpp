@@ -48,12 +48,6 @@ namespace BlackHole
 			bMove = IsMove();
 		}
 
-#ifdef _DEBUG
-		auto kb = KB::GetState();
-		if (kb->Now('V') == 1) {
-			auto beamGen = Add<BeamGenerator::Obj>();
-		}
-#endif
 		if (auto beam = Find<Beam::Obj>("ビームタスク")) {
 			CheckHitBeam(beam);
 		}
@@ -65,6 +59,8 @@ namespace BlackHole
 		}
 		pPos = rBlackHole.GetPos();
 		cInnerCircle.SetPos(&pPos);
+		cOutCircle.SetPos(&pPos);
+		cOutCircle.SetRadius(cInnerCircle.GetRadius()*2.00f);
 		++fAngle;
 		rBlackHole.SetDeg(fAngle);
 
@@ -75,12 +71,10 @@ namespace BlackHole
 		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース")) {
 			rBlackHole.Draw(&stageRes->iStageImg, &Frec(192, 0, 16, 16), true);
 		}
+#ifdef _DEBUG
 		cInnerCircle.Draw();
-		Circle cOut;
-		cOut.SetRadius(cInnerCircle.GetRadius()*2.00f);
-		cOut.SetPos(&cInnerCircle.GetPos());
-		cOut.Draw();
-
+		cOutCircle.Draw();
+#endif // DEBUG
 	}
 	bool Obj::IsCreate() {
 		rBlackHole.SetPos(&pPos);
@@ -134,88 +128,56 @@ namespace BlackHole
 
 	void Obj::CheckHitBeam(TaskBase* bm) {
 		Beam::Obj* oBeam = (Beam::Obj*)bm;
-		Circle cBm, cOut;
+		Circle cBm;
 		cBm.SetRadius(oBeam->rHitBase.GetW()*0.5f);
 		cBm.SetPos(&oBeam->rHitBase.GetPos());
-		cOut.SetRadius(cInnerCircle.GetRadius()*2.0f);
-		cOut.SetPos(&cInnerCircle.GetPos());
-		if (cOut.CheckHit(&cBm)) {
+		if (cOutCircle.CheckHit(&cBm)) {
 			if (cInnerCircle.CheckHit(&cBm)) {
 				Remove(bm);
 			}
 			else {
-				float angle = oBeam->rHitBase.GetDeg();
-				while (angle > 360) {
-					angle -= 360;
+				while (oBeam->rHitBase.GetDeg() > 360) {
+					float angle = oBeam->rHitBase.GetDeg();
+					oBeam->rHitBase.SetDeg(angle -= 360);
 				}
-				float x, y, cx, cy;
-				x = oBeam->rHitBase.GetPosX();
-				y = oBeam->rHitBase.GetPosY();
-				cx = cOut.GetPos().x;
-				cy = cOut.GetPos().y;
-				if (x < cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 240 ? angle -= 2 : angle += 2;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 2 : angle -= 2;
-					else {
-
-					}
-				}
-				else if (x > cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 330 ? angle -= 2 : angle += 2;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 2 : angle -= 2;
-					else {
-
-					}
-				}
-				oBeam->rHitBase.SetDeg(angle);
+				oBeam->rHitBase.SetDeg(CalcAngle(oBeam->rHitBase.GetPos(), cOutCircle.GetPos(), oBeam->rHitBase.GetDeg()));
 			}
 		}
 	}
 	void Obj::CheckHitFragment(TaskBase* fg) {
 		Fragment::Obj* oFrag = (Fragment::Obj*)fg;
-		Circle cFg, cOut;
+		Circle cFg;
 		cFg.SetRadius(oFrag->rFragment.GetW()*0.5f);
 		cFg.SetPos(&oFrag->rFragment.GetPos());
-		cOut.SetRadius(cInnerCircle.GetRadius()*2.0f);
-		cOut.SetPos(&cInnerCircle.GetPos());
-		if (cOut.CheckHit(&cFg)) {
-			if (cInnerCircle.CheckHit(&cFg)) {
-				Remove(fg);
-			}
-			else {
-				float angle = oFrag->rFragment.GetDeg();
-				while (angle > 360) {
-					angle -= 360;
+		if (oFrag->bMoveActive) {
+			if (cOutCircle.CheckHit(&cFg)) {
+				if (cInnerCircle.CheckHit(&cFg)) {
+					Remove(fg);
 				}
-				float x, y, cx, cy;
-				x = oFrag->rFragment.GetPosX();
-				y = oFrag->rFragment.GetPosY();
-				cx = cOut.GetPos().x;
-				cy = cOut.GetPos().y;
-				if (x < cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 240 ? angle -= 1 : angle += 1;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 1 : angle -= 1;
-					else {
-
+				else {
+					while (oFrag->rFragment.GetDeg() > 360) {
+						float angle = oFrag->rFragment.GetDeg();
+						oFrag->rFragment.SetDeg(angle -= 360);
 					}
+					oFrag->rFragment.SetDeg(CalcAngle(oFrag->rFragment.GetPos(), cOutCircle.GetPos(), oFrag->rFragment.GetDeg()));
 				}
-				else if (x > cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 330 ? angle -= 1 : angle += 1;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 1 : angle -= 1;
-					else {
-
-					}
-				}
-				oFrag->rFragment.SetDeg(angle);
 			}
 		}
+	}
+	float Obj::CalcAngle(const Point targetPos, const Point bhPos, const float targetAngle) {
+		float rtAngle = targetAngle;
+		if (targetPos.x < bhPos.x) {
+			if (targetPos.y < bhPos.y)
+				targetAngle > 100 && targetAngle < 240 ? rtAngle -= 1 : rtAngle += 1;
+			else if (targetPos.y > bhPos.y)
+				targetAngle > 100 && targetAngle < 240 ? rtAngle += 1 : rtAngle -= 1;
+		}
+		else if (targetPos.x > bhPos.x) {
+			if (targetPos.y < bhPos.y)
+				targetAngle > 100 && targetAngle < 330 ? rtAngle -= 1 : rtAngle += 1;
+			else if (targetPos.y > bhPos.y)
+				targetAngle > 100 && targetAngle < 240 ? rtAngle += 1 : rtAngle -= 1;
+		}
+		return rtAngle;
 	}
 }
