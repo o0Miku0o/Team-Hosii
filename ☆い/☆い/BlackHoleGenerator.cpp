@@ -52,4 +52,18 @@ namespace BlackHoleGenerator
 			}
 		}
 	}
+	void Obj::Bridge(const int iNum, const vector<Point> pPos, const vector<float> pSize, const vector<int> mode, const vector<Point>* pMovePos) {
+		for (int i = 0; i < iNum; i++) {
+			auto blackHole = Add<BlackHole::Obj>();
+			blackHole->pPos = pPos.at(i);
+			blackHole->rBlackHole = Rec(pPos.at(i).x, pPos.at(i).y, pSize.at(i), pSize.at(i));
+			if (mode.at(i) == Bigger) {
+				blackHole->bBigger = true;
+			}
+			else if (mode.at(i) == Move) {
+				blackHole->bMove = true;
+				blackHole->pEndPos = pMovePos->at(i);
+			}
+		}
+	}
 }

@@ -23,7 +23,7 @@ namespace BlackHole
 	public:
 		/*ここにタスクごとの変数を追加*/
 		Rec	rBlackHole; //描画用
-		Circle cInnerCircle; //内側円
+		Circle cInnerCircle , cOutCircle; //内側円
 		Point pPos;
 		bool bBigger;
 		bool bMove;
@@ -41,6 +41,7 @@ namespace BlackHole
 
 		void CheckHitBeam(TaskBase *bm);
 		void CheckHitFragment(TaskBase *fg);
+		float CalcAngle(const Point targetPos, const Point bhPos, const float targetAngle);
 		//消滅までの処理
 
 		/*以下変更不要*/

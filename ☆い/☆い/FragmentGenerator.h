@@ -1,6 +1,8 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
+using namespace std;
+
 namespace FragmentGenerator
 {
 	/*リソースクラス*/
@@ -32,5 +34,7 @@ namespace FragmentGenerator
 		void Update();
 		void Render();
 		void Bridge(const int iNum, const Point * const pPos, const int * const iColor);
+		void Bridge(const int iNum, const vector<Point> pPos, const vector<int> iColor);
+
 	}*OBJ_ptr;
 }
