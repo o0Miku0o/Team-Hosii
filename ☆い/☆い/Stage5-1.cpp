@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "BlackHoleGenerator.h"
 #include "StageSelect.h"
+#include "Back.h"
 
 //#include "BlackHole.h"
 
@@ -27,11 +28,10 @@ namespace Stage51
 		/*タスク名設定*/
 		SetName("ステージ５－１タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
-		//Add<BlackHole::Obj>();
 
 		auto fg = Add<FragmentGenerator::Obj>();
 		int iColor[2] = {};
@@ -50,7 +50,7 @@ namespace Stage51
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -66,12 +66,22 @@ namespace Stage51
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage52::Obj>();
 			Pause(2);
 		}
 
 		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}

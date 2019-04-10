@@ -6,8 +6,7 @@
 #include "StageManager.h"
 #include "Player.h"
 #include "StageSelect.h"
-
-//#include "BlackHole.h"
+#include "Back.h"
 
 namespace Stage53
 {
@@ -27,11 +26,10 @@ namespace Stage53
 		/*タスク名設定*/
 		SetName("ステージ５－３タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
-		//Add<BlackHole::Obj>();
 		//黒い星５個↓
 		auto bs = Add<BreakStarGenerator::Obj>();
 		int iChange[6] = { 36,36,36,36,36,25 };
@@ -51,7 +49,7 @@ namespace Stage53
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -67,12 +65,22 @@ namespace Stage53
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}
 
 		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}

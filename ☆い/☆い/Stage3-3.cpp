@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "AlienGenerator.h"
 #include "Alien.h"
+#include "Back.h"
 
 namespace Stage33
 {
@@ -29,6 +30,7 @@ namespace Stage33
 		/*リソース生成*/
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		auto fg = Add<FragmentGenerator::Obj>();
@@ -188,7 +190,7 @@ namespace Stage33
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM1.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -204,12 +206,22 @@ namespace Stage33
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM1.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage41::Obj>();
 			Pause(2);
 		}
 
 		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM1.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}

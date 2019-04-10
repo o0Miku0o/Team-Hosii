@@ -98,9 +98,8 @@ namespace Sturn
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cSturnHitBase.CheckHit(&cFrHit))
 		{
-			Remove(fr);
-			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//oFragment->bMoveActive = false;
+			oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			oFragment->bMoveActive = false;
 		}
 	}
 }

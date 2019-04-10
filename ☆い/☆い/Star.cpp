@@ -87,15 +87,168 @@ namespace Star
 		{
 			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 			{
-				res->wsTest2.Play();
-				//res->wsTest1.Restart();
+				switch (iChange)
+				{
+				case 22:
+					if (oFragment->iColor == 0)
+					{
+						iChange = 23;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iChange = 26;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iChange = 28;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 23:
+					if (oFragment->iColor == 0)
+					{
+						iChange = 24;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iChange = 27;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iChange = 29;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 24:
+					if (oFragment->iColor == 0)
+					{
+						iChange = 25;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iChange = 33;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iChange = 32;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 25:
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					break;
+				case 26:
+					if (oFragment->iColor == 0)
+					{
+						iChange = 27;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					if (oFragment->iColor == 2)
+					{
+						iChange = 30;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 27:
+					if (oFragment->iColor == 2)
+					{
+						iChange = 31;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					else
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					
+					}
+					break;
+				case 28:
+					if (oFragment->iColor == 0)
+					{
+						iChange = 29;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iChange = 30;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 29:
+					if (oFragment->iColor == 1)
+					{
+						iChange = 31;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					else
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 30:
+					if (oFragment->iColor == 0)
+					{
+						iChange = 31;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					else
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 31:
+					oFragment->rFragment.SetPos(&oFragment->pInitPos);
+					res->wsTest5.Play();
+					oFragment->bMoveActive = false;
+					break;
+				}
 			}
-			iChange = min(iChange + 1, 22 + 13);
+			//iChange = min(iChange + 1, 22 + 13);
 			//if (iChange > 4)
 			//{
 			//	iChange = 0;
-			//}
-			Remove(fr);
+			//}			
 			/*oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;*/
 		}

@@ -184,7 +184,8 @@ namespace BlackHole
 		cOut.SetPos(&cInnerCircle.GetPos());
 		if (cOut.CheckHit(&cFg)) {
 			if (cInnerCircle.CheckHit(&cFg)) {
-				Remove(fg);
+				oFrag->rFragment.SetPos(&oFrag->pInitPos);
+				oFrag->bMoveActive = false;
 			}
 			else {
 				float angle = oFrag->rFragment.GetDeg();

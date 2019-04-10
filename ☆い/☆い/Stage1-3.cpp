@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Neptune.h"
 #include "Jupitor.h"
+#include "Back.h"
 
 namespace Stage13
 {
@@ -28,6 +29,7 @@ namespace Stage13
 		/*リソース生成*/
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
 		auto np = Add<Neptune::Obj>();
 		auto jp = Add<Jupitor::Obj>();
@@ -59,6 +61,11 @@ namespace Stage13
 		rPlanetJ.SetDeg(90);
 		rPlanetN = Rec(1350, 680, 16 * 14, 16 * 14);
 		rPlanetN.SetDeg(90);
+
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			res->wsBGM.Restart();
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -73,12 +80,22 @@ namespace Stage13
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage21::Obj>();
 			Pause(2);
 		}
 
 		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}

@@ -10,7 +10,7 @@
 #include "Alien.h"
 #include "MeteoGenerator.h"
 #include "StageSelect.h"
-
+#include "Back.h"
 
 namespace Stage43
 {
@@ -30,9 +30,9 @@ namespace Stage43
 		/*タスク名設定*/
 		SetName("ステージ４－３タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
 		auto np = Add<Neptune::Obj>();
 		np->rNeptune.Scaling(16.f * 13.f, 16.f * 13.f);
@@ -85,7 +85,7 @@ namespace Stage43
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM.Release();
 		}
 	}
 	/*タスクの終了処理*/
@@ -101,12 +101,22 @@ namespace Stage43
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage51::Obj>();
 			Pause(2);
 		}
 
 		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}

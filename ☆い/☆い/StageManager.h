@@ -22,6 +22,8 @@ namespace StageManager
 		WSound wsTest11;
 		WSound wsTest12;
 		WSound wsBGM;
+		WSound wsBGM1;
+		WSound wsBGM2;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }

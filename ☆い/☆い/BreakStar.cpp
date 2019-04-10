@@ -131,19 +131,19 @@ namespace BreakStar
 				}
 				iChange = 34;
 			}
-			//if (bBlackMode)
-			//{
-			//	if (iChange > 38)
-			//	{
-			//		if (res)
-			//		{
-			//			res->wsTest3.Play();
-			//		}
-			//		Remove(this);
-			//	}
-			//}
-			//else
-			//{
+			if (bBlackMode)
+			{
+				if (iChange > 38)
+				{
+					if (res)
+					{
+						res->wsTest3.Play();
+					}
+					Remove(this);
+				}
+			}
+			else
+			{
 				if (iChange > 35)
 				{
 					if (res)
@@ -160,8 +160,8 @@ namespace BreakStar
 					fg->Bridge(5, pArr, iColor);
 					Remove(this);
 				}
-			//}
-			Remove(bm);
+			}
+			bm->Remove(bm);
 			bHitAct = true;
 		}
 	}

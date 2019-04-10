@@ -37,6 +37,12 @@ namespace StageManager
 
 		wsBGM.CallBack(WINNAME);
 		wsBGM.SoundCreate("./data/sound/BGM2.wav");
+
+		wsBGM1.CallBack(WINNAME);
+		wsBGM1.SoundCreate("./data/sound/BGM4.wav");
+
+		wsBGM2.CallBack(WINNAME);
+		wsBGM2.SoundCreate("./data/sound/BGM3.wav");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()

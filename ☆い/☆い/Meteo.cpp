@@ -80,7 +80,11 @@ namespace Meteo
 				}
 			}
 		}
-		if (rMeteo.GetPosY() >= Rec::Win.b + 300.f)
+		if (rMeteo.GetPosY() > Rec::Win.b + 300.f)
+		{
+			Remove(this);
+		}
+		if (rMeteo.GetPosY() < Rec::Win.t - 300.f)
 		{
 			Remove(this);
 		}
@@ -114,9 +118,8 @@ namespace Meteo
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cMeteoHitBase.CheckHit(&cFrHit))
 		{
-			Remove(fr);
-			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//oFragment->bMoveActive = false;
+			oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			oFragment->bMoveActive = false;
 		}
 	}
 }

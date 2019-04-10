@@ -9,8 +9,7 @@
 #include "Alien.h"
 #include "BlackHoleGenerator.h"
 #include "StageSelect.h"
-
-//#include "BlackHole.h"
+#include "Back.h"
 
 namespace Stage52
 {
@@ -30,11 +29,10 @@ namespace Stage52
 		/*タスク名設定*/
 		SetName("ステージ５－２タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
-		//Add<BlackHole::Obj>();
 
 		auto np = Add<Jupitor::Obj>();
 		np->rJupitor.Scaling(16.f * 18.f, 16.f * 18.f);
@@ -83,7 +81,7 @@ namespace Stage52
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -99,12 +97,22 @@ namespace Stage52
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage53::Obj>();
 			Pause(2);
 		}
 
 		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}

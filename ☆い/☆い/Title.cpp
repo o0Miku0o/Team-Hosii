@@ -45,6 +45,14 @@ namespace Title
 		aAnimator2.SetAnim(AnimShiBoshi, 0);
 
 		Rec::Zoom(fZoom);
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			res->wsBGM.PlayL();
+			res->wsBGM1.PlayL();
+			res->wsBGM1.Pause();
+			res->wsBGM2.PlayL();
+			res->wsBGM2.Pause();
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
