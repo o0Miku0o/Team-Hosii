@@ -82,12 +82,12 @@ namespace StageLoad
 
 	}
 	bool Obj::LoadStage(int iStage) {
-		std::string path = "./data/stage/stage" + std::to_string(iStage / 10) + std::to_string(iStage % 10) + ".txt";
-		std::ifstream ifs(path);
+		string path = "./data/stage/stage" + to_string(iStage / 10) + to_string(iStage % 10) + ".txt";
+		ifstream ifs(path);
 		if (!ifs) {
 			return false;
 		}
-		std::string sIdentifier;
+		string sIdentifier;
 		//欠片、星、木星、海王星、隕石、外界人、ブラックホール、コメント始点、コメント終点
 		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "/*", "*/", };
 		while (!ifs.eof()) {
@@ -121,7 +121,7 @@ namespace StageLoad
 				sblackhole.state = true;
 			}
 			else if (sIdentifier == sArr[7]) {
-				std::string dummy;
+				string dummy;
 				ifs >> dummy;
 				while (dummy == sArr[8]) {
 					ifs >> dummy;
@@ -131,7 +131,7 @@ namespace StageLoad
 		return true;
 	}
 
-	void Obj::LoadFragments(std::ifstream &ifs) {
+	void Obj::LoadFragments(ifstream &ifs) {
 		ifs >> sFragement.iNum;
 		for (int i = 0; i < sFragement.iNum; ++i) {
 			float x, y;
@@ -141,7 +141,7 @@ namespace StageLoad
 			sFragement.iColor.push_back(color);
 		}
 	}
-	void Obj::LoadStar(std::ifstream &ifs) {
+	void Obj::LoadStar(ifstream &ifs) {
 		ifs >> sStar.iNum;
 		for (int i = 0; i < sStar.iNum; ++i) {
 			float x, y;
@@ -152,7 +152,7 @@ namespace StageLoad
 		}
 	}
 
-	void Obj::LoadPlanet(std::ifstream &ifs, Planet &planet) {
+	void Obj::LoadPlanet(ifstream &ifs, Planet &planet) {
 		ifs >> planet.iNum;
 		for (int i = 0; i < planet.iNum; ++i) {
 			float x, y, r;
@@ -162,7 +162,7 @@ namespace StageLoad
 		planet.state = true;
 	}
 
-	void Obj::LoadMeteo(std::ifstream &ifs) {
+	void Obj::LoadMeteo(ifstream &ifs) {
 		ifs >> sMeteo.iNum;
 		for (int i = 0; i < sMeteo.iNum; ++i) {
 			float x, y;
@@ -171,8 +171,12 @@ namespace StageLoad
 		}
 	}
 
-	void Obj::LoadAlien(std::ifstream &ifs) {
+	void Obj::LoadAlien(ifstream &ifs) {
 		ifs >> sAlien.iNum;
+		const char* arrMove[] = { "aMH", "aMH_", "aMV", "aMV_", "aMR", "aMR_", };
+		const char* arrHitB[] = { "aBRE", "aBDR", "aBUR", "aBDL", "aBUL" };
+		const char* arrHitF[] = { "aFRE", "aFDR", "aFUR", "aFDL", "aFUL" };
+		const char* arrAnim[] = { "aANo", "aAHo", "aARo", "aADR", "aAUR", "aAUL", "aADL" };
 		for (int i = 0; i < sAlien.iNum; ++i) {
 			float x, y;
 			ifs >> x >> y;
@@ -180,7 +184,7 @@ namespace StageLoad
 		}
 	}
 	//座標、大きさ
-	void Obj::LoadBlackHole(std::ifstream &ifs) {
+	void Obj::LoadBlackHole(ifstream &ifs) {
 		ifs >> sblackhole.iNum;
 		for (int i = 0; i < sblackhole.iNum; ++i) {
 			float x, y, r;

@@ -1,5 +1,8 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Alien.h"
+
+using namespace std;
 
 namespace StageLoad
 {
@@ -24,15 +27,15 @@ namespace StageLoad
 		struct Fragment {
 			bool state;
 			int iNum;
-			std::vector<Point> vpPos;
-			std::vector<int> iColor;
+			vector<Point> vpPos;
+			vector<int> iColor;
 		}sFragement;
 
 		struct Star {
 			bool state;
 			int iNum;
-			std::vector<int> viChange;
-			std::vector<Point> vpPos;
+			vector<int> viChange;
+			vector<Point> vpPos;
 		}sStar;
 
 		struct Planet {
@@ -44,16 +47,26 @@ namespace StageLoad
 		struct SMeteo {
 			bool state;
 			int iNum;
-			std::vector<Point> vpPos;
+			vector<Point> vpPos;
 		}sMeteo, sAlien;
 
 		struct SBlackhole {
 			bool state;
 			int iNum;
-			std::vector<Point> vpPos;
-			std::vector<float> vpSize;
-			std::vector<int>   viMode;
+			vector<Point> vpPos;
+			vector<float> vpSize;
+			vector<int>   viMode;
 		}sblackhole;
+
+		struct SAlien {
+			bool state;
+			int iNum;
+			vector<Point> vpPos;
+			vector<Alien::Move> vaMove;
+			vector<Alien::Hit> vaBMHit, vaFGHit;
+			vector<Alien::Anim> vaAnim;			
+		}sAlien;
+
 		int iStageNum;
 		bool isLoad;
 		bool LoadStage(int iStage);
@@ -63,12 +76,12 @@ namespace StageLoad
 		RS_ptr res;
 		void Init();
 		void Finalize();
-		void LoadFragments(std::ifstream &ifs);
-		void LoadStar(std::ifstream &ifs);
-		void LoadPlanet(std::ifstream &ifs, Planet &planet);
-		void LoadMeteo(std::ifstream &ifs);
-		void LoadAlien(std::ifstream &ifs);
-		void LoadBlackHole(std::ifstream &ifs);
+		void LoadFragments(ifstream &ifs);
+		void LoadStar(ifstream &ifs);
+		void LoadPlanet(ifstream &ifs, Planet &planet);
+		void LoadMeteo(ifstream &ifs);
+		void LoadAlien(ifstream &ifs);
+		void LoadBlackHole(ifstream &ifs);
 	public:
 		void Update();
 		void Render();
