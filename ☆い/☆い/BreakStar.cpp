@@ -103,7 +103,7 @@ namespace BreakStar
 			//{
 			//	rStar.Draw(&res->iStarimage, tmp*iChange, 0, tmp, tmp);
 			//}
-			cHitbase.Draw();
+			//cHitbase.Draw();
 		}
 	}
 	void Obj::CheckHit(TaskBase* bm)

@@ -97,7 +97,7 @@ namespace Meteo
 			Frec src(16 * 4, 16, 16, 16);
 			rMeteo.Draw(&res->iStageImg, &src, true);
 		}
-		cMeteoHitBase.Draw();
+		//cMeteoHitBase.Draw();
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
 	{

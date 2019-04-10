@@ -35,6 +35,8 @@ namespace StageManager
 
 		wsTest12.SoundCreate("./data/sound/宇宙人出現.wav");
 
+		wsTest13.SoundCreate("./data/sound/リザルト.wav");
+
 		wsBGM.CallBack(WINNAME);
 		wsBGM.SoundCreate("./data/sound/BGM2.wav");
 
@@ -73,7 +75,13 @@ namespace StageManager
 
 		wsTest12.Release();
 
+		wsTest13.Release();
+
 		wsBGM.Release();
+
+		wsBGM1.Release();
+
+		wsBGM2.Release();
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
