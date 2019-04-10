@@ -76,8 +76,10 @@ namespace Neptune
 			++i; 
 			rNeptune.Draw(&res->iStageImg, &src, true);
 		}
+#ifdef _DEBUG
 		cNeptuneHitBase.Draw();
 		cGravityCircle.Draw();
+#endif // _DEBUG
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
 	{

@@ -74,8 +74,10 @@ namespace Jupitor
 			++i;
 			rJupitor.Draw(&res->iStageImg, &src, true);
 		}
+#ifdef _DEBUG
 		cJupitorHitBase.Draw();
 		cGravityCircle.Draw();
+#endif // _DEBUG
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
 	{
