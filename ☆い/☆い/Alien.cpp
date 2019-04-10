@@ -212,7 +212,8 @@ namespace Alien
 	void FGRemove(TaskBase * const tTask)
 	{
 		auto fgm = (Fragment::Obj*)tTask;
-		fgm->Remove(fgm);
+		fgm->rFragment.SetPos(&fgm->pInitPos);
+		fgm->bMoveActive = false;
 	}
 	void FGReflectDR(TaskBase * const tTask)
 	{

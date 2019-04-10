@@ -190,7 +190,6 @@ namespace Star
 						oFragment->rFragment.SetPos(&oFragment->pInitPos);
 						res->wsTest5.Play();
 						oFragment->bMoveActive = false;
-
 					}
 					break;
 				case 28:

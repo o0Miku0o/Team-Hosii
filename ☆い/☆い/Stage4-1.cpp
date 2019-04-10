@@ -5,7 +5,7 @@
 #include "FragmentGenerator.h"
 #include "StageManager.h"
 #include "Player.h"
-#include "Sturn.h"
+#include "Saturn.h"
 #include "Neptune.h"
 #include "AlienGenerator.h"
 #include "Alien.h"
@@ -34,7 +34,7 @@ namespace Stage41
 		/*É^ÉXÉNÇÃê∂ê¨*/
 		Add<Back::Obj>();
 		Add<Player::Obj>();
-		Add<Sturn::Obj>();
+		Add<Saturn::Obj>();
 		auto np = Add<Neptune::Obj>();
 		np->rNeptune.Scaling(16.f * 30.f, 16.f * 30.f);
 		np->rNeptune.SetPos(&Point(1900.f, 1000.f));

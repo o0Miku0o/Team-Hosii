@@ -7,35 +7,35 @@
 
 namespace BlackHole
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒuƒ‰ƒbƒNƒz[ƒ‹ƒ^ƒXƒN");
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ãƒ–ãƒ©ãƒƒã‚¯ãƒ›ãƒ¼ãƒ«ã‚¿ã‚¹ã‚¯");
 
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
 		bCreate = false;
 		bBigger = false;
 		bMove = false;
 		fAngle = 0;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
-		/*ƒŠƒ\[ƒX‚ÌÁ‹*/
+		/*ãƒªã‚½ãƒ¼ã‚¹ã®æ¶ˆå»*/
 	}
-	/*ƒ^ƒXƒN‚²‚Æ‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã”ã¨ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		if (!bCreate) {
@@ -48,11 +48,11 @@ namespace BlackHole
 			bMove = IsMove();
 		}
 
-		if (auto beam = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN")) {
+		if (auto beam = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯")) {
 			CheckHitBeam(beam);
 		}
 
-		auto frag = FindAll<Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
+		auto frag = FindAll<Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
 		for (const auto fg : frag) {
 			CheckHitFragment(fg);
 
@@ -65,10 +65,10 @@ namespace BlackHole
 		rBlackHole.SetDeg(fAngle);
 
 	}
-	/*ƒ^ƒXƒN‚²‚Æ‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã”ã¨ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX")) {
+		if (auto stageRes = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹")) {
 			rBlackHole.Draw(&stageRes->iStageImg, &Frec(192, 0, 16, 16), true);
 		}
 #ifdef _DEBUG

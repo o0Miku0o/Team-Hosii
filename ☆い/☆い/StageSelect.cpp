@@ -39,6 +39,10 @@ namespace StageSelect
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
 
 		/*データの初期化*/
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			res->wsBGM.Restart();
+		}
 
 	}
 	/*タスクの終了処理*/

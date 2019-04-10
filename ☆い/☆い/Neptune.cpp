@@ -98,9 +98,8 @@ namespace Neptune
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cNeptuneHitBase.CheckHit(&cFrHit))
 		{
-			Remove(fr);
-			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//oFragment->bMoveActive = false;
+			oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			oFragment->bMoveActive = false;
 		}
 	}
 }
