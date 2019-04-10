@@ -21,6 +21,7 @@ namespace StageManager
 		WSound wsTest10;
 		WSound wsTest11;
 		WSound wsTest12;
+		WSound wsTest13;
 		WSound wsBGM;
 		WSound wsBGM1;
 		WSound wsBGM2;
