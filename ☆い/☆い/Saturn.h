@@ -3,11 +3,11 @@
 
 namespace Saturn
 {
-	/*リソースクラス*/
+	/*���\�[�X�N���X*/
 	class RS : public ResourceBase
 	{
 	public:
-		/*必要なメンバはここに追加*/
+		/*�K�v�ȃ����o�͂����ɒǉ�*/
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -16,11 +16,11 @@ namespace Saturn
 		void Finalize();
 	};
 	typedef RS *RS_ptr;
-	/*タスクオブジェクトクラス*/
+	/*�^�X�N�I�u�W�F�N�g�N���X*/
 	typedef class Obj : public TaskBase
 	{
 	public:
-		/*必要なメンバはここに追加*/
+		/*�K�v�ȃ����o�͂����ɒǉ�*/
 		Rec rSaturn;
 		Circle cSaturnHitBase;
 		Circle cGravityCircle;

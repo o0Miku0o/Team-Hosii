@@ -34,7 +34,7 @@ namespace FragmentGenerator
 		void Update();
 		void Render();
 		void Bridge(const int iNum, const Point * const pPos, const int * const iColor);
-		void Bridge(const int iNum, const vector<Point> pPos, const vector<int> iColor);
+		void Bridge2(const int iNum, const vector<Point> pPos, const vector<int> iColor);
 
 	}*OBJ_ptr;
 }

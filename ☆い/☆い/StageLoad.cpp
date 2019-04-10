@@ -50,7 +50,7 @@ namespace StageLoad
 		if (!isLoad && LoadStage(iStageNum)) {
 			if (sFragement.state) {
 				auto fg = Add<FragmentGenerator::Obj>();
-				fg->Bridge(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
+				fg->Bridge2(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
 			}
 			if (sStar.state) {
 				auto sg = Add<StarGenerator::Obj>();

@@ -5,40 +5,40 @@
 
 namespace Saturn
 {
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
 	{
 
 	}
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
 	void Obj::Init()
 	{
-		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
-		SetName("åœŸæ˜Ÿã‚¿ã‚¹ã‚¯");
-		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
-		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN–¼İ’è*/
+		SetName("“y¯ƒ^ƒXƒN");
+		/*ƒŠƒ\[ƒX¶¬*/
+		/*ƒ^ƒXƒN‚Ì¶¬*/
 
-		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		rSaturn = Rec(1000, 500, 16 * 14, 16 * 14);
 		cSaturnHitBase = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.3f);
 		cGravityCircle = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.8f);
 		iAnimCount = 0;
 		i = 12;
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌXVˆ—*/
 	void Obj::Update()
 	{
-		auto vf = FindAll<Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
+		auto vf = FindAll<Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
 		for (auto &f : vf)
 		{
 			FragmentCheckhit(f);
@@ -53,7 +53,7 @@ namespace Saturn
 				}
 			}
 		}
-		if (auto beam = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯"))
+		if (auto beam = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN"))
 		{
 			Obj::BeamCheckhit(beam);
 		}
@@ -62,10 +62,10 @@ namespace Saturn
 		cGravityCircle.SetPos(&rSaturn.GetPos());
 		cGravityCircle.SetRadius(rSaturn.GetW()*0.8f);
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
+		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
 		{
 			Frec src(16.f * (iAnimCount + 20), 16, 16, 16);
 			if (i >= 25)

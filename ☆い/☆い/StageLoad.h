@@ -58,14 +58,14 @@ namespace StageLoad
 			vector<int>   viMode;
 		}sblackhole;
 
-		struct SAlien {
-			bool state;
-			int iNum;
-			vector<Point> vpPos;
-			vector<Alien::Move> vaMove;
-			vector<Alien::Hit> vaBMHit, vaFGHit;
-			vector<Alien::Anim> vaAnim;			
-		}sAlien;
+		//struct SAlien {
+		//	bool state;
+		//	int iNum;
+		//	vector<Point> vpPos;
+		//	vector<Alien::Move> vaMove;
+		//	vector<Alien::Hit> vaBMHit, vaFGHit;
+		//	vector<Alien::Anim> vaAnim;			
+		//}sAlien;
 
 		int iStageNum;
 		bool isLoad;

@@ -7,48 +7,48 @@
 
 namespace BreakStar
 {
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
 	{
 
 	}
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
 	void Obj::Init()
 	{
-		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
-		SetName("å£Šã™æ˜Ÿã‚¿ã‚¹ã‚¯");
-		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN–¼İ’è*/
+		SetName("‰ó‚·¯ƒ^ƒXƒN");
+		/*ƒŠƒ\[ƒX¶¬*/
 
-		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN‚Ì¶¬*/
 
-		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		cHitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
-		iChange = 25;/*æ™®é€šã®æ˜Ÿã¯25é»’ã„æ˜Ÿã¯36ã§åˆæœŸå€¤ã‚’è¨­å®šã™ã‚‹*/
+		iChange = 25;/*•’Ê‚Ì¯‚Í25•‚¢¯‚Í36‚Å‰Šú’l‚ğİ’è‚·‚é*/
 		bHitAct = false;
 		bBlackMode = true;
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌXVˆ—*/
 	void Obj::Update()
 	{
 		if (!bHitAct && !bBlackMode)
 		{
-			if (auto beam = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯"))
+			if (auto beam = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN"))
 			{
 				CheckHit(beam);
 			}
 		}
-		if (!Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯"))
+		if (!Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN"))
 		{
 			bHitAct = false;
 		}
@@ -57,10 +57,10 @@ namespace BreakStar
 			++iTime;
 		}
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
+		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
 		{
 			if (bBlackMode)
 			{
@@ -117,11 +117,11 @@ namespace BreakStar
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cHitbase.CheckHit(&cHit))
 		{
-			if (auto sm = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯"))
+			if (auto sm = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN"))
 			{
 				--sm->usBeamCount;
 			}
-			auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹");
+			auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX");
 			if (iChange > 25)
 			{
 				if (res)
@@ -169,7 +169,7 @@ namespace BreakStar
 				}
 			}
 			//}
-			RemoveAll("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯");
+			RemoveAll("ƒr[ƒ€ƒ^ƒXƒN");
 			bHitAct = true;
 		}
 	}

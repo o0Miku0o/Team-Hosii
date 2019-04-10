@@ -34,7 +34,7 @@ namespace FragmentGenerator
 	void Obj::Render()
 	{
 	}
-	void Obj::Bridge(const int iNum, const Point * const pPos, const int * const iColor)
+	void Obj::Bridge(const int iNum, const Point *  pPos, const int * const iColor)
 	{
 		for (int i = 0; i < iNum; ++i)
 		{
@@ -46,7 +46,7 @@ namespace FragmentGenerator
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<Point> pPos, const vector<int> iColor)
+	void Obj::Bridge2(const int iNum, const vector<Point> pPos, const vector<int> iColor)
 	{
 		for (int i = 0; i < iNum; ++i)
 		{
