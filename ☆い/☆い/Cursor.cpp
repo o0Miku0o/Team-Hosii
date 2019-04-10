@@ -49,23 +49,40 @@ namespace Cursor
 		auto kb = KB::GetState();
 		if (kb->On('W'))
 		{
-			rCursorBase.Move(&(Vector2::up * 8.f));
+			if (rCursorBase.GetPosY() <= Rec::Win.t + rCursorBase.GetH() / 2) {
+				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.t + rCursorBase.GetH() / 2));
+			}
+			else
+				rCursorBase.Move(&(Vector2::up * 8.f));
 		}
 		if (kb->On('S'))
 		{
-			rCursorBase.Move(&(Vector2::down * 8.f));
+			if (rCursorBase.GetPosY() >= Rec::Win.b - rCursorBase.GetH() / 2) {
+				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.b - rCursorBase.GetH() / 2));
+			}
+			else
+				rCursorBase.Move(&(Vector2::down * 8.f));
+
 		}
 		if (kb->On('A'))
 		{
-			rCursorBase.Move(&(Vector2::left * 8.f));
+			if (rCursorBase.GetPosX() <= Rec::Win.l + rCursorBase.GetW() / 2) {
+				rCursorBase.SetPos(&Point(Rec::Win.l + rCursorBase.GetW() / 2, rCursorBase.GetPosY()));
+			}
+			else
+				rCursorBase.Move(&(Vector2::left * 8.f));
 		}
 		if (kb->On('D'))
 		{
-			rCursorBase.Move(&(Vector2::right * 8.f));
+			if (rCursorBase.GetPosX() >= Rec::Win.r - rCursorBase.GetW() / 2) {
+				rCursorBase.SetPos(&Point(Rec::Win.r - rCursorBase.GetW() / 2, rCursorBase.GetPosY()));
+			}
+			else
+				rCursorBase.Move(&(Vector2::right * 8.f));
 		}
 		if (pad->GetAxisL() != Vector2::zero)
 		{
-			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
+					rCursorBase.Move(&(pad->GetAxisL() * 8.f));
 		}
 		if (auto ti = Find<Title::Obj>("タイトルタスク"))
 		{

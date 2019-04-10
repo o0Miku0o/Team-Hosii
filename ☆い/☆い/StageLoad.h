@@ -25,7 +25,7 @@ namespace StageLoad
 			bool state;
 			int iNum;
 			std::vector<Point> vpPos;
-			int iColor;
+			std::vector<int> iColor;
 		}sFragement;
 
 		struct Star {

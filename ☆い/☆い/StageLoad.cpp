@@ -48,22 +48,22 @@ namespace StageLoad
 	void Obj::Update()
 	{
 		if (!isLoad && LoadStage(iStageNum)) {
-			//if (sFragement.state) {
-			//	auto fg = Add<FragmentGenerator::Obj>();
-			//	fg->Bridge(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
-			//}
-			//if (sStar.state) {
-			//	auto sg = Add<StarGenerator::Obj>();
-			//	sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos);
-			//}
-			//if (sJupiter.state) {
-			//	auto pj = Add<Jupitor::Obj>();
-			//	pj->rJupitor = sJupiter.rec;
-			//}
-			//if (sNeptune.state) {
-			//	auto pn = Add<Neptune::Obj>();
-			//	pn->rNeptune = sNeptune.rec;
-			//}
+			if (sFragement.state) {
+				auto fg = Add<FragmentGenerator::Obj>();
+				fg->Bridge(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
+			}
+			if (sStar.state) {
+				auto sg = Add<StarGenerator::Obj>();
+				sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos);
+			}
+			if (sJupiter.state) {
+				auto pj = Add<Jupitor::Obj>();
+				pj->rJupitor = sJupiter.rec;
+			}
+			if (sNeptune.state) {
+				auto pn = Add<Neptune::Obj>();
+				pn->rNeptune = sNeptune.rec;
+			}
 			//if (sAlien.state) {
 			//	auto al = Add<Alien::Obj>();
 			//	al->rAlienR.SetPos(&sAlien.vpPos[0]);
@@ -89,7 +89,7 @@ namespace StageLoad
 		}
 		std::string sIdentifier;
 		//欠片、星、木星、海王星、隕石、外界人、ブラックホール、コメント始点、コメント終点
-		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "/*" "*/", };
+		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "/*", "*/", };
 		while (!ifs.eof()) {
 			ifs >> sIdentifier;
 			if (sIdentifier == sArr[0]) {
@@ -135,9 +135,10 @@ namespace StageLoad
 		ifs >> sFragement.iNum;
 		for (int i = 0; i < sFragement.iNum; ++i) {
 			float x, y;
-			ifs >> x >> y;
+			int color;
+			ifs >> x >> y >> color;
 			sFragement.vpPos.push_back(Point(x, y));
-			ifs >> sFragement.iColor;
+			sFragement.iColor.push_back(color);
 		}
 	}
 	void Obj::LoadStar(std::ifstream &ifs) {
@@ -154,9 +155,9 @@ namespace StageLoad
 	void Obj::LoadPlanet(std::ifstream &ifs, Planet &planet) {
 		ifs >> planet.iNum;
 		for (int i = 0; i < planet.iNum; ++i) {
-			float x, y, w, h, angle;
-			ifs >> x >> y >> w >> h >> angle;
-			planet.rec = Rec(x, y, w, h, angle);
+			float x, y, r;
+			ifs >> x >> y >> r;
+			planet.rec = Rec(x, y, r, r);
 		}
 		planet.state = true;
 	}
