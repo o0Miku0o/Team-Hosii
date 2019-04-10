@@ -1,7 +1,7 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Sturn
+namespace Saturn
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase
@@ -21,8 +21,8 @@ namespace Sturn
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Rec rSturn;
-		Circle cSturnHitBase;
+		Rec rSaturn;
+		Circle cSaturnHitBase;
 		Circle cGravityCircle;
 		int iAnimCount;
 		int i;

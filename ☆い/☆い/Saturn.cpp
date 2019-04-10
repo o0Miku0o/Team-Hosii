@@ -1,9 +1,9 @@
-#include "Sturn.h"
+#include "Saturn.h"
 #include "Beam.h"
 #include "Fragment.h"
 #include "StageManager.h"
 
-namespace Sturn
+namespace Saturn
 {
 	/*リソースの初期化処理*/
 	void RS::Init()
@@ -24,9 +24,9 @@ namespace Sturn
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rSturn = Rec(1000, 500, 16 * 14, 16 * 14);
-		cSturnHitBase = Circle(&rSturn.GetPos(), rSturn.GetW()*0.3f);
-		cGravityCircle = Circle(&rSturn.GetPos(), rSturn.GetW()*0.8f);
+		rSaturn = Rec(1000, 500, 16 * 14, 16 * 14);
+		cSaturnHitBase = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.3f);
+		cGravityCircle = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.8f);
 		iAnimCount = 0;
 		i = 12;
 	}
@@ -57,10 +57,10 @@ namespace Sturn
 		{
 			Obj::BeamCheckhit(beam);
 		}
-		cSturnHitBase.SetPos(&rSturn.GetPos());
-		cSturnHitBase.SetRadius(rSturn.GetW()*0.4f);
-		cGravityCircle.SetPos(&rSturn.GetPos());
-		cGravityCircle.SetRadius(rSturn.GetW()*0.8f);
+		cSaturnHitBase.SetPos(&rSaturn.GetPos());
+		cSaturnHitBase.SetRadius(rSaturn.GetW()*0.4f);
+		cGravityCircle.SetPos(&rSaturn.GetPos());
+		cGravityCircle.SetRadius(rSaturn.GetW()*0.8f);
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -74,9 +74,9 @@ namespace Sturn
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rSturn.Draw(&res->iStageImg, &src, true);
+			rSaturn.Draw(&res->iStageImg, &src, true);
 		}
-		cSturnHitBase.Draw();
+		cSaturnHitBase.Draw();
 		cGravityCircle.Draw();
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
@@ -85,7 +85,7 @@ namespace Sturn
 		Circle cBmHit;
 		cBmHit.SetRadius(oBeam->rHitBase.GetW()*0.5f);
 		cBmHit.SetPos(&oBeam->rHitBase.GetPos());
-		if (cSturnHitBase.CheckHit(&cBmHit))
+		if (cSaturnHitBase.CheckHit(&cBmHit))
 		{
 			Remove(bm);
 		}
@@ -96,7 +96,7 @@ namespace Sturn
 		Circle cFrHit;
 		cFrHit.SetRadius(oFragment->rFragment.GetW()*0.5f);
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
-		if (cSturnHitBase.CheckHit(&cFrHit))
+		if (cSaturnHitBase.CheckHit(&cFrHit))
 		{
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;
