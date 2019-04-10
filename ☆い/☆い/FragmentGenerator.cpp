@@ -46,4 +46,16 @@ namespace FragmentGenerator
 		}
 		Remove(this);
 	}
+	void Obj::Bridge(const int iNum, const vector<Point> pPos, const vector<int> iColor)
+	{
+		for (int i = 0; i < iNum; ++i)
+		{
+			auto fragment = Add<Fragment::Obj>();
+			fragment->rFragment.SetPos(&pPos.at(i));
+			fragment->cFragmentHitBase.SetPos(&pPos.at(i));
+			fragment->pInitPos = pPos.at(i);
+			fragment->iColor = iColor.at(i);
+		}
+		Remove(this);
+	}
 }

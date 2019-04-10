@@ -168,7 +168,7 @@
     <ClInclude Include="MyGame\My\My.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Saturn.h">
+    <ClInclude Include="Result.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -320,7 +320,7 @@
     <ClCompile Include="MyGame\My\My.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Saturn.cpp">
+    <ClCompile Include="Result.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

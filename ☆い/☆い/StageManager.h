@@ -38,7 +38,10 @@ namespace StageManager
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
-		Point pPos;
+		u_short usBeamCount;
+		byte bClearFragmentNumMax;
+		byte bClearFragmentNum;
+		byte bNextStage;
 
 		Obj() {}
 		~Obj() {}

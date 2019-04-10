@@ -1,5 +1,7 @@
 #pragma once
-#include "MyGame\TaskBase.h"
+#include "MyGame/TaskBase.h"
+
+using namespace std;
 
 namespace BlackHoleGenerator
 {
@@ -31,7 +33,7 @@ namespace BlackHoleGenerator
 
 		//pPosが位置、pSizeで大きさ、modeで種類(Normal,Bigger,Move)、EndPosは移動の場合だけ終点を指定
 		void Bridge(const int iNum, const Point *pPos, const float *pSize, const int* mode, const Point *pMovePos = 0);
-
+		void Bridge(const int iNum, const vector<Point> pPos, const vector<float> pSize, const vector<int> mode, const vector<Point>* pMovePos = 0);
 		/*以下変更不要*/
 		Obj() { Init(); }
 		~Obj() { Finalize(); }

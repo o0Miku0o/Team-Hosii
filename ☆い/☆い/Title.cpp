@@ -5,10 +5,13 @@
 #include "Beam.h"
 #include "FragmentGenerator.h"
 #include "Fragment.h"
+#include "MeteoGenerator.h"
+#include "StarGenerator.h"
+#include "Star.h"
 
 namespace Title
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 		iHo.ImageCreate("./data/image/other/Title/ho.bmp");
@@ -16,36 +19,37 @@ namespace Title
 		iBoshi.ImageCreate("./data/image/other/Title/boshi.bmp");
 		iStart.ImageCreate("./data/image/other/Title/word.bmp");
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒ^ƒCƒgƒ‹ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
-		RB::Add<RS>("ƒ^ƒCƒgƒ‹ƒŠƒ\[ƒX");
-		RB::Add<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX");
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ã‚¿ã‚¤ãƒˆãƒ«ã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		RB::Add<RS>("ã‚¿ã‚¤ãƒˆãƒ«ãƒªã‚½ãƒ¼ã‚¹");
+		RB::Add<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹");
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
 		Add<BeamGenerator::Obj>();
 		auto fg = Add<FragmentGenerator::Obj>();
-		int iColor = 0;
-		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.428f), &iColor);
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		int iColor = rand() % 3;
+		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.423f), &iColor);
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rHo = Rec(630, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
 		rShi = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.6f, 16 * 18, 16 * 18);
 		rBoshi = Rec(1290, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
 		rStart = Rec(0.f, 0.f, 0.f, 0.f);
 		fZoom = 1.8f;
+		fStartImgSrcY = 0.f;
 
 		aAnimator1.SetAnim(AnimHo, 0);
 		aAnimator2.SetAnim(AnimShiBoshi, 0);
 
 		Rec::Zoom(fZoom);
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			res->wsBGM.PlayL();
 			res->wsBGM1.PlayL();
@@ -53,82 +57,78 @@ namespace Title
 			res->wsBGM2.PlayL();
 			res->wsBGM2.Pause();
 		}
+		//Add<MeteoGenerator::Obj>();
+		auto sg = Add<StarGenerator::Obj>();
+		int iChange = 24;
+		sg->Bridge(1, &iChange, &Point(1290.f, Rec::Win.b * 0.43f));
+		if (auto st = Find<Star::Obj>("æ˜Ÿã‚¿ã‚¹ã‚¯"))
+		{
+			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
+		}
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
-		RB::Remove("ƒ^ƒCƒgƒ‹ƒŠƒ\[ƒX");
+		RB::Remove("ã‚¿ã‚¤ãƒˆãƒ«ãƒªã‚½ãƒ¼ã‚¹");
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
-		auto bm = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN");
-		auto fgm = Find<Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
-		if (!bm || !fgm) return;
+		auto bm = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯");
+		if (!bm) return;
 
-		fgm->rFragment.Scaling(100.f * 1.7f, 100.f * 1.7f);
-
-		byte bFlag = 0;
-		if (fgm->bMoveActive)
+		bShineFlag = false;
+		if (bm->vSpd != Vector2::right * 20.f && bm->rHitBase.GetPosX() <= Rec::Win.l + 500.f)
 		{
-			if (fgm->rFragment.GetPosX() >= Rec::Win.r - 640.f)
-			{
-				++bFlag;
-				fgm->rFragment.SetPos(&Point(Rec::Win.r - 640.f, fgm->rFragment.GetPosY()));
-				Pause("Œ‡•Ğƒ^ƒXƒN");
-			}
-			if (bm->rHitBase.GetPosX() <= Rec::Win.l + 500.f)
-			{
-				++bFlag;
-				Pause("ƒr[ƒ€ƒ^ƒXƒN");
-			}
+			bShineFlag = true;
+			Pause("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯");
 		}
 
-		if (bFlag == 2)
+		if (bShineFlag)
 		{
 			Rec::Zoom(fZoom);
-			fZoom = Max(fZoom - 0.02f, 1.f);
+			fZoom = Max(fZoom - 0.03f, 1.f);
 
 			aAnimator1.Update();
 			aAnimator2.Update();
 
 			//if (fZoom > 1.f) return;
-			if (Find<Cursor::Obj>("ƒJ[ƒ\ƒ‹ƒ^ƒXƒN")) return;
+			if (Find<Cursor::Obj>("ã‚«ãƒ¼ã‚½ãƒ«ã‚¿ã‚¹ã‚¯")) return;
 
 			auto cs = Add<Cursor::Obj>();
 			cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.75f));
 			rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		//if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		//if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		//{
 		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
 		//}
-		if (auto s = RB::Find<Title::RS>("ƒ^ƒCƒgƒ‹ƒŠƒ\[ƒX"))
+		if (auto s = RB::Find<Title::RS>("ã‚¿ã‚¤ãƒˆãƒ«ãƒªã‚½ãƒ¼ã‚¹"))
 		{
-			Frec src(160.f * aAnimator1.GetSrcX(), 0, 16 * 10, 16 * 10);
+			Frec src(64.f * aAnimator1.GetSrcX(), 0, 64.f, 64.f);
 			rHo.Draw(&s->iHo, &src, true);
 
-			src = Frec(160.f * aAnimator2.GetSrcX(), 0, 16 * 10, 16 * 10);
+			src = Frec(64.f * aAnimator2.GetSrcX(), 0, 64.f, 64.f);
 			rShi.Draw(&s->iShi, &src, true);
 
 			rBoshi.Draw(&s->iBoshi, &src, true);
 
-			src = Frec(16 * 0, 16 * 0, 16 * 5, 16);
+			src = Frec(16.f * 0, 16.f * fStartImgSrcY, 16.f * 5, 16.f);
 			rStart.Draw(&s->iStart, &src, true);
 		}
 	}
-	/*ƒAƒjƒ[ƒVƒ‡ƒ“*/
+	/*ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³*/
 	void AnimHo(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
 	{
 		*bAnim2 = 0;
-		if (*bFrame == 15)
+		if (*bFrame == 10)
 		{
 			*bFrame = 0;
 			/**/
@@ -139,11 +139,11 @@ namespace Title
 		}
 		++*bFrame;
 	}
-	/*ƒAƒjƒ[ƒVƒ‡ƒ“*/
+	/*ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³*/
 	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
 	{
 		*bAnim2 = 0;
-		if (*bFrame == 20)
+		if (*bFrame == 10)
 		{
 			*bFrame = 0;
 			/**/

@@ -26,11 +26,6 @@ namespace Beam
 		rHitBase = Rec(0.f, Rec::Win.b * 0.5f, 21.f, 16.f);
 		bLifeCount = 0;
 		vSpd = Vector2::zero;
-
-		if (auto bm = FindPrev<Beam::Obj>("ビームタスク"))
-		{
-			this->Parent(bm);
-		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

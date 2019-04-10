@@ -36,6 +36,7 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 	case MM_WOM_DONE:
 	{
 		WSound::LoopProc(wParam_, lParam_);
+		SendMessage(g_hWnd, WM_USER, 0, 0);
 		break;
 	}
 	case WM_KEYDOWN:
@@ -163,7 +164,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	/*JoyPad２*/
 	JoyPad joy2;
 	//乱数の初期化
-	srand(/**(unsigned int)time(nullptr)/*/0/**/);
+	srand(/**/(unsigned int)time(nullptr)/*/0/**/);
 	//ゲームの初期化処理
 	Init();
 	//アプリケーションまたはデバイスドライバの

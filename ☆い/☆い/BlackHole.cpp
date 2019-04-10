@@ -7,35 +7,35 @@
 
 namespace BlackHole
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒuƒ‰ƒbƒNƒz[ƒ‹ƒ^ƒXƒN");
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ãƒ–ãƒ©ãƒƒã‚¯ãƒ›ãƒ¼ãƒ«ã‚¿ã‚¹ã‚¯");
 
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
 		bCreate = false;
 		bBigger = false;
 		bMove = false;
 		fAngle = 0;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
-		/*ƒŠƒ\[ƒX‚ÌÁ‹*/
+		/*ãƒªã‚½ãƒ¼ã‚¹ã®æ¶ˆå»*/
 	}
-	/*ƒ^ƒXƒN‚²‚Æ‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã”ã¨ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		if (!bCreate) {
@@ -48,39 +48,33 @@ namespace BlackHole
 			bMove = IsMove();
 		}
 
-#ifdef _DEBUG
-		auto kb = KB::GetState();
-		if (kb->Now('V') == 1) {
-			auto beamGen = Add<BeamGenerator::Obj>();
-		}
-#endif
-		if (auto beam = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN")) {
+		if (auto beam = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯")) {
 			CheckHitBeam(beam);
 		}
 
-		auto frag = FindAll<Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
+		auto frag = FindAll<Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
 		for (const auto fg : frag) {
 			CheckHitFragment(fg);
 
 		}
 		pPos = rBlackHole.GetPos();
 		cInnerCircle.SetPos(&pPos);
+		cOutCircle.SetPos(&pPos);
+		cOutCircle.SetRadius(cInnerCircle.GetRadius()*2.00f);
 		++fAngle;
 		rBlackHole.SetDeg(fAngle);
 
 	}
-	/*ƒ^ƒXƒN‚²‚Æ‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã”ã¨ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX")) {
+		if (auto stageRes = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹")) {
 			rBlackHole.Draw(&stageRes->iStageImg, &Frec(192, 0, 16, 16), true);
 		}
+#ifdef _DEBUG
 		cInnerCircle.Draw();
-		Circle cOut;
-		cOut.SetRadius(cInnerCircle.GetRadius()*2.00f);
-		cOut.SetPos(&cInnerCircle.GetPos());
-		cOut.Draw();
-
+		cOutCircle.Draw();
+#endif // DEBUG
 	}
 	bool Obj::IsCreate() {
 		rBlackHole.SetPos(&pPos);
@@ -134,89 +128,56 @@ namespace BlackHole
 
 	void Obj::CheckHitBeam(TaskBase* bm) {
 		Beam::Obj* oBeam = (Beam::Obj*)bm;
-		Circle cBm, cOut;
+		Circle cBm;
 		cBm.SetRadius(oBeam->rHitBase.GetW()*0.5f);
 		cBm.SetPos(&oBeam->rHitBase.GetPos());
-		cOut.SetRadius(cInnerCircle.GetRadius()*2.0f);
-		cOut.SetPos(&cInnerCircle.GetPos());
-		if (cOut.CheckHit(&cBm)) {
+		if (cOutCircle.CheckHit(&cBm)) {
 			if (cInnerCircle.CheckHit(&cBm)) {
 				Remove(bm);
 			}
 			else {
-				float angle = oBeam->rHitBase.GetDeg();
-				while (angle > 360) {
-					angle -= 360;
+				while (oBeam->rHitBase.GetDeg() > 360) {
+					float angle = oBeam->rHitBase.GetDeg();
+					oBeam->rHitBase.SetDeg(angle -= 360);
 				}
-				float x, y, cx, cy;
-				x = oBeam->rHitBase.GetPosX();
-				y = oBeam->rHitBase.GetPosY();
-				cx = cOut.GetPos().x;
-				cy = cOut.GetPos().y;
-				if (x < cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 240 ? angle -= 2 : angle += 2;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 2 : angle -= 2;
-					else {
-
-					}
-				}
-				else if (x > cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 330 ? angle -= 2 : angle += 2;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 2 : angle -= 2;
-					else {
-
-					}
-				}
-				oBeam->rHitBase.SetDeg(angle);
+				oBeam->rHitBase.SetDeg(CalcAngle(oBeam->rHitBase.GetPos(), cOutCircle.GetPos(), oBeam->rHitBase.GetDeg()));
 			}
 		}
 	}
 	void Obj::CheckHitFragment(TaskBase* fg) {
 		Fragment::Obj* oFrag = (Fragment::Obj*)fg;
-		Circle cFg, cOut;
+		Circle cFg;
 		cFg.SetRadius(oFrag->rFragment.GetW()*0.5f);
 		cFg.SetPos(&oFrag->rFragment.GetPos());
-		cOut.SetRadius(cInnerCircle.GetRadius()*2.0f);
-		cOut.SetPos(&cInnerCircle.GetPos());
-		if (cOut.CheckHit(&cFg)) {
-			if (cInnerCircle.CheckHit(&cFg)) {
-				oFrag->rFragment.SetPos(&oFrag->pInitPos);
-				oFrag->bMoveActive = false;
-			}
-			else {
-				float angle = oFrag->rFragment.GetDeg();
-				while (angle > 360) {
-					angle -= 360;
+		if (oFrag->bMoveActive) {
+			if (cOutCircle.CheckHit(&cFg)) {
+				if (cInnerCircle.CheckHit(&cFg)) {
+					Remove(fg);
 				}
-				float x, y, cx, cy;
-				x = oFrag->rFragment.GetPosX();
-				y = oFrag->rFragment.GetPosY();
-				cx = cOut.GetPos().x;
-				cy = cOut.GetPos().y;
-				if (x < cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 240 ? angle -= 1 : angle += 1;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 1 : angle -= 1;
-					else {
-
+				else {
+					while (oFrag->rFragment.GetDeg() > 360) {
+						float angle = oFrag->rFragment.GetDeg();
+						oFrag->rFragment.SetDeg(angle -= 360);
 					}
+					oFrag->rFragment.SetDeg(CalcAngle(oFrag->rFragment.GetPos(), cOutCircle.GetPos(), oFrag->rFragment.GetDeg()));
 				}
-				else if (x > cx) {
-					if (y < cy)
-						angle = angle > 100 && angle < 330 ? angle -= 1 : angle += 1;
-					else if (y > cy)
-						angle = angle > 100 && angle < 240 ? angle += 1 : angle -= 1;
-					else {
-
-					}
-				}
-				oFrag->rFragment.SetDeg(angle);
 			}
 		}
+	}
+	float Obj::CalcAngle(const Point targetPos, const Point bhPos, const float targetAngle) {
+		float rtAngle = targetAngle;
+		if (targetPos.x < bhPos.x) {
+			if (targetPos.y < bhPos.y)
+				targetAngle > 100 && targetAngle < 240 ? rtAngle -= 1 : rtAngle += 1;
+			else if (targetPos.y > bhPos.y)
+				targetAngle > 100 && targetAngle < 240 ? rtAngle += 1 : rtAngle -= 1;
+		}
+		else if (targetPos.x > bhPos.x) {
+			if (targetPos.y < bhPos.y)
+				targetAngle > 100 && targetAngle < 330 ? rtAngle -= 1 : rtAngle += 1;
+			else if (targetPos.y > bhPos.y)
+				targetAngle > 100 && targetAngle < 240 ? rtAngle += 1 : rtAngle -= 1;
+		}
+		return rtAngle;
 	}
 }

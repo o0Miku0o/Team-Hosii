@@ -32,6 +32,7 @@ namespace Title
 		Animation aAnimator1;
 		Animation aAnimator2;
 		float fZoom;
+		float fStartImgSrcY;
 		bool bShineFlag;
 
 		Obj() {}

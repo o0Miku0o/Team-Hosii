@@ -1,21 +1,20 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-using namespace std;
-
-namespace StarGenerator
+namespace Result
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Image iWord;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
 	private:
 		void Init();
-		void Finalize();
+		void Finalize();      
 	};
 	typedef RS *RS_ptr;
 	/*タスクオブジェクトクラス*/
@@ -23,6 +22,12 @@ namespace StarGenerator
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Rec rBack;
+		Rec rPlayer;
+		Rec rWord;
+		byte bNextStage;
+		byte bMoveStarIdx;
+		byte bScore;
 
 		Obj() {}
 		~Obj() {}
@@ -33,7 +38,5 @@ namespace StarGenerator
 	public:
 		void Update();
 		void Render();
-		void Bridge(const int iNum, const int* iChange, const Point* pPos);
-		void Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos);
 	}*OBJ_ptr;
 }

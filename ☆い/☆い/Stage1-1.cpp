@@ -78,7 +78,12 @@ namespace Stage11
 		//ag->Bridge(ceiNum, pPos, fpMove, fpBMHit, fpFGHit, fpAnim);
 
 		/*データの初期化*/
-
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNumMax = 1;
+			sm->bNextStage = 2;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.Restart();
@@ -106,7 +111,7 @@ namespace Stage11
 			Pause(2);
 		}
 
-		if (pad->NowBut(J_BUT_7) == 1) {
+		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 			{
@@ -114,6 +119,11 @@ namespace Stage11
 			}
 			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
+			Pause(2);
+		}
+		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			Add<Stage11::Obj>();
 			Pause(2);
 		}
 

@@ -46,4 +46,13 @@ namespace BreakStarGenerator
 		}
 		Remove(this);
 	}
+	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos, const vector<bool> bMode) {
+		for (int i = 0; i < iNum; ++i) {
+			auto star = Add<BreakStar::Obj>();
+			star->rStar.SetPos(&pPos.at(i));
+			star->cHitbase.SetPos(&pPos.at(i));
+			star->iChange = iChange.at(i);
+			star->bBlackMode = bMode.at(i);
+		}
+	}
 }
