@@ -44,7 +44,7 @@ namespace Stage43
 		fg->Bridge(2, pFPos, iColor);
 
 		auto sg = Add<StarGenerator::Obj>();
-		int iChange[3] = { 22,22,23 };
+		int iChange[3] = { 23,22,23 };
 		Point pSPos[3] = { Point(1700.f, 200.f) ,Point(1600.f, 600.f),Point(1200.f, 900.f) };
 		sg->Bridge(3, iChange, pSPos);
 
@@ -83,9 +83,11 @@ namespace Stage43
 		met->Bridge(1, &Point(Rec::Win.r, -300), &Vector2(0.f, 15.f));
 		/*データの初期化*/
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
-			res->wsBGM.PlayL();
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNumMax = 7;
+			++sm->bNextStage;
 		}
 	}
 	/*タスクの終了処理*/
@@ -118,9 +120,6 @@ namespace Stage43
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(16.f * 0.f, 0.f, 16.f, 16.f));
-		}
+
 	}
 }

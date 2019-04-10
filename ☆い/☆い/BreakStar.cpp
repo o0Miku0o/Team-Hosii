@@ -114,6 +114,10 @@ namespace BreakStar
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cHitbase.CheckHit(&cHit))
 		{
+			if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+			{
+				--sm->usBeamCount;
+			}
 			auto res = RB::Find<StageManager::RS>("ステージ統括リソース");
 			if (iChange > 25)
 			{
@@ -144,24 +148,25 @@ namespace BreakStar
 			//}
 			//else
 			//{
-				if (iChange > 35)
+			if (iChange > 35)
+			{
+				if (res)
 				{
-					if (res)
-					{
-						res->wsTest3.Play();
-					}
-					auto fg = Add<FragmentGenerator::Obj>();
-					//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
-					Point pArr[5] = {
-						Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
-						Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
-					};
-					int iColor[5] = {};
-					fg->Bridge(5, pArr, iColor);
-					Remove(this);
+					res->wsTest3.Play();
 				}
+				auto fg = Add<FragmentGenerator::Obj>();
+				//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
+				Point pArr[5] = {
+					Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
+					Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
+				};
+				int iColor[5] = {};
+				fg->Bridge(5, pArr, iColor);
+				Remove(this);
+			}
 			//}
-			Remove(bm);
+			RemoveAll("ビームタスク");
+			//Remove(bm);
 			bHitAct = true;
 		}
 	}

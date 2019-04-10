@@ -77,7 +77,12 @@ namespace Stage11
 		//ag->Bridge(ceiNum, pPos, fpMove, fpBMHit, fpFGHit, fpAnim);
 
 		/*データの初期化*/
-
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNumMax = 1;
+			sm->bNextStage = 2;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.PlayL();

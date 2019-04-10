@@ -5,6 +5,9 @@
 #include "Beam.h"
 #include "FragmentGenerator.h"
 #include "Fragment.h"
+#include "MeteoGenerator.h"
+#include "StarGenerator.h"
+#include "Star.h"
 
 namespace Title
 {
@@ -32,19 +35,29 @@ namespace Title
 
 		Add<BeamGenerator::Obj>();
 		auto fg = Add<FragmentGenerator::Obj>();
-		int iColor = 0;
-		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.428f), &iColor);
+		int iColor = rand() % 3;
+		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.423f), &iColor);
 		/*データの初期化*/
 		rHo = Rec(630, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
 		rShi = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.6f, 16 * 18, 16 * 18);
 		rBoshi = Rec(1290, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
 		rStart = Rec(0.f, 0.f, 0.f, 0.f);
 		fZoom = 1.8f;
+		fStartImgSrcY = 0.f;
 
 		aAnimator1.SetAnim(AnimHo, 0);
 		aAnimator2.SetAnim(AnimShiBoshi, 0);
 
 		Rec::Zoom(fZoom);
+
+		//Add<MeteoGenerator::Obj>();
+		auto sg = Add<StarGenerator::Obj>();
+		int iChange = 24;
+		sg->Bridge(1, &iChange, &Point(1290.f, Rec::Win.b * 0.43f));
+		if (auto st = Find<Star::Obj>("星タスク"))
+		{
+			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -58,31 +71,19 @@ namespace Title
 		auto kb = KB::GetState();
 
 		auto bm = Find<Beam::Obj>("ビームタスク");
-		auto fgm = Find<Fragment::Obj>("欠片タスク");
-		if (!bm || !fgm) return;
+		if (!bm) return;
 
-		fgm->rFragment.Scaling(100.f * 1.7f, 100.f * 1.7f);
-
-		byte bFlag = 0;
-		if (fgm->bMoveActive)
+		bShineFlag = false;
+		if (bm->vSpd != Vector2::right * 20.f && bm->rHitBase.GetPosX() <= Rec::Win.l + 500.f)
 		{
-			if (fgm->rFragment.GetPosX() >= Rec::Win.r - 640.f)
-			{
-				++bFlag;
-				fgm->rFragment.SetPos(&Point(Rec::Win.r - 640.f, fgm->rFragment.GetPosY()));
-				Pause("欠片タスク");
-			}
-			if (bm->rHitBase.GetPosX() <= Rec::Win.l + 500.f)
-			{
-				++bFlag;
-				Pause("ビームタスク");
-			}
+			bShineFlag = true;
+			Pause("ビームタスク");
 		}
 
-		if (bFlag == 2)
+		if (bShineFlag)
 		{
 			Rec::Zoom(fZoom);
-			fZoom = Max(fZoom - 0.02f, 1.f);
+			fZoom = Max(fZoom - 0.03f, 1.f);
 
 			aAnimator1.Update();
 			aAnimator2.Update();
@@ -104,15 +105,15 @@ namespace Title
 		//}
 		if (auto s = RB::Find<Title::RS>("タイトルリソース"))
 		{
-			Frec src(160.f * aAnimator1.GetSrcX(), 0, 16 * 10, 16 * 10);
+			Frec src(64.f * aAnimator1.GetSrcX(), 0, 64.f, 64.f);
 			rHo.Draw(&s->iHo, &src, true);
 
-			src = Frec(160.f * aAnimator2.GetSrcX(), 0, 16 * 10, 16 * 10);
+			src = Frec(64.f * aAnimator2.GetSrcX(), 0, 64.f, 64.f);
 			rShi.Draw(&s->iShi, &src, true);
 
 			rBoshi.Draw(&s->iBoshi, &src, true);
 
-			src = Frec(16 * 0, 16 * 0, 16 * 5, 16);
+			src = Frec(16.f * 0, 16.f * fStartImgSrcY, 16.f * 5, 16.f);
 			rStart.Draw(&s->iStart, &src, true);
 		}
 	}
@@ -120,7 +121,7 @@ namespace Title
 	void AnimHo(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
 	{
 		*bAnim2 = 0;
-		if (*bFrame == 15)
+		if (*bFrame == 10)
 		{
 			*bFrame = 0;
 			/**/
@@ -135,7 +136,7 @@ namespace Title
 	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
 	{
 		*bAnim2 = 0;
-		if (*bFrame == 20)
+		if (*bFrame == 10)
 		{
 			*bFrame = 0;
 			/**/

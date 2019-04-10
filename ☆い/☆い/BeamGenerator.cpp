@@ -2,6 +2,8 @@
 #include "Beam.h"
 #include "Player.h"
 #include "Title.h"
+#include "StageManager.h"
+#include "BreakStar.h"
 
 namespace BeamGenerator
 {
@@ -26,6 +28,11 @@ namespace BeamGenerator
 
 		/*データの初期化*/
 		bBeamCount = 0;
+
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			++sm->usBeamCount;
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -59,7 +66,7 @@ namespace BeamGenerator
 				return;
 			}
 			auto beam = Add<Beam::Obj>();
-			beam->rHitBase.SetPos(&Point(Rec::Win.l, Rec::Win.b * 0.428f));
+			beam->rHitBase.SetPos(&Point(Rec::Win.l, Rec::Win.b * 0.423f));
 			beam->rHitBase.Scaling(21.f, 16.f * 2.f);
 			beam->rHitBase.SetDeg(0.f);
 		}

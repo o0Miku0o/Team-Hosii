@@ -186,9 +186,11 @@ namespace Stage33
 
 		/*データの初期化*/
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
-			res->wsBGM.PlayL();
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNumMax = 1;
+			++sm->bNextStage;
 		}
 	}
 	/*タスクの終了処理*/
