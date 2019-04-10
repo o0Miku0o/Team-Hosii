@@ -1013,9 +1013,12 @@ class Pixel
 	Point pPos;
 	COLORREF cColor;
 	HDC hOff;
+	HPEN hPen;
+	HBRUSH hBrush;
 	byte bSize;
 public:
 	Pixel();
+	~Pixel();
 	Pixel(const Point &crefpPos, const COLORREF ccColor, const byte cbSize);
 	Pixel(const Pixel &crefPixel);
 	const Point SetPos(const Point * const cppPos);

@@ -49,6 +49,7 @@ namespace Stage42
 
 		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
+			sm->usBeamCount = 0;
 			sm->bClearFragmentNumMax = 5;
 			++sm->bNextStage;
 		}
@@ -79,9 +80,6 @@ namespace Stage42
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(16.f * 0.f, 0.f, 16.f, 16.f));
-		}
+
 	}
 }

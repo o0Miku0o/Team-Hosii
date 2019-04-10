@@ -22,6 +22,7 @@ namespace Result
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
+		Rec rBack;
 		Rec rPlayer;
 		Rec rWord;
 		byte bNextStage;

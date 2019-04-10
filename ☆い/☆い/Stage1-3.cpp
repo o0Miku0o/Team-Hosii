@@ -62,6 +62,7 @@ namespace Stage13
 	
 		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
+			sm->usBeamCount = 0;
 			sm->bClearFragmentNumMax = 2;
 			++sm->bNextStage;
 		}

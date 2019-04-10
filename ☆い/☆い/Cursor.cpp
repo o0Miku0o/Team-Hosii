@@ -1,4 +1,5 @@
 #include "Cursor.h"
+#include "Back.h"
 #include "StageManager.h"
 #include "StageSelectObjUS.h"
 #include "StageSelectObjEarth.h"
@@ -79,7 +80,8 @@ namespace Cursor
 				{
 					RemoveAll();
 					Add<StageManager::Obj>();
-					Add<StageSelect::Obj>(); 
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
 					Pause(2);
 					return;
 				}
@@ -87,7 +89,8 @@ namespace Cursor
 				{
 					RemoveAll();
 					Add<StageManager::Obj>();
-					Add<StageSelect::Obj>(); 
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
 					Pause(2);
 					return;
 				}
@@ -103,6 +106,7 @@ namespace Cursor
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					Add<Back::Obj>();
 					Add<Stage11::Obj>();
 					Pause(2);
 					return;
@@ -119,6 +123,7 @@ namespace Cursor
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					Add<Back::Obj>();
 					Add<Stage21::Obj>();
 					Pause(2);
 					return;
@@ -135,6 +140,7 @@ namespace Cursor
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					Add<Back::Obj>();
 					Add<Stage31::Obj>();
 					Pause(2);
 					return;
@@ -151,6 +157,7 @@ namespace Cursor
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					Add<Back::Obj>();
 					Add<Stage41::Obj>();
 					Pause(2);
 					return;
@@ -167,6 +174,7 @@ namespace Cursor
 				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					Add<Back::Obj>();
 					Add<Stage51::Obj>();
 					Pause(2);
 					return;

@@ -2299,8 +2299,15 @@ Pixel::Pixel(const Pixel &crefPixel)
 	pPos(crefPixel.pPos),
 	cColor(crefPixel.cColor),
 	hOff(Rec::GetOffScreenHandle()),
+	hPen(CreatePen(PS_SOLID, 1, cColor)),
+	hBrush(CreateSolidBrush(cColor)),
 	bSize(crefPixel.bSize)
 {
+}
+Pixel::~Pixel()
+{
+	if (hPen) DeleteObject(hPen);
+	if (hBrush) DeleteObject(hBrush);
 }
 const Point Pixel::SetPos(const Point * const cppPos)
 {
@@ -2312,6 +2319,10 @@ const COLORREF Pixel::SetColor(const COLORREF ccColor)
 {
 	const COLORREF ccOld = cColor;
 	cColor = ccColor;
+	if (hPen) DeleteObject(hPen);
+	if (hBrush) DeleteObject(hBrush);
+	hPen = CreatePen(PS_SOLID, 1, cColor);
+	hBrush = CreateSolidBrush(cColor);
 	return ccOld;
 }
 const byte Pixel::SetSize(const byte cbSize)
@@ -2340,17 +2351,15 @@ void Pixel::Draw() const
 	if (pDp.y < Rec::Win.t) return;
 	if (pDp.y > Rec::Win.b) return;
 
-	auto hPen = CreatePen(PS_SOLID, 1, cColor);
+	/**
+	SetPixel(hOff, (int)pDp.x, (int)pDp.y, cColor);
+	/*/
 	auto hOldPen = SelectObject(hOff, hPen);
-	auto hBlush = CreateSolidBrush(cColor);
-	auto hOldBlush = SelectObject(hOff, hBlush);
-
+	auto hOldBrush = SelectObject(hOff, hBrush);
 	Rectangle(hOff, int(pDp.x - ((bSize - 1) * 0.5f)), int(pDp.y - ((bSize - 1) * 0.5f)), int(pDp.x + ((bSize - 1) * 0.5f)), int(pDp.y + ((bSize - 1) * 0.5f)));
-
 	SelectObject(hOff, hOldPen);
-	SelectObject(hOff, hOldBlush);
-	DeleteObject(hPen);
-	DeleteObject(hBlush);
+	SelectObject(hOff, hOldBrush);
+	/**/
 }
 
 Particle * Particle::sppTop = nullptr;

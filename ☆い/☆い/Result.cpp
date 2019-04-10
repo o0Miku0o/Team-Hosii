@@ -3,6 +3,7 @@
 #include "Star.h"
 #include "BreakStar.h"
 #include "StarGenerator.h"
+#include "Back.h"
 #include "Stage1-1.h"
 #include "Stage1-2.h"
 #include "Stage1-3.h"
@@ -41,6 +42,8 @@ namespace Result
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
+		
 		rPlayer = Rec(180.f, 1000.f, 16.f * 70.f, 16.f * 70.f);
 		rPlayer.SetDeg(95);
 
@@ -54,16 +57,25 @@ namespace Result
 		bNextStage = 0;
 		bMoveStarIdx = 0;
 		bScore = 1;
+
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			res->wsBGM.Stop();
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			res->wsBGM.PlayL();
+		}
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
 		auto pad = JoyPad::GetState(0);
+		auto kb = KB::GetState();
 
 		std::vector<TB_ptr> vsMoveStar;
 		for (auto &vs : FindAll<Star::Obj>("星タスク"))
@@ -80,12 +92,16 @@ namespace Result
 			if (st->rStar.GetPosY() >= 500.f)
 			{
 				++bMoveStarIdx;
+				if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+				{
+					res->wsTest2.Play();
+				}
 			}
 		}
-
-		if (pad->Down(J_BUT_6))
+		else if (pad->Down(J_BUT_6) || kb->Down(VK_RETURN))
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			Add<Back::Obj>();
 			switch (bNextStage)
 			{
 			case 1:
@@ -172,7 +188,7 @@ namespace Result
 	{
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(16.f * (45.f - (bScore - 1)), 0.f, 16.f, 16.f));
+			rBack.Draw(&res->iStageImg, &Frec(16.f * (45.f - (bScore - 1)), 0.f, 16.f, 16.f));
 
 			Frec src(16.f * 6.f, 16.f, 16.f, 16.f);
 			rPlayer.Draw(&res->iStageImg, &src, true);

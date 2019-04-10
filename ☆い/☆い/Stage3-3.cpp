@@ -188,6 +188,7 @@ namespace Stage33
 
 		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
+			sm->usBeamCount = 0;
 			sm->bClearFragmentNumMax = 1;
 			++sm->bNextStage;
 		}

@@ -86,6 +86,7 @@ namespace Stage12
 		/*データの初期化*/
 		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
+			sm->usBeamCount = 0;
 			sm->bClearFragmentNumMax = 3;
 			++sm->bNextStage;
 		}
