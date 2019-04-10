@@ -103,7 +103,7 @@ namespace BreakStar
 			//{
 			//	rStar.Draw(&res->iStarimage, tmp*iChange, 0, tmp, tmp);
 			//}
-			cHitbase.Draw();
+			//cHitbase.Draw();
 		}
 	}
 	void Obj::CheckHit(TaskBase* bm)
@@ -135,19 +135,19 @@ namespace BreakStar
 				}
 				iChange = 34;
 			}
-			//if (bBlackMode)
-			//{
-			//	if (iChange > 38)
-			//	{
-			//		if (res)
-			//		{
-			//			res->wsTest3.Play();
-			//		}
-			//		Remove(this);
-			//	}
-			//}
-			//else
-			//{
+			if (bBlackMode)
+			{
+				if (iChange > 38)
+				{
+					if (res)
+					{
+						res->wsTest3.Play();
+					}
+					Remove(this);
+				}
+			}
+			else
+			{
 			if (iChange > 35)
 			{
 				if (res)
@@ -164,9 +164,9 @@ namespace BreakStar
 				fg->Bridge(5, pArr, iColor);
 				Remove(this);
 			}
-			//}
+			}
 			RemoveAll("ビームタスク");
-			//Remove(bm);
+			bm->Remove(bm);
 			bHitAct = true;
 		}
 	}
