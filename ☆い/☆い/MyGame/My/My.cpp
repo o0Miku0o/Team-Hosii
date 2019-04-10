@@ -693,6 +693,8 @@ void WSound::Stop()
 {
 	bIsPlaying = false;
 	waveOutReset(hWaveOut);
+	waveOutUnprepareHeader(hWaveOut, &wHdr, sizeof(WAVEHDR));
+	waveOutPrepareHeader(hWaveOut, &wHdr, sizeof(WAVEHDR));
 }
 
 long JoyPad::lStickTolerance = 2000;

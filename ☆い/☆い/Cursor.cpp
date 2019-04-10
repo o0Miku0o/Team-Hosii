@@ -16,59 +16,76 @@
 
 namespace Cursor
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
-		
+
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
-		
+
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒJ[ƒ\ƒ‹ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
-	
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ã‚«ãƒ¼ã‚½ãƒ«ã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 		if (kb->On('W'))
 		{
-			rCursorBase.Move(&(Vector2::up * 8.f));
+			if (rCursorBase.GetPosY() <= Rec::Win.t + rCursorBase.GetH() / 2) {
+				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.t + rCursorBase.GetH() / 2));
+			}
+			else
+				rCursorBase.Move(&(Vector2::up * 8.f));
 		}
 		if (kb->On('S'))
 		{
-			rCursorBase.Move(&(Vector2::down * 8.f));
+			if (rCursorBase.GetPosY() >= Rec::Win.b - rCursorBase.GetH() / 2) {
+				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.b - rCursorBase.GetH() / 2));
+			}
+			else
+				rCursorBase.Move(&(Vector2::down * 8.f));
+
 		}
 		if (kb->On('A'))
 		{
-			rCursorBase.Move(&(Vector2::left * 8.f));
+			if (rCursorBase.GetPosX() <= Rec::Win.l + rCursorBase.GetW() / 2) {
+				rCursorBase.SetPos(&Point(Rec::Win.l + rCursorBase.GetW() / 2, rCursorBase.GetPosY()));
+			}
+			else
+				rCursorBase.Move(&(Vector2::left * 8.f));
 		}
 		if (kb->On('D'))
 		{
-			rCursorBase.Move(&(Vector2::right * 8.f));
+			if (rCursorBase.GetPosX() >= Rec::Win.r - rCursorBase.GetW() / 2) {
+				rCursorBase.SetPos(&Point(Rec::Win.r - rCursorBase.GetW() / 2, rCursorBase.GetPosY()));
+			}
+			else
+				rCursorBase.Move(&(Vector2::right * 8.f));
 		}
 		if (pad->GetAxisL() != Vector2::zero)
 		{
-			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
+					rCursorBase.Move(&(pad->GetAxisL() * 8.f));
 		}
-		if (auto ti = Find<Title::Obj>("ƒ^ƒCƒgƒ‹ƒ^ƒXƒN"))
+		if (auto ti = Find<Title::Obj>("ã‚¿ã‚¤ãƒˆãƒ«ã‚¿ã‚¹ã‚¯"))
 		{
 			ti->fStartImgSrcY = 0.f;
 			ti->rStart.Scaling(16 * 30.f, 16 * 5.f);
@@ -96,7 +113,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjEarth::Obj>("’n‹…ƒ^ƒXƒN"))
+		if (auto us = Find<StageSelectObjEarth::Obj>("åœ°çƒã‚¿ã‚¹ã‚¯"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rEarth.GetPos(), us->rEarth.GetW() * 0.5f);
@@ -105,7 +122,7 @@ namespace Cursor
 				us->rEarth.Scaling(16 * 15, 16 * 15);
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
-					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<Stage11::Obj>();
 					Pause(2);
@@ -113,7 +130,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjAsteroid::Obj>("¬˜f¯ƒ^ƒXƒN"))
+		if (auto us = Find<StageSelectObjAsteroid::Obj>("å°æƒ‘æ˜Ÿã‚¿ã‚¹ã‚¯"))
 		{
 			us->rAsteroid.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rAsteroid.GetPos(), us->rAsteroid.GetW() * 0.5f);
@@ -122,7 +139,7 @@ namespace Cursor
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
-					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<Stage21::Obj>();
 					Pause(2);
@@ -130,7 +147,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjGalaxy::Obj>("‹â‰Íƒ^ƒXƒN"))
+		if (auto us = Find<StageSelectObjGalaxy::Obj>("éŠ€æ²³ã‚¿ã‚¹ã‚¯"))
 		{
 			us->rGalaxy.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rGalaxy.GetPos(), us->rGalaxy.GetW() * 0.5f);
@@ -139,7 +156,7 @@ namespace Cursor
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
-					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<Stage31::Obj>();
 					Pause(2);
@@ -147,7 +164,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjUS::Obj>("“V‰¤¯ƒ^ƒXƒN"))
+		if (auto us = Find<StageSelectObjUS::Obj>("å¤©ç‹æ˜Ÿã‚¿ã‚¹ã‚¯"))
 		{
 			us->rUranus.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rUranus.GetPos(), us->rUranus.GetW() * 0.5f);
@@ -156,7 +173,7 @@ namespace Cursor
 				us->rUranus.Scaling(16 * 15, 16 * 15);
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
-					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<Stage41::Obj>();
 					Pause(2);
@@ -164,7 +181,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjBH::Obj>("ƒuƒ‰ƒbƒNƒz[ƒ‹’n‘Ñƒ^ƒXƒN"))
+		if (auto us = Find<StageSelectObjBH::Obj>("ãƒ–ãƒ©ãƒƒã‚¯ãƒ›ãƒ¼ãƒ«åœ°å¸¯ã‚¿ã‚¹ã‚¯"))
 		{
 			us->rBH.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rBH.GetPos(), us->rBH.GetW() * 0.5f);
@@ -173,7 +190,7 @@ namespace Cursor
 				us->rBH.Scaling(16 * 15, 16 * 15);
 				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
-					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<Stage51::Obj>();
 					Pause(2);
@@ -182,15 +199,17 @@ namespace Cursor
 			}
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 		//33
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(16.f * 32, 16.f, 16.f, 16.f);
 			rCursorBase.Draw(&res->iStageImg, &src);
-			//rCursorBase.Draw();
+#ifdef _DEBUG
+			rCursorBase.Draw();
+#endif // _DEBUG
 		}
 	}
 }

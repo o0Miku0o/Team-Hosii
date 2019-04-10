@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "BlackHoleGenerator.h"
 #include "StageSelect.h"
+#include "Back.h"
 
 //#include "BlackHole.h"
 
@@ -27,11 +28,10 @@ namespace Stage51
 		/*タスク名設定*/
 		SetName("ステージ５－１タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
-		//Add<BlackHole::Obj>();
 
 		auto fg = Add<FragmentGenerator::Obj>();
 		int iColor[2] = {};
@@ -46,13 +46,12 @@ namespace Stage51
 		float fSize = 250.f;
 		const int ciMode = 0;
 		bf->Bridge(1, &Point(Rec::Win.r*0.5f, Rec::Win.b*0.5f), &fSize, &ciMode);
+
 		/*データの初期化*/
 
-		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			sm->usBeamCount = 0;
-			sm->bClearFragmentNumMax = 2;
-			sm->bNextStage = 14;
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -68,23 +67,32 @@ namespace Stage51
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage52::Obj>();
 			Pause(2);
 		}
-		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
+
+		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
-			Pause(2);
-		}
-		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			Add<Stage51::Obj>();
 			Pause(2);
 		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(16.f * 0.f, 0.f, 16.f, 16.f));
+		}
 	}
 }

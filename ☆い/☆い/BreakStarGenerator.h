@@ -1,6 +1,8 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
+using namespace std;
+
 namespace BreakStarGenerator
 {
 	/*リソースクラス*/
@@ -32,5 +34,6 @@ namespace BreakStarGenerator
 		void Update();
 		void Render();
 		void Bridge(const int iNum, const int* iChange, const Point* pPos, const bool* bMode);
+		void Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos, const vector<bool> bMode);
 	}*OBJ_ptr;
 }

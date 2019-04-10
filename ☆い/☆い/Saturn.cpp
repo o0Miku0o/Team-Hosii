@@ -5,40 +5,40 @@
 
 namespace Saturn
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("“y¯ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("åœŸæ˜Ÿã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rSaturn = Rec(1000, 500, 16 * 14, 16 * 14);
 		cSaturnHitBase = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.3f);
 		cGravityCircle = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.8f);
 		iAnimCount = 0;
 		i = 12;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
-		auto vf = FindAll<Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
+		auto vf = FindAll<Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
 		for (auto &f : vf)
 		{
 			FragmentCheckhit(f);
@@ -53,7 +53,7 @@ namespace Saturn
 				}
 			}
 		}
-		if (auto beam = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN"))
+		if (auto beam = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯"))
 		{
 			Obj::BeamCheckhit(beam);
 		}
@@ -62,10 +62,10 @@ namespace Saturn
 		cGravityCircle.SetPos(&rSaturn.GetPos());
 		cGravityCircle.SetRadius(rSaturn.GetW()*0.8f);
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(16.f * (iAnimCount + 20), 16, 16, 16);
 			if (i >= 25)
@@ -98,9 +98,8 @@ namespace Saturn
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cSaturnHitBase.CheckHit(&cFrHit))
 		{
-			Remove(fr);
-			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//oFragment->bMoveActive = false;
+			oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			oFragment->bMoveActive = false;
 		}
 	}
 }
