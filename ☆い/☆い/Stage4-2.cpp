@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "MeteoGenerator.h"
 #include "StageSelect.h"
-
+#include "Back.h"
 
 namespace Stage42
 {
@@ -27,9 +27,9 @@ namespace Stage42
 		/*タスク名設定*/
 		SetName("ステージ４－２タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		auto met = Add<MeteoGenerator::Obj>();
@@ -49,7 +49,7 @@ namespace Stage42
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -65,17 +65,23 @@ namespace Stage42
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage43::Obj>();
 			Pause(2);
 		}
-		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
+
+		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
-			Pause(2);
-		}
-		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			Add<Stage42::Obj>();
 			Pause(2);
 		}
 	}

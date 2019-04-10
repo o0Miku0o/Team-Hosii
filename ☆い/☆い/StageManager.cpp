@@ -35,8 +35,16 @@ namespace StageManager
 
 		wsTest12.SoundCreate("./data/sound/宇宙人出現.wav");
 
+		wsTest13.SoundCreate("./data/sound/リザルト.wav");
+
 		wsBGM.CallBack(WINNAME);
 		wsBGM.SoundCreate("./data/sound/BGM2.wav");
+
+		wsBGM1.CallBack(WINNAME);
+		wsBGM1.SoundCreate("./data/sound/BGM4.wav");
+
+		wsBGM2.CallBack(WINNAME);
+		wsBGM2.SoundCreate("./data/sound/BGM3.wav");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
@@ -67,7 +75,13 @@ namespace StageManager
 
 		wsTest12.Release();
 
+		wsTest13.Release();
+
 		wsBGM.Release();
+
+		wsBGM1.Release();
+
+		wsBGM2.Release();
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -89,7 +103,7 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		
+
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()

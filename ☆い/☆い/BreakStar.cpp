@@ -7,48 +7,48 @@
 
 namespace BreakStar
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("‰ó‚·¯ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("å£Šã™æ˜Ÿã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		cHitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
-		iChange = 25;/*•’Ê‚Ì¯‚Í25•‚¢¯‚Í36‚Å‰Šú’l‚ğİ’è‚·‚é*/
+		iChange = 25;/*æ™®é€šã®æ˜Ÿã¯25é»’ã„æ˜Ÿã¯36ã§åˆæœŸå€¤ã‚’è¨­å®šã™ã‚‹*/
 		bHitAct = false;
 		bBlackMode = true;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		if (!bHitAct && !bBlackMode)
 		{
-			if (auto beam = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN"))
+			if (auto beam = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯"))
 			{
 				CheckHit(beam);
 			}
 		}
-		if (!Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN"))
+		if (!Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯"))
 		{
 			bHitAct = false;
 		}
@@ -57,10 +57,10 @@ namespace BreakStar
 			++iTime;
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			if (bBlackMode)
 			{
@@ -103,6 +103,7 @@ namespace BreakStar
 			//{
 			//	rStar.Draw(&res->iStarimage, tmp*iChange, 0, tmp, tmp);
 			//}
+
 #ifdef _DEBUG
 			cHitbase.Draw();
 #endif // _DEBUG
@@ -116,7 +117,11 @@ namespace BreakStar
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cHitbase.CheckHit(&cHit))
 		{
-			auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX");
+			if (auto sm = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯"))
+			{
+				--sm->usBeamCount;
+			}
+			auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹");
 			if (iChange > 25)
 			{
 				if (res)
@@ -133,22 +138,20 @@ namespace BreakStar
 				}
 				iChange = 34;
 			}
-			//if (bBlackMode)
-			//{
-			//	if (iChange > 38)
-			//	{
-			//		if (res)
-			//		{
-			//			res->wsTest3.Play();
-			//		}
-			//		Remove(this);
-			//	}
-			//}
-			//else
-			//{
-			if (iChange > 35)
+			if (bBlackMode)
 			{
-				if (res)
+				if (iChange > 38)
+				{
+					if (res)
+					{
+						res->wsTest3.Play();
+					}
+					Remove(this);
+				}
+			}
+			else
+			{
+				if (iChange > 35)
 				{
 					res->wsTest3.Play();
 				}
@@ -163,7 +166,7 @@ namespace BreakStar
 				Remove(this);
 			}
 			//}
-			Remove(bm);
+			RemoveAll("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯");
 			bHitAct = true;
 		}
 	}

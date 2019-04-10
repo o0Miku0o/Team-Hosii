@@ -5,11 +5,12 @@
 #include "FragmentGenerator.h"
 #include "StageManager.h"
 #include "Player.h"
-#include "Saturn.h"
+#include "Sturn.h"
 #include "Neptune.h"
 #include "AlienGenerator.h"
 #include "Alien.h"
 #include "StageSelect.h"
+#include "Back.h"
 
 namespace Stage41
 {
@@ -29,11 +30,11 @@ namespace Stage41
 		/*タスク名設定*/
 		SetName("ステージ４－１タスク");
 		/*リソース生成*/
-		RB::Add<StageManager::RS>("ステージ統括リソース");
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
-		Add<Saturn::Obj>();
+		Add<Sturn::Obj>();
 		auto np = Add<Neptune::Obj>();
 		np->rNeptune.Scaling(16.f * 30.f, 16.f * 30.f);
 		np->rNeptune.SetPos(&Point(1900.f, 1000.f));
@@ -89,7 +90,7 @@ namespace Stage41
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -105,17 +106,23 @@ namespace Stage41
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage42::Obj>();
 			Pause(2);
 		}
-		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
+
+		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
-			Pause(2);
-		}
-		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			Add<Stage41::Obj>();
 			Pause(2);
 		}
 	}

@@ -2,6 +2,26 @@
 #define FIXEDPOINT
 /*固定小数点ライブラリ*/
 
+/*整数の割り算*/
+inline constexpr long Div(long n, long d)
+{
+	long m = 1, q = 0;
+	while (d <= n) {
+		d <<= 1;
+		m <<= 1;
+	}
+	while (1 < m) {
+		d >>= 1;
+		m >>= 1;
+		if (n >= d) {
+			n -= d;
+			q |= m;
+		}
+	}
+	// q=商 / n=余り
+	return q;
+}
+
 /*固定小数点ライブラリ関数の小数ビット数*/
 constexpr unsigned char DECIMAL_BITS = 8;
 /*四捨五入*/
@@ -61,11 +81,15 @@ inline constexpr long MulFP(const long lFPVal1, const long lFPVal2)
 /*固定小数点の割り算（０で割ろうとすると０が返る）*/
 inline constexpr long DivFP(const long lFPVal1, const long lFPVal2)
 {
+	/**/
+	return ((lFPVal2) ? Div(lFPVal1 << DECIMAL_BITS, lFPVal2) : 0);
+	/*/
 	return ((lFPVal2) ? ((lFPVal1 << DECIMAL_BITS) / lFPVal2) : 0);
+	/**/
 }
 
 /*fixedの最大値*/
-constexpr float MAX_FIXED = float(1 << ((sizeof(short) * 8) - 6));
+constexpr float FIXED_MAX = float(1 << ((sizeof(short) * 8) - 6));
 /*サイズ２バイト、小数ビット数６の固定小数型*/
 /*最大値が1024.0と小さく、オーバーフローしやすいので注意！*/
 struct fixed
@@ -142,7 +166,11 @@ private:
 	}
 	inline const short _DivFP(const short v1, const short v2) const
 	{
+		/**/
+		return ((v2) ? (short)Div((long)v1 << 6, (long)v2) : 0);
+		/*/
 		return ((v2) ? ((v1 << 6) / v2) : 0);
+		/**/
 	}
 public:
 	/*コンストラクタ*/
@@ -167,6 +195,12 @@ public:
 	inline fixed(const double d)
 		:
 		sVal(_FP(d))
+	{
+
+	}
+	inline fixed(const int i)
+		:
+		sVal(_FP(i))
 	{
 
 	}
@@ -491,6 +525,11 @@ public:
 	{
 		return _FToD(sVal);
 	}
+	/*int型へのキャスト*/
+	inline operator int() const
+	{
+		return (int)(_FToD(sVal) + 0.5);
+	}
 	/*bool型へのキャスト*/
 	inline operator bool() const
 	{
@@ -503,9 +542,124 @@ public:
 		return (CastType)_FToD(sVal);
 	}
 };
+/*グローバル演算子オーバーロード*/
+/*float型との演算*/
+inline const float operator + (const float v1, const fixed &v2)
+{
+	return v2 + v1;
+}
+inline const float operator - (const float v1, const fixed &v2)
+{
+	return v2 - v1;
+}
+inline const float operator * (const float v1, const fixed &v2)
+{
+	return v2 * v1;
+}
+inline const float operator / (const float v1, const fixed &v2)
+{
+	return v1 / (float)v2;
+}
+
+inline const float &operator += (float &v1, const fixed &v2)
+{
+	v1 += (float)v2;
+	return v1;
+}
+inline const float &operator -= (float &v1, const fixed &v2)
+{
+	v1 -= (float)v2;
+	return v1;
+}
+inline const float &operator *= (float &v1, const fixed &v2)
+{
+	v1 *= (float)v2;
+	return v1;
+}
+inline const float &operator /= (float &v1, const fixed &v2)
+{
+	v1 /= (float)v2;
+	return v1;
+}
+/*double型との演算*/
+inline const double operator + (const double v1, const fixed &v2)
+{
+	return v2 + v1;
+}
+inline const double operator - (const double v1, const fixed &v2)
+{
+	return v2 - v1;
+}
+inline const double operator * (const double v1, const fixed &v2)
+{
+	return v2 * v1;
+}
+inline const double operator / (const double v1, const fixed &v2)
+{
+	return v1 / (double)v2;
+}
+
+inline const double &operator += (double &v1, const fixed &v2)
+{
+	v1 += (double)v2;
+	return v1;
+}
+inline const double &operator -= (double &v1, const fixed &v2)
+{
+	v1 -= (double)v2;
+	return v1;
+}
+inline const double &operator *= (double &v1, const fixed &v2)
+{
+	v1 *= (double)v2;
+	return v1;
+}
+inline const double &operator /= (double &v1, const fixed &v2)
+{
+	v1 /= (double)v2;
+	return v1;
+}
+/*int型との演算*/
+inline const float operator + (const int v1, const fixed &v2)
+{
+	return v2 + v1;
+}
+inline const float operator - (const int v1, const fixed &v2)
+{
+	return v2 - v1;
+}
+inline const float operator * (const int v1, const fixed &v2)
+{
+	return v2 * v1;
+}
+inline const float operator / (const int v1, const fixed &v2)
+{
+	return v1 / (float)v2;
+}
+
+inline const int &operator += (int &v1, const fixed &v2)
+{
+	v1 = int(v1 + v2);
+	return v1;
+}
+inline const int &operator -= (int &v1, const fixed &v2)
+{
+	v1 = int(v1 - v2);
+	return v1;
+}
+inline const int &operator *= (int &v1, const fixed &v2)
+{
+	v1 = int(v1 * v2);
+	return v1;
+}
+inline const int &operator /= (int &v1, const fixed &v2)
+{
+	v1 = int(v1 / v2);
+	return v1;
+}
 /*abs(fixed)*/
 inline const fixed Abs(const fixed &x)
 {
-	return ((x > 0) ? x : ((x < 0) ? -x : x));
+	return ((x > 0.0) ? x : ((x < 0.0) ? -x : x));
 }
 #endif

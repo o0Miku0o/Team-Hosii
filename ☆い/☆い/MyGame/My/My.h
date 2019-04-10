@@ -1,4 +1,6 @@
 #pragma once
+#include <WinSock2.h>
+#include <ws2tcpip.h>
 #include <Windows.h>
 #include <stdarg.h>
 #include <tchar.h>
@@ -6,9 +8,11 @@
 #include <time.h>
 #include <vector>
 #include <mmsystem.h>
+#include <typeinfo>
 #include "FixedPoint.h"
 #include "CGDM.h"
 
+#pragma comment (lib, "ws2_32.lib")
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
 
@@ -18,12 +22,21 @@
 
 #ifdef _DEBUG
 #define DBG_OUT(ccpDbgText) MessageBox(nullptr, (const char * const)ccpDbgText, "DBG", MB_OK)
+#define DBG_SPRINTF(cStrName, cFmt, Src) char cStrName[1024]; sprintf_s(cStrName, cFmt, Src)
+#define \
+DBG_FONT(pPoint, cFmt, Src)\
+{\
+	char cDbg[1024];\
+	sprintf_s(cDbg, cFmt, Src);\
+	Font f;\
+	f.FontCreate("メイリオ");\
+	f.Draw(&pPoint, cDbg);\
+}
 #else
 #define DBG_OUT(ccpDbgText) __noop
+#define DBG_SPRINTF(StrName, Fmt, StrSrc) __noop
+#define DBG_FONT(pPoint, cStrName, cFmt, Src) __noop
 #endif
-
-//Myネームスペース内のクラスで使用する透明色
-constexpr COLORREF TRANSPARENT_COLOR = RGB(255, 0, 255);
 
 constexpr char FTYPE_GOTHIC[] = "ＭＳ ゴシック";
 constexpr char FTYPE_MINCHOU[] = "ＭＳ 明朝";
@@ -115,24 +128,111 @@ inline double Sqrt(const double val_)
 	xRes *= (1.5 - (xHalf * xRes * xRes));//コメントアウトを外すと精度が上がる
 	return xRes * val_;
 }
-/*abs()*/
+/*高速cos(x)*/
+inline const double cos_fast(double angle)
+{
+	static const double waru[5] = { 1.0 / (3 * 4 * 5 * 6 * 7 * 8 * 9 * 10),-1.0 / (3 * 4 * 5 * 6 * 7 * 8),1.0 / (3 * 4 * 5 * 6),-1.0 / (3 * 4),1.0 };
+	constexpr double cedVal1 = 1.0 / 32.0;
+	constexpr double cedVal2 = -1.0 / (3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12);
+	double y = cedVal2;
+	const double *p = waru;
+	/*int q = (int)(x / (2.0 * PI));*/
+	//x = x - q * (2.0 * PI);
+	angle = angle * cedVal1;
+	angle = angle * angle;
+	do 
+	{
+		y = y * angle + (*p);
+		++p;
+	} while (p < waru + 5);
+	y = y * angle;
+	for (byte b = 0; b < 5; ++b) y = y * (4.0 - y);
+	return 1.0 - (y * 0.5);
+}
+/*高速cos(x)*/
+inline const float cos_fast(float angle)
+{
+	return (float)cos_fast((double)angle);
+}
+/*高速sin(x)*/
+inline const double sin_fast(double angle)
+{ 
+	return cos_fast(angle - PI * 0.5);
+}
+/*高速sin(x)*/
+inline const float sin_fast(float angle)
+{
+	return (float)cos_fast(angle - PI * 0.5);
+}
+/*高速tan(x)*/
+inline const double tan_fast(double angle)
+{ 
+	return FToD(Div(FP(cos_fast(angle - PI * 0.5)), FP(cos_fast(angle))));
+}
+/*高速tan(x)*/
+inline const float tan_fast(float angle)
+{
+	return (float)FToD(Div(FP(cos_fast(angle - PI * 0.5)), FP(cos_fast((double)angle))));
+}
+/*高速sin(x)と高速cos(x)の同時取得*/
+inline void sincos_fast(double angle, double * const x, double * const y)
+{
+	angle = angle / 32.0;
+	static double waru[8] = { -1.0 / (3 * 4 * 5 * 6 * 7 * 8),-1.0 / (2 * 3 * 4 * 5 * 6 * 7),1.0 / (3 * 4 * 5 * 6),1.0 / (2 * 3 * 4 * 5),-1.0 / (3 * 4),-1.0 / (2 * 3),1.0,1.0 };
+	double c = 1.0 / (3 * 4 * 5 * 6 * 7 * 8 * 9 * 10), s = 1.0 / (2 * 3 * 4 * 5 * 6 * 7 * 8 * 9), *p = waru, z = angle * angle;
+	do 
+	{
+		c = c * z + (*p);
+		++p;
+		s = s * z + (*p);
+		++p;
+	} while (p < waru + 8);
+	c = c * z;
+	s = s * angle;
+	for (byte b = 0; b < 5; ++b) 
+	{
+		s = s * (2.0 - c);
+		c = c * (4.0 - c);
+	}
+	*x = 1.0 - c / 2.0;
+	*y = s;
+}
+/*高速sin(x)と高速cos(x)の同時取得*/
+inline void sincos_fast(float angle, float * const x, float * const y)
+{
+	double dX = 0.0, dY = 0.0;
+	sincos_fast((double)angle, &dX, &dY);
+	*x = (float)dX;
+	*y = (float)dY;
+}
+/*abs(x)*/
 template<class Value>
 inline constexpr Value Abs(const Value &x)
 {
 	return Value((x > 0) ? x : ((x < 0) ? -x : 0));
 }
 /*max(a, b)*/
-template<class Value1, class Value2>
-inline constexpr Value1 Max(const Value1 &a, const Value2 &b)
+template<class Value>
+inline constexpr Value Max(const Value &a, const Value &b)
 {
-	return Value1((a > (Value1)b) ? a : (Value1)b);
+	return Value((a > b) ? a : b);
 }
 /*min(a, b)*/
-template<class Value1, class Value2>
-inline constexpr Value1 Min(const Value1 a, const Value2 b)
+template<class Value>
+inline constexpr Value Min(const Value &a, const Value &b)
 {
-	return Value1((a < (Value1)b) ? a : (Value1)b);
+	return Value((a < b) ? a : b);
 }
+/*aとbを入れ替える（浮動小数点はNG！）*/
+template<class Value>
+inline void Swap(Value &a, Value &b)
+{
+	if (a == b) return;
+	a ^= b ^= a ^= b;
+}
+//Myネームスペース内のクラスで使用する透明色
+constexpr COLORREF TRANSPARENT_COLOR = RGB(255, 0, 255);
+constexpr COLORREF WHITE_COLOR = RGB(255, 255, 255);
 
 //二次元ベクトルクラス
 class Vector2
@@ -262,6 +362,8 @@ public:
 	static bool GetMouseState();
 	/*インスタンスのアドレスを取得*/
 	static MS *GetState();
+	/*マウスカーソルの表示の有無*/
+	static bool Visible(const bool bVisible);
 	/*現在のマウス入力状態を取得*/
 	byte Now(const MouseButton but_);
 	/*前フレームのマウス入力状態を取得*/
@@ -305,7 +407,9 @@ public:
 	//
 	const HDC GetImageHandle() const;
 	//
-	const HBITMAP GetMaskHandle() const;
+	const HDC GetMaskHandle() const;
+	//
+	const HBITMAP GetMaskBitMap() const;
 };
 
 struct FontOP
@@ -336,7 +440,7 @@ public:
 	//デストラクタ
 	~Font();
 	//フォント作成
-	bool FontCreate(const char *fontname_, const FontOP *fontoption_ = &FOP_DEFAULT, int h_ = 0, float angleD_ = 0);
+	bool FontCreate(const char *fontname_, int h_ = 0, float angleD_ = 0, const FontOP *fontoption_ = &FOP_DEFAULT);
 	//フォントの消去
 	void Release();
 	//色設定
@@ -538,6 +642,7 @@ private:
 	static Point Cam;
 	static Point pAdjust;
 	Point p[5];
+	COLORREF cColor;
 	float w;
 	float h;
 	float dx;
@@ -567,6 +672,8 @@ public:
 	static const float GetCameraPosX();
 	//カメラのY座標を取得
 	static const float GetCameraPosY();
+	//画面を塗りつぶす
+	static void FullPaint(const COLORREF ccColor);
 	//ズーム
 	static void Zoom(const float fMagni);
 	//オフスクリーンのハンドルを取得
@@ -577,6 +684,8 @@ public:
 	Rec();
 	//コピーコンストラクタ
 	Rec(const Rec & cpyrec_);
+	//
+	const COLORREF SetColor(const COLORREF ccColor);
 	//矩形を移動させる
 	void SetPos(const Point * const pos_);
 	//矩形を拡大縮小させる
@@ -585,14 +694,16 @@ public:
 	void SetDeg(const float angleD_);
 	//自分の角度（ディグリー）を取得するメンバ関数
 	float GetDeg() const;
-	//読み込んでおいたビットマップを描画(回転も可)
+	//読み込んでおいたビットマップを描画
 	void Draw(Image * const mybitmap_, const bool rot_ = false);
-	//読み込んでおいたビットマップを描画(回転も可)
+	//読み込んでおいたビットマップを描画
 	void Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot_ = false);
-	//不透明から透明まで値を指定して描画(透明色は無視される)
+	//不透明から透明まで値を指定して描画
 	void DrawAlpha(Image * const mybitmap_, byte alpha_ = 255);
+	//不透明から透明まで値を指定して描画
+	void DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alpha_ = 255);
 	//矩形の外枠を描画するメンバ関数
-	void Draw(int r_ = 255, int g_ = 255, int b_ = 255);
+	void Draw();
 	//矩形同士の線分交差判定用メンバ関数
 	bool CheckHit(const Rec * const rec_);
 	//矩形と点の接触判定用メンバ関数
@@ -648,6 +759,71 @@ public:
 	//
 	const Point &GetBR() const;
 };
+
+/*BMPファイルとしてビットマップを出力*/
+inline const bool SaveBitMap(HDC hSrc, const Frec * const cfrpSrc, const char * const ccpFileName)
+{
+	HANDLE hFile = CreateFile
+	(
+		ccpFileName,
+		GENERIC_WRITE,
+		0,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL
+	);
+	if (hFile == INVALID_HANDLE_VALUE) return 1;
+	long lHeadSize = (sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFO));
+	long lWidthSize = ((long)cfrpSrc->r * sizeof(DWORD));
+	long lImageSize = (lWidthSize * (long)cfrpSrc->b);
+
+	// BITMAPFILEHEADERの初期化
+	BITMAPFILEHEADER bmpHead = { 0 };
+	bmpHead.bfType = 0x4D42;       // 識別子(BM)
+	bmpHead.bfSize = lHeadSize + lImageSize;
+	bmpHead.bfReserved1 = 0;
+	bmpHead.bfReserved2 = 0;
+	bmpHead.bfOffBits = lHeadSize;
+
+	// BITMAPINFOの初期化
+	BITMAPINFO bmpInfo = { 0 };
+	bmpInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	bmpInfo.bmiHeader.biWidth = (long)cfrpSrc->r;
+	bmpInfo.bmiHeader.biHeight = (long)cfrpSrc->b;
+	bmpInfo.bmiHeader.biPlanes = 1;
+	bmpInfo.bmiHeader.biBitCount = 32;
+	bmpInfo.bmiHeader.biCompression = BI_RGB;
+	bmpInfo.bmiHeader.biSizeImage = 0;
+	bmpInfo.bmiHeader.biXPelsPerMeter = 0;
+	bmpInfo.bmiHeader.biYPelsPerMeter = 0;
+	bmpInfo.bmiHeader.biClrUsed = 0;
+	bmpInfo.bmiHeader.biClrImportant = 0;
+
+	// DIBセクションの作成
+	// ピクセル配列
+	LPDWORD lpPixel = nullptr;
+	// ビットマップ
+	HBITMAP hBitmap = CreateDIBSection(NULL, &bmpInfo, DIB_RGB_COLORS, (LPVOID*)&lpPixel, NULL, 0);
+	// 保存スクリーン
+	HDC hSaveDC = CreateCompatibleDC(hSrc);
+
+	SelectObject(hSaveDC, hBitmap);
+	// 保存領域のコピー
+	BitBlt(hSaveDC, 0, 0, (int)cfrpSrc->r, (int)cfrpSrc->b, hSrc, (int)cfrpSrc->l, (int)cfrpSrc->t, SRCCOPY);
+
+	// ファイルに書き込む
+	DWORD dwSize = 0; 
+	WriteFile(hFile, &bmpHead, sizeof(BITMAPFILEHEADER), &dwSize, NULL);
+	WriteFile(hFile, &bmpInfo, sizeof(BITMAPINFO), &dwSize, NULL);
+	WriteFile(hFile, lpPixel, lImageSize, &dwSize, NULL);
+
+	// DIBセクションの破棄
+	DeleteDC(hSaveDC);
+	DeleteObject(hBitmap);
+	CloseHandle(hFile);
+	return 0;
+}
 
 /*円クラス*/
 class Circle
@@ -837,127 +1013,78 @@ class Pixel
 	Point pPos;
 	COLORREF cColor;
 	HDC hOff;
+	HPEN hPen;
+	HBRUSH hBrush;
+	byte bSize;
 public:
-	Pixel()
-		:
-		pPos({}),
-		cColor(0),
-		hOff(Rec::GetOffScreenHandle())
-	{
-	}
-	Pixel(const Point &crefpPos, const COLORREF ccColor)
-		:
-		pPos(crefpPos),
-		cColor(ccColor),
-		hOff(Rec::GetOffScreenHandle())
-	{
-	}
-	Pixel(const Pixel &crefPixel)
-		:
-		pPos(crefPixel.pPos),
-		cColor(crefPixel.cColor),
-		hOff(Rec::GetOffScreenHandle())
-	{
-	}
-	const Point SetPos(const Point * const cppPos)
-	{
-		const Point cpOld = pPos;
-		pPos = *cppPos;
-		return cpOld;
-	}
-	const COLORREF SetColor(const COLORREF ccColor)
-	{
-		const COLORREF ccOld = cColor;
-		cColor = ccColor;
-		return ccOld;
-	}
-	const Point &GetPos() const
-	{
-		return pPos;
-	}
-	const float GetPosX() const
-	{
-		return pPos.x;
-	}
-	const float GetPosY() const
-	{
-		return pPos.y;
-	}
-	void Draw() const
-	{
-		SetPixel(hOff, int(pPos.x), int(pPos.y), cColor);
-	}
+	Pixel();
+	~Pixel();
+	Pixel(const Point &crefpPos, const COLORREF ccColor, const byte cbSize);
+	Pixel(const Pixel &crefPixel);
+	const Point SetPos(const Point * const cppPos);
+	const COLORREF SetColor(const COLORREF ccColor);
+	const byte SetSize(const byte cbSize);
+	const Point &GetPos() const;
+	const float GetPosX() const;
+	const float GetPosY() const;
+	void Draw() const;
 };
 
-#ifdef _DEBUG
-struct DBG
+class Particle
 {
-private:
-	static Point spDrawPos;
-	static Font sfFont;
+	static Particle * sppTop;
+
+	struct _vP
+	{
+		Pixel pPix;
+		Point pPos;
+		Point pIniPos;
+		COLORREF cColor;
+		fixed fSpd;
+		fixed fRandX;
+		fixed fRandY;
+		fixed fSpdX;
+		fixed fSpdY;
+		fixed fAngle;
+		byte bLifeCount;
+		_vP()
+			:
+			pPix(),
+			pIniPos(),
+			pPos(),
+			bLifeCount(byte(rand() % 100)),
+			cColor(RGB(255, 255, 255)),
+			fSpd(1.f),
+			fAngle(DtoR(ModAngle(270.f))),
+			fRandX(DtoR(rand() % 61 - 30.f)),
+			fRandY(DtoR(rand() % 61 - 30.f)),
+			fSpdX(cos_fast(fAngle + fRandX) * fSpd),
+			fSpdY(sin_fast(fAngle + fRandY) * fSpd)
+		{
+
+		}
+	};
+	std::vector<_vP> vpPix;
+	Particle *next;
+	Particle *prev;
+	byte bLifeMax;
+	bool bUpdateFlag;
+
+	void Update();
+	void Draw() const;
 public:
-	static void ResetPos()
-	{
-		spDrawPos = { Rec::GetCameraPosX() - Rec::Win.r * 0.5f, Rec::GetCameraPosY() - Rec::Win.b * 0.5f };
-	}
-	template<class Type>
-	static void OutPut(const Type &tValue)
-	{
-		sfFont.FontCreate("メイリオ");
-		sfFont.SetColor(RGB(150, 200, 255));
-		sfFont.Draw(&spDrawPos, std::to_string(tValue).c_str());
-		sfFont.Release();
-		spDrawPos.y += 20.f;
-		if (spDrawPos.y >= Rec::GetCameraPosY() - Rec::Win.b * 0.5f + 1000.f)
-		{
-			spDrawPos.x += 200.f;
-			spDrawPos.y = Rec::GetCameraPosY() - Rec::Win.b * 0.5f;
-		}
-	}
-	static void OutPut(const char(&ccaFmt)[])
-	{
-		sfFont.FontCreate("メイリオ");
-		sfFont.SetColor(RGB(150, 200, 255));
-		sfFont.Draw(&spDrawPos, ccaFmt);
-		sfFont.Release();
-		spDrawPos.y += 20.f;
-		if (spDrawPos.y >= Rec::GetCameraPosY() - Rec::Win.b * 0.5f + 1000.f)
-		{
-			spDrawPos.x += 200.f;
-			spDrawPos.y = Rec::GetCameraPosY() - Rec::Win.b * 0.5f;
-		}
-	}
-	template<unsigned short usBufSize, class Type>
-	static void OutPut(const char(&ccaFmt)[], const Type &tValue)
-	{
-		sfFont.FontCreate("メイリオ");
-		sfFont.SetColor(RGB(150, 200, 255));
-		char caText[usBufSize] = {};
-		sprintf_s(caText, ccaFmt, tValue);
-		sfFont.Draw(&spDrawPos, caText);
-		sfFont.Release();
-		spDrawPos.y += 20.f;
-		if (spDrawPos.y >= Rec::GetCameraPosY() - Rec::Win.b * 0.5f + 1000.f)
-		{
-			spDrawPos.x += 200.f;
-			spDrawPos.y = Rec::GetCameraPosY() - Rec::Win.b * 0.5f;
-		}
-	}
-	template<unsigned short usBufSize, class Type>
-	static void OutPut(const char * const ccpFmt, const Type &tValue)
-	{
-		sfFont.FontCreate("メイリオ");
-		sfFont.SetColor(RGB(150, 200, 255));
-		char caText[usBufSize] = {};
-		sprintf_s(caText, ccpFmt, tValue);
-		sfFont.Draw(&spDrawPos, caText);
-		sfFont.Release();
-		spDrawPos.y += 20.f;
-		if (spDrawPos.y >= Rec::GetCameraPosY() - Rec::Win.b * 0.5f + 1000.f)
-		{
-			spDrawPos.x += 200.f;
-			spDrawPos.y = Rec::GetCameraPosY() - Rec::Win.b * 0.5f;
-		}
-	}
+	static void UpdateAll();
+	static void DrawAll();
+
+	Particle();
+	~Particle();
+	void SetNum(const unsigned int cuiNum);
+	void SetSize(const byte cbSize);
+	void SetInitPos(const Point * const cppPos, const short csMax = 10, const short csMin = -10);
+	void SetLife(const byte cbLifeMax);
+	void SetSpd(const float cfSpd, const short csMax = 1, const short csMin = -1);
+	void SetAngle(const float cfAngle, const short csMax = 45, const short csMin = -45);
+	void SetColor(const COLORREF ccColor, const char ccMax = 100, const char ccMin = -100);
+	void Play();
+	void Stop();
 };
-#endif
