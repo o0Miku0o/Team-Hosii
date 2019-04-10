@@ -4,9 +4,7 @@
 #include "StarGenerator.h"
 #include "FragmentGenerator.h"
 #include "Player.h"
-#include "AlienGenerator.h"
-#include "Alien.h"
-#include "Meteo.h"
+#include "Back.h"
 #include "StageManager.h"
 
 namespace Stage12
@@ -29,6 +27,7 @@ namespace Stage12
 		/*リソース生成*/
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		//auto ag = Add<AlienGenerator::Obj>();
@@ -84,11 +83,9 @@ namespace Stage12
 		int iArr[2] = { 24,23 };
 		sg->Bridge(2, iArr, pStArr);
 		/*データの初期化*/
-		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			sm->usBeamCount = 0;
-			sm->bClearFragmentNumMax = 3;
-			++sm->bNextStage;
+			res->wsBGM.Restart();
 		}
 	}
 	/*タスクの終了処理*/
@@ -104,17 +101,23 @@ namespace Stage12
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<Stage13::Obj>();
 			Pause(2);
 		}
-		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
+
+		if (pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				res->wsBGM.Pause();
+			}
+			Add<Back::Obj>();
 			Add<StageSelect::Obj>();
-			Pause(2);
-		}
-		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			Add<Stage12::Obj>();
 			Pause(2);
 		}
 	}
