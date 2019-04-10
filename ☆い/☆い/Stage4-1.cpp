@@ -5,7 +5,7 @@
 #include "FragmentGenerator.h"
 #include "StageManager.h"
 #include "Player.h"
-#include "Sturn.h"
+#include "Saturn.h"
 #include "Neptune.h"
 #include "AlienGenerator.h"
 #include "Alien.h"
@@ -33,7 +33,7 @@ namespace Stage41
 
 		/*タスクの生成*/
 		Add<Player::Obj>();
-		Add<Sturn::Obj>();
+		Add<Saturn::Obj>();
 		auto np = Add<Neptune::Obj>();
 		np->rNeptune.Scaling(16.f * 30.f, 16.f * 30.f);
 		np->rNeptune.SetPos(&Point(1900.f, 1000.f));
@@ -110,10 +110,14 @@ namespace Stage41
 			Add<Stage42::Obj>();
 			Pause(2);
 		}
-
-		if (pad->NowBut(J_BUT_7) == 1) {
+		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			Add<StageSelect::Obj>();
+			Pause(2);
+		}
+		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			Add<Stage41::Obj>();
 			Pause(2);
 		}
 	}

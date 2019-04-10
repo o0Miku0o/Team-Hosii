@@ -109,10 +109,14 @@ namespace Stage21
 			Add<Stage22::Obj>();
 			Pause(2);
 		}
-
-		if (pad->NowBut(J_BUT_7) == 1) {
+		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			Add<StageSelect::Obj>();
+			Pause(2);
+		}
+		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			Add<Stage21::Obj>();
 			Pause(2);
 		}
 	}

@@ -166,7 +166,7 @@
     <ClInclude Include="StageSelectObjUS.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarGenerator.h" />
-    <ClInclude Include="Sturn.h" />
+    <ClInclude Include="Saturn.h" />
     <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
@@ -218,7 +218,7 @@
     <ClCompile Include="StageSelectObjUS.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarGenerator.cpp" />
-    <ClCompile Include="Sturn.cpp" />
+    <ClCompile Include="Saturn.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="WinProg.cpp" />
   </ItemGroup>

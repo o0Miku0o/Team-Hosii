@@ -75,9 +75,6 @@
     <ClInclude Include="BreakStarGenerator.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Sturn.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="StageSelectObjEarth.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -234,9 +231,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BreakStar.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Sturn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="StageSelectObjEarth.cpp">
