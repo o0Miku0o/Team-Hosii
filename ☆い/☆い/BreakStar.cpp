@@ -148,22 +148,22 @@ namespace BreakStar
 			}
 			else
 			{
-			if (iChange > 35)
-			{
-				if (res)
+				if (iChange > 35)
 				{
-					res->wsTest3.Play();
+					if (res)
+					{
+						res->wsTest3.Play();
+					}
+					auto fg = Add<FragmentGenerator::Obj>();
+					//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
+					Point pArr[5] = {
+						Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
+						Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
+					};
+					int iColor[5] = {};
+					fg->Bridge(5, pArr, iColor);
+					Remove(this);
 				}
-				auto fg = Add<FragmentGenerator::Obj>();
-				//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
-				Point pArr[5] = {
-					Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
-					Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
-				};
-				int iColor[5] = {};
-				fg->Bridge(5, pArr, iColor);
-				Remove(this);
-			}
 			}
 			RemoveAll("ビームタスク");
 			bm->Remove(bm);
