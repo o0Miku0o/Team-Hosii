@@ -29,6 +29,15 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 		hDC = BeginPaint(hWnd_, &ps);
 		//オフスクリーンをオンスクリーンに描画
 		Rec::DrawBackToFront(hDC);
+
+		if (auto kb = KB::GetState())
+		{
+			if (kb->On(VK_CONTROL) && kb->Down('S'))
+			{
+				SaveBitMap(hDC, &Rec::Win, "ScreenShot.bmp");
+			}
+		}
+
 		//描画終了
 		EndPaint(hWnd_, &ps);
 		break;
@@ -36,6 +45,8 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 	case MM_WOM_DONE:
 	{
 		WSound::LoopProc(wParam_, lParam_);
+		/*MM_WOM_DONEによる無限ループの解決方法がわからなかったため、*/
+		/*ダミーのメッセージを送信します。*/
 		SendMessage(g_hWnd, WM_USER, 0, 0);
 		break;
 	}
@@ -111,9 +122,9 @@ bool ApplicationInitialize(HINSTANCE hThisInst_, int nWinMode_)
 		// ウィンドウの左角Ｙ座標
 		0,
 		// ウィンドウの幅
-		/**/1920/*/x/**/,
+		1920,
 		// ウィンドウの高さ
-		/**/1080/*/y/**/,
+		1080,
 		// 親ウィンドウ
 		NULL,
 		// メニュー
@@ -131,7 +142,7 @@ bool ApplicationInitialize(HINSTANCE hThisInst_, int nWinMode_)
 
 //指定時間処理を待つ関数
 //(コンピュータの処理速度の違いで処理が速くなりすぎないようにする)
-bool WaitProcess(long * const setsec_, const long waitsec_)
+bool WaitProcess(unsigned long * const setsec_, const unsigned long waitsec_)
 {
 	if (SubFP(FP(timeGetTime()), waitsec_) >= FP(*setsec_))
 	{
@@ -149,13 +160,13 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	//表示するウィンドウの定義、登録、表示
 	if (ApplicationInitialize(hThisInst_, nWinMode_))
 		return 0;
-	/**/
-	while (ShowCursor(false) != -1);
-	/**/
+	/*キーボード*/
 	KB kb;
-	//マウスの初期化
+	/*マウス*/
 	MS ms(g_hWnd);
-	//矩形クラスを初期化
+	/*マウスの表示/非表示*/
+	MS::Visible(false);
+	/*矩形クラスを初期化*/
 	Rec::Init(g_hWnd);
 	/*JoyPadの初期化*/
 	JoyPad::Init(3000);
@@ -163,18 +174,24 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	JoyPad joy1;
 	/*JoyPad２*/
 	JoyPad joy2;
-	//乱数の初期化
+	/*乱数の初期化*/
 	srand(/**/(unsigned int)time(nullptr)/*/0/**/);
-	//ゲームの初期化処理
-	Init();
 	//アプリケーションまたはデバイスドライバの
 	//最小タイマ分解能を、ミリ秒単位で指定
 	timeBeginPeriod(1);
 	//処理前の現在時間を取得する
-	long tmptime1 = timeGetTime();
-	long tmptime2 = timeGetTime();
-	constexpr long cedFps = FP(1000.0 / 60.0);
+	unsigned long tmptime1 = timeGetTime();
+	unsigned long tmptime2 = timeGetTime();
+	constexpr unsigned long celFPS = FP(1000.0 / 60.0);
 
+	byte bArr[40] = {};
+	byte bFPS = 0;
+	byte bCount = 0;
+#ifdef _DEBUG
+#endif
+
+	//ゲームの初期化処理
+	Init();
 	//メインメッセージループ
 	while (1)
 	{
@@ -187,7 +204,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else if (WaitProcess(&tmptime1, cedFps))
+		else if (WaitProcess(&tmptime1, celFPS))
 		{
 			//キーボード入力を取得
 			KB::GetKeyState();
@@ -197,17 +214,35 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			JoyPad::GetStateAll();
 			//ゲームの更新処理
 			if (Update()) PostQuitMessage(0);
-
+			//
+			Particle::UpdateAll();
+			//
+			Animation::UpdateAll();
 			//描画前にオフスクリーンを黒く塗りつぶす（リセット？）
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理
 			Render();
+			//
+			Particle::DrawAll();
 
-#ifdef _DEBUG
-			std::string tex = "FPS[" + std::to_string(int(1000. / FToD(SubFP(FP(timeGetTime()), FP(tmptime2))))) + "]";
+			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
+			{
+				bCount = 0;
+				unsigned short usTotal = 0;
+				for (auto &ba : bArr)
+				{
+					usTotal += ba;
+				}
+				bFPS = byte(usTotal / (sizeof(bArr) / sizeof(bArr[0])));
+			}
 			Font f;
 			f.FontCreate("メイリオ");
-			f.Draw(&Point(200.f, 0.f), tex.c_str());
+			Point pP(Rec::GetCameraPosX() - Rec::Win.r * 0.5f, Rec::GetCameraPosY() + Rec::Win.b * 0.5f - 20.f);
+			f.Draw(&pP, std::to_string(bFPS).c_str());
+
+			bArr[bCount] = byte(1000.0 / FToD(SubFP(FP(timeGetTime()), FP(tmptime2))));
+			++bCount;
+#ifdef _DEBUG
 #endif
 			tmptime2 = timeGetTime();
 		}
@@ -223,6 +258,8 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	timeEndPeriod(1);
 	//矩形クラスのバッファを破棄
 	Rec::Release();
+	//
+	Rep::Clear();
 	//ウィンドウハンドルを破棄
 	DeleteObject(g_hWnd);
 	//終了

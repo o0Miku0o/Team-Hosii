@@ -27,7 +27,6 @@ namespace Stage12
 		/*リソース生成*/
 
 		/*タスクの生成*/
-		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		//auto ag = Add<AlienGenerator::Obj>();
@@ -83,9 +82,16 @@ namespace Stage12
 		int iArr[2] = { 24,23 };
 		sg->Bridge(2, iArr, pStArr);
 		/*データの初期化*/
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNum = 0;
+			sm->bClearFragmentNumMax = 3;
+			++sm->bNextStage;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.Restart();
+			res->wsBGM.PlayL();
 		}
 	}
 	/*タスクの終了処理*/

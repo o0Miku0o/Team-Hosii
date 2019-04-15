@@ -188,6 +188,7 @@
     <ClCompile Include="Jupitor.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
+    <ClCompile Include="MyGame\My\Animation.cpp" />
     <ClCompile Include="MyGame\My\CGDM.cpp" />
     <ClCompile Include="MyGame\My\My.cpp" />
     <ClCompile Include="MyGame\TaskBase.cpp" />

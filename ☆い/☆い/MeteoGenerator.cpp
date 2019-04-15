@@ -39,6 +39,8 @@ namespace MeteoGenerator
 		for (int i = 0; i < iNum; ++i)
 		{
 			auto met = Add<Meteo::Obj>();
+			met->pInitPos.x = (pPos + i)->x;
+			met->pInitPos.y = (pPos + i)->y;
 			met->rMeteo.SetPos(pPos + i);
 			met->cMeteoHitBase.SetPos(pPos + i);
 			

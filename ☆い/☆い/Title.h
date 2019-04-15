@@ -9,8 +9,9 @@ namespace Title
 	public:
 		/*必要なメンバはここに追加*/
 		Image iHo;
-		Image iShi;
+		Image iHoOverride;
 		Image iBoshi;
+		Image iBoshiOverride;
 		Image iStart;
 
 		RS() { Init(); }
@@ -26,13 +27,16 @@ namespace Title
 	public:
 		/*必要なメンバはここに追加*/
 		Rec rHo;
-		Rec rShi;
 		Rec rBoshi;
 		Rec rStart;
-		Animation aAnimator1;
-		Animation aAnimator2;
-		float fZoom;
-		float fStartImgSrcY;
+		Rec rMeteo;
+		Vector2 vMSpd;
+		fix fZoom;
+		fix fStartImgSrcY;
+		fix fMSpdBase;
+		fix fMScale;
+		byte bAlpha;
+		byte bAddAlpha;
 		bool bShineFlag;
 
 		Obj() {}

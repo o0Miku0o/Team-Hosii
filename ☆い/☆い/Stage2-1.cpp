@@ -30,7 +30,6 @@ namespace Stage21
 		/*リソース生成*/
 
 		/*タスクの生成*/
-		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		auto fg = Add<FragmentGenerator::Obj>();
@@ -88,9 +87,16 @@ namespace Stage21
 
 		/*データの初期化*/
 
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNum = 0;
+			sm->bClearFragmentNumMax = 1;
+			sm->bNextStage = 5;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM2.Restart();
+			res->wsBGM2.PlayL();
 		}
 	}
 	/*タスクの終了処理*/

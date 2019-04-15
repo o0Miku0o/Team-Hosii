@@ -30,7 +30,6 @@ namespace Stage33
 		/*リソース生成*/
 
 		/*タスクの生成*/
-		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		auto fg = Add<FragmentGenerator::Obj>();
@@ -188,9 +187,16 @@ namespace Stage33
 
 		/*データの初期化*/
 
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNum = 0;
+			sm->bClearFragmentNumMax = 1;
+			++sm->bNextStage;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM1.Restart();
+			res->wsBGM1.PlayL();
 		}
 	}
 	/*タスクの終了処理*/
