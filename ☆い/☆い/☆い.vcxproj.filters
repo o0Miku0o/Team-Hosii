@@ -99,9 +99,6 @@
     <ClInclude Include="Cursor.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\My\FixedPoint.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -177,7 +174,7 @@
     <ClInclude Include="StageLoad.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
+    <ClInclude Include="MyGame\My\FixedPoint.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -338,6 +335,7 @@
     <ClCompile Include="Saturn.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame\My\Animation.cpp">
     <ClCompile Include="Stage.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>

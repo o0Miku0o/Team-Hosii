@@ -1,5 +1,7 @@
 #include "Back.h"
+#include "Title.h"
 #include "StageManager.h"
+#include "MeteoGenerator.h"
 
 namespace Back
 {
@@ -64,12 +66,17 @@ namespace Back
 		{
 			rBackBase.Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
 		}
+		auto ti = Find<Title::Obj>("タイトルタスク");
 		for (auto &ap : pBackStar)
 		{
 			if (rand() % 91 == 1)
 			{
 				const byte bC = (byte)rand() % 206 + 50;
 				ap.SetColor(RGB(bC, bC, bC));
+			}
+			if (ti)
+			{
+				if (ti->rBoshi.CheckHit(&ap.GetPos()) || ti->rHo.CheckHit(&ap.GetPos())) continue;
 			}
 			ap.Draw();
 		}

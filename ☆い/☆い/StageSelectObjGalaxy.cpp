@@ -32,7 +32,7 @@ namespace StageSelectObjGalaxy
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		rGalaxy.SetDeg(rGalaxy.GetDeg() + 3);
+		//rGalaxy.SetDeg(rGalaxy.GetDeg() + 3);
 
 	}
 	/*タスクの描画処理*/
@@ -48,7 +48,7 @@ namespace StageSelectObjGalaxy
 				iAnimCount = (iAnimCount + 2) % 8;
 			}
 			++i;
-			rGalaxy.Draw(&res->iStageImg, &src, true);
+			rGalaxy.Draw(&res->iStageImg, &src);
 		}
 	}
 }

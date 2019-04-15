@@ -15,13 +15,19 @@ namespace Title
 	void RS::Init()
 	{
 		iHo.ImageCreate("./data/image/other/Title/ho.bmp");
-		iShi.ImageCreate("./data/image/other/Title/shi.bmp");
+		iHoOverride.ImageCreate("./data/image/other/Title/ho2.bmp");
 		iBoshi.ImageCreate("./data/image/other/Title/boshi.bmp");
+		iBoshiOverride.ImageCreate("./data/image/other/Title/boshi2.bmp");
 		iStart.ImageCreate("./data/image/other/Title/word.bmp");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
+		iHo.Release();
+		iHoOverride.Release();
+		iBoshi.Release();
+		iBoshiOverride.Release();
+		iStart.Release();
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -38,29 +44,32 @@ namespace Title
 		int iColor = rand() % 3;
 		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.423f), &iColor);
 		/*データの初期化*/
-		rHo = Rec(630, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
-		rShi = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.6f, 16 * 18, 16 * 18);
-		rBoshi = Rec(1290, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
+		rHo = Rec(730, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
+		rBoshi = Rec(1190, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
+
+		fMScale = rand() % (16 * 4 + 1) + 16.f * 14.f;
+		rMeteo = Rec(Rec::Win.r * 0.5f, -300.f, fMScale, fMScale);
+		fMSpdBase = 20.f;
+		vMSpd.SetVec(rMeteo.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.f)), fMSpdBase);
 		rStart = Rec(0.f, 0.f, 0.f, 0.f);
 		fZoom = 1.8f;
 		fStartImgSrcY = 0.f;
-
-		aAnimator1.SetAnim(AnimHo, 0);
-		aAnimator2.SetAnim(AnimShiBoshi, 0);
+		bAlpha = 5;
+		bAddAlpha = 5;
 
 		Rec::Zoom(fZoom);
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.PlayL();
-			res->wsBGM1.PlayL();
-			res->wsBGM1.Pause();
-			res->wsBGM2.PlayL();
-			res->wsBGM2.Pause();
+			//res->wsBGM1.PlayL();
+			//res->wsBGM1.Pause();
+			//res->wsBGM2.PlayL();
+			//res->wsBGM2.Pause();
 		}
 		//Add<MeteoGenerator::Obj>();
 		auto sg = Add<StarGenerator::Obj>();
 		int iChange = 24;
-		sg->Bridge(1, &iChange, &Point(1290.f, Rec::Win.b * 0.43f));
+		sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
 		if (auto st = Find<Star::Obj>("星タスク"))
 		{
 			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
@@ -81,7 +90,7 @@ namespace Title
 		if (!bm) return;
 
 		bShineFlag = false;
-		if (bm->vSpd != Vector2::right * 20.f && bm->rHitBase.GetPosX() <= Rec::Win.l + 500.f)
+		if (bm->vSpd != Vector2::right * 20.f && bm->rHitBase.GetPosX() <= Rec::Win.l + 600.f)
 		{
 			bShineFlag = true;
 			Pause("ビームタスク");
@@ -92,10 +101,31 @@ namespace Title
 			Rec::Zoom(fZoom);
 			fZoom = Max(fZoom - 0.03f, 1.f);
 
-			aAnimator1.Update();
-			aAnimator2.Update();
+			if (fZoom > 1.f) return;
 
-			//if (fZoom > 1.f) return;
+			if (bAlpha <= 0 || bAlpha >= 255)
+			{
+				bAddAlpha = -bAddAlpha;
+			}
+			bAlpha += bAddAlpha;
+
+			rMeteo.SetDeg(rMeteo.GetDeg() + 2.f);
+			
+			if (!fMSpdBase)
+			{
+				const fix fRandAngle = rand() % 360;
+				rMeteo.SetPos(&Point(cos(DtoR(fRandAngle)) * 1000.f + Rec::Win.r * 0.5f, sin(DtoR(fRandAngle)) * 1000.f + Rec::Win.b * 0.5f));
+				fMSpdBase = 20.f;
+				vMSpd.SetVec(rMeteo.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f)), fMSpdBase);
+				fMScale = rand() % (16 * 4 + 1) + 16.f * 18.f;
+				rMeteo.Scaling(fMScale, fMScale);
+			}
+			vMSpd.SetVec(vMSpd.GetDeg(), fMSpdBase);
+			rMeteo.Move(&vMSpd);
+			rMeteo.Scaling(fMScale, fMScale);
+			fMScale = Max(fMScale - 4.f, 0.f);
+			fMSpdBase = Max(fMSpdBase - 0.15f, 0.f);
+
 			if (Find<Cursor::Obj>("カーソルタスク")) return;
 
 			auto cs = Add<Cursor::Obj>();
@@ -110,18 +140,22 @@ namespace Title
 		//{
 		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
 		//}
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
+			rMeteo.Draw(&res->iStageImg, &src, true);
+		}
 		if (auto s = RB::Find<Title::RS>("タイトルリソース"))
 		{
-			Frec src(64.f * aAnimator1.GetSrcX(), 0, 64.f, 64.f);
-			rHo.Draw(&s->iHo, &src, true);
+			Frec src(0.f, 0.f, 64.f, 64.f);
+			rHo.Draw(&s->iHo, &src);
+			rHo.DrawAlpha(&s->iHoOverride, &src, bAlpha);
 
-			src = Frec(64.f * aAnimator2.GetSrcX(), 0, 64.f, 64.f);
-			rShi.Draw(&s->iShi, &src, true);
-
-			rBoshi.Draw(&s->iBoshi, &src, true);
+			rBoshi.Draw(&s->iBoshi, &src);
+			rBoshi.DrawAlpha(&s->iBoshiOverride, &src, bAlpha);
 
 			src = Frec(16.f * 0, 16.f * fStartImgSrcY, 16.f * 5, 16.f);
-			rStart.Draw(&s->iStart, &src, true);
+			rStart.Draw(&s->iStart, &src);
 		}
 	}
 	/*アニメーション*/

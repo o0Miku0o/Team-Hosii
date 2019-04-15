@@ -28,11 +28,10 @@ namespace Stage53
 		/*リソース生成*/
 
 		/*タスクの生成*/
-		Add<Back::Obj>();
 		Add<Player::Obj>();
 		//黒い星５個↓
 		auto bs = Add<BreakStarGenerator::Obj>();
-		int iChange[6] = { 36,36,36,36,36,25 };
+		int iChange[6] = { 37,37,37,37,37,25 };
 		Point pBPos[6] = { Point(600.f, 0.f),Point(700.f,1080.f),Point(1600.f, 540.f),Point(1920.f, 0.f), Point(1900.f, 1000.f) ,Point(600.f, 540.f) };
 		bool bBSMode[6] = { true,true, true, true, true, false };
 		bs->Bridge(6, iChange, pBPos,bBSMode);
@@ -47,9 +46,16 @@ namespace Stage53
 
 		/*データの初期化*/
 
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNum = 0;
+			sm->bClearFragmentNumMax = 5;
+			sm->bNextStage = 1;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.Restart();
+			res->wsBGM.PlayL();
 		}
 	}
 	/*タスクの終了処理*/
@@ -88,9 +94,6 @@ namespace Stage53
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(16.f * 0.f, 0.f, 16.f, 16.f));
-		}
+
 	}
 }

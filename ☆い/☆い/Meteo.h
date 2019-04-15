@@ -27,6 +27,8 @@ namespace Meteo
 		Rec rMeteo;
 		Circle cMeteoHitBase;
 
+		Point pInitPos;
+
 		Obj() {}
 		~Obj() {}
 	private:

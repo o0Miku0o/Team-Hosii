@@ -29,7 +29,6 @@ namespace Stage31
 		SetName("ステージ３－１タスク");
 		/*リソース生成*/
 		/*タスクの生成*/
-		Add<Back::Obj>();
 		Add<Player::Obj>();
 
 		auto fg = Add<FragmentGenerator::Obj>();
@@ -79,9 +78,16 @@ namespace Stage31
 
 		/*データの初期化*/
 
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNum = 0;
+			sm->bClearFragmentNumMax = 1;
+			sm->bNextStage = 8;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.Restart();
+			res->wsBGM.PlayL();
 		}
 	}
 	/*タスクの終了処理*/
@@ -120,9 +126,6 @@ namespace Stage31
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(16.f * 0.f, 0.f, 16.f, 16.f));
-		}
+
 	}
 }

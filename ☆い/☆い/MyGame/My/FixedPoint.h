@@ -88,11 +88,11 @@ inline constexpr long DivFP(const long lFPVal1, const long lFPVal2)
 	/**/
 }
 
-/*fixedの最大値*/
-constexpr float FIXED_MAX = float(1 << ((sizeof(short) * 8) - 6));
+/*fixの最大値*/
+constexpr float FIX_MAX = float(1 << ((sizeof(short) * 8) - 6));
 /*サイズ２バイト、小数ビット数６の固定小数型*/
 /*最大値が1024.0と小さく、オーバーフローしやすいので注意！*/
-struct fixed
+struct fix
 {
 private:
 	/*内部整数変数*/
@@ -174,80 +174,80 @@ private:
 	}
 public:
 	/*コンストラクタ*/
-	inline fixed()
+	inline fix()
 		:
 		sVal(0)
 	{
 
 	}
-	inline fixed(const fixed &f)
+	inline fix(const fix &f)
 		:
 		sVal(f.sVal)
 	{
 
 	}
-	inline fixed(const float f)
+	inline fix(const float f)
 		:
 		sVal(_FP(f))
 	{
 
 	}
-	inline fixed(const double d)
+	inline fix(const double d)
 		:
 		sVal(_FP(d))
 	{
 
 	}
-	inline fixed(const int i)
+	inline fix(const int i)
 		:
 		sVal(_FP(i))
 	{
 
 	}
 	/*同型との演算*/
-	inline fixed &operator = (const fixed &f)
+	inline fix &operator = (const fix &f)
 	{
 		sVal = f.sVal;
 		return *this;
 	}
-	inline const float operator + (const fixed &f) const
+	inline const float operator + (const fix &f) const
 	{
 		return _FToF(_AddFP(sVal, f.sVal));
 	}
-	inline const float operator - (const fixed &f) const
+	inline const float operator - (const fix &f) const
 	{
 		return _FToF(_SubFP(sVal, f.sVal));
 	}
-	inline const float operator * (const fixed &f) const
+	inline const float operator * (const fix &f) const
 	{
 		return _FToF(_MulFP(sVal, f.sVal));
 	}
-	inline const float operator / (const fixed &f) const
+	inline const float operator / (const fix &f) const
 	{
 		return _FToF(_DivFP(sVal, f.sVal));
 	}
-	inline fixed &operator += (const fixed &f)
+	inline fix &operator += (const fix &f)
 	{
 		sVal = _AddFP(sVal, f.sVal);
 		return *this;
 	}
-	inline fixed &operator -= (const fixed &f)
+	inline fix &operator -= (const fix &f)
 	{
 		sVal = _SubFP(sVal, f.sVal);
 		return *this;
 	}
-	inline fixed &operator *= (const fixed &f)
+	inline fix &operator *= (const fix &f)
 	{
 		sVal = _MulFP(sVal, f.sVal);
 		return *this;
 	}
-	inline fixed &operator /= (const fixed &f)
+	inline fix &operator /= (const fix &f)
 	{
 		sVal = _DivFP(sVal, f.sVal);
 		return *this;
 	}
 	/*float型との演算*/
-	inline fixed &operator = (const float f)
+	inline fix &operator = (const float f)
 	{
 		sVal = _FP(f);
 		return *this;
@@ -268,28 +268,28 @@ public:
 	{
 		return _FToF(_DivFP(sVal, _FP(f)));
 	}
-	inline fixed &operator += (const float f)
+	inline fix &operator += (const float f)
 	{
 		sVal = _AddFP(sVal, _FP(f));
 		return *this;
 	}
-	inline fixed &operator -= (const float f)
+	inline fix &operator -= (const float f)
 	{
 		sVal = _SubFP(sVal, _FP(f));
 		return *this;
 	}
-	inline fixed &operator *= (const float f)
+	inline fix &operator *= (const float f)
 	{
 		sVal = _MulFP(sVal, _FP(f));
 		return *this;
 	}
-	inline fixed &operator /= (const float f)
+	inline fix &operator /= (const float f)
 	{
 		sVal = _DivFP(sVal, _FP(f));
 		return *this;
 	}
 	/*double型との演算*/
-	inline fixed &operator = (const double d)
+	inline fix &operator = (const double d)
 	{
 		sVal = _FP(d);
 		return *this;
@@ -310,28 +310,28 @@ public:
 	{
 		return _FToD(_DivFP(sVal, _FP(d)));
 	}
-	inline fixed &operator += (const double d)
+	inline fix &operator += (const double d)
 	{
 		sVal = _AddFP(sVal, _FP(d));
 		return *this;
 	}
-	inline fixed &operator -= (const double d)
+	inline fix &operator -= (const double d)
 	{
 		sVal = _SubFP(sVal, _FP(d));
 		return *this;
 	}
-	inline fixed &operator *= (const double d)
+	inline fix &operator *= (const double d)
 	{
 		sVal = _MulFP(sVal, _FP(d));
 		return *this;
 	}
-	inline fixed &operator /= (const double d)
+	inline fix &operator /= (const double d)
 	{
 		sVal = _DivFP(sVal, _FP(d));
 		return *this;
 	}
 	/*int型との演算*/
-	inline fixed &operator = (const int i)
+	inline fix &operator = (const int i)
 	{
 		sVal = _FP(i);
 		return *this;
@@ -352,74 +352,74 @@ public:
 	{
 		return _FToF(_DivFP(sVal, _FP(i)));
 	}
-	inline fixed &operator += (const int i)
+	inline fix &operator += (const int i)
 	{
 		sVal = _AddFP(sVal, _FP(i));
 		return *this;
 	}
-	inline fixed &operator -= (const int i)
+	inline fix &operator -= (const int i)
 	{
 		sVal = _SubFP(sVal, _FP(i));
 		return *this;
 	}
-	inline fixed &operator *= (const int i)
+	inline fix &operator *= (const int i)
 	{
 		sVal = _MulFP(sVal, _FP(i));
 		return *this;
 	}
-	inline fixed &operator /= (const int i)
+	inline fix &operator /= (const int i)
 	{
 		sVal = _DivFP(sVal, _FP(i));
 		return *this;
 	}
 	/*インクリメント演算子*/
-	inline fixed &operator ++ ()
+	inline fix &operator ++ ()
 	{
 		sVal = _AddFP(sVal, _FP(1.0));
 		return *this;
 	}
 	/*デクリメント演算子*/
-	inline fixed &operator -- ()
+	inline fix &operator -- ()
 	{
 		sVal = _SubFP(sVal, _FP(1.0));
 		return *this;
 	}
 	/*インクリメント演算子*/
-	inline const fixed operator ++ (int)
+	inline const fix operator ++ (int)
 	{
 		const auto f = *this;
 		sVal = _AddFP(sVal, _FP(1.0));
 		return f;
 	}
 	/*デクリメント演算子*/
-	inline const fixed operator -- (int)
+	inline const fix operator -- (int)
 	{
 		const auto f = *this;
 		sVal = _SubFP(sVal, _FP(1.0));
 		return f;
 	}
 	/*同型との比較*/
-	inline const bool operator == (const fixed &f) const
+	inline const bool operator == (const fix &f) const
 	{
 		return (sVal == f.sVal);
 	}
-	inline const bool operator != (const fixed &f) const
+	inline const bool operator != (const fix &f) const
 	{
 		return (sVal != f.sVal);
 	}
-	inline const bool operator < (const fixed &f) const
+	inline const bool operator < (const fix &f) const
 	{
 		return (sVal < f.sVal);
 	}
-	inline const bool operator > (const fixed &f) const
+	inline const bool operator > (const fix &f) const
 	{
 		return (sVal > f.sVal);
 	}
-	inline const bool operator <= (const fixed &f) const
+	inline const bool operator <= (const fix &f) const
 	{
 		return (sVal <= f.sVal);
 	}
-	inline const bool operator >= (const fixed &f) const
+	inline const bool operator >= (const fix &f) const
 	{
 		return (sVal >= f.sVal);
 	}
@@ -499,15 +499,15 @@ public:
 		return (sVal >= _FP(i));
 	}
 	/*符号+演算子*/
-	inline const fixed operator + () const
+	inline const fix operator + () const
 	{
-		const fixed f = +_FToD(sVal);
+		const fix f = +_FToD(sVal);
 		return f;
 	}
 	/*符号-演算子*/
-	inline const fixed operator - () const
+	inline const fix operator - () const
 	{
-		const fixed f = -_FToD(sVal);
+		const fix f = -_FToD(sVal);
 		return f;
 	}
 	/*反転演算子*/
@@ -544,121 +544,121 @@ public:
 };
 /*グローバル演算子オーバーロード*/
 /*float型との演算*/
-inline const float operator + (const float v1, const fixed &v2)
+inline const float operator + (const float v1, const fix &v2)
 {
 	return v2 + v1;
 }
-inline const float operator - (const float v1, const fixed &v2)
+inline const float operator - (const float v1, const fix &v2)
 {
 	return v2 - v1;
 }
-inline const float operator * (const float v1, const fixed &v2)
+inline const float operator * (const float v1, const fix &v2)
 {
 	return v2 * v1;
 }
-inline const float operator / (const float v1, const fixed &v2)
+inline const float operator / (const float v1, const fix &v2)
 {
 	return v1 / (float)v2;
 }
 
-inline const float &operator += (float &v1, const fixed &v2)
+inline const float &operator += (float &v1, const fix &v2)
 {
 	v1 += (float)v2;
 	return v1;
 }
-inline const float &operator -= (float &v1, const fixed &v2)
+inline const float &operator -= (float &v1, const fix &v2)
 {
 	v1 -= (float)v2;
 	return v1;
 }
-inline const float &operator *= (float &v1, const fixed &v2)
+inline const float &operator *= (float &v1, const fix &v2)
 {
 	v1 *= (float)v2;
 	return v1;
 }
-inline const float &operator /= (float &v1, const fixed &v2)
+inline const float &operator /= (float &v1, const fix &v2)
 {
 	v1 /= (float)v2;
 	return v1;
 }
 /*double型との演算*/
-inline const double operator + (const double v1, const fixed &v2)
+inline const double operator + (const double v1, const fix &v2)
 {
 	return v2 + v1;
 }
-inline const double operator - (const double v1, const fixed &v2)
+inline const double operator - (const double v1, const fix &v2)
 {
 	return v2 - v1;
 }
-inline const double operator * (const double v1, const fixed &v2)
+inline const double operator * (const double v1, const fix &v2)
 {
 	return v2 * v1;
 }
-inline const double operator / (const double v1, const fixed &v2)
+inline const double operator / (const double v1, const fix &v2)
 {
 	return v1 / (double)v2;
 }
 
-inline const double &operator += (double &v1, const fixed &v2)
+inline const double &operator += (double &v1, const fix &v2)
 {
 	v1 += (double)v2;
 	return v1;
 }
-inline const double &operator -= (double &v1, const fixed &v2)
+inline const double &operator -= (double &v1, const fix &v2)
 {
 	v1 -= (double)v2;
 	return v1;
 }
-inline const double &operator *= (double &v1, const fixed &v2)
+inline const double &operator *= (double &v1, const fix &v2)
 {
 	v1 *= (double)v2;
 	return v1;
 }
-inline const double &operator /= (double &v1, const fixed &v2)
+inline const double &operator /= (double &v1, const fix &v2)
 {
 	v1 /= (double)v2;
 	return v1;
 }
 /*int型との演算*/
-inline const float operator + (const int v1, const fixed &v2)
+inline const float operator + (const int v1, const fix &v2)
 {
 	return v2 + v1;
 }
-inline const float operator - (const int v1, const fixed &v2)
+inline const float operator - (const int v1, const fix &v2)
 {
 	return v2 - v1;
 }
-inline const float operator * (const int v1, const fixed &v2)
+inline const float operator * (const int v1, const fix &v2)
 {
 	return v2 * v1;
 }
-inline const float operator / (const int v1, const fixed &v2)
+inline const float operator / (const int v1, const fix &v2)
 {
 	return v1 / (float)v2;
 }
 
-inline const int &operator += (int &v1, const fixed &v2)
+inline const int &operator += (int &v1, const fix &v2)
 {
 	v1 = int(v1 + v2);
 	return v1;
 }
-inline const int &operator -= (int &v1, const fixed &v2)
+inline const int &operator -= (int &v1, const fix &v2)
 {
 	v1 = int(v1 - v2);
 	return v1;
 }
-inline const int &operator *= (int &v1, const fixed &v2)
+inline const int &operator *= (int &v1, const fix &v2)
 {
 	v1 = int(v1 * v2);
 	return v1;
 }
-inline const int &operator /= (int &v1, const fixed &v2)
+inline const int &operator /= (int &v1, const fix &v2)
 {
 	v1 = int(v1 / v2);
 	return v1;
 }
-/*abs(fixed)*/
-inline const fixed Abs(const fixed &x)
+/*abs(fix)*/
+inline const fix Abs(const fix &x)
 {
 	return ((x > 0.0) ? x : ((x < 0.0) ? -x : x));
 }
