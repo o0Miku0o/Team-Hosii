@@ -21,7 +21,7 @@ namespace Back
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
-		Pixel pBackStar[2000];
+		Pixel pBackStar[560];
 		Rec rBackBase;
 		Line lShootingStar;
 		byte bSSLife;

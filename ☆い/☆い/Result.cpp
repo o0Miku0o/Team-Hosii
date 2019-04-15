@@ -1,5 +1,6 @@
 #include "Result.h"
 #include "StageManager.h"
+#include "StageSelect.h"
 #include "Star.h"
 #include "BreakStar.h"
 #include "StarGenerator.h"
@@ -61,15 +62,14 @@ namespace Result
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.Stop();
+			res->wsBGM2.Stop();
+			res->wsBGM1.Stop();
 		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			res->wsBGM.PlayL();
-		}
+
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -179,6 +179,11 @@ namespace Result
 				Add<Stage53::Obj>();
 				break;
 			}
+			default:
+			{
+				Add<StageSelect::Obj>();
+				break;
+			}
 			}
 			Pause(2);
 		}
@@ -186,9 +191,21 @@ namespace Result
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
+		if (bScore == 3)
+		{
+			Rec::FullPaint(RGB(0, 255, 204));
+		}
+		else if (bScore == 2)
+		{
+			Rec::FullPaint(RGB(255, 174, 0));
+		}
+		else
+		{
+			Rec::FullPaint(RGB(144, 151, 160));
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			rBack.Draw(&res->iStageImg, &Frec(16.f * (45.f - (bScore - 1)), 0.f, 16.f, 16.f));
+			//rBack.Draw(&res->iStageImg, &Frec(16.f * (45.f - (bScore - 1)), 0.f, 16.f, 16.f));
 
 			Frec src(16.f * 6.f, 16.f, 16.f, 16.f);
 			rPlayer.Draw(&res->iStageImg, &src, true);

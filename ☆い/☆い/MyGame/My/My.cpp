@@ -693,8 +693,6 @@ void WSound::Stop()
 {
 	bIsPlaying = false;
 	waveOutReset(hWaveOut);
-	waveOutUnprepareHeader(hWaveOut, &wHdr, sizeof(WAVEHDR));
-	waveOutPrepareHeader(hWaveOut, &wHdr, sizeof(WAVEHDR));
 }
 
 long JoyPad::lStickTolerance = 2000;
@@ -2495,7 +2493,7 @@ void Particle::SetSpd(const float cfSpd, const short csMax, const short csMin)
 }
 void Particle::SetAngle(const float cfAngle, const short csMax, const short csMin)
 {
-	const fixed cfAng = DtoR(ModAngle(cfAngle));
+	const fix cfAng = DtoR(ModAngle(cfAngle));
 	for (auto &vp : vpPix)
 	{
 		vp.fAngle = cfAng;
@@ -2523,4 +2521,122 @@ void Particle::Play()
 void Particle::Stop()
 {
 	if (bUpdateFlag) bUpdateFlag = false;
+}
+
+Rep *Rep::rpTop = nullptr;
+size_t Rep::sDataSize = 0;
+Rep *Rep::rpOut = nullptr;
+bool Rep::Push(const double dData)
+{
+	Rep rTmp;
+	rTmp.dData = (dData == DBL_MAX) ? dData - 1.0 : dData;
+	if (rpTop)
+	{
+		auto rpIt = rpTop;
+		while (rpIt->rpNext)
+		{
+			rpIt = rpIt->rpNext;
+		}
+		rpIt->rpNext = (Rep *)malloc(sizeof(Rep) * 1);
+		if (!rpIt->rpNext) return 1;
+		rTmp.rpPrev = rpIt;
+		*rpIt->rpNext = rTmp;
+		++sDataSize;
+		return 0;
+	}
+	rpTop = (Rep *)malloc(sizeof(Rep) * 1);
+	if (!rpTop) return 1;
+	*rpTop = rTmp;
+	sDataSize = 1;
+	return 0;
+}
+const double Rep::Output()
+{
+	if (!rpOut) return DBL_MAX;
+	const double dRet = rpOut->dData;
+	rpOut = rpOut->rpNext;
+	return dRet;
+}
+bool Rep::SetPosition(const u_int uiIdx)
+{
+	if (uiIdx < 0) return 1;
+	rpOut = rpTop;
+	for (u_int ui = 0; ui < uiIdx; ++ui)
+	{
+		if (!rpOut->rpNext) return 1;
+		rpOut = rpOut->rpNext;
+	}
+	return 0;
+}
+const Rep * const Rep::GetDataList()
+{
+	return rpTop;
+}
+bool Rep::SaveFile(const char * const ccpFileName)
+{
+	FILE *fpFile = nullptr;
+	fopen_s(&fpFile, ccpFileName, "wb");
+	if (!fpFile) return 1;
+	auto rpIt = rpTop;
+	while (rpIt)
+	{
+		fprintf_s(fpFile, "%f\n", rpIt->dData);
+		rpIt = rpIt->rpNext;
+	}
+	fclose(fpFile);
+	return 0;
+}
+bool Rep::LoadFile(const char * const ccpFileName)
+{
+	FILE *fpFile = nullptr;
+	fopen_s(&fpFile, ccpFileName, "rb");
+	if (!fpFile) return 1;
+	if (sDataSize) Clear();
+	double dTmp = 0;
+	while (fscanf_s(fpFile, "%lf", &dTmp) != EOF)
+	{
+		if (Push(dTmp))
+		{
+			rpOut = rpTop;
+			fclose(fpFile);
+			return 1;
+		}
+	}
+	rpOut = rpTop;
+	fclose(fpFile);
+	return 0;
+}
+bool Rep::Clear()
+{
+	if (!rpTop) return 1;
+	auto rpIt = rpTop;
+	while (rpIt)
+	{
+		auto rpNext = rpIt->rpNext;
+		free(rpIt);
+		rpIt = rpNext;
+	}
+	rpTop = nullptr;
+	sDataSize = 0;
+	return 0;
+}
+Rep::Rep()
+	:
+	dData(0.0),
+	rpNext(nullptr),
+	rpPrev(nullptr)
+{
+
+}
+const Rep * const Rep::GetNext() const
+{
+	return this->rpNext;
+}
+const Rep * const Rep::GetPrev() const
+{
+	return this->rpPrev;
+}
+const double Rep::GetData() const
+{
+	return this->dData;
 }

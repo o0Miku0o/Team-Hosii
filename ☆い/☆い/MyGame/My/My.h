@@ -1030,22 +1030,24 @@ public:
 	void Draw() const;
 };
 
+/*パーティクルクラス*/
 class Particle
 {
+	/*パーティクルリストの先頭*/
 	static Particle * sppTop;
-
+	/*粒*/
 	struct _vP
 	{
 		Pixel pPix;
 		Point pPos;
 		Point pIniPos;
 		COLORREF cColor;
-		fixed fSpd;
-		fixed fRandX;
-		fixed fRandY;
-		fixed fSpdX;
-		fixed fSpdY;
-		fixed fAngle;
+		fix fSpd;
+		fix fRandX;
+		fix fRandY;
+		fix fSpdX;
+		fix fSpdY;
+		fix fAngle;
 		byte bLifeCount;
 		_vP()
 			:
@@ -1064,27 +1066,87 @@ class Particle
 
 		}
 	};
+	/*粒のまとまり*/
 	std::vector<_vP> vpPix;
+	/*次の要素*/
 	Particle *next;
+	/*前の要素*/
 	Particle *prev;
+	/*寿命*/
 	byte bLifeMax;
+	/*再生フラグ*/
 	bool bUpdateFlag;
 
+	/*一粒更新*/
 	void Update();
+	/*一粒描画*/
 	void Draw() const;
 public:
+	/*全体の更新*/
 	static void UpdateAll();
+	/*全体の描画*/
 	static void DrawAll();
 
+	/*コンストラクタ*/
 	Particle();
+	/*デストラクタ*/
 	~Particle();
+	/*個数設定*/
 	void SetNum(const unsigned int cuiNum);
+	/*大きさ設定*/
 	void SetSize(const byte cbSize);
+	/*粒の移動前の初期位置設定*/
 	void SetInitPos(const Point * const cppPos, const short csMax = 10, const short csMin = -10);
+	/*寿命設定*/
 	void SetLife(const byte cbLifeMax);
+	/*粒の移動速度設定*/
 	void SetSpd(const float cfSpd, const short csMax = 1, const short csMin = -1);
+	/*粒の移動角度設定*/
 	void SetAngle(const float cfAngle, const short csMax = 45, const short csMin = -45);
+	/*色設定*/
 	void SetColor(const COLORREF ccColor, const char ccMax = 100, const char ccMin = -100);
+	/*パーティクル再生*/
 	void Play();
+	/*パーティクルストップ*/
 	void Stop();
+};
+/*リプレイ管理クラス*/
+class Rep
+{
+	/*リプレイデータリストの先頭*/
+	static Rep *rpTop;
+	/*リプレイデータ読み込み時の参照ポインタ*/
+	static Rep *rpOut;
+	/*データ全体のサイズ*/
+	static size_t sDataSize;
+
+	/*実際のデータ*/
+	double dData;
+	/*次の要素*/
+	Rep *rpNext;
+	/*前の要素*/
+	Rep *rpPrev;
+	/*勝手にインスタンス化されないようにコンストラクタを封印*/
+	Rep();
+public:
+	/*終端に要素を追加*/
+	static bool Push(const double dData);
+	/*読み込みデータを一つずつ取得*/
+	static const double Output();
+	/*データの読み込み地点を設定*/
+	static bool SetPosition(const u_int uiIdx);
+	/*データリストを取得*/
+	static const Rep * const GetDataList();
+	/*リプレイデータリストをファイルへ書き込み*/
+	static bool SaveFile(const char * const ccpFileName);
+	/*ファイルからリプレイデータリストを読み込み*/
+	static bool LoadFile(const char * const ccpFileName);
+	/*リプレイデータリストを削除*/
+	static bool Clear();
+	/*次の要素を取得*/
+	const Rep * const GetNext() const;
+	/*前の要素を取得*/
+	const Rep * const GetPrev() const;
+	/*実際のデータを取得*/
+	const double GetData() const;
 };

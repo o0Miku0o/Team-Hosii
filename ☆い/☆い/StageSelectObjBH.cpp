@@ -32,8 +32,7 @@ namespace StageSelectObjBH
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		rBH.SetDeg(rBH.GetDeg() + 4);
-
+		//rBH.SetDeg(rBH.GetDeg() + 4);
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -48,7 +47,7 @@ namespace StageSelectObjBH
 				iAnimCount = (iAnimCount + 2) % 8;
 			}
 			++i;
-			rBH.Draw(&res->iStageImg, &src, true);
+			rBH.Draw(&res->iStageImg, &src);
 		}
 	}
 }

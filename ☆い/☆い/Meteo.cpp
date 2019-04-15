@@ -62,7 +62,7 @@ namespace Meteo
 				if (iMeteoNum)
 				{
 					auto met = Add<MeteoGenerator::Obj>();
-					met->Bridge(1, &Point(/*Rec::Win.r*0.5f*/rMeteo.GetPos().x, Rec::Win.t - 300), /*&Vector2(0.f, 12.f)*/&vSpd);
+					met->Bridge(1, &pInitPos/*Point(rMeteo.GetPos().x, Rec::Win.t - 300)*/, &vSpd);
 					--iMeteoNum;
 				}
 			}
@@ -75,7 +75,7 @@ namespace Meteo
 				if (iMeteoNum)
 				{
 					auto met = Add<MeteoGenerator::Obj>();
-					met->Bridge(1, &Point(/*Rec::Win.r*0.5f*/rMeteo.GetPos().x, Rec::Win.b + 300), /*&Vector2(0.f, -12.f)*/&vSpd);
+					met->Bridge(1, &pInitPos/*Point(rMeteo.GetPos().x, Rec::Win.b + 300)*/, &vSpd);
 					--iMeteoNum;
 				}
 			}

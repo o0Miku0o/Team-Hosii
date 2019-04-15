@@ -82,9 +82,16 @@ namespace Stage22
 
 		/*データの初期化*/
 
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		{
+			sm->usBeamCount = 0;
+			sm->bClearFragmentNum = 0;
+			sm->bClearFragmentNumMax = 1;
+			++sm->bNextStage;
+		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM2.Restart();
+			res->wsBGM2.PlayL();
 		}
 	}
 	/*タスクの終了処理*/

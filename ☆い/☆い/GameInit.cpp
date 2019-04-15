@@ -2,6 +2,7 @@
 #include "StageManager.h"
 #include "Back.h"
 #include "Title.h"
+#include "MeteoGenerator.h"
 
 namespace GameInit
 {

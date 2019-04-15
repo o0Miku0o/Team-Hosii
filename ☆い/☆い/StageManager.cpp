@@ -1,5 +1,6 @@
 #include "StageSelect.h"
 #include "StageManager.h"
+#include "Result.h"
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
@@ -10,7 +11,7 @@ namespace StageManager
 	void RS::Init()
 	{
 		iStageImg.ImageCreate("./data/image/main/resource.bmp");
-	
+
 		wsTest.SoundCreate("./data/sound/爆発音.wav");
 
 		wsTest2.SoundCreate("./data/sound/はまる音.wav");
@@ -93,7 +94,9 @@ namespace StageManager
 		/*タスクの生成*/
 		//Add<StageSelect::Obj>();
 		/*データの初期化*/
-
+		bClearFragmentNum = 0;
+		bClearFragmentNumMax = 255;
+		usBeamCount = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -103,14 +106,28 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-
+		if (bClearFragmentNum >= bClearFragmentNumMax)
+		{
+			bClearFragmentNum = 0;
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			auto re = Add<Result::Obj>();
+			re->bNextStage = bNextStage;
+			if (usBeamCount <= bClearFragmentNumMax)
+			{
+				re->bScore = 3;
+			}
+			else if (usBeamCount <= short(bClearFragmentNumMax * 1.5f))
+			{
+				re->bScore = 2;
+			}
+		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
-		}
+		//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		//{
+		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
+		//}
 	}
 }
