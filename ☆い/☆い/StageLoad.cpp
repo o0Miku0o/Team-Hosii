@@ -48,7 +48,11 @@ namespace StageLoad
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (!isLoad && LoadStage(iStageNum)) {
+		if(auto manager = Find<StageManager::Obj>("ステージ統括タスク")){
+			bStageNum = manager->bStageNum;
+		}
+
+		if (!isLoad && LoadStage(bStageNum)) {
 			if (sFragement.state) {
 				auto fg = Add<FragmentGenerator::Obj>();
 				fg->Bridge2(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
@@ -91,7 +95,7 @@ namespace StageLoad
 		}
 		string sIdentifier;
 		//欠片、星、木星、海王星、隕石、外界人、ブラックホール、コメント始点、コメント終点
-		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "/*", "*/", };
+		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "R", "/*", "*/", };
 		while (!ifs.eof()) {
 			ifs >> sIdentifier;
 			if (sIdentifier == sArr[0]) {
@@ -123,9 +127,13 @@ namespace StageLoad
 				sblackhole.state = true;
 			}
 			else if (sIdentifier == sArr[7]) {
+				//Load 
+				sResult.state = true;
+			}
+			else if (sIdentifier == sArr[8]) {
 				string dummy;
 				ifs >> dummy;
-				while (dummy == sArr[8]) {
+				while (dummy == sArr[9]) {
 					ifs >> dummy;
 				}
 			}
@@ -148,7 +156,7 @@ namespace StageLoad
 		for (int i = 0; i < sStar.iNum; ++i) {
 			float x, y;
 			int change;
-			ifs >> change >> x >> y;
+			ifs  >> x >> y >> change;
 			sStar.viChange.push_back(change);
 			sStar.vpPos.push_back(Point(x, y));
 		}
@@ -233,5 +241,8 @@ namespace StageLoad
 			sblackhole.vpSize.push_back(r);
 			sblackhole.viMode.push_back(m);
 		}
+	}
+	void Obj::LoadResult(ifstream &ifs) {
+		
 	}
 }

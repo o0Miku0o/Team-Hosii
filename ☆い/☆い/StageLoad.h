@@ -64,10 +64,14 @@ namespace StageLoad
 			vector<Point> vpPos;
 			vector<Alien::Move> vaMove;
 			vector<Alien::Hit> vaBMHit, vaFGHit;
-			vector<Alien::Anim> vaAnim;	
+			vector<Alien::Anim> vaAnim;
 		}sAlien;
 
-		int iStageNum;
+		struct SReuslt {
+			bool state;
+		}sResult;
+
+		byte bStageNum;
 		bool isLoad;
 		bool LoadStage(int iStage);
 		Obj() { Init(); }
@@ -82,6 +86,7 @@ namespace StageLoad
 		void LoadMeteo(ifstream &ifs);
 		void LoadAlien(ifstream &ifs);
 		void LoadBlackHole(ifstream &ifs);
+		void LoadResult(ifstream &ifs);
 	public:
 		void Update();
 		void Render();

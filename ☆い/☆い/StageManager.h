@@ -43,6 +43,8 @@ namespace StageManager
 		byte bClearFragmentNum;
 		byte bNextStage;
 
+		byte bStageNum;
+
 		Obj() {}
 		~Obj() {}
 	private:

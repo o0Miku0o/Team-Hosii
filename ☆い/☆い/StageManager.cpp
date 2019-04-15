@@ -93,7 +93,7 @@ namespace StageManager
 		/*タスクの生成*/
 		//Add<StageSelect::Obj>();
 		/*データの初期化*/
-
+		bStageNum = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
