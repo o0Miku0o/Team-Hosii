@@ -9,6 +9,7 @@
 #include "StageManager.h"
 #include "Player.h"
 #include "Stage.h"
+#include "Back.h"
 #include <fstream>
 
 namespace StageLoad
@@ -31,6 +32,7 @@ namespace StageLoad
 		/*リソース生成*/
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 		Add<Player::Obj>();
 		isLoad = false;
 		sFragement.state = false;
@@ -47,7 +49,7 @@ namespace StageLoad
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
-	{
+	{	
 		if(auto manager = Find<StageManager::Obj>("ステージ統括タスク")){
 			bStageNum = manager->bStageNum;
 		}
@@ -76,6 +78,14 @@ namespace StageLoad
 			if (sblackhole.state) {
 				auto bh = Add<BlackHoleGenerator::Obj>();
 				bh->Bridge(sblackhole.iNum, sblackhole.vpPos, sblackhole.vpSize, sblackhole.viMode);
+			}
+			if (sResult.state) {
+				if (auto ma = Find<StageManager::Obj>("ステージ統括タスク")) {
+					ma->usBeamCount = 0;
+					ma->bClearFragmentNum = 0;
+					ma->bClearFragmentNumMax = sResult.iFragement;
+					ma->bNextStage = sResult.iNextStage;
+				}
 			}
 			isLoad = true;
 			Remove(this);
@@ -127,7 +137,7 @@ namespace StageLoad
 				sblackhole.state = true;
 			}
 			else if (sIdentifier == sArr[7]) {
-				//Load 
+				LoadResult(ifs);
 				sResult.state = true;
 			}
 			else if (sIdentifier == sArr[8]) {
@@ -243,6 +253,6 @@ namespace StageLoad
 		}
 	}
 	void Obj::LoadResult(ifstream &ifs) {
-		
+		ifs >> sResult.iFragement >> sResult.iNextStage;
 	}
 }

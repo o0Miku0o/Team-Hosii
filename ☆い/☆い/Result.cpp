@@ -20,6 +20,7 @@
 #include "Stage5-1.h"
 #include "Stage5-2.h"
 #include "Stage5-3.h"
+#include "StageLoad.h"
 
 namespace Result
 {
@@ -101,7 +102,7 @@ namespace Result
 		else if (pad->Down(J_BUT_6) || kb->Down(VK_RETURN))
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			Add<Back::Obj>();
+//			Add<Back::Obj>();
 			switch (bNextStage)
 			{
 			case 1:
@@ -111,7 +112,11 @@ namespace Result
 			}
 			case 2:
 			{
-				Add<Stage12::Obj>();
+				if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					manager->bStageNum = 2;
+				}
+				Add<StageLoad::Obj>();
+				//Add<Stage12::Obj>();
 				break;
 			}
 			case 3:

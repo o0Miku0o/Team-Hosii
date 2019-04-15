@@ -2,6 +2,7 @@
 #include "StageManager.h"
 #include "Stage.h"
 #include "StageLoad.h"
+#include "Back.h"
 
 namespace Stage
 {

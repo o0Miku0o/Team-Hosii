@@ -14,3 +14,7 @@ F 2 600 600 2
 /* aFRE, aFDR, aFUR, aFDL, aFUL */
 /* aANo, aAHo, aARo, aADR, aAUR, aADL, aAUL */
 A 1 800 600 aMS aBDL aFDL aADL
+
+/* Result Fregment数 次のステージ */
+
+R 1 2

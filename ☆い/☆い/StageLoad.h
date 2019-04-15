@@ -69,9 +69,11 @@ namespace StageLoad
 
 		struct SReuslt {
 			bool state;
+			int iFragement, iNextStage;
 		}sResult;
 
-		byte bStageNum;
+		int bStageNum;
+
 		bool isLoad;
 		bool LoadStage(int iStage);
 		Obj() { Init(); }
