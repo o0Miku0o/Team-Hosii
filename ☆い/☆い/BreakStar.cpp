@@ -29,7 +29,7 @@ namespace BreakStar
 		/*データの初期化*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		cHitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
-		iChange = 25;/*普通の星は25黒い星は36で初期値を設定する*/
+		iChange = 25;/*普通の星は25黒い星は37で初期値を設定する*/
 		bHitAct = false;
 		bBlackMode = true;
 	}
