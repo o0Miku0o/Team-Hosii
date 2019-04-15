@@ -3,11 +3,12 @@
 #include "Jupitor.h"
 #include "Neptune.h"
 #include "Meteo.h"
-#include "Alien.h"
+#include "AlienGenerator.h"
 #include "BlackHoleGenerator.h"
 #include "StageLoad.h"
 #include "StageManager.h"
 #include "Player.h"
+#include "Stage.h"
 #include <fstream>
 
 namespace StageLoad
@@ -47,7 +48,11 @@ namespace StageLoad
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (!isLoad && LoadStage(iStageNum)) {
+		if(auto manager = Find<StageManager::Obj>("ステージ統括タスク")){
+			bStageNum = manager->bStageNum;
+		}
+
+		if (!isLoad && LoadStage(bStageNum)) {
 			if (sFragement.state) {
 				auto fg = Add<FragmentGenerator::Obj>();
 				fg->Bridge2(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
@@ -64,16 +69,17 @@ namespace StageLoad
 				auto pn = Add<Neptune::Obj>();
 				pn->rNeptune = sNeptune.rec;
 			}
-			//if (sAlien.state) {
-			//	auto al = Add<Alien::Obj>();
-			//	al->rAlienR.SetPos(&sAlien.vpPos[0]);
-			//}
+			if (sAlien.state) {
+				auto al = Add<AlienGenerator::Obj>();
+				al->Bridge(sAlien.iNum, sAlien.vpPos, sAlien.vaMove, sAlien.vaBMHit, sAlien.vaFGHit, sAlien.vaAnim);
+			}
 			if (sblackhole.state) {
 				auto bh = Add<BlackHoleGenerator::Obj>();
 				bh->Bridge(sblackhole.iNum, sblackhole.vpPos, sblackhole.vpSize, sblackhole.viMode);
 			}
 			isLoad = true;
 			Remove(this);
+			Add<Stage::Obj>();
 		}
 	}
 	/*タスクの描画処理*/
@@ -89,7 +95,7 @@ namespace StageLoad
 		}
 		string sIdentifier;
 		//欠片、星、木星、海王星、隕石、外界人、ブラックホール、コメント始点、コメント終点
-		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "/*", "*/", };
+		const char* sArr[] = { "F", "S", "J", "N", "M", "A", "B", "R", "/*", "*/", };
 		while (!ifs.eof()) {
 			ifs >> sIdentifier;
 			if (sIdentifier == sArr[0]) {
@@ -121,9 +127,13 @@ namespace StageLoad
 				sblackhole.state = true;
 			}
 			else if (sIdentifier == sArr[7]) {
+				//Load 
+				sResult.state = true;
+			}
+			else if (sIdentifier == sArr[8]) {
 				string dummy;
 				ifs >> dummy;
-				while (dummy == sArr[8]) {
+				while (dummy == sArr[9]) {
 					ifs >> dummy;
 				}
 			}
@@ -146,7 +156,7 @@ namespace StageLoad
 		for (int i = 0; i < sStar.iNum; ++i) {
 			float x, y;
 			int change;
-			ifs >> change >> x >> y;
+			ifs  >> x >> y >> change;
 			sStar.viChange.push_back(change);
 			sStar.vpPos.push_back(Point(x, y));
 		}
@@ -169,19 +179,56 @@ namespace StageLoad
 			ifs >> x >> y;
 			sMeteo.vpPos.push_back(Point(x, y));
 		}
+		sMeteo.state = true;
 	}
 
 	void Obj::LoadAlien(ifstream &ifs) {
 		ifs >> sAlien.iNum;
-		const char* arrMove[] = { "aMH", "aMH_", "aMV", "aMV_", "aMR", "aMR_", };
+		const char* arrMove[] = { "aMH", "aMH_", "aMV", "aMV_", "aMR", "aMR_", "aMS" };
+		Alien::Move fPmove[7] = { Alien::MoveHorizontal, Alien::Move_Horizontal, Alien::MoveVertical,
+			Alien::Move_Vertical, Alien::MoveRotation, Alien::Move_Rotation, Alien::MoveStay };
 		const char* arrHitB[] = { "aBRE", "aBDR", "aBUR", "aBDL", "aBUL" };
+		Alien::Hit fpBMHit[5] = { Alien::BMRemove, Alien::BMReflectDR, Alien::BMReflectUR, Alien::BMReflectDL, Alien::BMReflectUL };
 		const char* arrHitF[] = { "aFRE", "aFDR", "aFUR", "aFDL", "aFUL" };
-		const char* arrAnim[] = { "aANo", "aAHo", "aARo", "aADR", "aAUR", "aAUL", "aADL" };
+		Alien::Hit fpFGHit[5] = { Alien::FGRemove, Alien::FGReflectDR,Alien::FGReflectUR,Alien::FGReflectDL,Alien::FGReflectUL };
+		const char* arrAnim[] = { "aANo", "aAHo", "aARo", "aADR", "aAUR", "aADL", "aAUL" };
+		Alien::Anim fpAnim[7] = { Alien::AnimNormal, Alien::AnimHorizontal, Alien::AnimRotation,Alien::AnimReflectDR,
+			Alien::AnimReflectUR, Alien::AnimReflectDL, Alien::AnimReflectUL };
 		for (int i = 0; i < sAlien.iNum; ++i) {
 			float x, y;
-			ifs >> x >> y;
+			string bufMove, bufHitB, bufHitF, bufAnim;
+			ifs >> x >> y >> bufMove >> bufHitB >> bufHitF >> bufAnim;
 			sAlien.vpPos.push_back(Point(x, y));
+			//移動タイプを検索
+			for (int i = 0; i < sizeof(arrMove) / sizeof(char*); ++i) {
+				if (bufMove == arrMove[i]) {
+					sAlien.vaMove.push_back(fPmove[i]);
+					break;
+				}
+			}
+			//ビームの行動タイプを検索
+			for (int i = 0; i < sizeof(arrHitB) / sizeof(char*); ++i) {
+				if (bufHitB == arrHitB[i]) {
+					sAlien.vaBMHit.push_back(fpBMHit[i]);
+					break;
+				}
+			}
+			//欠片の行動タイプを検索
+			for (int i = 0; i < sizeof(arrHitF) / sizeof(char*); ++i) {
+				if (bufHitF == arrHitF[i]) {
+					sAlien.vaFGHit.push_back(fpFGHit[i]);
+					break;
+				}
+			}
+			//欠片の行動タイプを検索
+			for (int i = 0; i < sizeof(arrAnim) / sizeof(char*); ++i) {
+				if (bufAnim == arrAnim[i]) {
+					sAlien.vaAnim.push_back(fpAnim[i]);
+					break;
+				}
+			}
 		}
+		sAlien.state = true;
 	}
 	//座標、大きさ
 	void Obj::LoadBlackHole(ifstream &ifs) {
@@ -194,5 +241,8 @@ namespace StageLoad
 			sblackhole.vpSize.push_back(r);
 			sblackhole.viMode.push_back(m);
 		}
+	}
+	void Obj::LoadResult(ifstream &ifs) {
+		
 	}
 }

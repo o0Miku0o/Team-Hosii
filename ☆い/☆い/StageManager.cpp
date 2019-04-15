@@ -7,36 +7,36 @@
 
 namespace StageManager
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 		iStageImg.ImageCreate("./data/image/main/resource.bmp");
 
-		wsTest.SoundCreate("./data/sound/”š”­‰¹.wav");
+		wsTest.SoundCreate("./data/sound/çˆ†ç™ºéŸ³.wav");
 
-		wsTest2.SoundCreate("./data/sound/‚Í‚Ü‚é‰¹.wav");
+		wsTest2.SoundCreate("./data/sound/ã¯ã¾ã‚‹éŸ³.wav");
 
-		wsTest3.SoundCreate("./data/sound/Š„‚ê‚é‰¹2.wav");
+		wsTest3.SoundCreate("./data/sound/å‰²ã‚Œã‚‹éŸ³2.wav");
 
-		wsTest4.SoundCreate("./data/sound/ƒr[ƒ€”­Ë‰¹2.wav");
+		wsTest4.SoundCreate("./data/sound/ãƒ“ãƒ¼ãƒ ç™ºå°„éŸ³2.wav");
 
-		wsTest5.SoundCreate("./data/sound/Œ‡•Ğ“¯m‚ª‚ ‚½‚é2.wav");
+		wsTest5.SoundCreate("./data/sound/æ¬ ç‰‡åŒå£«ãŒã‚ãŸã‚‹2.wav");
 
-		wsTest6.SoundCreate("./data/sound/‚Ğ‚Ñ‚ª“ü‚é.wav");
+		wsTest6.SoundCreate("./data/sound/ã²ã³ãŒå…¥ã‚‹.wav");
 
-		wsTest7.SoundCreate("./data/sound/’e‚Ş‰¹2.wav");
+		wsTest7.SoundCreate("./data/sound/å¼¾ã‚€éŸ³2.wav");
 
-		wsTest8.SoundCreate("./data/sound/ƒXƒe[ƒWˆÚ“®.wav");
+		wsTest8.SoundCreate("./data/sound/ã‚¹ãƒ†ãƒ¼ã‚¸ç§»å‹•.wav");
 
-		wsTest9.SoundCreate("./data/sound/ƒƒjƒ…[•\¦1.wav");
+		wsTest9.SoundCreate("./data/sound/ãƒ¡ãƒ‹ãƒ¥ãƒ¼è¡¨ç¤º1.wav");
 
-		wsTest10.SoundCreate("./data/sound/‹z‚¢‚Ş‰¹.wav");
+		wsTest10.SoundCreate("./data/sound/å¸ã„è¾¼ã‚€éŸ³.wav");
 
-		wsTest11.SoundCreate("./data/sound/Œˆ’è‰¹ 1.wav");
+		wsTest11.SoundCreate("./data/sound/æ±ºå®šéŸ³ 1.wav");
 
-		wsTest12.SoundCreate("./data/sound/‰F’ˆloŒ».wav");
+		wsTest12.SoundCreate("./data/sound/å®‡å®™äººå‡ºç¾.wav");
 
-		wsTest13.SoundCreate("./data/sound/ƒŠƒUƒ‹ƒg.wav");
+		wsTest13.SoundCreate("./data/sound/ãƒªã‚¶ãƒ«ãƒˆ.wav");
 
 		wsBGM.CallBack(WINNAME);
 		wsBGM.SoundCreate("./data/sound/BGM2.wav");
@@ -47,7 +47,7 @@ namespace StageManager
 		wsBGM2.CallBack(WINNAME);
 		wsBGM2.SoundCreate("./data/sound/BGM3.wav");
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 		iStageImg.Release();
@@ -84,32 +84,33 @@ namespace StageManager
 
 		wsBGM2.Release();
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
-		RB::Add<RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX");
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		RB::Add<RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹");
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 		//Add<StageSelect::Obj>();
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
+
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
-		//RB::Remove("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX");
+		//RB::Remove("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹");
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
 			bClearFragmentNum = 0;
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+			RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
 			auto re = Add<Result::Obj>();
 			re->bNextStage = bNextStage;
 			if (usBeamCount <= bClearFragmentNumMax)
@@ -122,10 +123,10 @@ namespace StageManager
 			}
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		//if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		//if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		//{
 		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
 		//}

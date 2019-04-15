@@ -1,14 +1,16 @@
 B 2 300 300 300 0 
     900 200 200 0 
-J 1 600 600 200
-N 2 300 300 100
+/* J 1 600 600 200 */
+/* N 2 300 300 100
     700 600 100
+*/
 /* black kazu x y mode */
 /* Stage1-1 */
 F 2 600 600 2
     200 200 1
 /*  Num ,Pos */
-/* aMH, aMH_, aMV, aMV_, aMR, aMR_ */
+/* aMH, aMH_, aMV, aMV_, aMR, aMR_, aMS */
 /* aBRE, aBDR, aBUR, aBDL, aBUL */
 /* aFRE, aFDR, aFUR, aFDL, aFUL */
-/* aANo, aAHo, aARo, aADR, aAUR, aAUL, aADL */
+/* aANo, aAHo, aARo, aADR, aAUR, aADL, aAUL */
+A 1 800 600 aMS aBDL aFDL aADL
