@@ -152,7 +152,8 @@ namespace BlackHole
 		if (oFrag->bMoveActive) {
 			if (cOutCircle.CheckHit(&cFg)) {
 				if (cInnerCircle.CheckHit(&cFg)) {
-					Remove(fg);
+					oFrag->rFragment.SetPos(&oFrag->pInitPos);
+					oFrag->bMoveActive = false;
 				}
 				else {
 					while (oFrag->rFragment.GetDeg() > 360) {

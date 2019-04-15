@@ -33,7 +33,7 @@ namespace Stage32
 
 		auto fg = Add<FragmentGenerator::Obj>();
 		int iColor = 0;
-		fg->Bridge(1, &Point(800.f, Rec::Win.b*0.5f), &iColor);
+		fg->Bridge(1, &Point(850.f, Rec::Win.b*0.5f), &iColor);
 		auto sg = Add<StarGenerator::Obj>();
 		int iChange = 24;
 		//auto sg = Add<BreakStarGenerator::Obj>();
@@ -46,7 +46,7 @@ namespace Stage32
 		Point pPos[ceiNum] =
 		{
 			Point(1000.f, Rec::Win.b * 0.5f),
-			Point(600.f, Rec::Win.b * 0.5f),
+			Point(500.f, Rec::Win.b * 0.5f),
 			Point(600.f, 1100.f),
 			Point(1600.f, 800.f),
 			Point(1600.f, 250.f),
