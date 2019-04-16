@@ -177,6 +177,9 @@
     <ClInclude Include="MyGame\My\FixedPoint.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Gus.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame\My\CGDM.cpp">
@@ -336,6 +339,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\My\Animation.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Gus.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
