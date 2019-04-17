@@ -21,6 +21,8 @@ namespace StageSelect
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
+		Rec rHukidasi;
+		Rec rTongari;
 
 		Obj() {}
 		~Obj() {}
