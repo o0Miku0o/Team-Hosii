@@ -70,7 +70,7 @@ namespace Stage
 		if (kb->Now('T') == 1 || pad->NowBut(J_BUT_3) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-				++manager->bStageNum;
+				manager->bStageNum = manager->bNextStage;
 			}
 			Add<StageLoad::Obj>();
 			Pause(2);

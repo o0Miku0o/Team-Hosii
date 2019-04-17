@@ -41,6 +41,7 @@ namespace StageLoad
 		sNeptune.state = false;
 		sMeteo.state = false;
 		sAlien.state = false;
+		bStageNum = 11;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
