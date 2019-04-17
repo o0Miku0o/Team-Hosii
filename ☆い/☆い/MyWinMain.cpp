@@ -239,13 +239,13 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			{
 				fX += 10.f;
 			}
-			if (kb.On('U'))
+			if (kb.On('Y'))
 			{
 				fZoom = Min(fZoom + 0.2f, 2.f);
 			}
-			if (kb.On('O'))
+			if (kb.On('U'))
 			{
-				fZoom = Max(fZoom - 0.2f, 0.f);
+				fZoom = Max(fZoom - 0.2f, 1.f);
 			}
 			Rec::MoveCamera(&Vector2(fX, fY));
 			Rec::Zoom(fZoom);

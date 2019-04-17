@@ -114,6 +114,7 @@ namespace Cursor
 			}
 		}
 		auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
+		const float fAddScale = 40.f;
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -122,8 +123,8 @@ namespace Cursor
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
 				
-				const float fScaleW = Min(sl->rHukidasi.GetW() + 20.f, 800.f);
-				const float fScaleH = Min(sl->rHukidasi.GetH() + 20.f, 300.f);
+				const float fScaleW = Min(sl->rHukidasi.GetW() + fAddScale, 800.f);
+				const float fScaleH = (fScaleW >= 800.f) ? Min(sl->rHukidasi.GetH() + fAddScale, 300.f) : 0.f;
 				sl->rHukidasi.Scaling(fScaleW, fScaleH);
 				
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
@@ -137,8 +138,8 @@ namespace Cursor
 			}
 			else
 			{
-				const float fScaleW = Max(sl->rHukidasi.GetW() - 20.f, 0.f);
-				const float fScaleH = Max(sl->rHukidasi.GetH() - 20.f, 0.f);
+				const float fScaleH = Max(sl->rHukidasi.GetH() - fAddScale, 0.f);
+				const float fScaleW = (fScaleH <= 0.f) ? Max(sl->rHukidasi.GetW() - fAddScale, 0.f) : 800.f;
 				sl->rHukidasi.Scaling(fScaleW, fScaleH);
 			}
 		}
