@@ -28,6 +28,8 @@ namespace Star
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
 		iChange = 0;
+
+		aAnimetor.SetAnim(AnimStar, 0);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -53,6 +55,10 @@ namespace Star
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 			rStar.Draw(&res->iStageImg, &src, true);
+
+			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
+
+
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
 
 			//rStar.Draw();
@@ -246,6 +252,159 @@ namespace Star
 					oFragment->bMoveActive = false;
 					break;
 				}
+				/*switch (iStarEffect)
+				{
+				case 22:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 23:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 24:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 25:
+					oFragment->rFragment.SetPos(&oFragment->pInitPos);
+					res->wsTest5.Play();
+					oFragment->bMoveActive = false;
+					break;
+				case 26:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
+				case 27:
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					else
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 28:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 29:
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					else
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 30:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = ;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					else
+					{
+						oFragment->rFragment.SetPos(&oFragment->pInitPos);
+						res->wsTest5.Play();
+						oFragment->bMoveActive = false;
+					}
+					break;
+				case 31:
+					
+					break;
+				}*/
 			}
 			//iChange = min(iChange + 1, 22 + 13);
 			//if (iChange > 4)
@@ -259,5 +418,15 @@ namespace Star
 			/*oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;*/
 		}
+	}
+	void AnimStar(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 60)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 1) % 4;
+		}
+		++*bFrame;
 	}
 }

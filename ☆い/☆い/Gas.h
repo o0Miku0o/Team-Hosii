@@ -1,7 +1,7 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Gus
+namespace Gas
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase

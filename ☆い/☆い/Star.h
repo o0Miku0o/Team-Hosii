@@ -24,8 +24,10 @@ namespace Star
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Rec rStar;
 		Circle cStarhitbase;
+		Animation aAnimetor;
 		
 		int iChange;
+		int iStarEffect;
 		Vector2 vMove;
 
 		Obj() {}
@@ -39,4 +41,6 @@ namespace Star
 		void Render();
 		void CheckHit(TaskBase* fragment);
 	}*OBJ_ptr;
+
+	void AnimStar(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 }
