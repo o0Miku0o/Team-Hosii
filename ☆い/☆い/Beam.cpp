@@ -46,6 +46,7 @@ namespace Beam
 		vSpd.SetVec(rHitBase.GetDeg(), 20.f);
 		/*‹éŒ`‚ðˆÚ“®*/
 		rHitBase.Move(&vSpd);
+
 		/*‰æ–ÊŠO‚Éo‚½‚çÁ–Å*/
 		if (rHitBase.GetPosX() > Rec::Win.r + 10.f) Remove(this);
 		if (rHitBase.GetPosX() < Rec::Win.l - 10.f) Remove(this);

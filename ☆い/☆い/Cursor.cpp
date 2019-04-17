@@ -113,6 +113,7 @@ namespace Cursor
 				}
 			}
 		}
+		auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -120,6 +121,11 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
+				
+				const float fScaleW = Min(sl->rHukidasi.GetW() + 20.f, 800.f);
+				const float fScaleH = Min(sl->rHukidasi.GetH() + 20.f, 300.f);
+				sl->rHukidasi.Scaling(fScaleW, fScaleH);
+				
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -128,6 +134,12 @@ namespace Cursor
 					Pause(2);
 					return;
 				}
+			}
+			else
+			{
+				const float fScaleW = Max(sl->rHukidasi.GetW() - 20.f, 0.f);
+				const float fScaleH = Max(sl->rHukidasi.GetH() - 20.f, 0.f);
+				sl->rHukidasi.Scaling(fScaleW, fScaleH);
 			}
 		}
 		if (auto us = Find<StageSelectObjAsteroid::Obj>("小惑星タスク"))
