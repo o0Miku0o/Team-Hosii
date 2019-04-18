@@ -68,6 +68,10 @@ namespace StageSelect
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			rHukidasi.Draw(&res->iStageImg, &Frec(16, 0, 16, 16));
+		}
 		rHukidasi.Draw();
 		rTongari.Draw();
 	}

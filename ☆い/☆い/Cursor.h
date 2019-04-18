@@ -29,6 +29,9 @@ namespace Cursor
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void HukidasiSizeUp(TaskBase * const tSl, const float cfScaleWMax, const float cfScaleHMax, const float cfAddScale);
+		void HukidasiSizeDown(TaskBase * const tSl, const float cfScaleWMax, const float cfAddScale);
 	public:
 		void Update();
 		void Render();
