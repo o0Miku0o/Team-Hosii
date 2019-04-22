@@ -1,6 +1,8 @@
 #include "MeteoGenerator.h"
 #include "Meteo.h"
 
+using namespace std;
+
 namespace MeteoGenerator
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
@@ -45,6 +47,17 @@ namespace MeteoGenerator
 			met->cMeteoHitBase.SetPos(pPos + i);
 			
 			met->vSpd = *(vSpd + i);
+		}
+		Remove(this);
+	}
+	void Obj::Bridge(const int iNum, const vector<Point> pPos, const vector<Vector2> vSpd) {
+		for (int i = 0; i < iNum; ++i)
+		{
+			auto met = Add<Meteo::Obj>();
+			met->pInitPos = pPos.at(i);
+			met->rMeteo.SetPos(&pPos.at(i));
+			met->cMeteoHitBase.SetPos(&pPos.at(i));
+			met->vSpd = vSpd.at(i);
 		}
 		Remove(this);
 	}

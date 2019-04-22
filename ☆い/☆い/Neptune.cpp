@@ -79,6 +79,9 @@ namespace Neptune
 #ifdef _DEBUG
 		cNeptuneHitBase.Draw();
 		cGravityCircle.Draw();
+		Font f;
+		std::string s = std::to_string(rNeptune.GetPosX()) + " " + std::to_string(rNeptune.GetPosY()) + " " + std::to_string(rNeptune.GetH());
+		f.Draw(&rNeptune.GetPos(), s.c_str());
 #endif // _DEBUG
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)

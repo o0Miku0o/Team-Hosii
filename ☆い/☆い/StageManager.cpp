@@ -97,7 +97,7 @@ namespace StageManager
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
-		bStageNum = 1;
+		bStageNum = 11;
 
 	}
 	/*タスクの終了処理*/
