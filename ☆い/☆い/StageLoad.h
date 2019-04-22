@@ -24,55 +24,51 @@ namespace StageLoad
 	{
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
-		struct Fragment {
+		struct Base
+		{
 			bool state;
 			int iNum;
 			vector<Point> vpPos;
+		};
+		struct Fragment : public Base {
 			vector<int> iColor;
 		}sFragement;
 
-		struct Star {
-			bool state;
-			int iNum;
+		struct Star : public Base {
 			vector<int> viChange;
-			vector<Point> vpPos;
 		}sStar;
 
-		struct Planet {
-			int iNum;
+		struct BreakStar : public Base {
+			vector<int> viChange;
+			vector<bool> bMode;
+		}sBreakStar;
+
+		struct Planet  {
 			bool state;
 			Rec rec;
-		}sJupiter, sNeptune;
+		}sJupiter, sNeptune, sSaturn;
 
-		struct SMeteo {
-			bool state;
-			int iNum;
-			vector<Point> vpPos;
+		struct SMeteo : public Base {
+			vector<Vector2> vvSpd;
 		}sMeteo;
 
-		struct SBlackhole {
-			bool state;
-			int iNum;
-			vector<Point> vpPos;
-			vector<float> vpSize;
-			vector<int>   viMode;
-		}sblackhole;
-
-		struct SAlien {
-			bool state;
-			int iNum;
-			vector<Point> vpPos;
+		struct SAlien : public Base {
 			vector<Alien::Move> vaMove;
 			vector<Alien::Hit> vaBMHit, vaFGHit;
 			vector<Alien::Anim> vaAnim;
 		}sAlien;
+
+		struct SBlackhole : public Base {
+			vector<float> vpSize;
+			vector<int>   viMode;
+		}sblackhole;
 
 		struct SReuslt {
 			bool state;
 			int iFragement, iNextStage;
 		}sResult;
 
-		int bStageNum;
+		byte bStageNum;
 
 		bool isLoad;
 		bool LoadStage(int iStage);
@@ -84,11 +80,13 @@ namespace StageLoad
 		void Finalize();
 		void LoadFragments(ifstream &ifs);
 		void LoadStar(ifstream &ifs);
+		void LoadBreakStar(ifstream &ifs);
 		void LoadPlanet(ifstream &ifs, Planet &planet);
 		void LoadMeteo(ifstream &ifs);
 		void LoadAlien(ifstream &ifs);
 		void LoadBlackHole(ifstream &ifs);
 		void LoadResult(ifstream &ifs);
+
 	public:
 		void Update();
 		void Render();

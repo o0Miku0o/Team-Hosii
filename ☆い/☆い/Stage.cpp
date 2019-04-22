@@ -71,15 +71,30 @@ namespace Stage
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
 				manager->bStageNum = manager->bNextStage;
+				if (manager->bStageNum == 255) {
+					RemoveAll();
+					Add<StageManager::Obj>();
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
+					Pause(2);
+				}
+				else {
+					Add<StageLoad::Obj>();
+					Pause(2);
+				}
 			}
-			Add<StageLoad::Obj>();
-			Pause(2);
 		}
-
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-
+#ifdef _DEBUG
+		Font f;
+		std::string s = "現在ステージ";
+		if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+			s += to_string(manager->bStageNum);
+		}
+		f.Draw(&Point(960, 10), s.c_str());
+#endif // _DEBUG
 	}
 }
