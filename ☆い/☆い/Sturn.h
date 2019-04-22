@@ -1,14 +1,13 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Star
+namespace Sturn
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -22,15 +21,11 @@ namespace Star
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Rec rStar;
-		Rec rStarCircle;
-		Circle cStarhitbase;
-		
-		int iChange;
-		int iChangeCiecle;
-		int iAlpha;
-		int iCnt;
-		Vector2 vMove;
+		Rec rSturn;
+		Circle cSturnHitBase;
+		Circle cGravityCircle;
+		int iAnimCount;
+		int i;
 
 		Obj() {}
 		~Obj() {}
@@ -41,6 +36,7 @@ namespace Star
 	public:
 		void Update();
 		void Render();
-		void CheckHit(TaskBase* fragment);
+		void BeamCheckhit(TaskBase* bm);
+		void FragmentCheckhit(TaskBase* fr);
 	}*OBJ_ptr;
 }
