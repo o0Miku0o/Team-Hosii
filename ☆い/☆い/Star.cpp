@@ -5,26 +5,26 @@
 
 namespace Star
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("¯ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("æ˜Ÿã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
 		iChange = 0;
@@ -34,15 +34,15 @@ namespace Star
 
 		aAnimetor.SetAnim(AnimStar, 0);
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
-		auto vFgm = FindAll <Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
+		auto vFgm = FindAll <Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
 		if (vFgm.size())
 		{
 			for (auto &vf : vFgm)
@@ -51,15 +51,16 @@ namespace Star
 			}
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 			Frec srcE(16.f * iStarEffect, 0, 16.f, 16.f);
 
 			rStar.Draw(&res->iStageImg, &src, true);
+
 			rStar.DrawAlpha(&res->iStageImg, &srcE, bAlpha);
 
 			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
@@ -106,7 +107,7 @@ namespace Star
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cStarhitbase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+			if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 			{
 				switch (iChange)
 				{
@@ -488,7 +489,7 @@ namespace Star
 			//{
 			//	iChange = 0;
 			//}
-			if (auto sm = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN"))
+			if (auto sm = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯"))
 			{
 				++sm->bClearFragmentNum;
 			}
