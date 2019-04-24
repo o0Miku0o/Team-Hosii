@@ -60,7 +60,6 @@ namespace Star
 			Frec srcE(16.f * iStarEffect, 0, 16.f, 16.f);
 
 			rStar.Draw(&res->iStageImg, &src, true);
-
 			rStar.DrawAlpha(&res->iStageImg, &srcE, bAlpha);
 
 			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);

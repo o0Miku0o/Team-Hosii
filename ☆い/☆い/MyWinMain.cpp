@@ -188,7 +188,6 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	byte bFPS = 0;
 	byte bCount = 0;
 #ifdef _DEBUG
-	fix fZoom = 1.f;
 #endif
 
 	//ゲームの初期化処理
@@ -213,44 +212,12 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			MS::GetMouseState();
 			//JoyPadの情報を取得
 			JoyPad::GetStateAll();
-
 			//ゲームの更新処理
 			if (Update()) PostQuitMessage(0);
 			//
 			Particle::UpdateAll();
 			//
 			Animation::UpdateAll();
-
-#ifdef _DEBUG
-			fix fX = 0.f, fY = 0.f;
-			if (kb.On('I'))
-			{
-				fY -= 10.f;
-			}
-			if (kb.On('K'))
-			{
-				fY += 10.f;
-			}
-			if (kb.On('J'))
-			{
-				fX -= 10.f;
-			}
-			if (kb.On('L'))
-			{
-				fX += 10.f;
-			}
-			if (kb.On('Y'))
-			{
-				fZoom = Min(fZoom + 0.2f, 2.f);
-			}
-			if (kb.On('U'))
-			{
-				fZoom = Max(fZoom - 0.2f, 1.f);
-			}
-			Rec::MoveCamera(&Vector2(fX, fY));
-			Rec::Zoom(fZoom);
-#endif
-
 			//描画前にオフスクリーンを黒く塗りつぶす（リセット？）
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理
