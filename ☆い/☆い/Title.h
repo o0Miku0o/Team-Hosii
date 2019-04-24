@@ -36,7 +36,7 @@ namespace Title
 		fix fMSpdBase;
 		fix fMScale;
 		byte bAlpha;
-		byte bAddAlpha;
+		char cAddAlpha;
 		bool bShineFlag;
 
 		Obj() {}

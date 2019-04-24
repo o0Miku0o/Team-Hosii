@@ -1,4 +1,4 @@
-﻿.vs/
+.vs/
 ☆い/.vs/
 ☆い/Debug/
 ☆い/☆い/Debug/
@@ -7,3 +7,8 @@ x64/
 ☆い/Release/
 ☆い/☆い/Release/
 ~$スケジュール表.xlsx
+*.suo
+*.vcxproj.user
+*.sdf
+☆い\☆い\☆い.exe
+ipch

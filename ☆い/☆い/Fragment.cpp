@@ -134,13 +134,13 @@ namespace Fragment
 			else if (iColor == 1)
 			{
 
-				Frec src(16.f * 2.f, 0.f, 16.f, 16.f);
+				Frec src(16.f * 60.f, 0.f, 16.f, 16.f);
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 			else if (iColor == 2)
 			{
 
-				Frec src(16.f * 2.f, 16.f, 16.f, 16.f);
+				Frec src(16.f * 68.f, 0.f, 16.f, 16.f);
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 		}

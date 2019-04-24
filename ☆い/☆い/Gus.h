@@ -1,14 +1,13 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Star
+namespace Gus
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -22,15 +21,7 @@ namespace Star
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Rec rStar;
-		Circle cStarhitbase;
-		Animation aAnimetor;
-		
-		int iChange;
-		int iStarEffect;
-		Vector2 vMove;
-		byte bAlpha;
-		char cAddAlpha;
+		Rec rGus;
 
 		Obj() {}
 		~Obj() {}
@@ -41,8 +32,5 @@ namespace Star
 	public:
 		void Update();
 		void Render();
-		void CheckHit(TaskBase* fragment);
 	}*OBJ_ptr;
-
-	void AnimStar(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 }

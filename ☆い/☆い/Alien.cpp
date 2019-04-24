@@ -201,12 +201,12 @@ namespace Alien
 	void BMReflectDL(TaskBase * const tTask)
 	{
 		auto bm = (Beam::Obj*)tTask;
-		bm->rHitBase.SetDeg(225.f);
+		bm->rHitBase.SetDeg(115.f);
 	}
 	void BMReflectUL(TaskBase * const tTask)
 	{
 		auto bm = (Beam::Obj*)tTask;
-		bm->rHitBase.SetDeg(115.f);
+		bm->rHitBase.SetDeg(225.f);
 	}
 
 	void FGRemove(TaskBase * const tTask)
@@ -313,7 +313,7 @@ namespace Alien
 	}
 	void AnimReflectUL(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
 	{
-		*iOffSetX = 41;
+		*iOffSetX = 78;
 		*iOffSetY = 0;
 		if (*iAnimCount >= 16)
 		{
@@ -324,7 +324,7 @@ namespace Alien
 	}
 	void AnimReflectDL(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
 	{
-		*iOffSetX = 39;
+		*iOffSetX = 76;
 		*iOffSetY = 0;
 		if (*iAnimCount >= 16)
 		{

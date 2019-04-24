@@ -11,7 +11,7 @@
 
 namespace Title
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 		iHo.ImageCreate("./data/image/other/Title/ho.bmp");
@@ -20,7 +20,7 @@ namespace Title
 		iBoshiOverride.ImageCreate("./data/image/other/Title/boshi2.bmp");
 		iStart.ImageCreate("./data/image/other/Title/word.bmp");
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 		iHo.Release();
@@ -29,22 +29,22 @@ namespace Title
 		iBoshiOverride.Release();
 		iStart.Release();
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒ^ƒCƒgƒ‹ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
-		RB::Add<RS>("ƒ^ƒCƒgƒ‹ƒŠƒ\[ƒX");
-		RB::Add<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX");
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ã‚¿ã‚¤ãƒˆãƒ«ã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		RB::Add<RS>("ã‚¿ã‚¤ãƒˆãƒ«ãƒªã‚½ãƒ¼ã‚¹");
+		RB::Add<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹");
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 		CreateBeam();
 
 		CreateFragment();
 
 		CreateStar();
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		LogoInit();
 
 		MeteoInit();
@@ -55,25 +55,25 @@ namespace Title
 
 		PlayBgm();
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
-		RB::Remove("ƒ^ƒCƒgƒ‹ƒŠƒ\[ƒX");
+		RB::Remove("ã‚¿ã‚¤ãƒˆãƒ«ãƒªã‚½ãƒ¼ã‚¹");
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
-		auto bm = Find<Beam::Obj>("ƒr[ƒ€ƒ^ƒXƒN");
+		auto bm = Find<Beam::Obj>("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯");
 		if (!bm) return;
 
 		bShineFlag = false;
 		if (bm->vSpd != Vector2::right * 20.f && bm->rHitBase.GetPosX() <= Rec::Win.l + 600.f)
 		{
 			bShineFlag = true;
-			Pause("ƒr[ƒ€ƒ^ƒXƒN");
+			Pause("ãƒ“ãƒ¼ãƒ ã‚¿ã‚¹ã‚¯");
 		}
 
 		if (bShineFlag)
@@ -87,19 +87,19 @@ namespace Title
 
 			MeteoUpdate();
 
-			if (Find<Cursor::Obj>("ƒJ[ƒ\ƒ‹ƒ^ƒXƒN")) return;
+			if (Find<Cursor::Obj>("ã‚«ãƒ¼ã‚½ãƒ«ã‚¿ã‚¹ã‚¯")) return;
 
 			CreateCursor();
 
 			ButtonUpdate();
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 		DrawMeteo();
 
-		if (auto s = RB::Find<Title::RS>("ƒ^ƒCƒgƒ‹ƒŠƒ\[ƒX"))
+		if (auto s = RB::Find<Title::RS>("ã‚¿ã‚¤ãƒˆãƒ«ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(0.f, 0.f, 64.f, 64.f);
 			DrawLogo(s, &src);
@@ -108,18 +108,18 @@ namespace Title
 			DrawButton(s, &src);
 		}
 	}
-	/*ƒƒS‚Ì‰Šú‰»*/
+	/*ãƒ­ã‚´ã®åˆæœŸåŒ–*/
 	void Obj::LogoInit()
 	{
 		rHo = Rec(730, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
 		rBoshi = Rec(1190, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
 	}
-	/*ƒXƒ^[ƒgƒ{ƒ^ƒ“‚Ì‰Šú‰»*/
+	/*ã‚¹ã‚¿ãƒ¼ãƒˆãƒœã‚¿ãƒ³ã®åˆæœŸåŒ–*/
 	void Obj::ButtonInit()
 	{
 		rStart = Rec(0.f, 0.f, 0.f, 0.f);
 	}
-	/*ƒƒeƒI‚Ì‰Šú‰»*/
+	/*ãƒ¡ãƒ†ã‚ªã®åˆæœŸåŒ–*/
 	void Obj::MeteoInit()
 	{
 		fMScale = rand() % (16 * 4 + 1) + 16.f * 14.f;
@@ -136,7 +136,7 @@ namespace Title
 
 		Rec::Zoom(fZoom);
 	}
-	/*ƒƒS‚ÌXV*/
+	/*ãƒ­ã‚´ã®æ›´æ–°*/
 	void Obj::LogoUpdate()
 	{
 		if (bAlpha <= 0 || bAlpha >= 255)
@@ -149,7 +149,7 @@ namespace Title
 	{
 		rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
 	}
-	/*ƒƒeƒI‚ÌXV*/
+	/*ãƒ¡ãƒ†ã‚ªã®æ›´æ–°*/
 	void Obj::MeteoUpdate()
 	{
 		rMeteo.SetDeg(rMeteo.GetDeg() + 2.f);
@@ -169,16 +169,16 @@ namespace Title
 		fMScale = Max(fMScale - 4.f, 0.f);
 		fMSpdBase = Max(fMSpdBase - 0.15f, 0.f);
 	}
-	/*ƒƒeƒI‚Ì•`‰æ*/
+	/*ãƒ¡ãƒ†ã‚ªã®æç”»*/
 	void Obj::DrawMeteo()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
 			rMeteo.Draw(&res->iStageImg, &src, true);
 		}
 	}
-	/*ƒƒS‚Ì•`‰æ*/
+	/*ãƒ­ã‚´ã®æç”»*/
 	void Obj::DrawLogo(RS * const rpRes, const Frec * const fpSrc)
 	{
 		rHo.Draw(&rpRes->iHo, fpSrc);
@@ -187,49 +187,49 @@ namespace Title
 		rBoshi.Draw(&rpRes->iBoshi, fpSrc);
 		rBoshi.DrawAlpha(&rpRes->iBoshiOverride, fpSrc, bAlpha);
 	}
-	/*ƒ{ƒ^ƒ“‚Ì•`‰æ*/
+	/*ãƒœã‚¿ãƒ³ã®æç”»*/
 	void Obj::DrawButton(RS * const rpRes, const Frec * const fpSrc)
 	{
 		rStart.Draw(&rpRes->iStart, fpSrc);
 	}
-	/*ƒr[ƒ€¶¬*/
+	/*ãƒ“ãƒ¼ãƒ ç”Ÿæˆ*/
 	void Obj::CreateBeam()
 	{
 		Add<BeamGenerator::Obj>();
 	}
-	/*Œ‡•Ğ¶¬*/
+	/*æ¬ ç‰‡ç”Ÿæˆ*/
 	void Obj::CreateFragment()
 	{
 		auto fg = Add<FragmentGenerator::Obj>();
 		int iColor = rand() % 3;
 		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.423f), &iColor);
 	}
-	/*ƒJ[ƒ\ƒ‹‚Ì¶¬*/
+	/*ã‚«ãƒ¼ã‚½ãƒ«ã®ç”Ÿæˆ*/
 	void Obj::CreateCursor()
 	{
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.75f));
 	}
-	/*™‚Ì¶¬*/
+	/*â˜†ã®ç”Ÿæˆ*/
 	void Obj::CreateStar()
 	{
 		auto sg = Add<StarGenerator::Obj>();
 		int iChange = 24;
 		sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
-		if (auto st = Find<Star::Obj>("¯ƒ^ƒXƒN"))
+		if (auto st = Find<Star::Obj>("æ˜Ÿã‚¿ã‚¹ã‚¯"))
 		{
 			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
 		}
 	}
-	/*BGM‚ÌÄ¶*/
+	/*BGMã®å†ç”Ÿ*/
 	void Obj::PlayBgm()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			res->wsBGM.PlayL();
 		}
 	}
-	/*ƒAƒjƒ[ƒVƒ‡ƒ“*/
+	/*ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³*/
 	void AnimHo(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
 	{
 		*bAnim2 = 0;
@@ -244,7 +244,7 @@ namespace Title
 		}
 		++*bFrame;
 	}
-	/*ƒAƒjƒ[ƒVƒ‡ƒ“*/
+	/*ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³*/
 	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
 	{
 		*bAnim2 = 0;

@@ -52,7 +52,7 @@ namespace Result
 
 		auto sg = Add<StarGenerator::Obj>();
 		Point pStArr[6] = { Point(1100.f,500.f),Point(1300.f,500.f),Point(1500.f,500.f),Point(1100.f - 1000.f,500.f - 1000.f),Point(1300.f - 1000.f,500.f - 1000.f),Point(1500.f - 1000.f,500.f - 1000.f) };
-		int iArr[6] = { 36,36,36,25,25,25 };
+		int iArr[6] = { 37,37,37,25,25,25 };
 		sg->Bridge(6, iArr, pStArr);
 
 		bNextStage = 0;
