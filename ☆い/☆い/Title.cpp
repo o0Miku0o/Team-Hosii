@@ -132,7 +132,7 @@ namespace Title
 		fZoom = 1.8f;
 		fStartImgSrcY = 0.f;
 		bAlpha = 5;
-		bAddAlpha = 5;
+		cAddAlpha = 5;
 
 		Rec::Zoom(fZoom);
 	}
@@ -141,9 +141,9 @@ namespace Title
 	{
 		if (bAlpha <= 0 || bAlpha >= 255)
 		{
-			bAddAlpha = -bAddAlpha;
+			cAddAlpha = -cAddAlpha;
 		}
-		bAlpha += bAddAlpha;
+		bAlpha += cAddAlpha;
 	}
 	void Obj::ButtonUpdate()
 	{

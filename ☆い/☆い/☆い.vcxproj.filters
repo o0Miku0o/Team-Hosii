@@ -1,360 +1,125 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="AlienGenerator.cpp" />
+    <ClCompile Include="Back.cpp" />
+    <ClCompile Include="Beam.cpp" />
+    <ClCompile Include="BeamGenerator.cpp" />
+    <ClCompile Include="BlackHole.cpp" />
+    <ClCompile Include="BlackHoleGenerator.cpp" />
+    <ClCompile Include="BreakStar.cpp" />
+    <ClCompile Include="BreakStarGenerator.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="Eff1.cpp" />
+    <ClCompile Include="Fragment.cpp" />
+    <ClCompile Include="FragmentGenerator.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameInit.cpp" />
+    <ClCompile Include="Gas.cpp" />
+    <ClCompile Include="Jupitor.cpp" />
+    <ClCompile Include="Meteo.cpp" />
+    <ClCompile Include="MeteoGenerator.cpp" />
+    <ClCompile Include="MyGame\My\Animation.cpp" />
+    <ClCompile Include="MyGame\My\CGDM.cpp" />
+    <ClCompile Include="MyGame\My\My.cpp" />
+    <ClCompile Include="MyGame\TaskBase.cpp" />
+    <ClCompile Include="MyWinMain.cpp" />
+    <ClCompile Include="Neptune.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="Stage1-1.cpp" />
+    <ClCompile Include="Stage1-2.cpp" />
+    <ClCompile Include="Stage1-3.cpp" />
+    <ClCompile Include="Stage2-1.cpp" />
+    <ClCompile Include="Stage2-2.cpp" />
+    <ClCompile Include="Stage2-3.cpp" />
+    <ClCompile Include="Stage3-1.cpp" />
+    <ClCompile Include="Stage3-2.cpp" />
+    <ClCompile Include="Stage3-3.cpp" />
+    <ClCompile Include="Stage4-1.cpp" />
+    <ClCompile Include="Stage4-2.cpp" />
+    <ClCompile Include="Stage4-3.cpp" />
+    <ClCompile Include="Stage5-1.cpp" />
+    <ClCompile Include="Stage5-2.cpp" />
+    <ClCompile Include="Stage5-3.cpp" />
+    <ClCompile Include="StageLoad.cpp" />
+    <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="StageSelect.cpp" />
+    <ClCompile Include="StageSelectObjAsteroid.cpp" />
+    <ClCompile Include="StageSelectObjBH.cpp" />
+    <ClCompile Include="StageSelectObjEarth.cpp" />
+    <ClCompile Include="StageSelectObjGalaxy.cpp" />
+    <ClCompile Include="StageSelectObjUS.cpp" />
+    <ClCompile Include="StarGenerator.cpp" />
+    <ClCompile Include="Saturn.cpp" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="WinProg.cpp" />
+    <ClCompile Include="Star.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyGame\My\CGDM.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\MyApp.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\TaskBase.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Beam.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BeamGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Fragment.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FragmentGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Jupitor.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Meteo.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Neptune.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageManager.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Star.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StarGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Title.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="AlienGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Alien.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakStar.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakStarGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageSelectObjEarth.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageSelectObjGalaxy.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageSelectObjUS.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageSelect.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageSelectObjAsteroid.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageSelectObjBH.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\My\Animation.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Cursor.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage5-2.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage5-3.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage1-1.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage1-2.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage1-3.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage2-1.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage2-2.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage2-3.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage3-1.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage3-2.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage3-3.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage4-1.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage4-2.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage4-3.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage5-1.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BlackHole.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BlackHoleGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MeteoGenerator.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameInit.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Back.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\My\My.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Saturn.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="StageLoad.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\My\FixedPoint.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Eff1.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
+    <ClInclude Include="Alien.h" />
+    <ClInclude Include="AlienGenerator.h" />
+    <ClInclude Include="Back.h" />
+    <ClInclude Include="Beam.h" />
+    <ClInclude Include="BeamGenerator.h" />
+    <ClInclude Include="BlackHole.h" />
+    <ClInclude Include="BlackHoleGenerator.h" />
+    <ClInclude Include="BreakStar.h" />
+    <ClInclude Include="BreakStarGenerator.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="Eff1.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="Fragment.h" />
+    <ClInclude Include="FragmentGenerator.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameInit.h" />
+    <ClInclude Include="Gas.h" />
+    <ClInclude Include="Jupitor.h" />
+    <ClInclude Include="Meteo.h" />
+    <ClInclude Include="MeteoGenerator.h" />
+    <ClInclude Include="MyGame\MyApp.h" />
+    <ClInclude Include="MyGame\My\Animation.h" />
+    <ClInclude Include="MyGame\My\CGDM.h" />
+    <ClInclude Include="MyGame\My\FixedPoint.h" />
+    <ClInclude Include="MyGame\My\My.h" />
+    <ClInclude Include="MyGame\TaskBase.h" />
+    <ClInclude Include="Neptune.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="Stage1-1.h" />
+    <ClInclude Include="Stage1-2.h" />
+    <ClInclude Include="Stage1-3.h" />
+    <ClInclude Include="Stage2-1.h" />
+    <ClInclude Include="Stage2-2.h" />
+    <ClInclude Include="Stage2-3.h" />
+    <ClInclude Include="Stage3-1.h" />
+    <ClInclude Include="Stage3-2.h" />
+    <ClInclude Include="Stage3-3.h" />
+    <ClInclude Include="Stage4-1.h" />
+    <ClInclude Include="Stage4-2.h" />
+    <ClInclude Include="Stage4-3.h" />
+    <ClInclude Include="Stage5-1.h" />
+    <ClInclude Include="Stage5-2.h" />
+    <ClInclude Include="Stage5-3.h" />
+    <ClInclude Include="StageLoad.h" />
+    <ClInclude Include="StageManager.h" />
+    <ClInclude Include="StageSelect.h" />
+    <ClInclude Include="StageSelectObjAsteroid.h" />
+    <ClInclude Include="StageSelectObjBH.h" />
+    <ClInclude Include="StageSelectObjEarth.h" />
+    <ClInclude Include="StageSelectObjGalaxy.h" />
+    <ClInclude Include="StageSelectObjUS.h" />
+    <ClInclude Include="Star.h" />
+    <ClInclude Include="StarGenerator.h" />
+    <ClInclude Include="Saturn.h" />
+    <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MyGame\My\CGDM.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\TaskBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Beam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BeamGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Fragment.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FragmentGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Jupitor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Meteo.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Neptune.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Star.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StarGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="WinProg.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="AlienGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Alien.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BreakStarGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BreakStar.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageSelectObjEarth.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageSelectObjGalaxy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageSelectObjUS.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageSelect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageSelectObjAsteroid.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageSelectObjBH.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Cursor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MyWinMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage5-2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage5-3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage1-1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage1-2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage1-3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage2-1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage2-2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage2-3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage3-1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage3-2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage3-3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage4-1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage4-2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage4-3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage5-1.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackHoleGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackHole.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MeteoGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameInit.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Back.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\My\My.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="StageLoad.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Saturn.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\My\Animation.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
+    <ResourceCompile Include="☆い.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="☆い.rc">
-      <Filter>リソース ファイル</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="hosii.ico">
-      <Filter>リソース ファイル</Filter>
-    </Image>
+    <Image Include="hosii.ico" />
   </ItemGroup>
 </Project>
