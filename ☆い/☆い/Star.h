@@ -29,6 +29,8 @@ namespace Star
 		int iChange;
 		int iStarEffect;
 		Vector2 vMove;
+		byte bAlpha;
+		char cAddAlpha;
 
 		Obj() {}
 		~Obj() {}
