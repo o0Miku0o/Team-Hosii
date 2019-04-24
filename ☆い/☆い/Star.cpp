@@ -53,7 +53,6 @@ namespace Star
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 			rStar.Draw(&res->iStageImg, &src, true);
-			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
 
 			//rStar.Draw();
 			//if (iChange == 0)
