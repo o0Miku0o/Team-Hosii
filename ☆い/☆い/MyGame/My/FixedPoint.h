@@ -92,7 +92,7 @@ inline constexpr long DivFP(const long lFPVal1, const long lFPVal2)
 constexpr float FIX_MAX = float(1 << ((sizeof(short) * 8) - 6));
 /*サイズ２バイト、小数ビット数６の固定小数型*/
 /*最大値が1024.0と小さく、オーバーフローしやすいので注意！*/
-class fix
+struct fix
 {
 private:
 	/*内部整数変数*/
@@ -167,9 +167,7 @@ private:
 	inline const short _DivFP(const short v1, const short v2) const
 	{
 		/**/
-		const long lValue1 = (long)v1;
-		const long lValue2 = (long)v2;
-		return ((v2) ? (short)Div(lValue1 << 6, lValue2) : 0);
+		return ((v2) ? (short)Div((long)v1 << 6, (long)v2) : 0);
 		/*/
 		return ((v2) ? ((v1 << 6) / v2) : 0);
 		/**/

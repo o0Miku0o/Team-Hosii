@@ -1487,21 +1487,21 @@ void Rec::DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alph
 	bfu.SourceConstantAlpha = alpha_;
 
 	auto hBufDc = CreateCompatibleDC(off);
-	auto hBufBmp = CreateCompatibleBitmap(off, (int)w, (int)h);
+	auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
 	SelectObject(hBufDc, hBufBmp);
 
 	POINT pBufArr[3] =
 	{
 		{0, 0},
-		{(int)w, 0},
-		{0, (int)h},
+		{mybitmap_->GetBmpInfo().bmWidth, 0},
+		{0, mybitmap_->GetBmpInfo().bmHeight},
 	};
 
 	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
 
 	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 
-	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, (int)w, (int)h, bfu);
+	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
 
 	DeleteObject(hBufBmp);
 	DeleteDC(hBufDc);

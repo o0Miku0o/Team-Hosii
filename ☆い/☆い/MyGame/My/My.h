@@ -7,7 +7,6 @@
 #include <string>
 #include <time.h>
 #include <vector>
-#include <map>
 #include <mmsystem.h>
 #include <typeinfo>
 #include "FixedPoint.h"

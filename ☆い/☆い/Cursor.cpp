@@ -113,12 +113,6 @@ namespace Cursor
 				}
 			}
 		}
-		auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
-		constexpr float fAddScale = 70.f;
-		constexpr float fScaleWMax = 1800.f;
-		constexpr float fScaleHMax = 400.f;
-		bool bFlag = false;
-		Point pPos;
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -126,10 +120,6 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
-				
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -147,10 +137,6 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b - 50.f - fScaleHMax * 0.5f);
-
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -166,12 +152,8 @@ namespace Cursor
 			us->rGalaxy.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rGalaxy.GetPos(), us->rGalaxy.GetW() * 0.5f);
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{				
+			{
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
-
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -189,10 +171,6 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rUranus.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b - 50.f - fScaleHMax * 0.5f);
-				
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -210,10 +188,6 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rBH.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
-				
 				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -223,16 +197,6 @@ namespace Cursor
 					return;
 				}
 			}
-		}
-		if (!sl) return;
-		if (bFlag)
-		{
-			sl->rHukidasi.SetPos(&pPos);
-			HukidasiSizeUp(sl, fScaleWMax, fScaleHMax, fAddScale);
-		}
-		else
-		{
-			HukidasiSizeDown(sl, fScaleWMax, fAddScale);
 		}
 	}
 	/*タスクの描画処理*/
@@ -247,21 +211,5 @@ namespace Cursor
 			rCursorBase.Draw();
 #endif // _DEBUG
 		}
-	}
-	/*吹き出しのサイズを大きく*/
-	void Obj::HukidasiSizeUp(TaskBase * const tSl, const float cfScaleWMax, const float cfScaleHMax, const float cfAddScale)
-	{
-		auto sl = (StageSelect::OBJ_ptr)tSl;
-		const float fScaleW = Min(sl->rHukidasi.GetW() + cfAddScale, cfScaleWMax);
-		const float fScaleH = (fScaleW >= cfScaleWMax) ? Min(sl->rHukidasi.GetH() + cfAddScale, cfScaleHMax) : 0.f;
-		sl->rHukidasi.Scaling(fScaleW, fScaleH);
-	}
-	/*吹き出しのサイズを小さく*/
-	void Obj::HukidasiSizeDown(TaskBase * const tSl, const float cfScaleWMax, const float cfAddScale)
-	{
-		auto sl = (StageSelect::OBJ_ptr)tSl;
-		const float fScaleH = Max(sl->rHukidasi.GetH() - cfAddScale, 0.f);
-		const float fScaleW = (fScaleH <= 0.f) ? Max(sl->rHukidasi.GetW() - cfAddScale, 0.f) : cfScaleWMax;
-		sl->rHukidasi.Scaling(fScaleW, fScaleH);
 	}
 }
