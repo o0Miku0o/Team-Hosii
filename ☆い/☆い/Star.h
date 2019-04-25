@@ -23,9 +23,13 @@ namespace Star
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Rec rStar;
+		Rec rStarCircle;
 		Circle cStarhitbase;
 		
 		int iChange;
+		int iChangeCircle;
+		int iAlpha;
+		int iCnt;
 		Vector2 vMove;
 
 		Obj() {}
