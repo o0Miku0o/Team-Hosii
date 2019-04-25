@@ -29,7 +29,7 @@ namespace Star
 		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
 		iChange = 0;
-		iChangeCiecle = 85;
+		iChangeCircle = 85;
 		iAlpha = 0;
 		iCnt = 0;
 	}
@@ -67,7 +67,7 @@ namespace Star
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
-			Frec src2(16.f*iChangeCiecle, 0, 16.f, 16.f);
+			Frec src2(16.f*iChangeCircle, 0, 16.f, 16.f);
 			rStarCircle.DrawAlpha(&res->iStageImg, &src2, iAlpha);
 			rStar.Draw(&res->iStageImg, &src, true);
 #ifdef _DEBUG
@@ -90,69 +90,69 @@ namespace Star
 				case 22:
 					if (oFragment->iColor == 0)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 23;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 26;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 28;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
 				case 23:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 0)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 24;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 27;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 29;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
 				case 24:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 0)
 					{
-						iChangeCiecle = 86;
+						iChangeCircle = 86;
 						iChange = 25;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
-						iChangeCiecle = 86;
+						iChangeCircle = 86;
 						iChange = 33;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
-						iChangeCiecle = 86;
+						iChangeCircle = 86;
 						iChange = 32;
 						res->wsTest2.Play();
 						Remove(fr);
@@ -164,10 +164,10 @@ namespace Star
 					oFragment->bMoveActive = false;
 					break;
 				case 26:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 0)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 27;
 						res->wsTest2.Play();
 						Remove(fr);
@@ -180,17 +180,17 @@ namespace Star
 					}
 					if (oFragment->iColor == 2)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 30;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
 				case 27:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 2)
 					{
-						iChangeCiecle = 86;
+						iChangeCircle = 86;
 						iChange = 31;
 						res->wsTest2.Play();
 						Remove(fr);
@@ -203,17 +203,17 @@ namespace Star
 					}
 					break;
 				case 28:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 0)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 29;
 						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
-						iChangeCiecle = 85;
+						iChangeCircle = 85;
 						iChange = 30;
 						res->wsTest2.Play();
 						Remove(fr);
@@ -226,10 +226,10 @@ namespace Star
 					}
 					break;
 				case 29:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 1)
 					{
-						iChangeCiecle = 86;
+						iChangeCircle = 86;
 						iChange = 31;
 						res->wsTest2.Play();
 						Remove(fr);
@@ -242,10 +242,10 @@ namespace Star
 					}
 					break;
 				case 30:
-					iChangeCiecle = 85;
+					iChangeCircle = 85;
 					if (oFragment->iColor == 0)
 					{
-						iChangeCiecle = 86;
+						iChangeCircle = 86;
 						iChange = 31;
 						res->wsTest2.Play();
 						Remove(fr);

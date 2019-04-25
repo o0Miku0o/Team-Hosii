@@ -27,7 +27,7 @@ namespace Star
 		Circle cStarhitbase;
 		
 		int iChange;
-		int iChangeCiecle;
+		int iChangeCircle;
 		int iAlpha;
 		int iCnt;
 		Vector2 vMove;
