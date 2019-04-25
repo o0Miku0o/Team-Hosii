@@ -38,6 +38,9 @@ namespace StageSelect
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
 
+		rHukidasi = Rec();
+		rTongari = Rec();
+
 		/*データの初期化*/
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
@@ -49,7 +52,6 @@ namespace StageSelect
 			sm->bStageNum = 11;
 
 		}
-
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -66,11 +68,13 @@ namespace StageSelect
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
+			return;
 		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-
+		rHukidasi.Draw();
+		rTongari.Draw();
 	}
 }
