@@ -105,6 +105,7 @@ namespace Neptune
 		{
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;
+			oFragment->bRotationActive = true;
 		}
 	}
 }
