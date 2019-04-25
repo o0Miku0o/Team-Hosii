@@ -45,7 +45,7 @@ namespace Jupitor
 				if (!f->bRotationActive)
 				{
 					f->pRotPos = cGravityCircle.GetPos();
-					f->fRotRadius = cGravityCircle.GetRadius()-1;
+					f->fRotRadius = cGravityCircle.GetRadius() - 1;
 					f->bRotationActive = true;
 					f->bMoveActive = false;
 				}
@@ -77,6 +77,9 @@ namespace Jupitor
 #ifdef _DEBUG
 		cJupitorHitBase.Draw();
 		cGravityCircle.Draw();
+		Font f;
+		std::string s = std::to_string(rJupitor.GetPosX()) + " " + std::to_string(rJupitor.GetPosY()) + " " + std::to_string(rJupitor.GetH());
+		f.Draw(&rJupitor.GetPos(), s.c_str());
 #endif // _DEBUG
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
