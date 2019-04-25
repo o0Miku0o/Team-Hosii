@@ -1753,25 +1753,30 @@ float Rec::GetPosY() const
 {
 	return p[CENTER].y;
 }
-//
+//矩形の左上の座標を取得
 const Point &Rec::GetTL() const
 {
 	return p[TOP_LEFT];
 }
-//
+//矩形の右上の座標を取得
 const Point &Rec::GetTR() const
 {
 	return p[TOP_RIGHT];
 }
-//
+//矩形の左下の座標を取得
 const Point &Rec::GetBL() const
 {
 	return p[BOTTOM_LEFT];
 }
-//
+//矩形の右下の座標を取得
 const Point &Rec::GetBR() const
 {
 	return p[BOTTOM_RIGHT];
+}
+//現在のサイズが（0, 0）かどうか
+const bool Rec::Zero() const
+{
+	return (!w && !h);
 }
 
 /*円クラス*/

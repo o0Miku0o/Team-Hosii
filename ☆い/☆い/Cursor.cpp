@@ -225,11 +225,12 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto hu = Find<Hukidasi::Obj>("吹き出しのサイズ"))
+		if (auto hu = Find<Hukidasi::Obj>("吹き出しタスク"))
 		{
 			if (bFlag)
 			{
 				hu->SetPos(&pPos);
+				hu->SetScaleMax(fScaleWMax, fScaleHMax);
 				hu->SetAddScale(fAddScale);
 			}
 			else

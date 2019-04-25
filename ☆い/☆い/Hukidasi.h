@@ -22,7 +22,7 @@ namespace Hukidasi
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
 		Rec rHukidasi;
-		fix fAddScale;
+		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
 
@@ -38,7 +38,8 @@ namespace Hukidasi
 		void Update();
 		void Render();
 
-		void SetAddScale(const fix afAddScale);
+		void SetAddScale(const float afAddScale);
+		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
 	}*OBJ_ptr;
 }

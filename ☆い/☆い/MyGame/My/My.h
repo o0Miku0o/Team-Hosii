@@ -224,6 +224,12 @@ inline constexpr Value Min(const Value &a, const Value &b)
 {
 	return Value((a < b) ? a : b);
 }
+/*min(max(v, l), h)*/
+template<class Value>
+inline constexpr Value Clamp(const Value &v, const Value &l, const Value &h)
+{
+	return Min(Max(v, l), h);
+}
 /*aとbを入れ替える（浮動小数点はNG！）*/
 template<class Value>
 inline void Swap(Value &a, Value &b)
@@ -334,13 +340,13 @@ public:
 	byte Now(const char key_);
 	/*前フレームのキー入力状態を取得*/
 	byte Prev(const char key_);
-
+	/*押した瞬間*/
 	bool Down(const char cKey);
-
+	/*押している*/
 	bool On(const char cKey);
-
+	/*離した瞬間*/
 	bool Up(const char cKey);
-
+	/*離している*/
 	bool Off(const char cKey);
 };
 
@@ -369,13 +375,13 @@ public:
 	byte Now(const MouseButton but_);
 	/*前フレームのマウス入力状態を取得*/
 	byte Prev(const MouseButton but_);
-
+	/*押した瞬間*/
 	bool Down(const MouseButton but_);
-
+	/*押している*/
 	bool On(const MouseButton but_);
-
+	/*離した瞬間*/
 	bool Up(const MouseButton but_);
-
+	/*離している*/
 	bool Off(const MouseButton but_);
 	/*カーソルの位置を取得*/
 	const Point &GetPos();
@@ -403,13 +409,13 @@ public:
 	bool ImageCreate(const char * const bmpfilename_);
 	//画像の解放
 	void Release();
-	//
+	//ビットマップを取得
 	const BITMAP &GetBmpInfo() const;
-	//
+	//ビットマップと関連付けられているデバイスを取得
 	const HDC GetImageHandle() const;
-	//
+	//マスクビットマップと関連付けられているデバイスを取得
 	const HDC GetMaskHandle() const;
-	//
+	//マスクビットマップを取得
 	const HBITMAP GetMaskBitMap() const;
 };
 
@@ -595,21 +601,21 @@ public:
 	byte PreBut(const Joy_Button button_);
 	/*前フレームの方向キーの情報取得*/
 	byte PreDir(const Joy_Direct direct_);
-
+	/*ボタンを押した瞬間*/
 	bool Down(const Joy_Button but_);
-
+	/*ボタンを押している*/
 	bool On(const Joy_Button but_);
-
+	/*ボタンを離した瞬間*/
 	bool Up(const Joy_Button but_);
-
+	/*ボタンを離している*/
 	bool Off(const Joy_Button but_);
-
+	/*方向キーを押した瞬間*/
 	bool Down(const Joy_Direct direct_);
-
+	/*方向キーを押している*/
 	bool On(const Joy_Direct direct_);
-
+	/*方向キーを離した瞬間*/
 	bool Up(const Joy_Direct direct_);
-
+	/*方向キーを離している*/
 	bool Off(const Joy_Direct direct_);
 	/*左スティックのXY軸押し込み状態取得*/
 	const Vector2 &GetAxisL() const;
@@ -685,7 +691,7 @@ public:
 	Rec();
 	//コピーコンストラクタ
 	Rec(const Rec & cpyrec_);
-	//
+	//枠線の色設定
 	const COLORREF SetColor(const COLORREF ccColor);
 	//矩形を移動させる
 	void SetPos(const Point * const pos_);
@@ -751,14 +757,16 @@ public:
 	float GetPosX() const;
 	//矩形の中心点のY座標
 	float GetPosY() const;
-	//
+	//矩形の左上の座標を取得
 	const Point &GetTL() const;
-	//
+	//矩形の右上の座標を取得
 	const Point &GetTR() const;
-	//
+	//矩形の左下の座標を取得
 	const Point &GetBL() const;
-	//
+	//矩形の右下の座標を取得
 	const Point &GetBR() const;
+	//現在のサイズが（0, 0）かどうか
+	const bool Zero() const;
 };
 
 /*BMPファイルとしてビットマップを出力*/

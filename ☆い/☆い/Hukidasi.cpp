@@ -40,23 +40,37 @@ namespace Hukidasi
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		rHukidasi.Draw();
+		if (!rHukidasi.Zero())
+		{
+			rHukidasi.Draw();
+		}
 	}
 	/*吹き出しのサイズ変更*/
 	void Obj::Resize()
 	{
-		const float fScaleW = rHukidasi.GetW() + fAddScale;
-		const float fScaleH = rHukidasi.GetH() + fAddScale;
-		const float fResizeW = Min(Max(fScaleW, 0.f), fWidthMax);
-		const float fResizeH = Min(Max(fScaleH, 0.f), fHeightMax);
+		/*現在のサイズ*/
+		const float fScaleW = rHukidasi.GetW();
+		const float fScaleH = rHukidasi.GetH();
+		/*各増加量*/
+		const float fAddW = (fAddScale < 0.f && fScaleH > 0.f) ? 0.f : fAddScale;
+		const float fAddH = (fAddScale > 0.f && fScaleW < fWidthMax) ? 0.f : fAddScale;
+		/*サイズと増加量からサイズ変更*/
+		const float fResizeW = Min(Max(fScaleW + fAddW, 0.f), fWidthMax);
+		const float fResizeH = Min(Max(fScaleH + fAddH, 0.f), fHeightMax);
 		rHukidasi.Scaling(fResizeW, fResizeH);
 	}
-	/**/
-	void Obj::SetAddScale(const fix afAddScale)
+	/*サイズの変化量を設定*/
+	void Obj::SetAddScale(const float afAddScale)
 	{
 		fAddScale = afAddScale;
 	}
-	/**/
+	/*サイズの最大値を設定*/
+	void Obj::SetScaleMax(const float afWMax, const float afHMax)
+	{
+		fWidthMax = afWMax;
+		fHeightMax = afHMax;
+	}
+	/*座標を設定*/
 	void Obj::SetPos(const Point * const appPos)
 	{
 		rHukidasi.SetPos(appPos);
