@@ -45,7 +45,7 @@ namespace Result
 
 		/*データの初期化*/
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
-		
+
 		rPlayer = Rec(180.f, 1000.f, 16.f * 70.f, 16.f * 70.f);
 		rPlayer.SetDeg(95);
 
@@ -102,7 +102,7 @@ namespace Result
 		else if (pad->Down(J_BUT_6) || kb->Down(VK_RETURN))
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-//			Add<Back::Obj>();
+			//			Add<Back::Obj>();
 			switch (bNextStage)
 			{
 			case 1:
@@ -192,7 +192,17 @@ namespace Result
 			}
 			Pause(2);
 		}
+		else if (kb->Down('8')) {
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			//			Add<Back::Obj>();
+			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+				manager->bStageNum = manager->bNextStage;
+				Add<StageLoad::Obj>();
+			}
+			Pause(2);
+		}
 	}
+
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
