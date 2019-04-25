@@ -13,6 +13,7 @@
 #include "Stage5-1.h"
 #include "Title.h"
 #include "StageSelect.h"
+#include "Hukidasi.h"
 
 namespace Cursor
 {
@@ -113,7 +114,7 @@ namespace Cursor
 				}
 			}
 		}
-		auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
+		//auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
 		constexpr float fAddScale = 70.f;
 		constexpr float fScaleWMax = 1800.f;
 		constexpr float fScaleHMax = 400.f;
@@ -224,15 +225,17 @@ namespace Cursor
 				}
 			}
 		}
-		if (!sl) return;
-		if (bFlag)
+		if (auto hu = Find<Hukidasi::Obj>("吹き出しのサイズ"))
 		{
-			sl->rHukidasi.SetPos(&pPos);
-			HukidasiSizeUp(sl, fScaleWMax, fScaleHMax, fAddScale);
-		}
-		else
-		{
-			HukidasiSizeDown(sl, fScaleWMax, fAddScale);
+			if (bFlag)
+			{
+				hu->SetPos(&pPos);
+				hu->SetAddScale(fAddScale);
+			}
+			else
+			{
+				hu->SetAddScale(-fAddScale);
+			}
 		}
 	}
 	/*タスクの描画処理*/
@@ -247,21 +250,5 @@ namespace Cursor
 			rCursorBase.Draw();
 #endif // _DEBUG
 		}
-	}
-	/*吹き出しのサイズを大きく*/
-	void Obj::HukidasiSizeUp(TaskBase * const tSl, const float cfScaleWMax, const float cfScaleHMax, const float cfAddScale)
-	{
-		auto sl = (StageSelect::OBJ_ptr)tSl;
-		const float fScaleW = Min(sl->rHukidasi.GetW() + cfAddScale, cfScaleWMax);
-		const float fScaleH = (fScaleW >= cfScaleWMax) ? Min(sl->rHukidasi.GetH() + cfAddScale, cfScaleHMax) : 0.f;
-		sl->rHukidasi.Scaling(fScaleW, fScaleH);
-	}
-	/*吹き出しのサイズを小さく*/
-	void Obj::HukidasiSizeDown(TaskBase * const tSl, const float cfScaleWMax, const float cfAddScale)
-	{
-		auto sl = (StageSelect::OBJ_ptr)tSl;
-		const float fScaleH = Max(sl->rHukidasi.GetH() - cfAddScale, 0.f);
-		const float fScaleW = (fScaleH <= 0.f) ? Max(sl->rHukidasi.GetW() - cfAddScale, 0.f) : cfScaleWMax;
-		sl->rHukidasi.Scaling(fScaleW, fScaleH);
 	}
 }

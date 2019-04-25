@@ -50,6 +50,11 @@ namespace Star
 				CheckHit(vf);
 			}
 		}
+		if (bAlpha <= 0 || bAlpha >= 255)
+		{
+			cAddAlpha = -cAddAlpha;
+		}
+		bAlpha += cAddAlpha;
 	}
 	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
@@ -64,12 +69,6 @@ namespace Star
 			rStar.DrawAlpha(&res->iStageImg, &srcE, bAlpha);
 
 			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
-
-			if (bAlpha <= 0 || bAlpha >= 255)
-			{
-				cAddAlpha = -cAddAlpha;
-			}
-			bAlpha += cAddAlpha;
 
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
 
@@ -478,6 +477,8 @@ namespace Star
 						break;
 					case 31:
 						*/
+				case 0:
+					iStarEffect = 54;
 					break;
 				}
 			}

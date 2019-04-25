@@ -43,6 +43,7 @@ namespace Title
 		CreateFragment();
 
 		CreateStar();
+		Pause("星タスク");
 
 		/*データの初期化*/
 		LogoInit();
@@ -91,7 +92,9 @@ namespace Title
 
 			CreateCursor();
 
-			ButtonUpdate();
+			ButtonResize();
+
+			Restart("星タスク");
 		}
 	}
 	/*タスクの描画処理*/
@@ -145,7 +148,7 @@ namespace Title
 		}
 		bAlpha += cAddAlpha;
 	}
-	void Obj::ButtonUpdate()
+	void Obj::ButtonResize()
 	{
 		rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
 	}

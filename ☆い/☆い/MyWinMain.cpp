@@ -20,6 +20,15 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 {
 	switch (message_)
 	{
+	case WM_CREATE:
+	{
+		if (FindWindow(WINNAME, WINCLASS))
+		{
+			MessageBox(nullptr, "このアプリケーションは起動済みです。", WINNAME, MB_ICONWARNING);
+			PostQuitMessage(1);
+		}
+		break;
+	}
 		//描画処理
 	case WM_PAINT:
 	{
@@ -34,7 +43,7 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 		{
 			if (kb->On(VK_CONTROL) && kb->Down('S'))
 			{
-				SaveBitMap(hDC, &Rec::Win, "ScreenShot.bmp");
+				SaveBitMap(hDC, &Rec::Win, "./screenshot/ScreenShot.bmp");
 			}
 		}
 

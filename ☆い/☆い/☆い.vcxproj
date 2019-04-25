@@ -132,6 +132,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameInit.h" />
     <ClInclude Include="Gas.h" />
+    <ClInclude Include="Hukidasi.h" />
     <ClInclude Include="Jupitor.h" />
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="MeteoGenerator.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInit.cpp" />
     <ClCompile Include="Gas.cpp" />
+    <ClCompile Include="Hukidasi.cpp" />
     <ClCompile Include="Jupitor.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
