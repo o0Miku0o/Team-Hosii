@@ -56,6 +56,7 @@
     <ClCompile Include="WinProg.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Hukidasi.cpp" />
+    <ClCompile Include="Eff1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
