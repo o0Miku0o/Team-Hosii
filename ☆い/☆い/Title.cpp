@@ -43,7 +43,6 @@ namespace Title
 		CreateFragment();
 
 		CreateStar();
-		Pause("星タスク");
 
 		/*データの初期化*/
 		LogoInit();
@@ -93,8 +92,6 @@ namespace Title
 			CreateCursor();
 
 			ButtonResize();
-
-			Restart("星タスク");
 		}
 	}
 	/*タスクの描画処理*/
@@ -217,8 +214,8 @@ namespace Title
 	void Obj::CreateStar()
 	{
 		auto sg = Add<StarGenerator::Obj>();
-		int iChange = 24;
-		sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
+		sg->Bridge(1, { 24 }, { 46 }, { Point(1190.f, Rec::Win.b * 0.43f) });
+		//sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
 		if (auto st = Find<Star::Obj>("星タスク"))
 		{
 			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);

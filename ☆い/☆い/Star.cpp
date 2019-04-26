@@ -31,8 +31,6 @@ namespace Star
 		iStarEffect = 0;
 		bAlpha = 5;
 		cAddAlpha = 5;
-
-		aAnimetor.SetAnim(AnimStar, 0);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -67,8 +65,6 @@ namespace Star
 			rStar.Draw(&res->iStageImg, &src, true);
 
 			rStar.DrawAlpha(&res->iStageImg, &srcE, bAlpha);
-
-			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
 
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
 
@@ -272,19 +268,16 @@ namespace Star
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 45;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 46;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 47;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
@@ -292,59 +285,37 @@ namespace Star
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 46;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 47;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 48;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
 				case 46:
-					if (oFragment->iColor == 0)
-					{
-						iStarEffect = 47;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
-					if (oFragment->iColor == 1)
-					{
-						iStarEffect = 48;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
-					if (oFragment->iColor == 2)
-					{
-						iStarEffect = 49;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
+					iStarEffect = 47;
+					Remove(fr);
 					break;
 				case 47:
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 48;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 49;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 50;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
@@ -352,64 +323,54 @@ namespace Star
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 49;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 50;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 51;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
-					/*case 49
-						if (oFragment->iColor == 0)
-						{
-							iStarEffect = 49;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						if (oFragment->iColor == 1)
-						{
-							iStarEffect = 50;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						if (oFragment->iColor == 2)
-						{
-							iStarEffect = 51;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						break;*/
+				case 49:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = 49;
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = 50;
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = 51;
+						Remove(fr);
+					}
+					break;
 				case 50:
 					oFragment->rFragment.SetPos(&oFragment->pInitPos);
-					res->wsTest5.Play();
 					oFragment->bMoveActive = false;
 					break;
 				case 51:
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 52;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						oFragment->rFragment.SetPos(&oFragment->pInitPos);
-						res->wsTest5.Play();
 						oFragment->bMoveActive = false;
 					}
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 44;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
@@ -417,13 +378,11 @@ namespace Star
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 54;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					else
 					{
 						oFragment->rFragment.SetPos(&oFragment->pInitPos);
-						res->wsTest5.Play();
 						oFragment->bMoveActive = false;
 					}
 					break;
@@ -431,19 +390,16 @@ namespace Star
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 55;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 56;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
 						oFragment->rFragment.SetPos(&oFragment->pInitPos);
-						res->wsTest5.Play();
 						oFragment->bMoveActive = false;
 					}
 					break;

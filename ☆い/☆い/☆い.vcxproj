@@ -185,7 +185,6 @@
     <ClCompile Include="BreakStar.cpp" />
     <ClCompile Include="BreakStarGenerator.cpp" />
     <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="Eff1.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
     <ClCompile Include="Game.cpp" />

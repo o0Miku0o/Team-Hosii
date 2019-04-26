@@ -35,5 +35,6 @@ namespace StarGenerator
 		void Render();
 		void Bridge(const int iNum, const int* iChange, const Point* pPos);
 		void Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos);
+		void Bridge(const int iNum, const vector<int> iChange, const vector<int> iEffect, const vector<Point> pPos);
 	}*OBJ_ptr;
 }
