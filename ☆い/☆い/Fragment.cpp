@@ -34,6 +34,8 @@ namespace Fragment
 		iColor = 0;/*黄色が0、赤が1、青が2*/
 		bMoveActive = false;
 		bRotationActive = false;
+		aAnim.SetAnim(AnimFragmentY, 2);
+		aAnim.Play();
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -128,7 +130,7 @@ namespace Fragment
 		{
 			if (iColor == 0)
 			{
-				Frec src(16.f * 4.f, 0.f, 16.f, 16.f);
+				Frec src(16.f * (aAnim.GetSrcX() + 2), 0.f, 16.f, 16.f);
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 			else if (iColor == 1)
@@ -210,9 +212,39 @@ namespace Fragment
 		Point pPrePos;
 		pPrePos = Point(cFragmentHitBase.GetPosX() - vMove.GetX(), cFragmentHitBase.GetPosY() - vMove.GetY());
 		cPreHit.SetPos(&pPrePos);
-		if (cFragmentHitBase.CheckHit(&cAlHit)&&!cAlHit.CheckHit(&cPreHit))
+		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
+	}
+	void AnimFragmentY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 10)
+		{
+			*bFrame = 0;
+			*bSrcX = ((*bSrcX + 1) % 4)*2;
+		}
+		++*bFrame;
+	}
+	void AnimFragmentR(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 60)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 2) % 8 + 60;
+		}
+		++*bFrame;
+	}
+	void AnimFragmentB(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 60)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 2) % 8 + 68;
+		}
+		++*bFrame;
 	}
 }

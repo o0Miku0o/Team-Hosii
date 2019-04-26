@@ -40,10 +40,6 @@ namespace Stage11
 		//int iChange = 25;
 		sg->Bridge(1, &iChange, &Point(1500.f, Rec::Win.b*0.5f));
 		
-		auto sf= Add<StarGenerator::Obj>();
-		int iStarEffect = 46;
-		sf->Bridge(1, &iStarEffect, &Point(1500.f, Rec::Win.b*0.5f));
-
 		//auto ag = Add<AlienGenerator::Obj>();
 
 		//constexpr int ceiNum = 3;
