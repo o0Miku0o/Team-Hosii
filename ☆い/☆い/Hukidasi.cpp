@@ -1,4 +1,5 @@
 #include "Hukidasi.h"
+#include "StageManager.h"
 
 namespace Hukidasi
 {
@@ -42,8 +43,13 @@ namespace Hukidasi
 	{
 		if (!rHukidasi.Zero())
 		{
-			rHukidasi.Draw();
+			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			{
+				Frec src(16.f * 59, 16.f * 0, 16.f, 16.f);
+				rHukidasi.Draw(&res->iStageImg, &src, false);
+			}
 		}
+		if (!rHukidasi.GetH()) rHukidasi.Draw();
 	}
 	/*吹き出しのサイズ変更*/
 	void Obj::Resize()

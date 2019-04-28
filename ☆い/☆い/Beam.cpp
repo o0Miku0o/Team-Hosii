@@ -24,7 +24,7 @@ namespace Beam
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rHitBase = Rec(0.f, Rec::Win.b * 0.5f, 21.f, 16.f);
+		rHitBase = Rec(0.f, Rec::Win.b * 0.5f, 30.f, 16.f);
 		bLifeCount = 0;
 		vSpd = Vector2::zero;
 	}
