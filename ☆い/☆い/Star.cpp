@@ -5,28 +5,28 @@
 
 namespace Star
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("¯ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("æ˜Ÿã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
-		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW() * 1.4f, rStar.GetH() * 1.4f);
+		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
 		iChange = 0;
 		iStarEffect = 0;
@@ -38,19 +38,19 @@ namespace Star
 		iAlpha = 0;
 		iCnt = 0;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
-		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW() * 1.4f, rStar.GetH() * 1.4f);
-		auto vFgm = FindAll <Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
+		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
+		auto vFgm = FindAll <Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
 		if (vFgm.size())
 		{
-			for (auto& vf : vFgm)
+			for (auto &vf : vFgm)
 			{
 				CheckHit(vf);
 			}
@@ -70,10 +70,10 @@ namespace Star
 		}
 		iAlpha += iCnt;
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 
@@ -86,14 +86,14 @@ namespace Star
 			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
 
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
-			Frec src2(16.f * iChangeCircle, 0, 16.f, 16.f);
+			Frec src2(16.f*iChangeCircle, 0, 16.f, 16.f);
 			rStarCircle.DrawAlpha(&res->iStageImg, &src2, iAlpha);
 #ifdef _DEBUG
 			cStarhitbase.Draw();
 #endif // _DEBUG	
 		}
 	}
-	void Obj::CheckHit(TaskBase * fr)
+	void Obj::CheckHit(TaskBase* fr)
 	{
 		Fragment::Obj* oFragment = (Fragment::Obj*)fr;
 		Circle cHit;
@@ -101,7 +101,7 @@ namespace Star
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cStarhitbase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+			if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 			{
 				switch (iChange)
 				{
@@ -518,14 +518,14 @@ namespace Star
 			//{
 			//	iChange = 0;
 			//}
-			if (auto sm = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN"))
+			if (auto sm = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯"))
 			{
 				++sm->bClearFragmentNum;
 			}
 			/*oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;*/
 		}
-	}
+}
 	void AnimStar(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
 	{
 		*bSrcY = 0;
@@ -534,6 +534,6 @@ namespace Star
 			*bFrame = 0;
 			*bSrcX = (*bSrcX + 1) % 4;
 		}
-		++ * bFrame;
+		++*bFrame;
 	}
-}
+		}
