@@ -20,6 +20,15 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 {
 	switch (message_)
 	{
+	case WM_CREATE:
+	{
+		if (FindWindow(WINNAME, WINCLASS))
+		{
+			MessageBox(nullptr, "このアプリケーションは起動済みです。", WINNAME, MB_ICONWARNING);
+			PostQuitMessage(1);
+		}
+		break;
+	}
 		//描画処理
 	case WM_PAINT:
 	{
@@ -34,7 +43,7 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 		{
 			if (kb->On(VK_CONTROL) && kb->Down('S'))
 			{
-				SaveBitMap(hDC, &Rec::Win, "ScreenShot.bmp");
+				SaveBitMap(hDC, &Rec::Win, "./screenshot/ScreenShot.bmp");
 			}
 		}
 
@@ -239,13 +248,13 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			{
 				fX += 10.f;
 			}
-			if (kb.On('U'))
+			if (kb.On('Y'))
 			{
 				fZoom = Min(fZoom + 0.2f, 2.f);
 			}
-			if (kb.On('O'))
+			if (kb.On('U'))
 			{
-				fZoom = Max(fZoom - 0.2f, 0.f);
+				fZoom = Max(fZoom - 0.2f, 1.f);
 			}
 			Rec::MoveCamera(&Vector2(fX, fY));
 			Rec::Zoom(fZoom);

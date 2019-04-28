@@ -3,11 +3,11 @@
 
 namespace Star
 {
-	/*���\�[�X�N���X*/
+	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
-		/*�K�v�ȃ����o�͂����ɒǉ�*/
+		/*必要なメンバはここに追加*/
 
 
 		RS() { Init(); }
@@ -16,21 +16,25 @@ namespace Star
 		void Init();
 		void Finalize();
 	};
-	typedef RS *RS_ptr;
-	/*�^�X�N�I�u�W�F�N�g�N���X*/
+	typedef RS* RS_ptr;
+	/*タスクオブジェクトクラス*/
 	typedef class Obj : public TaskBase
 	{
 	public:
-		/*�K�v�ȃ����o�͂����ɒǉ�*/
+		/*必要なメンバはここに追加*/
 		Rec rStar;
 		Rec rStarCircle;
 		Circle cStarhitbase;
-		
+		Animation aAnimetor;
+
 		int iChange;
+		int iStarEffect;
 		int iChangeCircle;
 		int iAlpha;
 		int iCnt;
 		Vector2 vMove;
+		byte bAlpha;
+		char cAddAlpha;
 
 		Obj() {}
 		~Obj() {}
@@ -43,4 +47,6 @@ namespace Star
 		void Render();
 		void CheckHit(TaskBase* fragment);
 	}*OBJ_ptr;
+
+	void AnimStar(byte* const bFrame, byte* const bSrcX, byte* const bSrcY);
 }

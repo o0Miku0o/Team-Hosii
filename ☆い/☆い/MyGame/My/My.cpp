@@ -1487,21 +1487,21 @@ void Rec::DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alph
 	bfu.SourceConstantAlpha = alpha_;
 
 	auto hBufDc = CreateCompatibleDC(off);
-	auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
+	auto hBufBmp = CreateCompatibleBitmap(off, (int)w, (int)h);
 	SelectObject(hBufDc, hBufBmp);
 
 	POINT pBufArr[3] =
 	{
 		{0, 0},
-		{mybitmap_->GetBmpInfo().bmWidth, 0},
-		{0, mybitmap_->GetBmpInfo().bmHeight},
+		{(int)w, 0},
+		{0, (int)h},
 	};
 
 	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
 
 	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 
-	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
+	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, (int)w, (int)h, bfu);
 
 	DeleteObject(hBufBmp);
 	DeleteDC(hBufDc);
@@ -1753,25 +1753,30 @@ float Rec::GetPosY() const
 {
 	return p[CENTER].y;
 }
-//
+//矩形の左上の座標を取得
 const Point &Rec::GetTL() const
 {
 	return p[TOP_LEFT];
 }
-//
+//矩形の右上の座標を取得
 const Point &Rec::GetTR() const
 {
 	return p[TOP_RIGHT];
 }
-//
+//矩形の左下の座標を取得
 const Point &Rec::GetBL() const
 {
 	return p[BOTTOM_LEFT];
 }
-//
+//矩形の右下の座標を取得
 const Point &Rec::GetBR() const
 {
 	return p[BOTTOM_RIGHT];
+}
+//現在のサイズが（0, 0）かどうか
+const bool Rec::Zero() const
+{
+	return (!w && !h);
 }
 
 /*円クラス*/

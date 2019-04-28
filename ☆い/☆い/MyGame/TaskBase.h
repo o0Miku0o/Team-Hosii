@@ -89,7 +89,7 @@ private:
 	TaskBase *prev;
 	int tstate;
 	bool updflag;
-	u_long wait;
+	long wait;
 
 	virtual void Init() = 0;
 

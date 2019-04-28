@@ -36,7 +36,7 @@ namespace Title
 		fix fMSpdBase;
 		fix fMScale;
 		byte bAlpha;
-		byte bAddAlpha;
+		char cAddAlpha;
 		bool bShineFlag;
 
 		Obj() {}
@@ -51,7 +51,6 @@ namespace Title
 		void OtherInit();
 
 		void LogoUpdate();
-		void ButtonUpdate();
 		void MeteoUpdate();
 
 		void DrawMeteo();
@@ -63,6 +62,7 @@ namespace Title
 		void CreateCursor();
 		void CreateStar();
 		void PlayBgm();
+		void ButtonResize();
 
 	public:
 		void Update();

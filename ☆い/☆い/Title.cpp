@@ -91,7 +91,7 @@ namespace Title
 
 			CreateCursor();
 
-			ButtonUpdate();
+			ButtonResize();
 		}
 	}
 	/*タスクの描画処理*/
@@ -132,7 +132,7 @@ namespace Title
 		fZoom = 1.8f;
 		fStartImgSrcY = 0.f;
 		bAlpha = 5;
-		bAddAlpha = 5;
+		cAddAlpha = 5;
 
 		Rec::Zoom(fZoom);
 	}
@@ -141,11 +141,11 @@ namespace Title
 	{
 		if (bAlpha <= 0 || bAlpha >= 255)
 		{
-			bAddAlpha = -bAddAlpha;
+			cAddAlpha = -cAddAlpha;
 		}
-		bAlpha += bAddAlpha;
+		bAlpha += cAddAlpha;
 	}
-	void Obj::ButtonUpdate()
+	void Obj::ButtonResize()
 	{
 		rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
 	}
@@ -214,8 +214,8 @@ namespace Title
 	void Obj::CreateStar()
 	{
 		auto sg = Add<StarGenerator::Obj>();
-		int iChange = 24;
-		sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
+		sg->Bridge(1, { 24 }, { 46 }, { Point(1190.f, Rec::Win.b * 0.43f) });
+		//sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
 		if (auto st = Find<Star::Obj>("星タスク"))
 		{
 			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);

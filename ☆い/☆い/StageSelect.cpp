@@ -6,6 +6,7 @@
 #include "StageSelectObjBH.h"
 #include "StageSelectObjAsteroid.h"
 #include "Cursor.h"
+#include "Hukidasi.h"
 
 //tamesi
 #include "StageLoad.h"
@@ -37,9 +38,7 @@ namespace StageSelect
 		Add<StageSelectObjUS::Obj>();
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
-
-		rHukidasi = Rec();
-		rTongari = Rec();
+		Add<Hukidasi::Obj>();
 
 		/*データの初期化*/
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
@@ -74,7 +73,6 @@ namespace StageSelect
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		rHukidasi.Draw();
-		rTongari.Draw();
+
 	}
 }
