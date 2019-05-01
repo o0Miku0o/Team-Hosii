@@ -6,6 +6,9 @@ namespace Eff1
 	enum Type
 	{
 		TYPE_BEAM,
+		TYPE_R_FRG,
+		TYPE_Y_FRG,
+		TYPE_B_FRG,
 		TYPE_MAX
 	};
 	/*リソースクラス*/
