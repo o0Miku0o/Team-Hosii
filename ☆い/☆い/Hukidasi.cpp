@@ -41,7 +41,7 @@ namespace Hukidasi
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (!rHukidasi.Zero())
+		if (!rHukidasi.SizeZero())
 		{
 			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 			{
