@@ -1,5 +1,6 @@
 #include "Hukidasi.h"
 #include "StageManager.h"
+#include "StagePicture.h"
 
 namespace Hukidasi
 {
@@ -27,6 +28,7 @@ namespace Hukidasi
 		fAddScale = 0.f;
 		fWidthMax = 0.f;
 		fHeightMax = 0.f;
+		bIsSetPicture = false;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -37,6 +39,14 @@ namespace Hukidasi
 	void Obj::Update()
 	{
 		Resize();
+		if (rHukidasi.SizeZero())
+		{
+			if (auto sp = Find<StagePicture::Obj>("ステージピクチャータスク"))
+			{
+				Remove(sp);
+			}
+			bIsSetPicture = false;
+		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -80,5 +90,15 @@ namespace Hukidasi
 	void Obj::SetPos(const Point * const appPos)
 	{
 		rHukidasi.SetPos(appPos);
+	}
+	/*表示するステージの設定*/
+	void Obj::SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize)
+	{
+		if (bIsSetPicture) return;
+		auto sp = Add<StagePicture::Obj>();
+		sp->LoadImg(auiStageNumber);
+		sp->SetPos(&Point(apfrPosSize->l, apfrPosSize->t));
+		sp->SetSize(apfrPosSize->r, apfrPosSize->b);
+		bIsSetPicture = true;
 	}
 }

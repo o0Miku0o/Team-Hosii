@@ -230,12 +230,58 @@ inline constexpr Value Clamp(const Value &v, const Value &l, const Value &h)
 {
 	return Min(Max(v, l), h);
 }
-/*aとbを入れ替える（浮動小数点はNG！）*/
+/*aとbを入れ替える*/
 template<class Value>
 inline void Swap(Value &a, Value &b)
 {
 	if (a == b) return;
 	a ^= b ^= a ^= b;
+}
+/*aとbを入れ替える*/
+template<>
+inline void Swap(float &a, float &b)
+{
+	if (a == b) return;
+	const float fTmp = a;
+	a = b;
+	b = fTmp;
+}
+/*aとbを入れ替える*/
+template<>
+inline void Swap(double &a, double &b)
+{
+	if (a == b) return;
+	const double dTmp = a;
+	a = b;
+	b = dTmp;
+}
+/*aとbを入れ替える*/
+template<class Value1, class Value2>
+inline void Swap(double &a, float &b)
+{
+	if (a == (double)b) return;
+	const double dTmp = a;
+	a = (double)b;
+	b = (float)dTmp;
+}
+/*aとbを入れ替える*/
+template<class Value1, class Value2>
+inline void Swap(float &a, double &b)
+{
+	if ((double)a == b) return;
+	const double dTmp = (double)a;
+	a = (float)b;
+	b = dTmp;
+}
+/*randのfloat版*/
+inline const float randf()
+{
+	return (float)rand();
+}
+/*randのfloat版（nで割った余り）*/
+inline const float randf(const int n)
+{
+	return float(rand() % n);
 }
 //Myネームスペース内のクラスで使用する透明色
 constexpr COLORREF TRANSPARENT_COLOR = RGB(255, 0, 255);

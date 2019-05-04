@@ -25,14 +25,11 @@ namespace Back
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		for (auto &ap : pBackStar)
-		{
-			ap.SetPos(&Point(float(rand() % int(Rec::Win.r)), float(rand() % int(Rec::Win.b))));
-		}
+		BackStarInit();
+
+		ShootingStarInit();
+
 		rBackBase = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
-		lShootingStar = Line();
-		bSSLife = 0;
-		bSSLifeMax = 60;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -54,6 +51,21 @@ namespace Back
 		BackStarDraw();
 
 		ShootingStarDraw();
+	}
+	/*流れ星の初期化*/
+	void Obj::ShootingStarInit()
+	{
+		lShootingStar = Line();
+		bSSLife = 0;
+		bSSLifeMax = 60;
+	}
+	/*背景の星の初期化*/
+	void Obj::BackStarInit()
+	{
+		for (auto &ap : pBackStar)
+		{
+			ap.SetPos(&Point(float(rand() % int(Rec::Win.r)), float(rand() % int(Rec::Win.b))));
+		}
 	}
 	/*流れ星の更新*/
 	void Obj::ShootingStarUpdate()

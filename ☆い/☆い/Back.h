@@ -25,7 +25,7 @@ namespace Back
 		Obj() {}
 		~Obj() {}
 	private:
-		Pixel pBackStar[560];
+		Pixel pBackStar[320];
 		Rec rBackBase;
 		Line lShootingStar;
 		byte bSSLife;
@@ -34,6 +34,9 @@ namespace Back
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void ShootingStarInit();
+		void BackStarInit();
 
 		void ShootingStarUpdate();
 		void BackStarUpdate();

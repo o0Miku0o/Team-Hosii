@@ -1,7 +1,7 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Hukidasi
+namespace StagePicture
 {
 	/*リソースクラス*/
 	class RS : public ResourceBase
@@ -25,24 +25,23 @@ namespace Hukidasi
 		Obj() {}
 		~Obj() {}
 	private:
-		Rec rHukidasi;
-		float fAddScale;
-		float fWidthMax;
-		float fHeightMax;
-		bool bIsSetPicture;
-			
+		Image iStageImg;
+		Rec rPictureBase;
+		bool bIsLoaded;
+
 		RS_ptr res;
 		void Init();
 		void Finalize();
 
-		void Resize();
 	public:
 		void Update();
 		void Render();
 
-		void SetAddScale(const float afAddScale);
-		void SetScaleMax(const float afWMax, const float afHMax);
+		/*ステージの画像読み込み。パスは./data/image/other/Stage/st(auiStageNumber ステージの番号).bmpになる。*/
+		void LoadImg(const unsigned int auiStageNumber);
+		/*サイズ調整*/
+		void SetSize(const float afWidth, const float afHeight);
+		/*座標調整*/
 		void SetPos(const Point * const appPos);
-		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
 	}*OBJ_ptr;
 }
