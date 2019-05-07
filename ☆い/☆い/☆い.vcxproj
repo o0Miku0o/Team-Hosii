@@ -164,6 +164,7 @@
     <ClInclude Include="Stage5-3.h" />
     <ClInclude Include="StageLoad.h" />
     <ClInclude Include="StageManager.h" />
+    <ClInclude Include="StagePicture.h" />
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="StageSelectObjAsteroid.h" />
     <ClInclude Include="StageSelectObjBH.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="Stage5-3.cpp" />
     <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="StagePicture.cpp" />
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StageSelectObjAsteroid.cpp" />
     <ClCompile Include="StageSelectObjBH.cpp" />

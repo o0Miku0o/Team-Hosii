@@ -21,14 +21,16 @@ namespace Hukidasi
 	{
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
-		Rec rHukidasi;
-		float fAddScale;
-		float fWidthMax;
-		float fHeightMax;
 
 		Obj() {}
 		~Obj() {}
 	private:
+		Rec rHukidasi;
+		float fAddScale;
+		float fWidthMax;
+		float fHeightMax;
+		bool bIsSetPicture;
+			
 		RS_ptr res;
 		void Init();
 		void Finalize();
@@ -41,5 +43,6 @@ namespace Hukidasi
 		void SetAddScale(const float afAddScale);
 		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
+		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
 	}*OBJ_ptr;
 }

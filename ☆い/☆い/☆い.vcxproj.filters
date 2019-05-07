@@ -57,6 +57,7 @@
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Hukidasi.cpp" />
     <ClCompile Include="Eff1.cpp" />
+	<ClCompile Include="StagePicture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Saturn.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Hukidasi.h" />
+	<ClInclude Include="StagePicture.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />
@@ -124,3 +126,4 @@
   <ItemGroup>
     <Image Include="hosii.ico" />
   </ItemGroup>
+ </Project>

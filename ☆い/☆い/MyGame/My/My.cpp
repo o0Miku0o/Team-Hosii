@@ -1774,7 +1774,7 @@ const Point &Rec::GetBR() const
 	return p[BOTTOM_RIGHT];
 }
 //現在のサイズが（0, 0）かどうか
-const bool Rec::Zero() const
+const bool Rec::SizeZero() const
 {
 	return (!w && !h);
 }

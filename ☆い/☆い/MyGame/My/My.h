@@ -230,12 +230,58 @@ inline constexpr Value Clamp(const Value &v, const Value &l, const Value &h)
 {
 	return Min(Max(v, l), h);
 }
-/*aとbを入れ替える（浮動小数点はNG！）*/
+/*aとbを入れ替える*/
 template<class Value>
 inline void Swap(Value &a, Value &b)
 {
 	if (a == b) return;
 	a ^= b ^= a ^= b;
+}
+/*aとbを入れ替える*/
+template<>
+inline void Swap(float &a, float &b)
+{
+	if (a == b) return;
+	const float fTmp = a;
+	a = b;
+	b = fTmp;
+}
+/*aとbを入れ替える*/
+template<>
+inline void Swap(double &a, double &b)
+{
+	if (a == b) return;
+	const double dTmp = a;
+	a = b;
+	b = dTmp;
+}
+/*aとbを入れ替える*/
+template<class Value1, class Value2>
+inline void Swap(double &a, float &b)
+{
+	if (a == (double)b) return;
+	const double dTmp = a;
+	a = (double)b;
+	b = (float)dTmp;
+}
+/*aとbを入れ替える*/
+template<class Value1, class Value2>
+inline void Swap(float &a, double &b)
+{
+	if ((double)a == b) return;
+	const double dTmp = (double)a;
+	a = (float)b;
+	b = dTmp;
+}
+/*randのfloat版*/
+inline const float randf()
+{
+	return (float)rand();
+}
+/*randのfloat版（nで割った余り）*/
+inline const float randf(const int n)
+{
+	return float(rand() % n);
 }
 //Myネームスペース内のクラスで使用する透明色
 constexpr COLORREF TRANSPARENT_COLOR = RGB(255, 0, 255);
@@ -766,7 +812,7 @@ public:
 	//矩形の右下の座標を取得
 	const Point &GetBR() const;
 	//現在のサイズが（0, 0）かどうか
-	const bool Zero() const;
+	const bool SizeZero() const;
 };
 
 /*BMPファイルとしてビットマップを出力*/
@@ -1037,6 +1083,87 @@ public:
 	const float GetPosX() const;
 	const float GetPosY() const;
 	void Draw() const;
+};
+
+class MyArc
+{
+private:
+	Point pCenter;
+	float fRadius;
+	float fAngle;
+	float fAngleRange;
+	COLORREF cColor;
+	HDC hOff;
+	HPEN hPen;
+public:
+	MyArc()
+		: pCenter({})
+		, fRadius(0.f)
+		, fAngle(0.f)
+		, fAngleRange(0.f)
+		, hOff(Rec::GetOffScreenHandle())
+		, hPen(CreatePen(PS_SOLID, 1, RGB(255, 255, 255)))
+	{
+
+	}
+	MyArc(const MyArc &raaOther)
+		: pCenter(raaOther.pCenter)
+		, fRadius(raaOther.fRadius)
+		, fAngle(raaOther.fAngle)
+		, fAngleRange(raaOther.fAngleRange)
+		, hOff(Rec::GetOffScreenHandle())
+		, hPen(CreatePen(PS_SOLID, 1, RGB(255, 255, 255)))
+	{
+
+	}
+	~MyArc()
+	{
+		if (hPen) DeleteObject(hPen);
+	}
+	const Point SetPos(const Point * const appCenterPos)
+	{
+		pCenter.x = appCenterPos->x;
+		pCenter.y = appCenterPos->y;
+		return pCenter;
+	}
+	const float SetRadius(const float afRadius)
+	{
+		fRadius = afRadius;
+		return fRadius;
+	}
+	void SetAngle(const float afAngle, const float afAngleRange)
+	{
+		fAngle = afAngle;
+		fAngleRange = afAngleRange;
+	}
+	const COLORREF SetColor(const byte abR, const byte abG, const byte abB)
+	{
+		cColor = RGB(abR, abG, abB);
+		if (hPen) DeleteObject(hPen);
+		hPen = CreatePen(PS_SOLID, 1, cColor);
+		return cColor;
+	}
+	void Draw() const
+	{
+		HGDIOBJ hOld = SelectObject(hOff, hPen);
+		const Point pAdjust = Rec::AdjustCamPos(&pCenter);
+		const float fModAngle = ModAngle(fAngle - (fAngleRange / 2));
+		const float fModAngleMax = ModAngle(fAngle + (fAngleRange / 2));
+		float fSinCosX = 0.f;
+		float fSinCosY = 0.f;
+		sincos_fast(DtoR(fModAngle), &fSinCosX, &fSinCosY);
+		int iX = int(fSinCosX * fRadius + pAdjust.x);
+		int iY = int(fSinCosY * fRadius + pAdjust.y);
+		MoveToEx(hOff, iX, iY, nullptr);
+		for (float f = 0; f < fAngleRange; ++f)
+		{
+			sincos_fast(DtoR(fModAngle + f), &fSinCosX, &fSinCosY);
+			iX = int(fSinCosX * fRadius + pAdjust.x);
+			iY = int(fSinCosY * fRadius + pAdjust.y);
+			LineTo(hOff, iX, iY);
+		}
+		SelectObject(hOff, hOld);
+	}
 };
 
 /*パーティクルクラス*/

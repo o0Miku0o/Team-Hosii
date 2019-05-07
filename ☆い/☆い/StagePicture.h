@@ -1,22 +1,13 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
-namespace Eff1
+namespace StagePicture
 {
-	enum Type
-	{
-		TYPE_BEAM,
-		TYPE_R_FRG,
-		TYPE_Y_FRG,
-		TYPE_B_FRG,
-		TYPE_MAX
-	};
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Image iEff1Img;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -34,21 +25,23 @@ namespace Eff1
 		Obj() {}
 		~Obj() {}
 	private:
-		Rec rEffBase;
-		fix fSpdX;
-		fix fSpdY;
-		fix fAngle;
-		fix fAddAngle;
-		byte bLifeMax;
-		byte bLife;
-		Type tType;
+		Image iStageImg;
+		Rec rPictureBase;
+		bool bIsLoaded;
 
+		RS_ptr res;
 		void Init();
 		void Finalize();
+
 	public:
 		void Update();
 		void Render();
 
-		void SetParam(const Rec * const crpcEffBase, const Vector2 * const cvpcSpd, const byte cbLifeMax, const Type ctType, const fix cfAngle = 0.f, const fix cfAddAngle = 0.f);
+		/*ステージの画像読み込み。パスは./data/image/other/Stage/st(auiStageNumber ステージの番号).bmpになる。*/
+		void LoadImg(const unsigned int auiStageNumber);
+		/*サイズ調整*/
+		void SetSize(const float afWidth, const float afHeight);
+		/*座標調整*/
+		void SetPos(const Point * const appPos);
 	}*OBJ_ptr;
 }
