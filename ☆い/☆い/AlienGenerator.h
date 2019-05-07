@@ -2,6 +2,8 @@
 #include "MyGame/MyApp.h"
 #include "Alien.h"
 
+using namespace std;
+
 namespace AlienGenerator
 {
 	/*リソースクラス*/
@@ -34,5 +36,7 @@ namespace AlienGenerator
 		void Render();
 
 		void Bridge(const int iNum, const Point* pPos, Alien::Move *fpMove, Alien::Hit *fpBMHit, Alien::Hit *fpFGHit, Alien::Anim *fpAnim);
+		void Bridge(const int iNum, const vector<Point> pPos, const vector<Alien::Move> fpMove, const vector <Alien::Hit> pBMHit, 
+			const vector<Alien::Hit> fpFGHit, const vector<Alien::Anim> fpAnim);
 	}*OBJ_ptr;
 }
