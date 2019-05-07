@@ -52,10 +52,10 @@ namespace Result
 		rWord = Rec(1370.f, 750.f, 16.f * 60.f, 16.f * 10.f);
 
 		auto sg = Add<StarGenerator::Obj>();
-		Point pStArr[6] = { Point(1100.f,500.f),Point(1300.f,500.f),Point(1500.f,500.f),Point(1100.f - 1000.f,500.f - 1000.f),Point(1300.f - 1000.f,500.f - 1000.f),Point(1500.f - 1000.f,500.f - 1000.f) };
-		int iArr[6] = { 37,37,37,25,25,25 };
-		sg->Bridge(6, iArr, pStArr);
-
+		vector<Point> pStArr = { Point(1100.f,500.f),Point(1300.f,500.f),Point(1500.f,500.f),Point(1100.f - 1000.f,500.f - 1000.f),Point(1300.f - 1000.f,500.f - 1000.f),Point(1500.f - 1000.f,500.f - 1000.f) };
+		vector<int> iArr = { 37,37,37,25,25,25 };
+		vector<int> iEff = { 56, 56, 56, 47, 47, 47, };
+		sg->Bridge(6, iArr, iEff, pStArr);
 		bNextStage = 0;
 		bMoveStarIdx = 0;
 		bScore = 1;

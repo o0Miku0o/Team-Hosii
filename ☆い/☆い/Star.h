@@ -3,11 +3,11 @@
 
 namespace Star
 {
-	/*リソースクラス*/
+	/*���\�[�X�N���X*/
 	class RS : public ResourceBase
 	{
 	public:
-		/*必要なメンバはここに追加*/
+		/*�K�v�ȃ����o�͂����ɒǉ�*/
 
 
 		RS() { Init(); }
@@ -17,11 +17,11 @@ namespace Star
 		void Finalize();
 	};
 	typedef RS* RS_ptr;
-	/*タスクオブジェクトクラス*/
+	/*�^�X�N�I�u�W�F�N�g�N���X*/
 	typedef class Obj : public TaskBase
 	{
 	public:
-		/*必要なメンバはここに追加*/
+		/*�K�v�ȃ����o�͂����ɒǉ�*/
 		Rec rStar;
 		Rec rStarCircle;
 		Circle cStarhitbase;
