@@ -21,7 +21,9 @@ namespace Gas
 	{
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
-		Rec rGus;
+		Rec rGas;
+		int iGasColor;
+		Animation aAnim;
 
 		Obj() {}
 		~Obj() {}
@@ -33,4 +35,8 @@ namespace Gas
 		void Update();
 		void Render();
 	}*OBJ_ptr;
+	void AnimGasW(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
+	void AnimGasB(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
+	void AnimGasY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
+	void AnimGasP(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 }
