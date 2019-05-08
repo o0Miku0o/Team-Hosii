@@ -14,6 +14,7 @@
 #include "Back.h"
 #include "StageSelect.h"
 #include <fstream>
+#include "FadeInOut.h"
 
 namespace StageLoad
 {
@@ -110,6 +111,8 @@ namespace StageLoad
 			isLoad = true;
 			Remove(this);
 			Add<Stage::Obj>();
+			auto fade = Add<FadeInOut::Obj>();
+			fade->bIsIn = false;
 		}
 	}
 	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/

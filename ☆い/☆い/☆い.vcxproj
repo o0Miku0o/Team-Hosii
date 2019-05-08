@@ -127,6 +127,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Eff1.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="FragmentGenerator.h" />
     <ClInclude Include="Game.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="BreakStarGenerator.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Eff1.cpp" />
+    <ClCompile Include="FadeInOut.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
