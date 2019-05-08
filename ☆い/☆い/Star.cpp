@@ -6,26 +6,26 @@
 
 namespace Star
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("¯ƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("æ˜Ÿã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
@@ -40,16 +40,16 @@ namespace Star
 		iCnt = 0;
 		tempCnt = 0;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
-		auto vFgm = FindAll <Fragment::Obj>("Œ‡•Ğƒ^ƒXƒN");
+		auto vFgm = FindAll <Fragment::Obj>("æ¬ ç‰‡ã‚¿ã‚¹ã‚¯");
 		if (vFgm.size())
 		{
 			for (auto &vf : vFgm)
@@ -72,10 +72,10 @@ namespace Star
 		}
 		iAlpha += iCnt;
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			Frec src(16.f * iChange, 0, 16.f, 16.f);
 
@@ -88,7 +88,7 @@ namespace Star
 			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
 
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
-			if (Find<Result::Obj>("ƒŠƒUƒ‹ƒgƒ^ƒXƒN") == nullptr && Find<Title::Obj>("ƒ^ƒCƒgƒ‹ƒ^ƒXƒN") == nullptr)
+			if (Find<Result::Obj>("ãƒªã‚¶ãƒ«ãƒˆã‚¿ã‚¹ã‚¯") == nullptr && Find<Title::Obj>("ã‚¿ã‚¤ãƒˆãƒ«ã‚¿ã‚¹ã‚¯") == nullptr)
 			{
 				Frec src2(16.f*iChangeCircle, 0, 16.f, 16.f);
 				rStarCircle.DrawAlpha(&res->iStageImg, &src2, iAlpha);
@@ -106,7 +106,7 @@ namespace Star
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cStarhitbase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+			if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 			{
 				switch (iChange)
 				{
@@ -303,19 +303,16 @@ namespace Star
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 45;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 46;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
 					{
 						iStarEffect = 47;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					break;
@@ -323,13 +320,11 @@ namespace Star
 					if (oFragment->iColor == 0)
 					{
 						iStarEffect = 46;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 1)
 					{
 						iStarEffect = 47;
-						res->wsTest2.Play();
 						Remove(fr);
 					}
 					if (oFragment->iColor == 2)
@@ -340,44 +335,14 @@ namespace Star
 					}
 					break;
 				case 46:
-					if (oFragment->iColor == 0)
-					{
-						iStarEffect = 47;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
-					if (oFragment->iColor == 1)
-					{
-						iStarEffect = 48;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
-					if (oFragment->iColor == 2)
-					{
-						iStarEffect = 49;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
+					oFragment->rFragment.SetPos(&oFragment->pInitPos);
+					res->wsTest5.Play();
+					oFragment->bMoveActive = false;
 					break;
 				case 47:
-					if (oFragment->iColor == 0)
-					{
-						iStarEffect = 48;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
-					if (oFragment->iColor == 1)
-					{
-						iStarEffect = 49;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
-					if (oFragment->iColor == 2)
-					{
-						iStarEffect = 50;
-						res->wsTest2.Play();
-						Remove(fr);
-					}
+					oFragment->rFragment.SetPos(&oFragment->pInitPos);
+					res->wsTest5.Play();
+					oFragment->bMoveActive = false;
 					break;
 				case 48:
 					if (oFragment->iColor == 0)
@@ -399,26 +364,26 @@ namespace Star
 						Remove(fr);
 					}
 					break;
-					/*case 49
-						if (oFragment->iColor == 0)
-						{
-							iStarEffect = 49;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						if (oFragment->iColor == 1)
-						{
-							iStarEffect = 50;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						if (oFragment->iColor == 2)
-						{
-							iStarEffect = 51;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						break;*/
+				case 49:
+					if (oFragment->iColor == 0)
+					{
+						iStarEffect = 49;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 1)
+					{
+						iStarEffect = 50;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					if (oFragment->iColor == 2)
+					{
+						iStarEffect = 51;
+						res->wsTest2.Play();
+						Remove(fr);
+					}
+					break;
 				case 50:
 					oFragment->rFragment.SetPos(&oFragment->pInitPos);
 					res->wsTest5.Play();
@@ -478,39 +443,6 @@ namespace Star
 						oFragment->bMoveActive = false;
 					}
 					break;
-					/*case 47:
-						if (oFragment->iColor == 1)
-						{
-							iStarEffect = 47;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						else
-						{
-							oFragment->rFragment.SetPos(&oFragment->pInitPos);
-							res->wsTest5.Play();
-							oFragment->bMoveActive = false;
-						}
-						break;
-					case 48:
-						if (oFragment->iColor == 0)
-						{
-							iStarEffect = 48;
-							res->wsTest2.Play();
-							Remove(fr);
-						}
-						else
-						{
-							oFragment->rFragment.SetPos(&oFragment->pInitPos);
-							res->wsTest5.Play();
-							oFragment->bMoveActive = false;
-						}
-						break;
-					case 31:
-						*/
-				case 0:
-					iStarEffect = 54;
-					break;
 				}
 			}
 
@@ -521,7 +453,7 @@ namespace Star
 			//{
 			//	iChange = 0;
 			//}
-			if (auto sm = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN"))
+			if (auto sm = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯"))
 			{
 				++sm->bClearFragmentNum;
 			}

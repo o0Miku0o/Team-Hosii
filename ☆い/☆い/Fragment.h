@@ -34,6 +34,8 @@ namespace Fragment
 		bool bRotationActive;
 		Vector2 vMove;
 
+		Animation aAnim;
+
 		Obj() {}
 		~Obj() {}
 	private:
@@ -47,4 +49,8 @@ namespace Fragment
 		void Checkhitfagment(TaskBase* fg);
 		void CheckhitAlien(TaskBase* al);
 	}*OBJ_ptr;
+	void AnimFragmentY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
+	void AnimFragmentR(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
+	void AnimFragmentB(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
+
 }
