@@ -21,18 +21,29 @@ namespace Back
 	{
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
-		Pixel pBackStar[560];
+
+		Obj() {}
+		~Obj() {}
+	private:
+		Pixel pBackStar[320];
 		Rec rBackBase;
 		Line lShootingStar;
 		byte bSSLife;
 		byte bSSLifeMax;
 
-		Obj() {}
-		~Obj() {}
-	private:
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void ShootingStarInit();
+		void BackStarInit();
+
+		void ShootingStarUpdate();
+		void BackStarUpdate();
+
+		void BackBaseDraw();
+		void ShootingStarDraw();
+		void BackStarDraw();
 	public:
 		void Update();
 		void Render();

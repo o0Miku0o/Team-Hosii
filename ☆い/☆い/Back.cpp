@@ -25,13 +25,11 @@ namespace Back
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		for (auto &ap : pBackStar)
-		{
-			ap.SetPos(&Point(float(rand() % int(Rec::Win.r)), float(rand() % int(Rec::Win.b))));
-		}
+		BackStarInit();
+
+		ShootingStarInit();
+
 		rBackBase = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
-		bSSLife = 0;
-		bSSLifeMax = 60;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -41,6 +39,37 @@ namespace Back
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		BackStarUpdate();
+
+		ShootingStarUpdate();
+	}
+	/*タスクの描画処理*/
+	void Obj::Render()
+	{
+		BackBaseDraw();
+
+		BackStarDraw();
+
+		ShootingStarDraw();
+	}
+	/*流れ星の初期化*/
+	void Obj::ShootingStarInit()
+	{
+		lShootingStar = Line();
+		bSSLife = 0;
+		bSSLifeMax = 60;
+	}
+	/*背景の星の初期化*/
+	void Obj::BackStarInit()
+	{
+		for (auto &ap : pBackStar)
+		{
+			ap.SetPos(&Point(float(rand() % int(Rec::Win.r)), float(rand() % int(Rec::Win.b))));
+		}
+	}
+	/*流れ星の更新*/
+	void Obj::ShootingStarUpdate()
+	{
 		lShootingStar.Move(20.f);
 		if (bSSLife >= bSSLifeMax)
 		{
@@ -49,7 +78,7 @@ namespace Back
 			lShootingStar.SetPos(&Point(float(rand() % int(Rec::Win.r)), float(rand() % int(Rec::Win.b))));
 			lShootingStar.SetDeg(float(rand() % 360));
 		}
-		else if(bSSLife < byte(bSSLifeMax * 0.5f))
+		else if (bSSLife < byte(bSSLifeMax * 0.5f))
 		{
 			lShootingStar.SetLen(lShootingStar.GetLen() + 10.f);
 		}
@@ -59,14 +88,9 @@ namespace Back
 		}
 		++bSSLife;
 	}
-	/*タスクの描画処理*/
-	void Obj::Render()
+	/*背景の星の更新*/
+	void Obj::BackStarUpdate()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			rBackBase.Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
-		}
-		auto ti = Find<Title::Obj>("タイトルタスク");
 		for (auto &ap : pBackStar)
 		{
 			if (rand() % 91 == 1)
@@ -74,15 +98,35 @@ namespace Back
 				const byte bC = (byte)rand() % 206 + 50;
 				ap.SetColor(RGB(bC, bC, bC));
 			}
+		}
+	}
+	/*背景画像の描画*/
+	void Obj::BackBaseDraw()
+	{
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			rBackBase.Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
+		}
+	}
+	/*流れ星の描画*/
+	void Obj::ShootingStarDraw()
+	{
+		if (lShootingStar.GetLen() > 0.f)
+		{
+			lShootingStar.Draw();
+		}
+	}
+	/*背景の星の更新*/
+	void Obj::BackStarDraw()
+	{
+		auto ti = Find<Title::Obj>("タイトルタスク");
+		for (auto &ap : pBackStar)
+		{
 			if (ti)
 			{
 				if (ti->rBoshi.CheckHit(&ap.GetPos()) || ti->rHo.CheckHit(&ap.GetPos())) continue;
 			}
 			ap.Draw();
-		}
-		if (lShootingStar.GetLen() > 0.f)
-		{
-			lShootingStar.Draw();
 		}
 	}
 }

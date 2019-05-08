@@ -42,9 +42,28 @@ namespace Title
 		Obj() {}
 		~Obj() {}
 	private:
-		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void LogoInit();
+		void ButtonInit();
+		void MeteoInit();
+		void OtherInit();
+
+		void LogoUpdate();
+		void MeteoUpdate();
+
+		void DrawMeteo();
+		void DrawLogo(RS * const rpRes, const Frec * const fpSrc);
+		void DrawButton(RS * const rpRes, const Frec * const fpSrc);
+
+		void CreateBeam();
+		void CreateFragment();
+		void CreateCursor();
+		void CreateStar();
+		void PlayBgm();
+		void ButtonResize();
+
 	public:
 		void Update();
 		void Render();

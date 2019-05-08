@@ -6,6 +6,7 @@
 #include "StageSelectObjBH.h"
 #include "StageSelectObjAsteroid.h"
 #include "Cursor.h"
+#include "Hukidasi.h"
 
 //tamesi
 #include "StageLoad.h"
@@ -37,13 +38,19 @@ namespace StageSelect
 		Add<StageSelectObjUS::Obj>();
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
+		Add<Hukidasi::Obj>();
 
 		/*データの初期化*/
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.Restart();
-		}
 
+		}
+		if (auto sm = RB::Find<StageManager::Obj>("ステージ統括リソース"))
+		{
+			sm->bStageNum = 11;
+
+		}
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -60,6 +67,7 @@ namespace StageSelect
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
+			return;
 		}
 	}
 	/*タスクの描画処理*/

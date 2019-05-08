@@ -20,6 +20,7 @@
 #include "Stage5-1.h"
 #include "Stage5-2.h"
 #include "Stage5-3.h"
+#include "StageLoad.h"
 
 namespace Result
 {
@@ -44,17 +45,17 @@ namespace Result
 
 		/*データの初期化*/
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
-		
+
 		rPlayer = Rec(180.f, 1000.f, 16.f * 70.f, 16.f * 70.f);
 		rPlayer.SetDeg(95);
 
 		rWord = Rec(1370.f, 750.f, 16.f * 60.f, 16.f * 10.f);
 
 		auto sg = Add<StarGenerator::Obj>();
-		Point pStArr[6] = { Point(1100.f,500.f),Point(1300.f,500.f),Point(1500.f,500.f),Point(1100.f - 1000.f,500.f - 1000.f),Point(1300.f - 1000.f,500.f - 1000.f),Point(1500.f - 1000.f,500.f - 1000.f) };
-		int iArr[6] = { 37,37,37,25,25,25 };
-		sg->Bridge(6, iArr, pStArr);
-
+		vector<Point> pStArr = { Point(1100.f,500.f),Point(1300.f,500.f),Point(1500.f,500.f),Point(1100.f - 1000.f,500.f - 1000.f),Point(1300.f - 1000.f,500.f - 1000.f),Point(1500.f - 1000.f,500.f - 1000.f) };
+		vector<int> iArr = { 37,37,37,25,25,25 };
+		vector<int> iEff = { 56, 56, 56, 47, 47, 47, };
+		sg->Bridge(6, iArr, iEff, pStArr);
 		bNextStage = 0;
 		bMoveStarIdx = 0;
 		bScore = 1;
@@ -101,7 +102,7 @@ namespace Result
 		else if (pad->Down(J_BUT_6) || kb->Down(VK_RETURN))
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			Add<Back::Obj>();
+			//			Add<Back::Obj>();
 			switch (bNextStage)
 			{
 			case 1:
@@ -111,7 +112,11 @@ namespace Result
 			}
 			case 2:
 			{
-				Add<Stage12::Obj>();
+				if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					manager->bStageNum = 2;
+				}
+				Add<StageLoad::Obj>();
+				//Add<Stage12::Obj>();
 				break;
 			}
 			case 3:
@@ -187,7 +192,17 @@ namespace Result
 			}
 			Pause(2);
 		}
+		else if (kb->Down('8')) {
+			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			//			Add<Back::Obj>();
+			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+				manager->bStageNum = manager->bNextStage;
+				Add<StageLoad::Obj>();
+			}
+			Pause(2);
+		}
 	}
+
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{

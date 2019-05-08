@@ -62,16 +62,25 @@ TaskBase::TaskBase()
 void TaskBase::SysFinalize()
 {
 	RB::Remove();
+	TB::RemoveAll();
 	if (top)
 	{
-		TaskBase *buf = nullptr;
-		for (TaskBase *it = top; it != nullptr; it = buf)
+		for (TB_ptr it = top; it != nullptr;)
 		{
-			buf = it->next;
+			if (it->tstate == END)
+			{
+				TB_ptr next = it->next;
+				TB_ptr prev = it->prev;
 
-			it->Finalize();
+				it->Finalize();
 
-			delete it;
+				delete it;
+
+				if (prev)prev->next = next;
+				else top = next;
+				it = next;
+				if (it)it->prev = prev;
+			}
 		}
 	}
 }
@@ -90,7 +99,7 @@ bool TaskBase::SysUpdate()
 				{
 					it->Update();
 				}
-				else if(it->wait > 0)
+				else if (it->wait > 0)
 				{
 					--it->wait;
 					if (it->wait == 0)
@@ -130,7 +139,7 @@ void TaskBase::SysRender()
 				it->Render();
 		}
 
-#ifdef _DEBUG
+#ifdef DEBUG
 		int pos = 0;
 		for (TB_ptr it = top; it != nullptr; it = it->next)
 		{

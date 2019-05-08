@@ -160,6 +160,13 @@ namespace Player
 	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
 	{
+		MyArc maArc;
+		maArc.SetPos(&pStandardPoint);
+		maArc.SetRadius(fSPDist);
+		maArc.SetAngle(180.f, 198.f - 162.f);
+		maArc.SetColor(130, 130, 255);
+		maArc.Draw();
+
 		lGuideLine.Draw();
 		if (lGuideLineFgm.GetLen())
 		{
