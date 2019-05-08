@@ -105,7 +105,12 @@ namespace Fragment
 			//Remove(this);
 		}
 		if (rFragment.GetPosX() > Rec::Win.r + rFragment.GetW())
-		{   			//Remove(this);
+		{
+
+			rFragment.SetPos(&pInitPos);
+			bMoveActive = false;
+			//Add<Fragment::Obj>();	
+			//Remove(this);
 		}
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
 		{
