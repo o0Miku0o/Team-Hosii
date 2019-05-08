@@ -59,7 +59,7 @@
     <ClCompile Include="Eff1.cpp" />
     <ClCompile Include="StagePicture.cpp" />
     <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="..\..\..\..\Downloads\Team-Hosii-develop\Team-Hosii-develop\☆い\☆い\FadeInOut.cpp" />
+    <ClCompile Include="FadeInOut.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -122,7 +122,7 @@
     <ClInclude Include="Hukidasi.h" />
     <ClInclude Include="StagePicture.h" />
     <ClInclude Include="Stage.h" />
-    <ClInclude Include="..\..\..\..\Downloads\Team-Hosii-develop\Team-Hosii-develop\☆い\☆い\FadeInOut.h" />
+    <ClInclude Include="FadeInOut.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

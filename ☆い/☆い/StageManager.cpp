@@ -5,6 +5,8 @@
 #include "Beam.h"
 #include "Player.h"
 
+#include "FadeInOut.h"
+
 namespace StageManager
 {
 	/*リソースの初期化処理*/
@@ -100,7 +102,6 @@ namespace StageManager
 		bStageNum = 11;
 		bIsDebug = false;
 		iResultCnt = 0;
-
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -114,7 +115,7 @@ namespace StageManager
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
-			if (++iResultCnt >= 300)
+			if (++iResultCnt >= 280)
 			{
 				bClearFragmentNum = 0;
 				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -129,6 +130,10 @@ namespace StageManager
 					re->bScore = 2;
 				}
 				iResultCnt = 0;
+			}
+			else if(iResultCnt == 1) {
+				auto fade = Add<FadeInOut::Obj>();
+				fade->bIsIn = true;
 			}
 		}
 	}
