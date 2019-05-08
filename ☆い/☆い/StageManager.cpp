@@ -98,6 +98,8 @@ namespace StageManager
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
 		bStageNum = 11;
+		bIsDebug = false;
+		iResultCnt = 0;
 
 	}
 	/*タスクの終了処理*/
@@ -110,17 +112,23 @@ namespace StageManager
 	{
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
-			bClearFragmentNum = 0;
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			auto re = Add<Result::Obj>();
-			re->bNextStage = bNextStage;
-			if (usBeamCount <= bClearFragmentNumMax)
+			//時間を止めて！！！
+			//フェイドイン＆＆フェイドアウトの時間に入れ替え
+			if (++iResultCnt >= 300)
 			{
-				re->bScore = 3;
-			}
-			else if (usBeamCount <= short(bClearFragmentNumMax * 1.5f))
-			{
-				re->bScore = 2;
+				bClearFragmentNum = 0;
+				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+				auto re = Add<Result::Obj>();
+				re->bNextStage = bNextStage;
+				if (usBeamCount <= bClearFragmentNumMax)
+				{
+					re->bScore = 3;
+				}
+				else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+				{
+					re->bScore = 2;
+				}
+				iResultCnt = 0;
 			}
 		}
 	}

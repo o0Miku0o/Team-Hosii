@@ -38,7 +38,6 @@ namespace Star
 		iChangeCircle = 85;
 		iAlpha = 0;
 		iCnt = 0;
-		tempCnt = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

@@ -1,5 +1,10 @@
 #include "MyGame/MyApp.h"
 #include "resource.h"
+#ifdef _DEBUG
+#include "StageManager.h"
+#include "MyGame/TaskBase.h"
+#endif // _DEBUG
+
 //初期化処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 void Init();
 //終了処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
@@ -255,6 +260,12 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			if (kb.On('U'))
 			{
 				fZoom = Max(fZoom - 0.2f, 1.f);
+			}
+			if (kb.Down(VK_BACK)) {
+				if (auto sm = TaskBase::Find<StageManager::Obj>("ステージ統括タスク"))
+				{
+					sm->bIsDebug = !sm->bIsDebug;
+				}
 			}
 			Rec::MoveCamera(&Vector2(fX, fY));
 			Rec::Zoom(fZoom);

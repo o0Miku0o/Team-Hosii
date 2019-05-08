@@ -54,7 +54,7 @@ namespace Result
 		auto sg = Add<StarGenerator::Obj>();
 		vector<Point> pStArr = { Point(1100.f,500.f),Point(1300.f,500.f),Point(1500.f,500.f),Point(1100.f - 1000.f,500.f - 1000.f),Point(1300.f - 1000.f,500.f - 1000.f),Point(1500.f - 1000.f,500.f - 1000.f) };
 		vector<int> iArr = { 37,37,37,25,25,25 };
-		vector<int> iEff = { 56, 56, 56, 47, 47, 47, };
+		vector<int> iEff = { 55, 55, 55, 47, 47, 47, };
 		sg->Bridge(6, iArr, iEff, pStArr);
 		bNextStage = 0;
 		bMoveStarIdx = 0;

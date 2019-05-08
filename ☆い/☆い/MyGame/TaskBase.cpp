@@ -1,5 +1,9 @@
 #include "TaskBase.h"
 
+#ifdef _DEBUG
+	#include "..\StageManager.h"
+#endif // _DEBUG
+
 //スタティック変数の初期化
 ResourceBase *ResourceBase::top = nullptr;
 
@@ -139,14 +143,19 @@ void TaskBase::SysRender()
 				it->Render();
 		}
 
-#ifdef DEBUG
-		int pos = 0;
-		for (TB_ptr it = top; it != nullptr; it = it->next)
+#ifdef _DEBUG
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
-			Font f;
-			f.FontCreate("メイリオ");
-			f.Draw(&Point(pos / 50 * 180.f, pos % 50 * 20.f), it->tname.c_str());
-			++pos;
+			if (sm->bIsDebug) {
+				int pos = 0;
+				for (TB_ptr it = top; it != nullptr; it = it->next)
+				{
+					Font f;
+					f.FontCreate("メイリオ");
+					f.Draw(&Point(pos / 50 * 180.f, pos % 50 * 20.f), it->tname.c_str());
+					++pos;
+				}
+			}
 		}
 #endif //_DEBUG
 	}

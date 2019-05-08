@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\Team-Hosii-develop\Team-Hosii-develop\☆い\☆い\FadeInOut.h" />
     <ClInclude Include="Alien.h" />
     <ClInclude Include="AlienGenerator.h" />
     <ClInclude Include="Back.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Downloads\Team-Hosii-develop\Team-Hosii-develop\☆い\☆い\FadeInOut.cpp" />
     <ClCompile Include="Alien.cpp" />
     <ClCompile Include="AlienGenerator.cpp" />
     <ClCompile Include="Back.cpp" />

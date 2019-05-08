@@ -57,7 +57,9 @@
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="Hukidasi.cpp" />
     <ClCompile Include="Eff1.cpp" />
-	<ClCompile Include="StagePicture.cpp" />
+    <ClCompile Include="StagePicture.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="..\..\..\..\Downloads\Team-Hosii-develop\Team-Hosii-develop\☆い\☆い\FadeInOut.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -118,7 +120,9 @@
     <ClInclude Include="Saturn.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Hukidasi.h" />
-	<ClInclude Include="StagePicture.h" />
+    <ClInclude Include="StagePicture.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="..\..\..\..\Downloads\Team-Hosii-develop\Team-Hosii-develop\☆い\☆い\FadeInOut.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />
@@ -126,4 +130,4 @@
   <ItemGroup>
     <Image Include="hosii.ico" />
   </ItemGroup>
- </Project>
+</Project>
