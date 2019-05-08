@@ -226,23 +226,23 @@ public:
 	static void Restart();
 
 	//Render‡”Ô‚ğÅŒã‚Ì‚Æ‚±‚ë‚ÉˆÚ“®
-	template<class EndPositonTask>
-	static EndPositonTask* EndPositon(const char *taskname_) {
-		TaskBase *find, *pre = nullptr, *next = nullptr;
-		if (find = Find<EndPositonTask>(taskname_)) {
-			if (find->next != nullptr) {
-				auto it = top;
-				for (; it->next != nullptr; ++it);
-				pre->next = find->next;
-				next->prev = find->prev;
-				next->next = find;
-				find->prev = next;
-				find->next = nullptr;
-				
-			}
-		}
-		return dynamic_cast<EndPositonTask*>(find);
-	}
+	//template<class EndPositonTask>
+	//static EndPositonTask* EndPositon(const char *taskname_) {
+	//	TaskBase *find, *pre = nullptr, *next = nullptr;
+	//	if (find = Find<EndPositonTask>(taskname_)) {
+	//		if (find->next != nullptr) {
+	//			auto it = top;
+	//			for (; it->next != nullptr; ++it);
+	//			pre->next = find->next;
+	//			next->prev = find->prev;
+	//			next->next = find;
+	//			find->prev = next;
+	//			find->next = nullptr;
+	//			
+	//		}
+	//	}
+	//	return dynamic_cast<EndPositonTask*>(find);
+	//}
 }TB;
 
 typedef TB *TB_ptr;
