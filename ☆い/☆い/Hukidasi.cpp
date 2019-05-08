@@ -28,7 +28,7 @@ namespace Hukidasi
 		fAddScale = 0.f;
 		fWidthMax = 0.f;
 		fHeightMax = 0.f;
-		bIsSetPicture = false;
+		bIsSetPictureCount = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -39,13 +39,51 @@ namespace Hukidasi
 	void Obj::Update()
 	{
 		Resize();
-		if (rHukidasi.SizeZero())
+		auto sp = Find<StagePicture::Obj>("ステージピクチャータスク");
+		if (rHukidasi.GetW() >= fWidthMax && rHukidasi.GetH() >= fHeightMax)
 		{
-			if (auto sp = Find<StagePicture::Obj>("ステージピクチャータスク"))
+			if (!sp)
 			{
-				Remove(sp);
+				const float fHalfWidth = Rec::Win.r * 0.5f;
+				const float fHalfHeight = Rec::Win.b * 0.5f;
+				const float fQuarterWidth = fHalfWidth * 0.5f;
+				const float fQuarterHeight = fHalfHeight * 0.5f;
+				const Point pPosArr[2][3] =
+				{
+					{
+						Point(fQuarterWidth, fQuarterHeight),
+						Point(fHalfWidth, fQuarterHeight),
+						Point(fHalfWidth + fQuarterWidth, fQuarterHeight)
+					},
+					{
+						Point(fQuarterWidth, fHalfHeight + fQuarterHeight),
+						Point(fHalfWidth, fHalfHeight + fQuarterHeight),
+						Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight)
+					},
+				};
+				if (sStageGroup == StageGroup::GROUP_EARTH)
+				{
+					for (byte b = 0; b < 3; ++b)
+					{
+						SetStagePicture(b + 1, &Frec(pPosArr[0][b].x, pPosArr[0][b].y, 200.f, 200.f));
+					}
+				}
+				SetStagePicture(1, &Frec(fHalfWidth, fHalfHeight, 100.f, 100.f));
+
+				//sp = Add<StagePicture::Obj>();
+				//sp->LoadImg(1);
+				//sp->SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
+				//sp->SetSize(100.f, 100.f);
 			}
-			bIsSetPicture = false;
+		}
+		else
+		{
+			if (sp)
+			{
+				RemoveAll("ステージピクチャータスク");
+				//Remove(sp);
+			}
+			bIsSetPictureCount = 0;
 		}
 	}
 	/*タスクの描画処理*/
@@ -94,11 +132,16 @@ namespace Hukidasi
 	/*表示するステージの設定*/
 	void Obj::SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize)
 	{
-		if (bIsSetPicture) return;
+		if (bIsSetPictureCount > 2) return;
 		auto sp = Add<StagePicture::Obj>();
 		sp->LoadImg(auiStageNumber);
 		sp->SetPos(&Point(apfrPosSize->l, apfrPosSize->t));
 		sp->SetSize(apfrPosSize->r, apfrPosSize->b);
-		bIsSetPicture = true;
+		++bIsSetPictureCount;
+	}
+	/*ステージのグループの設定*/
+	void Obj::SetStageGroup(const StageGroup asStageGroup)
+	{
+		sStageGroup = asStageGroup;
 	}
 }

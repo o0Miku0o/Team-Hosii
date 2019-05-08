@@ -120,6 +120,7 @@ namespace Cursor
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
 		Point pPos;
+		Hukidasi::StageGroup sStageGroup = Hukidasi::StageGroup::GROUP_EARTH;
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -131,6 +132,8 @@ namespace Cursor
 
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
 				
+				sStageGroup = Hukidasi::StageGroup::GROUP_EARTH;
+
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -232,6 +235,7 @@ namespace Cursor
 				hu->SetPos(&pPos);
 				hu->SetScaleMax(fScaleWMax, fScaleHMax);
 				hu->SetAddScale(fAddScale);
+				hu->SetStageGroup(sStageGroup);
 			}
 			else
 			{

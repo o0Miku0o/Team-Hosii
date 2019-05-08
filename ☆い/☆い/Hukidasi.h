@@ -3,6 +3,10 @@
 
 namespace Hukidasi
 {
+	enum StageGroup
+	{
+		GROUP_EARTH
+	};
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -25,11 +29,12 @@ namespace Hukidasi
 		Obj() {}
 		~Obj() {}
 	private:
+		StageGroup sStageGroup;
 		Rec rHukidasi;
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
-		bool bIsSetPicture;
+		byte bIsSetPictureCount;
 			
 		RS_ptr res;
 		void Init();
@@ -44,5 +49,6 @@ namespace Hukidasi
 		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
 		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
+		void SetStageGroup(const StageGroup asStageGroup);
 	}*OBJ_ptr;
 }
