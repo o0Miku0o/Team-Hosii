@@ -8,6 +8,7 @@
 #include "Neptune.h"
 #include "Jupitor.h"
 #include "Back.h"
+#include "Saturn.h"
 
 namespace Stage13
 {
@@ -30,11 +31,13 @@ namespace Stage13
 
 		/*É^ÉXÉNÇÃê∂ê¨*/
 		Add<Player::Obj>();
-		auto np = Add<Neptune::Obj>();
+		//		auto np = Add<Neptune::Obj>();
 		auto jp = Add<Jupitor::Obj>();
+		auto sa = Add<Saturn::Obj>();
+		sa->rSaturn = Rec(1350, 680, 224, 224);
 
-		Point pJp(jp->cGravityCircle.GetPos().x + jp->cGravityCircle.GetRadius()-1, jp->cGravityCircle.GetPos().y);
-		Point pNp(np->cGravityCircle.GetPos().x + np->cGravityCircle.GetRadius()-1, np->cGravityCircle.GetPos().y);
+		Point pJp(jp->cGravityCircle.GetPos().x + jp->cGravityCircle.GetRadius() - 1, jp->cGravityCircle.GetPos().y);
+		Point pNp(1200, 550);
 		auto fg = Add<FragmentGenerator::Obj>();
 		Point pArr[2] = { pJp , pNp };
 		int iColor[2] = {};
