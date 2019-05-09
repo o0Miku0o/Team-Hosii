@@ -731,6 +731,8 @@ unsigned long JoyPad::Rinitaxisy[PADNUM_MAX] = {};
 
 Vector2 JoyPad::vec2[2][PADNUM_MAX] = {};
 
+bool JoyPad::bIsConnect = false;
+
 JoyPad::JoyPad()
 {
 	joy_id = inst_cnt;
@@ -757,6 +759,7 @@ JoyPad::JoyPad()
 bool JoyPad::Init(const long lTolerance)
 {
 	lStickTolerance = lTolerance;
+	bool bFlag = false;
 	for (byte b = 0; b < PADNUM_MAX; ++b)
 	{
 		joy_ex[b].dwSize = sizeof(JOYINFOEX);
@@ -769,13 +772,17 @@ bool JoyPad::Init(const long lTolerance)
 
 			Rinitaxisx[b] = joy_ex[b].dwZpos;
 			Rinitaxisy[b] = joy_ex[b].dwRpos;
+
+			bFlag = true;
 		}
 	}
+	bIsConnect = bFlag;
 	return 0;
 }
 
 bool JoyPad::GetStateAll()
 {
+	if (!bIsConnect) return 1;
 	constexpr unsigned long table[10] = { JOY_BUTTON1,JOY_BUTTON2 ,JOY_BUTTON3 ,JOY_BUTTON4,JOY_BUTTON5,JOY_BUTTON6,JOY_BUTTON7,JOY_BUTTON8,JOY_BUTTON1CHG,JOY_BUTTON2CHG };
 	/*Ú‘±‚³‚ê‚Ä‚¢‚éJOYPAD‚ðŒŸõ*/
 	for (byte b = 0; b < PADNUM_MAX; ++b)

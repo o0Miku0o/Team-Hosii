@@ -627,6 +627,8 @@ private:
 	/*右スティックのY軸の初期状態*/
 	static unsigned long Rinitaxisy[PADNUM_MAX];
 
+	static bool bIsConnect;
+
 	/*インスタンスのID*/
 	byte joy_id;
 
