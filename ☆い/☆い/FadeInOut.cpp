@@ -42,15 +42,15 @@ namespace FadeInOut
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		EndPositon<FadeInOut::Obj>("フェイドインアウトタスク");
+		//EndPositon<FadeInOut::Obj>("フェイドインアウトタスク");
 		//fsizeが2120になった瞬間背景が全部埋める
 		if (!bActive) {
 			if (bIsIn) {
-				fSizeValue = 8.f;
+				fSizeValue = 16.f;
 				fSize = 0.f;
 			}
 			else {
-				fSizeValue = -8.f;
+				fSizeValue = -16.f;
 				fSize = 2120.f;
 			}
 			bActive = true;

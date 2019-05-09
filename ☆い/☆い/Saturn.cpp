@@ -42,15 +42,14 @@ namespace Saturn
 		for (auto &f : vf)
 		{
 			FragmentCheckhit(f);
-			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos))
-			{
-				if (!f->bRotationActive)
+			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos)) {
+		/*		if (!f->bRotationActive)
 				{
 					f->pRotPos = cGravityCircle.GetPos();
 					f->fRotRadius = cGravityCircle.GetRadius() - 1;
 					f->bRotationActive = true;
 					f->bMoveActive = false;
-				}
+				}*/
 			}
 		}
 		if (auto beam = Find<Beam::Obj>("ビームタスク"))
@@ -83,7 +82,7 @@ namespace Saturn
 		std::string s = std::to_string(rSaturn.GetPosX()) + " " + std::to_string(rSaturn.GetPosY()) + " " + std::to_string(rSaturn.GetH());
 		f.Draw(&rSaturn.GetPos(), s.c_str());
 #endif // _DEBUG
-		
+
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
 	{
@@ -106,7 +105,7 @@ namespace Saturn
 		{
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;
-			oFragment->bRotationActive = true;
+			oFragment->bRotationActive = false;
 		}
 	}
 }
