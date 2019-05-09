@@ -3,6 +3,7 @@
 #include "Fragment.h"
 #include "StageManager.h"
 #include "MeteoGenerator.h"
+#include "FadeInOut.h"
 
 namespace Meteo
 {
@@ -51,7 +52,12 @@ namespace Meteo
 				FragmentCheckhit(vf);
 			}
 		}
-		rMeteo.Move(&vSpd);
+		if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク")) {
+			rMeteo.Move(&Vector2(0.f,0.f));
+		}
+		else {
+			rMeteo.Move(&vSpd);
+		}
 		rMeteo.SetDeg(rMeteo.GetDeg() + 2);
 		cMeteoHitBase.SetPos(&rMeteo.GetPos());
 		float fPosY = vSpd.GetY();
@@ -89,6 +95,7 @@ namespace Meteo
 			Remove(this);
 		}
 	}
+
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
