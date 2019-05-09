@@ -4,6 +4,7 @@
 #include "FragmentGenerator.h"
 #include "BlackHoleGenerator.h"
 #include "Title.h"
+#include "Fragment.h"
 
 namespace BreakStar
 {
@@ -29,7 +30,7 @@ namespace BreakStar
 		/*データの初期化*/
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		cHitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
-		iChange = 25;/*普通の星は25黒い星は37で初期値を設定する*/
+		iChange = 34;/*普通の星は34黒い星は37で初期値を設定する*/
 		bHitAct = false;
 		bBlackMode = true;
 	}
@@ -45,7 +46,15 @@ namespace BreakStar
 		{
 			if (auto beam = Find<Beam::Obj>("ビームタスク"))
 			{
-				CheckHit(beam);
+				BeamCheckHit(beam);
+			}
+			auto vFgm = FindAll <Fragment::Obj>("欠片タスク");
+			if (vFgm.size())
+			{
+				for (auto &vf : vFgm)
+				{
+					FragmentCheckHit(vf);
+				}
 			}
 		}
 		if (!Find<Beam::Obj>("ビームタスク"))
@@ -109,7 +118,7 @@ namespace BreakStar
 #endif // _DEBUG
 		}
 	}
-	void Obj::CheckHit(TaskBase* bm)
+	void Obj::BeamCheckHit(TaskBase* bm)
 	{
 		Beam::Obj* oBeam = (Beam::Obj*)bm;
 		Circle cHit;
@@ -122,36 +131,17 @@ namespace BreakStar
 				--sm->usBeamCount;
 			}
 			auto res = RB::Find<StageManager::RS>("ステージ統括リソース");
-			if (iChange > 25)
+			if (!bBlackMode)
 			{
-				if (res)
-				{
-					res->wsTest6.Play();
-				}
-				++iChange;
-			}
-			else
-			{
-				if (res)
-				{
-					res->wsTest6.Play();
-				}
-				iChange = 34;
-			}
-			if (bBlackMode)
-			{
-				if (iChange > 38)
+				if (iChange <= 36)
 				{
 					if (res)
 					{
-						res->wsTest3.Play();
+						res->wsTest6.Play();
 					}
-					Remove(this);
+					++iChange;
 				}
-			}
-			else
-			{
-				if (iChange > 35)
+				if (iChange > 36)
 				{
 					if (res)
 					{
@@ -168,8 +158,45 @@ namespace BreakStar
 					Remove(this);
 				}
 			}
-			//}
 			RemoveAll("ビームタスク");
+			bHitAct = true;
+		}
+	}
+	void Obj::FragmentCheckHit(TaskBase* fr)
+	{
+		Fragment::Obj* oFragment = (Fragment::Obj*)fr;
+		Circle cHit;
+		cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
+		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
+		if (cHitbase.CheckHit(&cHit))
+		{
+			auto res = RB::Find<StageManager::RS>("ステージ統括リソース");
+			if (iChange <= 36)
+			{
+				if (res)
+				{
+					res->wsTest6.Play();
+				}
+				++iChange;
+			}
+			if (iChange > 36)
+			{
+				if (res)
+				{
+					res->wsTest3.Play();
+				}
+				auto fg = Add<FragmentGenerator::Obj>();
+				//Point pArr[5] = {/*Point(1000.f, 300.f) , Point(800.f, 500.f),Point(1200.f,500.f),Point(900.f,700.f),Point(1100.f,700.f)*/ };
+				Point pArr[5] = {
+					Point(rStar.GetPosX(),rStar.GetPosY() - 200.f),Point(rStar.GetPosX() - 200.f,rStar.GetPosY()),Point(rStar.GetPosX() + 200.f,rStar.GetPosY()),
+					Point(rStar.GetPosX() - 100.f,rStar.GetPosY() + 200.f), Point(rStar.GetPosX() + 100.f,rStar.GetPosY() + 200.f)
+				};
+				int iColor[5] = {};
+				fg->Bridge(5, pArr, iColor);
+				Remove(this);
+			}
+			oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			oFragment->bMoveActive = false;
 			bHitAct = true;
 		}
 	}
