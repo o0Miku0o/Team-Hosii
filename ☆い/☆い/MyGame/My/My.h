@@ -501,7 +501,7 @@ public:
 	//色設定
 	void SetColor(const byte r_, const byte g_, const byte b_);
 	//描画
-	void Draw(const Point * const pos_, const char * const text_);
+	void Draw(const Point * const pos_, const char * const text_, const bool bSetLeft = true);
 };
 
 /*waveファイル再生クラス*/

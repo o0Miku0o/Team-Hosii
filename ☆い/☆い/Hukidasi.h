@@ -32,6 +32,7 @@ namespace Hukidasi
 	private:
 		PictureGroup pGroup;
 		Rec rHukidasi;
+		Point pFontPos[2];
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;

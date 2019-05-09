@@ -25,6 +25,8 @@ namespace Hukidasi
 
 		/*データの初期化*/
 		rHukidasi = Rec();
+		pFontPos[0] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.25f * 0.25f));
+		pFontPos[1] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f));
 		fAddScale = 0.f;
 		fWidthMax = 0.f;
 		fHeightMax = 0.f;
@@ -107,6 +109,13 @@ namespace Hukidasi
 			}
 		}
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
+		if(rHukidasi.GetH() >= fHeightMax)
+		{
+			Font f;
+			f.FontCreate("メイリオ", 100);
+			f.SetColor(RGB(255, 0, 0));
+			f.Draw(&pFontPos[pGroup], std::string("test").c_str(), false);
+		}
 	}
 	/*吹き出しのサイズ変更*/
 	void Obj::Resize()

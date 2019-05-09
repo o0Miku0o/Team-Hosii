@@ -469,7 +469,7 @@ void Font::SetColor(const byte r_, const byte g_, const byte b_)
 	col = RGB(r_, g_, b_);
 }
 
-void Font::Draw(const Point * const pos_, const char * const text_)
+void Font::Draw(const Point * const pos_, const char * const text_, const bool bSetLeft)
 {
 	const POINT dp = { (long)Rec::AdjustCamPos(pos_).x, (long)Rec::AdjustCamPos(pos_).y };
 
@@ -480,7 +480,15 @@ void Font::Draw(const Point * const pos_, const char * const text_)
 	//背景色を透過に指定
 	SetBkMode(hOff, TRANSPARENT);
 	//引数から指定されたデバイスコンテキストに文字列を描画
-	TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
+	if (bSetLeft)
+	{
+		TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
+	}
+	//else
+	//{
+	//	RECT rDraw = { long(dp.x - Rec::Win.r * 0.5f), long(dp.y - Rec::Win.b * 0.5f), (long)Rec::Win.r, (long)Rec::Win.b};
+	//	DrawText(hOff, text_, lstrlen(text_) + 1, &rDraw, DT_CENTER);
+	//}
 	if (old) SelectObject(hOff, old);
 }
 
@@ -783,7 +791,7 @@ bool JoyPad::Init(const long lTolerance)
 bool JoyPad::GetStateAll()
 {
 	if (!bIsConnect) return 1;
-	constexpr unsigned long table[10] = { JOY_BUTTON1,JOY_BUTTON2 ,JOY_BUTTON3 ,JOY_BUTTON4,JOY_BUTTON5,JOY_BUTTON6,JOY_BUTTON7,JOY_BUTTON8,JOY_BUTTON1CHG,JOY_BUTTON2CHG };
+	static const unsigned long table[10] = { JOY_BUTTON1,JOY_BUTTON2 ,JOY_BUTTON3 ,JOY_BUTTON4,JOY_BUTTON5,JOY_BUTTON6,JOY_BUTTON7,JOY_BUTTON8,JOY_BUTTON1CHG,JOY_BUTTON2CHG };
 	/*接続されているJOYPADを検索*/
 	for (byte b = 0; b < PADNUM_MAX; ++b)
 	{
