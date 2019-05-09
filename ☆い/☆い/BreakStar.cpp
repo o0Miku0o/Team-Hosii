@@ -87,7 +87,7 @@ namespace BreakStar
 			{
 				Remove(this);
 				auto bf = Add<BlackHoleGenerator::Obj>();
-				float size = 100.f;
+				float size = 300.f;
 				const int ciMode = 0;
 				bf->Bridge(1, &Point(rStar.GetPosX(), rStar.GetPosY()), &size, &ciMode);
 			}
