@@ -120,7 +120,7 @@ namespace Cursor
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
 		Point pPos;
-		Hukidasi::StageGroup sStageGroup = Hukidasi::StageGroup::GROUP_EARTH;
+		Hukidasi::PictureGroup pGroup = Hukidasi::PictureGroup::GROUP_UP;
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -130,9 +130,9 @@ namespace Cursor
 				us->rEarth.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
 				
-				sStageGroup = Hukidasi::StageGroup::GROUP_EARTH;
+				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
@@ -153,7 +153,9 @@ namespace Cursor
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b - 50.f - fScaleHMax * 0.5f);
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+
+				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
 
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
@@ -174,7 +176,9 @@ namespace Cursor
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
+
+				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
@@ -195,8 +199,10 @@ namespace Cursor
 				us->rUranus.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b - 50.f - fScaleHMax * 0.5f);
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 				
+				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
+
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -216,8 +222,10 @@ namespace Cursor
 				us->rBH.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 				
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.t + 50.f + fScaleHMax * 0.5f);
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
 				
+				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+
 				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -235,7 +243,7 @@ namespace Cursor
 				hu->SetPos(&pPos);
 				hu->SetScaleMax(fScaleWMax, fScaleHMax);
 				hu->SetAddScale(fAddScale);
-				hu->SetStageGroup(sStageGroup);
+				hu->SetStageGroup(pGroup);
 			}
 			else
 			{
