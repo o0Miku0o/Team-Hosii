@@ -18,34 +18,34 @@
 
 namespace Cursor
 {
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
 	{
 
 	}
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
 	void Obj::Init()
 	{
-		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
-		SetName("ã‚«ãƒ¼ã‚½ãƒ«ã‚¿ã‚¹ã‚¯");
-		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN–¼İ’è*/
+		SetName("ƒJ[ƒ\ƒ‹ƒ^ƒXƒN");
+		/*ƒŠƒ\[ƒX¶¬*/
 
-		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN‚Ì¶¬*/
 
-		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌXVˆ—*/
 	void Obj::Update()
 	{
 		auto pad = JoyPad::GetState(0);
@@ -100,7 +100,7 @@ namespace Cursor
 			}
 			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
 		}
-		if (auto ti = Find<Title::Obj>("ã‚¿ã‚¤ãƒˆãƒ«ã‚¿ã‚¹ã‚¯"))
+		if (auto ti = Find<Title::Obj>("ƒ^ƒCƒgƒ‹ƒ^ƒXƒN"))
 		{
 			ti->fStartImgSrcY = 0.f;
 			ti->rStart.Scaling(16 * 30.f, 16 * 5.f);
@@ -128,14 +128,14 @@ namespace Cursor
 				}
 			}
 		}
-		//auto sl = Find<StageSelect::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã‚¿ã‚¹ã‚¯");
+		//auto sl = Find<StageSelect::Obj>("ƒXƒe[ƒW‘I‘ğƒ^ƒXƒN");
 		constexpr float fAddScale = 70.f;
 		constexpr float fScaleWMax = 1800.f;
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
 		Point pPos;
 		Hukidasi::PictureGroup pGroup = Hukidasi::PictureGroup::GROUP_UP;
-		if (auto us = Find<StageSelectObjEarth::Obj>("åœ°çƒã‚¿ã‚¹ã‚¯"))
+		if (auto us = Find<StageSelectObjEarth::Obj>("’n‹…ƒ^ƒXƒN"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rEarth.GetPos(), us->rEarth.GetW() * 0.5f);
@@ -150,17 +150,17 @@ namespace Cursor
 
 				//if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				//{
-				//	RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
+				//	RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
 				//	Add<Back::Obj>();
 				//	Add<Stage11::Obj>();
 				//	Pause(2);
 				//	return;
 				//}
 
-				//è©¦éŠä¼š
+				//—V‰ï
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
+					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
 						manager->bStageNum = 11;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -177,7 +177,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjAsteroid::Obj>("å°æƒ‘æ˜Ÿã‚¿ã‚¹ã‚¯"))
+		if (auto us = Find<StageSelectObjAsteroid::Obj>("¬˜f¯ƒ^ƒXƒN"))
 		{
 			us->rAsteroid.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rAsteroid.GetPos(), us->rAsteroid.GetW() * 0.5f);
@@ -192,17 +192,17 @@ namespace Cursor
 
 				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				//{
-				//	RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
+				//	RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
 				//	Add<Back::Obj>();
 				//	Add<Stage21::Obj>();
 				//	Pause(2);
 				//	return;
 				//}
 
-				//è©¦éŠä¼š
+				//—V‰ï
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
+					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
 						manager->bStageNum = 21;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -219,7 +219,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjGalaxy::Obj>("éŠ€æ²³ã‚¿ã‚¹ã‚¯"))
+		if (auto us = Find<StageSelectObjGalaxy::Obj>("‹â‰Íƒ^ƒXƒN"))
 		{
 			us->rGalaxy.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rGalaxy.GetPos(), us->rGalaxy.GetW() * 0.5f);
@@ -234,17 +234,17 @@ namespace Cursor
         
 				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				//{
-				//	RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
+				//	RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
 				//	Add<Back::Obj>();
 				//	Add<Stage31::Obj>();
 				//	Pause(2);
 				//	return;
 				//}
 
-				//è©¦éŠä¼š
+				//—V‰ï
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
+					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
 						manager->bStageNum = 31;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -261,7 +261,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjUS::Obj>("å¤©ç‹æ˜Ÿã‚¿ã‚¹ã‚¯"))
+		if (auto us = Find<StageSelectObjUS::Obj>("“V‰¤¯ƒ^ƒXƒN"))
 		{
 			us->rUranus.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rUranus.GetPos(), us->rUranus.GetW() * 0.5f);
@@ -276,8 +276,8 @@ namespace Cursor
 
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
-					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
+					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
 						manager->bStageNum = 41;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -294,7 +294,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjBH::Obj>("ãƒ–ãƒ©ãƒƒã‚¯ãƒ›ãƒ¼ãƒ«åœ°å¸¯ã‚¿ã‚¹ã‚¯"))
+		if (auto us = Find<StageSelectObjBH::Obj>("ƒuƒ‰ƒbƒNƒz[ƒ‹’n‘Ñƒ^ƒXƒN"))
 		{
 			us->rBH.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rBH.GetPos(), us->rBH.GetW() * 0.5f);
@@ -309,8 +309,8 @@ namespace Cursor
 
 				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
-					RemoveAll("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
+					RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
 						manager->bStageNum = 51;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -327,7 +327,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto hu = Find<Hukidasi::Obj>("å¹ãå‡ºã—ã‚¿ã‚¹ã‚¯"))
+		if (auto hu = Find<Hukidasi::Obj>("‚«o‚µƒ^ƒXƒN"))
 		{
 			if (bFlag)
 			{
@@ -342,11 +342,11 @@ namespace Cursor
 			}
 		}
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
 	{
 		//33
-		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
+		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
 		{
 			Frec src(16.f * 32, 16.f, 16.f, 16.f);
 			rCursorBase.Draw(&res->iStageImg, &src);
