@@ -63,11 +63,11 @@ public:
 private:
 	//
 	static ResourceBase *top;
-	
+
 	std::string rname;
 	ResourceBase *next;
 	ResourceBase *prev;
-	
+
 	virtual void Init() = 0;
 	virtual void Finalize() = 0;
 }RB;
@@ -83,7 +83,7 @@ public:
 	virtual ~TaskBase() {};
 private:
 	static TaskBase *top;
-	
+
 	std::string tname;
 	TaskBase *next;
 	TaskBase *prev;
@@ -233,16 +233,23 @@ public:
 	//		if (find->next != nullptr) {
 	//			auto it = top;
 	//			for (; it->next != nullptr; ++it);
+	//			pre = find->prev;
+	//			next = find->next;
 	//			pre->next = find->next;
 	//			next->prev = find->prev;
-	//			next->next = find;
-	//			find->prev = next;
-	//			find->next = nullptr;
-	//			
+
+	//			it->next = new EndPositonTask;
+	//			it->next = find;
+	//			it->next->prev = it;
+	//			it->next->next = nullptr;
+
+	//		/*	it->next = find;
+	//			find->prev = it;
+	//			find->next = nullptr;*/
 	//		}
 	//	}
-	//	return dynamic_cast<EndPositonTask*>(find);
-	//}
+	//	return dynamic_cast<EndPositonTask*>();
+	//	}
 }TB;
 
 typedef TB *TB_ptr;

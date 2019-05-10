@@ -99,100 +99,100 @@ namespace Result
 				}
 			}
 		}
-		else if (pad->Down(J_BUT_6) || kb->Down(VK_RETURN))
-		{
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			//			Add<Back::Obj>();
-			switch (bNextStage)
-			{
-			case 1:
-			{
-				Add<Stage11::Obj>();
-				break;
-			}
-			case 2:
-			{
-				if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-					manager->bStageNum = 2;
-				}
-				Add<StageLoad::Obj>();
-				//Add<Stage12::Obj>();
-				break;
-			}
-			case 3:
-			{
-				Add<Stage13::Obj>();
-				break;
-			}
-			case 4:
-			{
-				Add<Stage21::Obj>();
-				break;
-			}
-			case 5:
-			{
-				Add<Stage22::Obj>();
-				break;
-			}
-			case 6:
-			{
-				Add<Stage23::Obj>();
-				break;
-			}
-			case 7:
-			{
-				Add<Stage31::Obj>();
-				break;
-			}
-			case 8:
-			{
-				Add<Stage32::Obj>();
-				break;
-			}
-			case 9:
-			{
-				Add<Stage33::Obj>();
-				break;
-			}
-			case 10:
-			{
-				Add<Stage41::Obj>();
-				break;
-			}
-			case 11:
-			{
-				Add<Stage42::Obj>();
-				break;
-			}
-			case 12:
-			{
-				Add<Stage43::Obj>();
-				break;
-			}
-			case 13:
-			{
-				Add<Stage51::Obj>();
-				break;
-			}
-			case 14:
-			{
-				Add<Stage52::Obj>();
-				break;
-			}
-			case 15:
-			{
-				Add<Stage53::Obj>();
-				break;
-			}
-			default:
-			{
-				Add<StageSelect::Obj>();
-				break;
-			}
-			}
-			Pause(2);
-		}
-		else if (kb->Down('8')) {
+		//else if (pad->Down(J_BUT_6) || kb->Down(VK_RETURN))
+		//{
+		//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+		//	//			Add<Back::Obj>();
+		//	switch (bNextStage)
+		//	{
+		//	case 1:
+		//	{
+		//		Add<Stage11::Obj>();
+		//		break;
+		//	}
+		//	case 2:
+		//	{
+		//		if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+		//			manager->bStageNum = 2;
+		//		}
+		//		Add<StageLoad::Obj>();
+		//		//Add<Stage12::Obj>();
+		//		break;
+		//	}
+		//	case 3:
+		//	{
+		//		Add<Stage13::Obj>();
+		//		break;
+		//	}
+		//	case 4:
+		//	{
+		//		Add<Stage21::Obj>();
+		//		break;
+		//	}
+		//	case 5:
+		//	{
+		//		Add<Stage22::Obj>();
+		//		break;
+		//	}
+		//	case 6:
+		//	{
+		//		Add<Stage23::Obj>();
+		//		break;
+		//	}
+		//	case 7:
+		//	{
+		//		Add<Stage31::Obj>();
+		//		break;
+		//	}
+		//	case 8:
+		//	{
+		//		Add<Stage32::Obj>();
+		//		break;
+		//	}
+		//	case 9:
+		//	{
+		//		Add<Stage33::Obj>();
+		//		break;
+		//	}
+		//	case 10:
+		//	{
+		//		Add<Stage41::Obj>();
+		//		break;
+		//	}
+		//	case 11:
+		//	{
+		//		Add<Stage42::Obj>();
+		//		break;
+		//	}
+		//	case 12:
+		//	{
+		//		Add<Stage43::Obj>();
+		//		break;
+		//	}
+		//	case 13:
+		//	{
+		//		Add<Stage51::Obj>();
+		//		break;
+		//	}
+		//	case 14:
+		//	{
+		//		Add<Stage52::Obj>();
+		//		break;
+		//	}
+		//	case 15:
+		//	{
+		//		Add<Stage53::Obj>();
+		//		break;
+		//	}
+		//	default:
+		//	{
+		//		Add<StageSelect::Obj>();
+		//		break;
+		//	}
+		//	}
+		//	Pause(2);
+		//}
+		else if (pad->Down(J_BUT_6) || kb->Down('8') || kb->Down(VK_RETURN)) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			//			Add<Back::Obj>();
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {

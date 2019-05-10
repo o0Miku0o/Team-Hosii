@@ -115,7 +115,7 @@ namespace StageManager
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
-			if (++iResultCnt >= 280)
+			if (++iResultCnt >= 140)
 			{
 				bClearFragmentNum = 0;
 				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
