@@ -15,6 +15,7 @@
 #include "StageSelect.h"
 #include <fstream>
 #include "FadeInOut.h"
+#include "Gas.h"
 
 namespace StageLoad
 {
@@ -37,6 +38,7 @@ namespace StageLoad
 
 		/*É^ÉXÉNÇÃê∂ê¨*/
 		Add<Back::Obj>();
+		Add<Gas::Obj>();
 		Add<Player::Obj>();
 		isLoad = false;
 		sFragement.state = false;
