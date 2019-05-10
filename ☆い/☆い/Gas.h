@@ -21,10 +21,19 @@ namespace Gas
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
-		Rec rGas;
-		int iGasColor;
+		Rec rGas[3];
 		Animation aAnim;
-
+		byte bAlpha;
+		float fMove;
+		enum GasColor
+		{
+			White,
+			Blue,
+			Yellow,
+			Purple
+		};
+		GasColor gGasColor[4];
+		int iGNum;
 		Obj() {}
 		~Obj() {}
 	private:

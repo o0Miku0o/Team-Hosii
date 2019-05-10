@@ -3,25 +3,25 @@
 
 namespace FadeInOut
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼Ý’è*/
-		SetName("ƒtƒFƒCƒhƒCƒ“ƒAƒEƒgƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ãƒ•ã‚§ã‚¤ãƒ‰ã‚¤ãƒ³ã‚¢ã‚¦ãƒˆã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 
 		fSize = 0.f;
 
@@ -34,16 +34,16 @@ namespace FadeInOut
 		bActive = false;
 		fSizeValue = 0.f;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
-	{
-		//EndPositon<FadeInOut::Obj>("ƒtƒFƒCƒhƒCƒ“ƒAƒEƒgƒ^ƒXƒN");
-		//fsize‚ª2120‚É‚È‚Á‚½uŠÔ”wŒi‚ª‘S•”–„‚ß‚é
+  {
+		//EndPositon<FadeInOut::Obj>("ãƒ•ã‚§ã‚¤ãƒ‰ã‚¤ãƒ³ã‚¢ã‚¦ãƒˆã‚¿ã‚¹ã‚¯");
+		//fsizeãŒ2120ã«ãªã£ãŸçž¬é–“èƒŒæ™¯ãŒå…¨éƒ¨åŸ‹ã‚ã‚‹
 		if (!bActive) {
 			if (bIsIn) {
 				fSizeValue = 8.f;
@@ -67,10 +67,10 @@ namespace FadeInOut
 		for (int i = 0; i < 4; ++i)
 			rec[i].Scaling(fSize, fSize);
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX")) {
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹")) {
 			for (int i = 0; i < 4; ++i)
 				rec[i].Draw(&res->iStageImg, &Frec(16, 0, 16, 16), false);
 		}
