@@ -8,6 +8,7 @@
 #include "MeteoGenerator.h"
 #include "StarGenerator.h"
 #include "Star.h"
+#include "Gas.h"
 
 namespace Title
 {
@@ -92,6 +93,9 @@ namespace Title
 			CreateCursor();
 
 			ButtonResize();
+
+			Add<Gas::Obj>();
+
 		}
 	}
 	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/

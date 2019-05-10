@@ -31,7 +31,7 @@ namespace Stage53
 		Add<Player::Obj>();
 		//•‚¢¯‚TŒÂ«
 		auto bs = Add<BreakStarGenerator::Obj>();
-		int iChange[6] = { 37,37,37,37,37,25 };
+		int iChange[6] = { 37,37,37,37,37,34 };
 		Point pBPos[6] = { Point(600.f, 0.f),Point(700.f,1080.f),Point(1600.f, 540.f),Point(1920.f, 0.f), Point(1900.f, 1000.f) ,Point(600.f, 540.f) };
 		bool bBSMode[6] = { true,true, true, true, true, false };
 		bs->Bridge(6, iChange, pBPos,bBSMode);

@@ -40,6 +40,7 @@ namespace BreakStar
 	public:
 		void Update();
 		void Render();
-		void CheckHit(TaskBase* beam);
+		void BeamCheckHit(TaskBase* beam);
+		void FragmentCheckHit(TaskBase* fragment);
 	}*OBJ_ptr;
 }

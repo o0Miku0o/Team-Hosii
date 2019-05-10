@@ -48,7 +48,7 @@ namespace Stage43
 		sg->Bridge(3, iChange, pSPos);
 
 		auto bs = Add<BreakStarGenerator::Obj>();
-		int iChange4 = 25;
+		int iChange4 = 34;
 		bool bBSMode = false;
 		bs->Bridge(1, &iChange4, &Point(1250.f, 400.f),&bBSMode);
 

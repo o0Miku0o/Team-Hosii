@@ -22,10 +22,13 @@ namespace Jupitor
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Rec rJupitor;
+		Rec rGravityCircle;
 		Circle cJupitorHitBase;
 		Circle cGravityCircle;
 		int iAnimCount;
 		int i;
+		int iAlpha;
+		int iCnt;
 
 		Obj() {}
 		~Obj() {}
