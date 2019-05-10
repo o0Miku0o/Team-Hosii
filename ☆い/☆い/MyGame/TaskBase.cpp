@@ -137,11 +137,20 @@ void TaskBase::SysRender()
 {
 	if (top)
 	{
+		std::multimap<float, TaskBase *> mDrawMap;
 		for (TB_ptr it = top; it != nullptr; it = it->next)
 		{
-			if (it->tstate == ACTIVE)
-				it->Render();
+			mDrawMap.insert(std::make_pair(it->GetRenderPriority(), it));
 		}
+		for (auto mIt : mDrawMap)
+		{
+			if (mIt.second->tstate == ACTIVE) mIt.second->Render();
+		}
+		//for (TB_ptr it = top; it != nullptr; it = it->next)
+		//{
+		//	if (it->tstate == ACTIVE)
+		//		it->Render();
+		//}
 
 #ifdef _DEBUG
 		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
@@ -260,4 +269,14 @@ void TaskBase::Restart()
 		now->updflag = true;
 		now->wait = 0;
 	}
+}
+
+void TaskBase::SetRenderPriority(const float afPriority)
+{
+	fpriority = Clamp(afPriority, 0.f, 1.f);
+}
+
+const float TaskBase::GetRenderPriority() const
+{
+	return fpriority;
 }

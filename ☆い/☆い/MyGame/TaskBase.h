@@ -63,11 +63,11 @@ public:
 private:
 	//
 	static ResourceBase *top;
-
+	
 	std::string rname;
 	ResourceBase *next;
 	ResourceBase *prev;
-
+	
 	virtual void Init() = 0;
 	virtual void Finalize() = 0;
 }RB;
@@ -83,13 +83,14 @@ public:
 	virtual ~TaskBase() {};
 private:
 	static TaskBase *top;
-
+	
 	std::string tname;
 	TaskBase *next;
 	TaskBase *prev;
 	int tstate;
 	bool updflag;
 	long wait;
+	float fpriority;
 
 	virtual void Init() = 0;
 
@@ -225,6 +226,10 @@ public:
 
 	static void Restart();
 
+	void SetRenderPriority(const float afPriority);
+
+	const float GetRenderPriority() const;
+
 	//Renderèáî‘Çç≈å„ÇÃÇ∆Ç±ÇÎÇ…à⁄ìÆ
 	//template<class EndPositonTask>
 	//static EndPositonTask* EndPositon(const char *taskname_) {
@@ -233,23 +238,16 @@ public:
 	//		if (find->next != nullptr) {
 	//			auto it = top;
 	//			for (; it->next != nullptr; ++it);
-	//			pre = find->prev;
-	//			next = find->next;
 	//			pre->next = find->next;
 	//			next->prev = find->prev;
-
-	//			it->next = new EndPositonTask;
-	//			it->next = find;
-	//			it->next->prev = it;
-	//			it->next->next = nullptr;
-
-	//		/*	it->next = find;
-	//			find->prev = it;
-	//			find->next = nullptr;*/
+	//			next->next = find;
+	//			find->prev = next;
+	//			find->next = nullptr;
+	//			
 	//		}
 	//	}
-	//	return dynamic_cast<EndPositonTask*>();
-	//	}
+	//	return dynamic_cast<EndPositonTask*>(find);
+	//}
 }TB;
 
 typedef TB *TB_ptr;
