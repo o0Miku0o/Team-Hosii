@@ -25,6 +25,8 @@ namespace Hukidasi
 
 		/*データの初期化*/
 		rHukidasi = Rec();
+		pFontPos[0] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.25f * 0.25f));
+		pFontPos[1] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f));
 		fAddScale = 0.f;
 		fWidthMax = 0.f;
 		fHeightMax = 0.f;
@@ -61,14 +63,23 @@ namespace Hukidasi
 						Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight)
 					},
 				};
-				if (sStageGroup == StageGroup::GROUP_EARTH)
+				const float fPicWidth = 1920.f * (0.125f * 1.5f);
+				const float fPicHeight = 1080.f * (0.125f * 1.5f);
+				if (pGroup == PictureGroup::GROUP_UP)
 				{
 					for (byte b = 0; b < 3; ++b)
 					{
-						SetStagePicture(b + 1, &Frec(pPosArr[0][b].x, pPosArr[0][b].y, 200.f, 200.f));
+						SetStagePicture(b + 1, &Frec(pPosArr[0][b].x, pPosArr[0][b].y, fPicWidth, fPicHeight));
 					}
 				}
-				SetStagePicture(1, &Frec(fHalfWidth, fHalfHeight, 100.f, 100.f));
+				else
+				{
+					for (byte b = 0; b < 3; ++b)
+					{
+						SetStagePicture(b + 1, &Frec(pPosArr[1][b].x, pPosArr[1][b].y, fPicWidth, fPicHeight));
+					}
+				}
+				//SetStagePicture(1, &Frec(fHalfWidth, fHalfHeight, 100.f, 100.f));
 
 				//sp = Add<StagePicture::Obj>();
 				//sp->LoadImg(1);
@@ -98,6 +109,13 @@ namespace Hukidasi
 			}
 		}
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
+		if(rHukidasi.GetH() >= fHeightMax)
+		{
+			Font f;
+			f.FontCreate("メイリオ", 100);
+			f.SetColor(RGB(255, 0, 0));
+			f.Draw(&pFontPos[pGroup], std::string("test").c_str(), false);
+		}
 	}
 	/*吹き出しのサイズ変更*/
 	void Obj::Resize()
@@ -140,8 +158,8 @@ namespace Hukidasi
 		++bIsSetPictureCount;
 	}
 	/*ステージのグループの設定*/
-	void Obj::SetStageGroup(const StageGroup asStageGroup)
+	void Obj::SetStageGroup(const PictureGroup asStageGroup)
 	{
-		sStageGroup = asStageGroup;
+		pGroup = asStageGroup;
 	}
 }

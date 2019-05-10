@@ -501,7 +501,7 @@ public:
 	//色設定
 	void SetColor(const byte r_, const byte g_, const byte b_);
 	//描画
-	void Draw(const Point * const pos_, const char * const text_);
+	void Draw(const Point * const pos_, const char * const text_, const bool bSetLeft = true);
 };
 
 /*waveファイル再生クラス*/
@@ -626,6 +626,8 @@ private:
 	static unsigned long Rinitaxisx[PADNUM_MAX];
 	/*右スティックのY軸の初期状態*/
 	static unsigned long Rinitaxisy[PADNUM_MAX];
+
+	static bool bIsConnect;
 
 	/*インスタンスのID*/
 	byte joy_id;
