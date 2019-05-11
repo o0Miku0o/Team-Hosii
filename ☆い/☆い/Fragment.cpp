@@ -5,6 +5,7 @@
 #include "Title.h"
 #include "Player.h"
 #include "Alien.h"
+#include "Effect.h"
 
 namespace Fragment
 {
@@ -34,6 +35,10 @@ namespace Fragment
 		iColor = 0;/*黄色が0、赤が1、青が2*/
 		bMoveActive = false;
 		bRotationActive = false;
+		aAnim.SetAnim(AnimFragmentY, 0);
+		aAnim.SetAnim(AnimFragmentR, 0);
+		aAnim.SetAnim(AnimFragmentB, 0);
+		aAnim.Play();
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -102,9 +107,10 @@ namespace Fragment
 		}
 		if (rFragment.GetPosX() > Rec::Win.r + rFragment.GetW())
 		{
+
 			rFragment.SetPos(&pInitPos);
 			bMoveActive = false;
-			//Add<Fragment::Obj>();
+			//Add<Fragment::Obj>();	
 			//Remove(this);
 		}
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
@@ -120,6 +126,33 @@ namespace Fragment
 				CheckhitAlien(va);
 			}
 		}
+
+		if (!bMoveActive) return;
+
+		/*エフェクト放出*/
+		for (byte b = 0; b < 4; ++b)
+		{
+			auto ef1 = Add<Eff1::Obj>();
+			const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
+			const fix fRad = DtoR(fAng);
+			const fix fSpdX = cos_fast((float)fRad) * 2.f;
+			const fix fSpdY = sin_fast((float)fRad) * 2.f;
+			Rec rEf(rFragment.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), rFragment.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), 3.f, 3.f, fAng);
+			Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+			if (iColor == 0)
+			{
+				tEffectType = Eff1::Type::TYPE_Y_FRG;
+			}
+			else if (iColor == 1)
+			{
+				tEffectType = Eff1::Type::TYPE_R_FRG;
+			}
+			else if (iColor == 2)
+			{
+				tEffectType = Eff1::Type::TYPE_B_FRG;
+			}
+			ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
+		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -128,19 +161,19 @@ namespace Fragment
 		{
 			if (iColor == 0)
 			{
-				Frec src(16.f * 4.f, 0.f, 16.f, 16.f);
+				Frec src(16.f * (aAnim.GetSrcX() + 2), 0.f, 16.f, 16.f);
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 			else if (iColor == 1)
 			{
 
-				Frec src(16.f * 60.f, 0.f, 16.f, 16.f);
+				Frec src(16.f * (aAnim.GetSrcX() + 60), 0.f, 16.f, 16.f);
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 			else if (iColor == 2)
 			{
 
-				Frec src(16.f * 68.f, 0.f, 16.f, 16.f);
+				Frec src(16.f * (aAnim.GetSrcX() + 68), 0.f, 16.f, 16.f);
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 		}
@@ -210,9 +243,39 @@ namespace Fragment
 		Point pPrePos;
 		pPrePos = Point(cFragmentHitBase.GetPosX() - vMove.GetX(), cFragmentHitBase.GetPosY() - vMove.GetY());
 		cPreHit.SetPos(&pPrePos);
-		if (cFragmentHitBase.CheckHit(&cAlHit)&&!cAlHit.CheckHit(&cPreHit))
+		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
+	}
+	void AnimFragmentY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 10)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 2) % 8;
+		}
+		++*bFrame;
+	}
+	void AnimFragmentR(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 10)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 2) % 8;
+		}
+		++*bFrame;
+	}
+	void AnimFragmentB(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame == 10)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 2) % 8;
+		}
+		++*bFrame;
 	}
 }

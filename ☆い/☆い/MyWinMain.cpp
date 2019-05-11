@@ -1,5 +1,10 @@
 #include "MyGame/MyApp.h"
 #include "resource.h"
+#ifdef _DEBUG
+#include "StageManager.h"
+#include "MyGame/TaskBase.h"
+#endif // _DEBUG
+
 //初期化処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 void Init();
 //終了処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
@@ -20,6 +25,15 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 {
 	switch (message_)
 	{
+	case WM_CREATE:
+	{
+		if (FindWindow(WINNAME, WINCLASS))
+		{
+			MessageBox(nullptr, "このアプリケーションは起動済みです。", WINNAME, MB_ICONWARNING);
+			PostQuitMessage(1);
+		}
+		break;
+	}
 		//描画処理
 	case WM_PAINT:
 	{
@@ -34,7 +48,7 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 		{
 			if (kb->On(VK_CONTROL) && kb->Down('S'))
 			{
-				SaveBitMap(hDC, &Rec::Win, "ScreenShot.bmp");
+				SaveBitMap(hDC, &Rec::Win, "./screenshot/ScreenShot.bmp");
 			}
 		}
 
@@ -188,6 +202,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	byte bFPS = 0;
 	byte bCount = 0;
 #ifdef _DEBUG
+	fix fZoom = 1.f;
 #endif
 
 	//ゲームの初期化処理
@@ -212,12 +227,50 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			MS::GetMouseState();
 			//JoyPadの情報を取得
 			JoyPad::GetStateAll();
+
 			//ゲームの更新処理
 			if (Update()) PostQuitMessage(0);
 			//
 			Particle::UpdateAll();
 			//
 			Animation::UpdateAll();
+
+#ifdef _DEBUG
+			fix fX = 0.f, fY = 0.f;
+			if (kb.On('I'))
+			{
+				fY -= 10.f;
+			}
+			if (kb.On('K'))
+			{
+				fY += 10.f;
+			}
+			if (kb.On('J'))
+			{
+				fX -= 10.f;
+			}
+			if (kb.On('L'))
+			{
+				fX += 10.f;
+			}
+			if (kb.On('Y'))
+			{
+				fZoom = Min(fZoom + 0.2f, 2.f);
+			}
+			if (kb.On('U'))
+			{
+				fZoom = Max(fZoom - 0.2f, 1.f);
+			}
+			if (kb.Down(VK_BACK)) {
+				if (auto sm = TaskBase::Find<StageManager::Obj>("ステージ統括タスク"))
+				{
+					sm->bIsDebug = !sm->bIsDebug;
+				}
+			}
+			Rec::MoveCamera(&Vector2(fX, fY));
+			Rec::Zoom(fZoom);
+#endif
+
 			//描画前にオフスクリーンを黒く塗りつぶす（リセット？）
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理

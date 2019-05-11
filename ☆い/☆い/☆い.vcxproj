@@ -125,10 +125,15 @@
     <ClInclude Include="BreakStar.h" />
     <ClInclude Include="BreakStarGenerator.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="Eff1.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="FragmentGenerator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameInit.h" />
+    <ClInclude Include="Gas.h" />
+    <ClInclude Include="Hukidasi.h" />
     <ClInclude Include="Jupitor.h" />
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="MeteoGenerator.h" />
@@ -142,6 +147,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1-1.h" />
     <ClInclude Include="Stage1-2.h" />
     <ClInclude Include="Stage1-3.h" />
@@ -159,6 +165,7 @@
     <ClInclude Include="Stage5-3.h" />
     <ClInclude Include="StageLoad.h" />
     <ClInclude Include="StageManager.h" />
+    <ClInclude Include="StagePicture.h" />
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="StageSelectObjAsteroid.h" />
     <ClInclude Include="StageSelectObjBH.h" />
@@ -181,10 +188,14 @@
     <ClCompile Include="BreakStar.cpp" />
     <ClCompile Include="BreakStarGenerator.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="Eff1.cpp" />
+    <ClCompile Include="FadeInOut.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInit.cpp" />
+    <ClCompile Include="Gas.cpp" />
+    <ClCompile Include="Hukidasi.cpp" />
     <ClCompile Include="Jupitor.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
@@ -196,6 +207,7 @@
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1-1.cpp" />
     <ClCompile Include="Stage1-2.cpp" />
     <ClCompile Include="Stage1-3.cpp" />
@@ -213,6 +225,7 @@
     <ClCompile Include="Stage5-3.cpp" />
     <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="StagePicture.cpp" />
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StageSelectObjAsteroid.cpp" />
     <ClCompile Include="StageSelectObjBH.cpp" />

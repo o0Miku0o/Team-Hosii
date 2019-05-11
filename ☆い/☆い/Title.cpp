@@ -8,6 +8,7 @@
 #include "MeteoGenerator.h"
 #include "StarGenerator.h"
 #include "Star.h"
+#include "Gas.h"
 
 namespace Title
 {
@@ -38,42 +39,22 @@ namespace Title
 		RB::Add<RS>("タイトルリソース");
 		RB::Add<StageManager::RS>("ステージ統括リソース");
 		/*タスクの生成*/
+		CreateBeam();
 
-		Add<BeamGenerator::Obj>();
-		auto fg = Add<FragmentGenerator::Obj>();
-		int iColor = rand() % 3;
-		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.423f), &iColor);
+		CreateFragment();
+
+		CreateStar();
+
 		/*データの初期化*/
-		rHo = Rec(730, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
-		rBoshi = Rec(1190, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
+		LogoInit();
 
-		fMScale = rand() % (16 * 4 + 1) + 16.f * 14.f;
-		rMeteo = Rec(Rec::Win.r * 0.5f, -300.f, fMScale, fMScale);
-		fMSpdBase = 20.f;
-		vMSpd.SetVec(rMeteo.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.f)), fMSpdBase);
-		rStart = Rec(0.f, 0.f, 0.f, 0.f);
-		fZoom = 1.8f;
-		fStartImgSrcY = 0.f;
-		bAlpha = 5;
-		bAddAlpha = 5;
+		MeteoInit();
 
-		Rec::Zoom(fZoom);
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			res->wsBGM.PlayL();
-			//res->wsBGM1.PlayL();
-			//res->wsBGM1.Pause();
-			//res->wsBGM2.PlayL();
-			//res->wsBGM2.Pause();
-		}
-		//Add<MeteoGenerator::Obj>();
-		auto sg = Add<StarGenerator::Obj>();
-		int iChange = 24;
-		sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
-		if (auto st = Find<Star::Obj>("星タスク"))
-		{
-			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
-		}
+		ButtonInit();
+
+		OtherInit();
+
+		PlayBgm();
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -103,59 +84,153 @@ namespace Title
 
 			if (fZoom > 1.f) return;
 
-			if (bAlpha <= 0 || bAlpha >= 255)
-			{
-				bAddAlpha = -bAddAlpha;
-			}
-			bAlpha += bAddAlpha;
+			LogoUpdate();
 
-			rMeteo.SetDeg(rMeteo.GetDeg() + 2.f);
-			
-			if (!fMSpdBase)
-			{
-				const fix fRandAngle = rand() % 360;
-				rMeteo.SetPos(&Point(cos(DtoR(fRandAngle)) * 1000.f + Rec::Win.r * 0.5f, sin(DtoR(fRandAngle)) * 1000.f + Rec::Win.b * 0.5f));
-				fMSpdBase = 20.f;
-				vMSpd.SetVec(rMeteo.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f)), fMSpdBase);
-				fMScale = rand() % (16 * 4 + 1) + 16.f * 18.f;
-				rMeteo.Scaling(fMScale, fMScale);
-			}
-			vMSpd.SetVec(vMSpd.GetDeg(), fMSpdBase);
-			rMeteo.Move(&vMSpd);
-			rMeteo.Scaling(fMScale, fMScale);
-			fMScale = Max(fMScale - 4.f, 0.f);
-			fMSpdBase = Max(fMSpdBase - 0.15f, 0.f);
+			MeteoUpdate();
 
 			if (Find<Cursor::Obj>("カーソルタスク")) return;
 
-			auto cs = Add<Cursor::Obj>();
-			cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.75f));
-			rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
+			CreateCursor();
+
+			ButtonResize();
+
+			Add<Gas::Obj>();
+
 		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		//{
-		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
-		//}
+		DrawMeteo();
+
+		if (auto s = RB::Find<Title::RS>("タイトルリソース"))
+		{
+			Frec src(0.f, 0.f, 64.f, 64.f);
+			DrawLogo(s, &src);
+
+			src = Frec(16.f * 0, 16.f * fStartImgSrcY, 16.f * 5, 16.f);
+			DrawButton(s, &src);
+		}
+	}
+	/*ロゴの初期化*/
+	void Obj::LogoInit()
+	{
+		rHo = Rec(730, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
+		rBoshi = Rec(1190, Rec::Win.b * 0.5f, 16 * 18, 16 * 18);
+	}
+	/*スタートボタンの初期化*/
+	void Obj::ButtonInit()
+	{
+		rStart = Rec(0.f, 0.f, 0.f, 0.f);
+	}
+	/*メテオの初期化*/
+	void Obj::MeteoInit()
+	{
+		fMScale = rand() % (16 * 4 + 1) + 16.f * 14.f;
+		rMeteo = Rec(Rec::Win.r * 0.5f, -300.f, fMScale, fMScale);
+		fMSpdBase = 20.f;
+		vMSpd.SetVec(rMeteo.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.f)), fMSpdBase);
+	}
+	void Obj::OtherInit()
+	{
+		fZoom = 1.8f;
+		fStartImgSrcY = 0.f;
+		bAlpha = 5;
+		cAddAlpha = 5;
+
+		Rec::Zoom(fZoom);
+	}
+	/*ロゴの更新*/
+	void Obj::LogoUpdate()
+	{
+		if (bAlpha <= 0 || bAlpha >= 255)
+		{
+			cAddAlpha = -cAddAlpha;
+		}
+		bAlpha += cAddAlpha;
+	}
+	void Obj::ButtonResize()
+	{
+		rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
+	}
+	/*メテオの更新*/
+	void Obj::MeteoUpdate()
+	{
+		rMeteo.SetDeg(rMeteo.GetDeg() + 2.f);
+
+		if (!fMSpdBase)
+		{
+			const fix fRandAngle = rand() % 360;
+			rMeteo.SetPos(&Point(cos(DtoR(fRandAngle)) * 1000.f + Rec::Win.r * 0.5f, sin(DtoR(fRandAngle)) * 1000.f + Rec::Win.b * 0.5f));
+			fMSpdBase = 20.f;
+			vMSpd.SetVec(rMeteo.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f)), fMSpdBase);
+			fMScale = rand() % (16 * 4 + 1) + 16.f * 18.f;
+			rMeteo.Scaling(fMScale, fMScale);
+		}
+		vMSpd.SetVec(vMSpd.GetDeg(), fMSpdBase);
+		rMeteo.Move(&vMSpd);
+		rMeteo.Scaling(fMScale, fMScale);
+		fMScale = Max(fMScale - 4.f, 0.f);
+		fMSpdBase = Max(fMSpdBase - 0.15f, 0.f);
+	}
+	/*メテオの描画*/
+	void Obj::DrawMeteo()
+	{
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
 			rMeteo.Draw(&res->iStageImg, &src, true);
 		}
-		if (auto s = RB::Find<Title::RS>("タイトルリソース"))
+	}
+	/*ロゴの描画*/
+	void Obj::DrawLogo(RS * const rpRes, const Frec * const fpSrc)
+	{
+		rHo.Draw(&rpRes->iHo, fpSrc);
+		rHo.DrawAlpha(&rpRes->iHoOverride, fpSrc, bAlpha);
+
+		rBoshi.Draw(&rpRes->iBoshi, fpSrc);
+		rBoshi.DrawAlpha(&rpRes->iBoshiOverride, fpSrc, bAlpha);
+	}
+	/*ボタンの描画*/
+	void Obj::DrawButton(RS * const rpRes, const Frec * const fpSrc)
+	{
+		rStart.Draw(&rpRes->iStart, fpSrc);
+	}
+	/*ビーム生成*/
+	void Obj::CreateBeam()
+	{
+		Add<BeamGenerator::Obj>();
+	}
+	/*欠片生成*/
+	void Obj::CreateFragment()
+	{
+		auto fg = Add<FragmentGenerator::Obj>();
+		int iColor = rand() % 3;
+		fg->Bridge(1, &Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.423f), &iColor);
+	}
+	/*カーソルの生成*/
+	void Obj::CreateCursor()
+	{
+		auto cs = Add<Cursor::Obj>();
+		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.75f));
+	}
+	/*☆の生成*/
+	void Obj::CreateStar()
+	{
+		auto sg = Add<StarGenerator::Obj>();
+		sg->Bridge(1, { 24 }, { 46 }, { Point(1190.f, Rec::Win.b * 0.43f) });
+		//sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
+		if (auto st = Find<Star::Obj>("星タスク"))
 		{
-			Frec src(0.f, 0.f, 64.f, 64.f);
-			rHo.Draw(&s->iHo, &src);
-			rHo.DrawAlpha(&s->iHoOverride, &src, bAlpha);
-
-			rBoshi.Draw(&s->iBoshi, &src);
-			rBoshi.DrawAlpha(&s->iBoshiOverride, &src, bAlpha);
-
-			src = Frec(16.f * 0, 16.f * fStartImgSrcY, 16.f * 5, 16.f);
-			rStart.Draw(&s->iStart, &src);
+			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
+		}
+	}
+	/*BGMの再生*/
+	void Obj::PlayBgm()
+	{
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			res->wsBGM.PlayL();
 		}
 	}
 	/*アニメーション*/

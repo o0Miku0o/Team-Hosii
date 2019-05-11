@@ -40,7 +40,7 @@ namespace Stage42
 		sg->Bridge(3, iChange, pSPos);
 
 		auto bs = Add<BreakStarGenerator::Obj>();
-		int iChange4 = 25;
+		int iChange4 = 34;
 		bool bBSMode = false;
 		bs->Bridge(1, &iChange4, &Point(600.f, 540.f),&bBSMode);
 	

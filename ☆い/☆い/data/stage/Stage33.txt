@@ -1,0 +1,33 @@
+F 1  300 540 0
+S 1 1800 270 24
+A 25  510     0 aMS aBDR aFDR aADR
+      760     0 aMS aBDR aFDR aADR
+     1010     0 aMS aBUR aFUR aAUR
+     1260     0 aMS aBUR aFUR aAUR
+     1510     0 aMS aBDR aFDR aADR
+
+      510   270 aMS aBDR aFDR aADR
+      760   270 aMS aBUR aFUR aAUR
+     1010   270 aMS aBUR aFUR aAUR
+     1260   270 aMS aBDR aFDR aADR
+     1510   270 aMS aBDR aFDR aADR
+
+      510   540 aMS aBUR aFUR aAUR
+      760   540 aMS aBUR aFUR aAUR
+     1010   540 aMS aBUR aFUR aAUR
+     1260   540 aMS aBDR aFDR aADR
+     1510   540 aMS aBUR aFUR aAUR
+
+      510   810 aMS aBDR aFDR aADR
+      760   810 aMS aBDR aFDR aADR
+     1010   810 aMS aBUR aFUR aAUR
+     1260   810 aMS aBUL aFUL aAUL
+     1510   810 aMS aBDL aFDL aADL
+
+      510  1080 aMS aBUR aFUR aAUR
+      760  1080 aMS aBUR aFUR aAUR
+     1010  1080 aMS aBUR aFUR aAUR
+     1260  1080 aMS aBDL aFDL aADL
+     1510  1080 aMS aBUR aFUR aAUR
+
+R 1 41

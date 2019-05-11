@@ -1,5 +1,9 @@
 #include "TaskBase.h"
 
+#ifdef _DEBUG
+	#include "..\StageManager.h"
+#endif // _DEBUG
+
 //スタティック変数の初期化
 ResourceBase *ResourceBase::top = nullptr;
 
@@ -62,16 +66,25 @@ TaskBase::TaskBase()
 void TaskBase::SysFinalize()
 {
 	RB::Remove();
+	TB::RemoveAll();
 	if (top)
 	{
-		TaskBase *buf = nullptr;
-		for (TaskBase *it = top; it != nullptr; it = buf)
+		for (TB_ptr it = top; it != nullptr;)
 		{
-			buf = it->next;
+			if (it->tstate == END)
+			{
+				TB_ptr next = it->next;
+				TB_ptr prev = it->prev;
 
-			it->Finalize();
+				it->Finalize();
 
-			delete it;
+				delete it;
+
+				if (prev)prev->next = next;
+				else top = next;
+				it = next;
+				if (it)it->prev = prev;
+			}
 		}
 	}
 }
@@ -90,7 +103,7 @@ bool TaskBase::SysUpdate()
 				{
 					it->Update();
 				}
-				else if(it->wait > 0)
+				else if (it->wait > 0)
 				{
 					--it->wait;
 					if (it->wait == 0)
@@ -131,13 +144,18 @@ void TaskBase::SysRender()
 		}
 
 #ifdef _DEBUG
-		int pos = 0;
-		for (TB_ptr it = top; it != nullptr; it = it->next)
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
-			Font f;
-			f.FontCreate("メイリオ");
-			f.Draw(&Point(pos / 50 * 180.f, pos % 50 * 20.f), it->tname.c_str());
-			++pos;
+			if (sm->bIsDebug) {
+				int pos = 0;
+				for (TB_ptr it = top; it != nullptr; it = it->next)
+				{
+					Font f;
+					f.FontCreate("メイリオ");
+					f.Draw(&Point(pos / 50 * 180.f, pos % 50 * 20.f), it->tname.c_str());
+					++pos;
+				}
+			}
 		}
 #endif //_DEBUG
 	}

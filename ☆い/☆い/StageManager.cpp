@@ -5,6 +5,8 @@
 #include "Beam.h"
 #include "Player.h"
 
+#include "FadeInOut.h"
+
 namespace StageManager
 {
 	/*リソースの初期化処理*/
@@ -97,6 +99,9 @@ namespace StageManager
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
+		bStageNum = 11;
+		bIsDebug = false;
+		iResultCnt = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -108,17 +113,27 @@ namespace StageManager
 	{
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
-			bClearFragmentNum = 0;
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			auto re = Add<Result::Obj>();
-			re->bNextStage = bNextStage;
-			if (usBeamCount <= bClearFragmentNumMax)
+			//時間を止めて！！！
+			//フェイドイン＆＆フェイドアウトの時間に入れ替え
+			if (++iResultCnt >= 140)
 			{
-				re->bScore = 3;
+				bClearFragmentNum = 0;
+				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+				auto re = Add<Result::Obj>();
+				re->bNextStage = bNextStage;
+				if (usBeamCount <= bClearFragmentNumMax)
+				{
+					re->bScore = 3;
+				}
+				else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+				{
+					re->bScore = 2;
+				}
+				iResultCnt = 0;
 			}
-			else if (usBeamCount <= short(bClearFragmentNumMax * 1.5f))
-			{
-				re->bScore = 2;
+			else if(iResultCnt == 1) {
+				auto fade = Add<FadeInOut::Obj>();
+				fade->bIsIn = true;
 			}
 		}
 	}

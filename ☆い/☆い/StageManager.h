@@ -42,6 +42,9 @@ namespace StageManager
 		byte bClearFragmentNumMax;
 		byte bClearFragmentNum;
 		byte bNextStage;
+		byte bStageNum;
+		bool bIsDebug;
+		int iResultCnt;
 
 		Obj() {}
 		~Obj() {}

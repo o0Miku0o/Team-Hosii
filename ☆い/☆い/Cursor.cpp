@@ -13,6 +13,8 @@
 #include "Stage5-1.h"
 #include "Title.h"
 #include "StageSelect.h"
+#include "Hukidasi.h"
+#include "StageLoad.h"
 
 namespace Cursor
 {
@@ -83,7 +85,20 @@ namespace Cursor
 		}
 		if (pad->GetAxisL() != Vector2::zero)
 		{
-					rCursorBase.Move(&(pad->GetAxisL() * 8.f));
+
+			if (rCursorBase.GetPosX() - rCursorBase.GetW() * 0.5f - 1 < Rec::Win.l) {
+				rCursorBase.SetPos(&Point(Rec::Win.l + rCursorBase.GetW() * 0.5f, rCursorBase.GetPosY()));
+			}
+			else if (rCursorBase.GetPosX() + rCursorBase.GetW() * 0.5f > Rec::Win.r) {
+				rCursorBase.SetPos(&Point(Rec::Win.r - rCursorBase.GetW() *0.5f, rCursorBase.GetPosY()));
+			}
+			if (rCursorBase.GetPosY() - rCursorBase.GetW() * 0.5f - 1 < Rec::Win.t) {
+				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.t + rCursorBase.GetW() * 0.5f));
+			}
+			else if (rCursorBase.GetPosY() + rCursorBase.GetH() * 0.5f > Rec::Win.r) {
+				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.b - rCursorBase.GetW()));
+			}
+			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
 		}
 		if (auto ti = Find<Title::Obj>("タイトルタスク"))
 		{
@@ -113,6 +128,13 @@ namespace Cursor
 				}
 			}
 		}
+		//auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
+		constexpr float fAddScale = 70.f;
+		constexpr float fScaleWMax = 1800.f;
+		constexpr float fScaleHMax = 400.f;
+		bool bFlag = false;
+		Point pPos;
+		Hukidasi::PictureGroup pGroup = Hukidasi::PictureGroup::GROUP_UP;
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -120,13 +142,38 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
-				{
+				bFlag = true;
+
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
+				
+				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+
+				//if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
+				//{
+				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+				//	Add<Back::Obj>();
+				//	Add<Stage11::Obj>();
+				//	Pause(2);
+				//	return;
+				//}
+
+				//試遊会
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Back::Obj>();
-					Add<Stage11::Obj>();
-					Pause(2);
-					return;
+					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+						manager->bStageNum = 11;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							Pause(2);
+						}
+					}
 				}
 			}
 		}
@@ -137,13 +184,38 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
-				{
+				bFlag = true;
+
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+
+				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
+
+				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
+				//{
+				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+				//	Add<Back::Obj>();
+				//	Add<Stage21::Obj>();
+				//	Pause(2);
+				//	return;
+				//}
+
+				//試遊会
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Back::Obj>();
-					Add<Stage21::Obj>();
-					Pause(2);
-					return;
+					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+						manager->bStageNum = 21;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							Pause(2);
+						}
+					}
 				}
 			}
 		}
@@ -154,13 +226,38 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
-				{
+				bFlag = true;
+
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
+
+				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+        
+				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
+				//{
+				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+				//	Add<Back::Obj>();
+				//	Add<Stage31::Obj>();
+				//	Pause(2);
+				//	return;
+				//}
+
+				//試遊会
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Back::Obj>();
-					Add<Stage31::Obj>();
-					Pause(2);
-					return;
+					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+						manager->bStageNum = 31;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							Pause(2);
+						}
+					}
 				}
 			}
 		}
@@ -171,13 +268,29 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rUranus.Scaling(16 * 15, 16 * 15);
+				bFlag = true;
+
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+				
+				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
+
 				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Back::Obj>();
-					Add<Stage41::Obj>();
-					Pause(2);
-					return;
+					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+						manager->bStageNum = 41;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							Pause(2);
+						}
+					}
 				}
 			}
 		}
@@ -188,14 +301,44 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rBH.Scaling(16 * 15, 16 * 15);
+				bFlag = true;
+
+				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
+				
+				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+
 				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					Add<Back::Obj>();
-					Add<Stage51::Obj>();
-					Pause(2);
-					return;
+					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+						manager->bStageNum = 51;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							Pause(2);
+						}
+					}
 				}
+			}
+		}
+		if (auto hu = Find<Hukidasi::Obj>("吹き出しタスク"))
+		{
+			if (bFlag)
+			{
+				hu->SetPos(&pPos);
+				hu->SetScaleMax(fScaleWMax, fScaleHMax);
+				hu->SetAddScale(fAddScale);
+				hu->SetStageGroup(pGroup);
+			}
+			else
+			{
+				hu->SetAddScale(-fAddScale);
 			}
 		}
 	}

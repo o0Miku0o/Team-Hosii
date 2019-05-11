@@ -469,7 +469,7 @@ void Font::SetColor(const byte r_, const byte g_, const byte b_)
 	col = RGB(r_, g_, b_);
 }
 
-void Font::Draw(const Point * const pos_, const char * const text_)
+void Font::Draw(const Point * const pos_, const char * const text_, const bool bSetLeft)
 {
 	const POINT dp = { (long)Rec::AdjustCamPos(pos_).x, (long)Rec::AdjustCamPos(pos_).y };
 
@@ -480,7 +480,15 @@ void Font::Draw(const Point * const pos_, const char * const text_)
 	//背景色を透過に指定
 	SetBkMode(hOff, TRANSPARENT);
 	//引数から指定されたデバイスコンテキストに文字列を描画
-	TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
+	if (bSetLeft)
+	{
+		TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
+	}
+	//else
+	//{
+	//	RECT rDraw = { long(dp.x - Rec::Win.r * 0.5f), long(dp.y - Rec::Win.b * 0.5f), (long)Rec::Win.r, (long)Rec::Win.b};
+	//	DrawText(hOff, text_, lstrlen(text_) + 1, &rDraw, DT_CENTER);
+	//}
 	if (old) SelectObject(hOff, old);
 }
 
@@ -731,6 +739,8 @@ unsigned long JoyPad::Rinitaxisy[PADNUM_MAX] = {};
 
 Vector2 JoyPad::vec2[2][PADNUM_MAX] = {};
 
+bool JoyPad::bIsConnect = false;
+
 JoyPad::JoyPad()
 {
 	joy_id = inst_cnt;
@@ -757,6 +767,7 @@ JoyPad::JoyPad()
 bool JoyPad::Init(const long lTolerance)
 {
 	lStickTolerance = lTolerance;
+	bool bFlag = false;
 	for (byte b = 0; b < PADNUM_MAX; ++b)
 	{
 		joy_ex[b].dwSize = sizeof(JOYINFOEX);
@@ -769,14 +780,18 @@ bool JoyPad::Init(const long lTolerance)
 
 			Rinitaxisx[b] = joy_ex[b].dwZpos;
 			Rinitaxisy[b] = joy_ex[b].dwRpos;
+
+			bFlag = true;
 		}
 	}
+	bIsConnect = bFlag;
 	return 0;
 }
 
 bool JoyPad::GetStateAll()
 {
-	constexpr unsigned long table[10] = { JOY_BUTTON1,JOY_BUTTON2 ,JOY_BUTTON3 ,JOY_BUTTON4,JOY_BUTTON5,JOY_BUTTON6,JOY_BUTTON7,JOY_BUTTON8,JOY_BUTTON1CHG,JOY_BUTTON2CHG };
+	if (!bIsConnect) return 1;
+	static const unsigned long table[10] = { JOY_BUTTON1,JOY_BUTTON2 ,JOY_BUTTON3 ,JOY_BUTTON4,JOY_BUTTON5,JOY_BUTTON6,JOY_BUTTON7,JOY_BUTTON8,JOY_BUTTON1CHG,JOY_BUTTON2CHG };
 	/*接続されているJOYPADを検索*/
 	for (byte b = 0; b < PADNUM_MAX; ++b)
 	{
@@ -1487,21 +1502,21 @@ void Rec::DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alph
 	bfu.SourceConstantAlpha = alpha_;
 
 	auto hBufDc = CreateCompatibleDC(off);
-	auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
+	auto hBufBmp = CreateCompatibleBitmap(off, (int)w, (int)h);
 	SelectObject(hBufDc, hBufBmp);
 
 	POINT pBufArr[3] =
 	{
 		{0, 0},
-		{mybitmap_->GetBmpInfo().bmWidth, 0},
-		{0, mybitmap_->GetBmpInfo().bmHeight},
+		{(int)w, 0},
+		{0, (int)h},
 	};
 
 	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
 
 	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 
-	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
+	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, (int)w, (int)h, bfu);
 
 	DeleteObject(hBufBmp);
 	DeleteDC(hBufDc);
@@ -1753,25 +1768,30 @@ float Rec::GetPosY() const
 {
 	return p[CENTER].y;
 }
-//
+//矩形の左上の座標を取得
 const Point &Rec::GetTL() const
 {
 	return p[TOP_LEFT];
 }
-//
+//矩形の右上の座標を取得
 const Point &Rec::GetTR() const
 {
 	return p[TOP_RIGHT];
 }
-//
+//矩形の左下の座標を取得
 const Point &Rec::GetBL() const
 {
 	return p[BOTTOM_LEFT];
 }
-//
+//矩形の右下の座標を取得
 const Point &Rec::GetBR() const
 {
 	return p[BOTTOM_RIGHT];
+}
+//現在のサイズが（0, 0）かどうか
+const bool Rec::SizeZero() const
+{
+	return (!w && !h);
 }
 
 /*円クラス*/
