@@ -44,9 +44,8 @@ namespace StageSelect
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.Restart();
-
 		}
-		if (auto sm = RB::Find<StageManager::Obj>("ステージ統括リソース"))
+		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
 		{
 			sm->bStageNum = 11;
 

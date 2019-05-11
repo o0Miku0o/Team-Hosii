@@ -62,9 +62,9 @@ namespace Result
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.Stop();
-			res->wsBGM2.Stop();
-			res->wsBGM1.Stop();
+			res->wsBGM.Pause();
+			res->wsBGM2.Pause();
+			res->wsBGM1.Pause();
 		}
 	}
 	/*タスクの終了処理*/

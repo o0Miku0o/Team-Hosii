@@ -108,19 +108,11 @@ namespace Cursor
 			{
 				ti->fStartImgSrcY = 1.f;
 				ti->rStart.Scaling(16 * 30.f * 1.5f, 16 * 5.f * 1.5f);
-				if (kb->Down(VK_RETURN))
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
-					RemoveAll();
-					Add<StageManager::Obj>();
-					Add<Back::Obj>();
-					Add<StageSelect::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_6))
-				{
-					RemoveAll();
-					Add<StageManager::Obj>();
+					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					//					RemoveAll();
+					//					Add<StageManager::Obj>();
 					Add<Back::Obj>();
 					Add<StageSelect::Obj>();
 					Pause(2);
@@ -145,7 +137,7 @@ namespace Cursor
 				bFlag = true;
 
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-				
+
 				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 
 				//if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
@@ -231,7 +223,7 @@ namespace Cursor
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
 
 				pGroup = Hukidasi::PictureGroup::GROUP_UP;
-        
+
 				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				//{
 				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -271,10 +263,10 @@ namespace Cursor
 				bFlag = true;
 
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
-				
+
 				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
 
-				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
@@ -304,10 +296,10 @@ namespace Cursor
 				bFlag = true;
 
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-				
+
 				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 
-				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
