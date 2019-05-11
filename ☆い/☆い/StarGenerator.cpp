@@ -41,7 +41,7 @@ namespace StarGenerator
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(pPos + i);
 			star->cStarhitbase.SetPos(pPos + i);
-			star->iChange = *(iChange+i);
+	//		star->iChange = *(iChange+i);
 		}
 		Remove(this);
 	}
@@ -51,7 +51,8 @@ namespace StarGenerator
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(&pPos.at(i));
 			star->cStarhitbase.SetPos(&pPos.at(i));
-			star->iChange = iChange.at(i);
+	//		star->iChange = iChange.at(i);
+			star->starColor = (Star::Obj::StarColor)iChange.at(i);
 		}
 		Remove(this);
 	}
@@ -62,8 +63,10 @@ namespace StarGenerator
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(&pPos.at(i));
 			star->cStarhitbase.SetPos(&pPos.at(i));
-			star->iChange = iChange.at(i);
-			star->iStarEffect = iEffect.at(i);
+		//	star->iChange = iChange.at(i);
+		//	star->iStarEffect = iEffect.at(i);
+			star->starColor = (Star::Obj::StarColor)iChange.at(i);
+			star->starEffect = (Star::Obj::StarEffect)iEffect.at(i);
 		}
 		Remove(this);
 	}

@@ -81,7 +81,7 @@ namespace Result
 		std::vector<TB_ptr> vsMoveStar;
 		for (auto &vs : FindAll<Star::Obj>("¯ƒ^ƒXƒN"))
 		{
-			if (vs->iChange == 25)
+			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
 				vsMoveStar.emplace_back(vs);
 			}

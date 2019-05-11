@@ -111,8 +111,6 @@ namespace Cursor
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					//					RemoveAll();
-					//					Add<StageManager::Obj>();
 					Add<Back::Obj>();
 					Add<StageSelect::Obj>();
 					Pause(2);
