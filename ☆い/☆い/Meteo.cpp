@@ -52,12 +52,12 @@ namespace Meteo
 				FragmentCheckhit(vf);
 			}
 		}
-		if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク")) {
-			rMeteo.Move(&Vector2(0.f,0.f));
-		}
-		else {
+		//if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク")) {
+		//	rMeteo.Move(&Vector2(0.f,0.f));
+		//}
+		//else {
 			rMeteo.Move(&vSpd);
-		}
+		//}
 		rMeteo.SetDeg(rMeteo.GetDeg() + 2);
 		cMeteoHitBase.SetPos(&rMeteo.GetPos());
 		float fPosY = vSpd.GetY();

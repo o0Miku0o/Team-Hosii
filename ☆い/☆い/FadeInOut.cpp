@@ -22,6 +22,7 @@ namespace FadeInOut
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(1.f);
 
 		fSize = 0.f;
 
@@ -41,7 +42,7 @@ namespace FadeInOut
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
-  {
+	{
 		//EndPositon<FadeInOut::Obj>("フェイドインアウトタスク");
 		//fsizeが2120になった瞬間背景が全部埋める
 		if (!bActive) {
