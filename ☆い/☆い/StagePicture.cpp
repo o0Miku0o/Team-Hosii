@@ -42,7 +42,7 @@ namespace StagePicture
 	{
 		if (bIsLoaded)
 		{
-			//rPictureBase.Draw(&iStageImg, false);
+			rPictureBase.Draw(&iStageImg, false);
 		}
 #ifdef _DEBUG
 		rPictureBase.SetColor(RGB(255, 0, 0));

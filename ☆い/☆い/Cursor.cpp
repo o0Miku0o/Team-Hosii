@@ -125,6 +125,7 @@ namespace Cursor
 		bool bFlag = false;
 		Point pPos;
 		Hukidasi::PictureGroup pGroup = Hukidasi::PictureGroup::GROUP_UP;
+		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
@@ -137,6 +138,7 @@ namespace Cursor
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
 
 				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
 				//if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
 				//{
@@ -179,6 +181,7 @@ namespace Cursor
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 
 				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
+				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
 				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				//{
@@ -221,6 +224,7 @@ namespace Cursor
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
 
 				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
 
 				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				//{
@@ -263,6 +267,7 @@ namespace Cursor
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 
 				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
+				sGroup = Hukidasi::StageGroup::GROUP_URANUS;
 
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
@@ -296,6 +301,7 @@ namespace Cursor
 				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
 
 				pGroup = Hukidasi::PictureGroup::GROUP_UP;
+				sGroup = Hukidasi::StageGroup::GROUP_BLACKHOLE;
 
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
@@ -324,7 +330,7 @@ namespace Cursor
 				hu->SetPos(&pPos);
 				hu->SetScaleMax(fScaleWMax, fScaleHMax);
 				hu->SetAddScale(fAddScale);
-				hu->SetStageGroup(pGroup);
+				hu->SetStageGroup(pGroup, sGroup);
 			}
 			else
 			{
@@ -338,7 +344,7 @@ namespace Cursor
 		//33
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			Frec src(16.f * 32, 16.f, 16.f, 16.f);
+			Frec src(16.f * 32, 16.f, 15.f, 15.f);
 			rCursorBase.Draw(&res->iStageImg, &src);
 #ifdef _DEBUG
 			rCursorBase.Draw();

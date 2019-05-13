@@ -30,7 +30,7 @@ namespace Hukidasi
 		fAddScale = 0.f;
 		fWidthMax = 0.f;
 		fHeightMax = 0.f;
-		bIsSetPictureCount = 0;
+		bSetPictureCount = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -50,35 +50,43 @@ namespace Hukidasi
 				const float fHalfHeight = Rec::Win.b * 0.5f;
 				const float fQuarterWidth = fHalfWidth * 0.5f;
 				const float fQuarterHeight = fHalfHeight * 0.5f;
+				constexpr float cfDist = 30.f;
 				const Point pPosArr[2][3] =
 				{
 					{
-						Point(fQuarterWidth, fQuarterHeight),
-						Point(fHalfWidth, fQuarterHeight),
-						Point(fHalfWidth + fQuarterWidth, fQuarterHeight)
+						Point(fQuarterWidth, fQuarterHeight - cfDist),
+						Point(fHalfWidth, fQuarterHeight - cfDist),
+						Point(fHalfWidth + fQuarterWidth, fQuarterHeight - cfDist)
 					},
 					{
-						Point(fQuarterWidth, fHalfHeight + fQuarterHeight),
-						Point(fHalfWidth, fHalfHeight + fQuarterHeight),
-						Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight)
+						Point(fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist),
+						Point(fHalfWidth, fHalfHeight + fQuarterHeight - cfDist),
+						Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist)
 					},
 				};
-				const float fPicWidth = 1920.f * (0.125f * 1.5f);
-				const float fPicHeight = 1080.f * (0.125f * 1.5f);
-				if (pGroup == PictureGroup::GROUP_UP)
+				constexpr float cfPicWidth = 1920.f * (0.125f * 1.5f);
+				constexpr float cfPicHeight = 1080.f * (0.125f * 1.5f);
+
+				for (byte b = 0; b < 3; ++b)
 				{
-					for (byte b = 0; b < 3; ++b)
-					{
-						SetStagePicture(b + 1, &Frec(pPosArr[0][b].x, pPosArr[0][b].y, fPicWidth, fPicHeight));
-					}
+					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[pGroup][b].x, pPosArr[pGroup][b].y, cfPicWidth, cfPicHeight));
 				}
-				else
-				{
-					for (byte b = 0; b < 3; ++b)
-					{
-						SetStagePicture(b + 1, &Frec(pPosArr[1][b].x, pPosArr[1][b].y, fPicWidth, fPicHeight));
-					}
-				}
+
+				//if (pGroup == PictureGroup::GROUP_UP)
+				//{
+				//	for (byte b = 0; b < 3; ++b)
+				//	{
+				//		SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[pGroup][b].x, pPosArr[pGroup][b].y, fPicWidth, fPicHeight));
+				//	}
+				//}
+				//else
+				//{
+				//	for (byte b = 0; b < 3; ++b)
+				//	{
+				//		SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[1][b].x, pPosArr[1][b].y, fPicWidth, fPicHeight));
+				//	}
+				//}
+
 				//SetStagePicture(1, &Frec(fHalfWidth, fHalfHeight, 100.f, 100.f));
 
 				//sp = Add<StagePicture::Obj>();
@@ -94,7 +102,7 @@ namespace Hukidasi
 				RemoveAll("ステージピクチャータスク");
 				//Remove(sp);
 			}
-			bIsSetPictureCount = 0;
+			bSetPictureCount = 0;
 		}
 	}
 	/*タスクの描画処理*/
@@ -109,7 +117,7 @@ namespace Hukidasi
 			}
 		}
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
-		if(rHukidasi.GetH() >= fHeightMax)
+		if (rHukidasi.GetH() >= fHeightMax)
 		{
 			Font f;
 			f.FontCreate("メイリオ", 100);
@@ -150,16 +158,17 @@ namespace Hukidasi
 	/*表示するステージの設定*/
 	void Obj::SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize)
 	{
-		if (bIsSetPictureCount > 2) return;
+		if (bSetPictureCount > 2) return;
 		auto sp = Add<StagePicture::Obj>();
 		sp->LoadImg(auiStageNumber);
 		sp->SetPos(&Point(apfrPosSize->l, apfrPosSize->t));
 		sp->SetSize(apfrPosSize->r, apfrPosSize->b);
-		++bIsSetPictureCount;
+		++bSetPictureCount;
 	}
 	/*ステージのグループの設定*/
-	void Obj::SetStageGroup(const PictureGroup asStageGroup)
+	void Obj::SetStageGroup(const PictureGroup apStageGroup, const StageGroup asStageGroup)
 	{
-		pGroup = asStageGroup;
+		pGroup = apStageGroup;
+		sGroup = asStageGroup;
 	}
 }
