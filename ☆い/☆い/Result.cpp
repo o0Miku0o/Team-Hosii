@@ -62,9 +62,9 @@ namespace Result
 
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
-			res->wsBGM.Stop();
-			res->wsBGM2.Stop();
-			res->wsBGM1.Stop();
+			res->wsBGM.Pause();
+			res->wsBGM2.Pause();
+			res->wsBGM1.Pause();
 		}
 	}
 	/*タスクの終了処理*/
@@ -81,7 +81,7 @@ namespace Result
 		std::vector<TB_ptr> vsMoveStar;
 		for (auto &vs : FindAll<Star::Obj>("星タスク"))
 		{
-			if (vs->iChange == 25)
+			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
 				vsMoveStar.emplace_back(vs);
 			}
