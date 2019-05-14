@@ -14,6 +14,8 @@ namespace StageManager
 	{
 		iStageImg.ImageCreate("./data/image/main/resource.bmp");
 
+		tese.ImageCreate("./data/image/other/fade.bmp");
+
 		wsTest.SoundCreate("./data/sound/爆発音.wav");
 
 		wsTest2.SoundCreate("./data/sound/はまる音.wav");
@@ -115,7 +117,12 @@ namespace StageManager
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
-			if (++iResultCnt >= 140)
+			++iResultCnt;
+			if (iResultCnt == 1) {
+				auto fade = Add<FadeInOut::Obj>();
+				fade->bIsIn = true;
+			}
+			else if (Find<FadeInOut::Obj>("フェイドインアウトタスク") == nullptr)
 			{
 				bClearFragmentNum = 0;
 				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -130,10 +137,6 @@ namespace StageManager
 					re->bScore = 2;
 				}
 				iResultCnt = 0;
-			}
-			else if(iResultCnt == 1) {
-				auto fade = Add<FadeInOut::Obj>();
-				fade->bIsIn = true;
 			}
 		}
 	}

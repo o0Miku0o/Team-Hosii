@@ -8,7 +8,7 @@ namespace FadeInOut
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
+		
 		RS() { Init(); }
 		~RS() { Finalize(); }
 	private:
@@ -26,10 +26,14 @@ namespace FadeInOut
 		Obj() {}
 		~Obj() {}
 	private:
-		Rec rec[4];			//フェイドインアウト用の角側に配置
+		Rec rSquere[4];			//フェイドインアウト用の角側に配置
 		float fSize;		//矩形の大きさ
 		float fSizeValue;	//fSizeの変化量
 		bool bActive;		//起動フラグ
+
+		Rec rStar;
+		float fStarSize;
+		float fStarSizeValue;
 
 		RS_ptr res;
 		void Init();
