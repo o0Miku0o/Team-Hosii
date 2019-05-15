@@ -35,6 +35,7 @@ namespace Fragment
 		iColor = 0;/*黄色が0、赤が1、青が2*/
 		bMoveActive = false;
 		bRotationActive = false;
+		bPreRotationActive = false;
 		aAnim.SetAnim(AnimFragmentY, 0);
 		aAnim.SetAnim(AnimFragmentR, 0);
 		aAnim.SetAnim(AnimFragmentB, 0);
@@ -57,6 +58,9 @@ namespace Fragment
 		}*/
 		if (auto beam = Find<Beam::Obj>("ビームタスク"))
 		{
+			//test追加記入
+			bPreRotationActive = bRotationActive;
+
 			Checkhitbeam(beam);
 		}
 		auto frg = FindAll<Fragment::Obj>("欠片タスク");
@@ -64,6 +68,9 @@ namespace Fragment
 		{
 			if (fr != this)
 			{
+				//test追加記入
+				bPreRotationActive = bRotationActive;
+
 				Checkhitfagment(fr);
 			}
 		}
@@ -116,6 +123,9 @@ namespace Fragment
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
 		{
 			rFragment.SetPos(&pInitPos);
+
+			//仮
+			rFragment.SetDeg(0.f);
 			bMoveActive = false;
 		}
 		auto vAli = FindAll<Alien::Obj>("宇宙人タスク");
@@ -226,6 +236,7 @@ namespace Fragment
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
 			}
+
 			oFragment->rFragment.SetDeg(rFragment.GetDeg(&oFragment->rFragment));
 			//rFragment.SetDeg(oFragment->rFragment.GetDeg(&rFragment));
 			oFragment->bRotationActive = false;
@@ -248,6 +259,16 @@ namespace Fragment
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
 	}
+
+	//ヒット後のInit
+	void Obj::HitAfterInit() {
+		rFragment.SetPos(&pInitPos);
+		bMoveActive = false;
+		bRotationActive = bPreRotationActive;
+		/*bRotationActive = true;*/
+	}
+
+
 	void AnimFragmentY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
 	{
 		*bSrcY = 0;

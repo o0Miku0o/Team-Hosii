@@ -25,7 +25,7 @@ namespace Saturn
 
 		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		rSaturn = Rec(1000, 500, 16 * 14, 16 * 14);
-		cSaturnHitBase = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.3f);
+		cSaturnHitBase = Circle(&rSaturn.GetPos(), rSaturn.GetH()*0.3f);
 		cGravityCircle = Circle(&rSaturn.GetPos(), rSaturn.GetW()*0.8f);
 		iAnimCount = 0;
 		i = 12;
@@ -57,7 +57,7 @@ namespace Saturn
 			Obj::BeamCheckhit(beam);
 		}
 		cSaturnHitBase.SetPos(&rSaturn.GetPos());
-		cSaturnHitBase.SetRadius(rSaturn.GetW()*0.4f);
+		cSaturnHitBase.SetRadius(rSaturn.GetH()*0.3f);
 		cGravityCircle.SetPos(&rSaturn.GetPos());
 		cGravityCircle.SetRadius(rSaturn.GetW()*0.8f);
 	}
@@ -103,9 +103,10 @@ namespace Saturn
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cSaturnHitBase.CheckHit(&cFrHit))
 		{
-			oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			oFragment->bMoveActive = false;
-			oFragment->bRotationActive = false;
+			oFragment->HitAfterInit();
+			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//oFragment->bMoveActive = false;
+			//oFragment->bRotationActive = false;
 		}
 	}
 }

@@ -42,16 +42,16 @@ namespace Neptune
 		for (auto &f : vf)
 		{
 			FragmentCheckhit(f);
-			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos))
-			{
-				if (!f->bRotationActive)
-				{
-					f->pRotPos = cGravityCircle.GetPos();
-					f->fRotRadius = cGravityCircle.GetRadius()-1;
-					f->bRotationActive = true;
-					f->bMoveActive = false;
-				}
-			}
+			//if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos))
+			//{
+			//	if (!f->bRotationActive)
+			//	{
+			//		f->pRotPos = cGravityCircle.GetPos();
+			//		f->fRotRadius = cGravityCircle.GetRadius()-1;
+			//		f->bRotationActive = true;
+			//		f->bMoveActive = false;
+			//	}
+			//}
 		}
 		if (auto beam = Find<Beam::Obj>("ビームタスク"))
 		{
@@ -103,9 +103,10 @@ namespace Neptune
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cNeptuneHitBase.CheckHit(&cFrHit))
 		{
+	//		oFragment->HitAfterInit();
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;
-			oFragment->bRotationActive = true;
+			//oFragment->bRotationActive = true;
 		}
 	}
 }

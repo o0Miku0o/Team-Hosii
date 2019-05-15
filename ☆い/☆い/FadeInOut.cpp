@@ -24,16 +24,21 @@ namespace FadeInOut
 		/*データの初期化*/
 		SetRenderPriority(1.f);
 
-		fSize = 0.f;
+		fSize = 960.f;
 
-		rec[0] = Rec(Rec::Win.r, Rec::Win.t, fSize, fSize, 45.f);
-		rec[1] = Rec(Rec::Win.l, Rec::Win.t, fSize, fSize, 135.f);
-		rec[2] = Rec(Rec::Win.r, Rec::Win.b, fSize, fSize, 225.f);
-		rec[3] = Rec(Rec::Win.l, Rec::Win.b, fSize, fSize, 315.f);
+		//左右上下
+		rSquere[0] = Rec(0, 0, 1000, 1080);
+		rSquere[1] = Rec(0, 0, 1000, 1080);
+		rSquere[2] = Rec(0, 0, 1920, 1000);
+		rSquere[3] = Rec(0, 0, 1920, 1000);
+
+		fStarSize = 0;
+		fStarSizeValue = 0.f;
+		rStar = Rec(Rec::Win.r *0.5f, Rec::Win.b *0.5f, fStarSize, fStarSize);
 
 		bIsIn = true;
 		bActive = false;
-		fSizeValue = 0.f;
+
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -43,37 +48,47 @@ namespace FadeInOut
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		//EndPositon<FadeInOut::Obj>("フェイドインアウトタスク");
 		//fsizeが2120になった瞬間背景が全部埋める
 		if (!bActive) {
 			if (bIsIn) {
-				fSizeValue = 16.f;
-				fSize = 0.f;
+				fStarSizeValue = -32.f;
+				fStarSize = 1920.f;
 			}
 			else {
-				fSizeValue = -16.f;
-				fSize = 2120.f;
+				fStarSizeValue = 32.f;
+				fStarSize = 0.f;
 			}
 			bActive = true;
 		}
 		else {
-			if (!bIsIn) {
-				if (fSize < 0) {
+			if (bIsIn) {
+				if (fStarSize < 0) {
+					Remove(this);
+				}
+			}
+			else {
+				if (fStarSize >= 3840) {
 					Remove(this);
 				}
 			}
 		}
+		fStarSize += fStarSizeValue;
 
-		fSize += fSizeValue;
-		for (int i = 0; i < 4; ++i)
-			rec[i].Scaling(fSize, fSize);
+		rStar.Scaling(fStarSize, fStarSize);
+		rSquere[0].SetPos(&Point(rStar.GetPosX() - rSquere[0].GetW() * 0.45f - fStarSize * 0.45f, rStar.GetPosY()));
+		rSquere[1].SetPos(&Point(rStar.GetPosX() + rSquere[1].GetW() * 0.45f + fStarSize * 0.45f, rStar.GetPosY()));
+		rSquere[2].SetPos(&Point(rStar.GetPosX(), rStar.GetPosY() - rSquere[2].GetH() * 0.45f - fStarSize * 0.45f));
+		rSquere[3].SetPos(&Point(rStar.GetPosX(), rStar.GetPosY() + rSquere[3].GetH() * 0.45f + fStarSize * 0.45f));
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース")) {
-			for (int i = 0; i < 4; ++i)
-				rec[i].Draw(&res->iStageImg, &Frec(16, 0, 16, 16), false);
+			for (int i = 0; i < 4; ++i) {
+				Frec src(16, 0, 16, 16);
+				rSquere[i].Draw(&res->iStageImg, &src, true);
+			}
+			rStar.DrawAlpha(&res->tese, &Frec(0, 0, 16, 16), 255);
 		}
 	}
 }

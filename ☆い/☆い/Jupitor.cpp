@@ -115,9 +115,11 @@ namespace Jupitor
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cJupitorHitBase.CheckHit(&cFrHit))
 		{
-			oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			oFragment->bMoveActive = false;
-			oFragment->bRotationActive = true;
+			oFragment->bPreRotationActive = !oFragment->bRotationActive;
+			oFragment->HitAfterInit();
+			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//oFragment->bMoveActive = false;
+			//oFragment->bRotationActive = true;
 		}
 	}
 }
