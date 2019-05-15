@@ -45,71 +45,75 @@ namespace Player
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (!Find<FadeInOut::Obj>("フェイドインアウトタスク")) {
-			const auto pad = JoyPad::GetState(0);
-			const auto kb = KB::GetState();
-			if (pad->NowBut(J_BUT_6) == 1)
+		if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク")) 
+		{
+			if (fade->IsComplete())
 			{
-				if (!Find<Beam::Obj>("ビームタスク"))
+				const auto pad = JoyPad::GetState(0);
+				const auto kb = KB::GetState();
+				if (pad->NowBut(J_BUT_6) == 1)
 				{
-					auto bm = Add<BeamGenerator::Obj>();
-					if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+					if (!Find<Beam::Obj>("ビームタスク"))
 					{
-						res->wsTest4.Play();
+						auto bm = Add<BeamGenerator::Obj>();
+						if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+						{
+							res->wsTest4.Play();
+						}
 					}
 				}
-			}
-			if (kb->Now(VK_RIGHT) == 1)
-			{
+				if (kb->Now(VK_RIGHT) == 1)
+				{
+					if (!Find<Beam::Obj>("ビームタスク"))
+					{
+						auto bm = Add<BeamGenerator::Obj>();
+					}
+				}
 				if (!Find<Beam::Obj>("ビームタスク"))
 				{
-					auto bm = Add<BeamGenerator::Obj>();
-				}
-			}
-			if (!Find<Beam::Obj>("ビームタスク"))
-			{
-				float fSpd = 0.2f, fAng = 0.3f;
-				if (pad->On(J_BUT_5))
-				{
-					fSpd = 0.1f;
-					fAng = 0.1f;
-				}
-				fSPAngle = max(min(fSPAngle - pad->GetAxisL().GetY() * fSpd, 198.f), 162.f);
-				fPAngle =
-					max
-					(
-						min
+					float fSpd = 0.2f, fAng = 0.3f;
+					if (pad->On(J_BUT_5))
+					{
+						fSpd = 0.1f;
+						fAng = 0.1f;
+					}
+					fSPAngle = max(min(fSPAngle - pad->GetAxisL().GetY() * fSpd, 198.f), 162.f);
+					fPAngle =
+						max
 						(
-							fPAngle + pad->GetAxisR().GetY() * fAng,
-							rBase.GetDeg(&pStandardPoint) + 215
-						),
-						rBase.GetDeg(&pStandardPoint) + 145
-					);
-				if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
-				{
-					fSPAngle = 180.f;
-					fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
-				}
-				if (kb->Now('W'))
-				{
-					fSPAngle = min(fSPAngle + 0.2f, 198.f);
-				}
-				if (kb->Now('S'))
-				{
-					fSPAngle = max(fSPAngle - 0.2f, 162.f);
-				}
-				if (kb->Now(VK_UP))
-				{
-					fPAngle = max(fPAngle - 1.f, rBase.GetDeg(&pStandardPoint) + 145);
-				}
-				if (kb->Now(VK_DOWN))
-				{
-					fPAngle = min(fPAngle + 1.f, rBase.GetDeg(&pStandardPoint) + 215);
-				}
-				if (kb->Now('Z') == 1)
-				{
-					fSPAngle = 180.f;
-					fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
+							min
+							(
+								fPAngle + pad->GetAxisR().GetY() * fAng,
+								rBase.GetDeg(&pStandardPoint) + 215
+							),
+							rBase.GetDeg(&pStandardPoint) + 145
+						);
+					if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
+					{
+						fSPAngle = 180.f;
+						fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
+					}
+					if (kb->Now('W'))
+					{
+						fSPAngle = min(fSPAngle + 0.2f, 198.f);
+					}
+					if (kb->Now('S'))
+					{
+						fSPAngle = max(fSPAngle - 0.2f, 162.f);
+					}
+					if (kb->Now(VK_UP))
+					{
+						fPAngle = max(fPAngle - 1.f, rBase.GetDeg(&pStandardPoint) + 145);
+					}
+					if (kb->Now(VK_DOWN))
+					{
+						fPAngle = min(fPAngle + 1.f, rBase.GetDeg(&pStandardPoint) + 215);
+					}
+					if (kb->Now('Z') == 1)
+					{
+						fSPAngle = 180.f;
+						fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
+					}
 				}
 			}
 		}
@@ -174,7 +178,7 @@ namespace Player
 		lGuideLine.Draw();
 		if (lGuideLineFgm.GetLen())
 		{
-			lGuideLineFgm.Draw();
+			lGuideLineFgm.Draw(PS_DASH);
 		}
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{

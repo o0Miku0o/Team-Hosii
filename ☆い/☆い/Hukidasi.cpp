@@ -28,8 +28,10 @@ namespace Hukidasi
 		pFontPos[0] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.25f * 0.25f));
 		pFontPos[1] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f));
 		fAddScale = 0.f;
-		fWidthMax = 0.f;
-		fHeightMax = 0.f;
+		fWidthMax = 1800.f;
+		fHeightMax = 400.f;
+		//constexpr float fScaleWMax = 1800.f;
+		//constexpr float fScaleHMax = 400.f;
 		bSetPictureCount = 0;
 	}
 	/*タスクの終了処理*/

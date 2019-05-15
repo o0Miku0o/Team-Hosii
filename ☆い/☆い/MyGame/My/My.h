@@ -1001,7 +1001,7 @@ public:
 	/*ˆÚ“®*/
 	void Move(const float movespd_);
 	/*•`‰æ*/
-	void Draw();
+	void Draw(const u_int penstyle_ = PS_SOLID);
 	/*“–‚½‚è”»’è*/
 	bool CheckHit(const Line * const line_);
 	/*“–‚½‚è”»’è*/

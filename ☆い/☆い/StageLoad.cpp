@@ -113,8 +113,20 @@ namespace StageLoad
 			isLoad = true;
 			Remove(this);
 			Add<Stage::Obj>();
-			auto fade = Add<FadeInOut::Obj>();
-			fade->bIsIn = false;
+
+			if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク"))
+			{
+				//fade->bActive = false;
+				fade->Start();
+				fade->bIsIn = false;
+			}
+			else
+			{
+				fade = Add<FadeInOut::Obj>();
+				fade->bIsIn = false;
+			}
+			//auto fade = Add<FadeInOut::Obj>();
+			//fade->bIsIn = false;
 		}
 	}
 	/*タスクの描画処理*/

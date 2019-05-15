@@ -2170,7 +2170,7 @@ void Line::Move(const float movespd_)
 	//epos.y += sin(DtoR(angle)) * movespd_;
 }
 /*•`‰æ*/
-void Line::Draw()
+void Line::Draw(const u_int penstyle_)
 {
 	const Point pS = Rec::AdjustCamPos(&spos);
 	const Point pE = Rec::AdjustCamPos(&epos);
@@ -2179,7 +2179,7 @@ void Line::Draw()
 	if (pS.x < Rec::Win.l && pE.x < Rec::Win.l) return;
 	if (pS.y < Rec::Win.t && pE.y < Rec::Win.t) return;
 
-	hPen = CreatePen(PS_SOLID, width, color);
+	hPen = CreatePen(penstyle_, width, color);
 	HGDIOBJ old = SelectObject(hOff, hPen);
 
 	MoveToEx(hOff, (int)pS.x, (int)pS.y, nullptr);
