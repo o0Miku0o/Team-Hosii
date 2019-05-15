@@ -13,9 +13,9 @@
 #include "Stage.h"
 #include "Back.h"
 #include "StageSelect.h"
-#include <fstream>
 #include "FadeInOut.h"
 #include "Gas.h"
+#include <fstream>
 
 namespace StageLoad
 {
