@@ -103,6 +103,7 @@ namespace Saturn
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cSaturnHitBase.CheckHit(&cFrHit))
 		{
+			oFragment->bPreRotationActive = !oFragment->bRotationActive;
 			oFragment->HitAfterInit();
 			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			//oFragment->bMoveActive = false;

@@ -85,7 +85,7 @@ namespace Player
 						),
 						rBase.GetDeg(&pStandardPoint) + 145
 					);
-				if (pad->NowBut(J_BUT_2) == 1)
+				if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
 				{
 					fSPAngle = 180.f;
 					fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;

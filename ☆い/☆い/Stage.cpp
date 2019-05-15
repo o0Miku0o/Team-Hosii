@@ -58,7 +58,8 @@ namespace Stage
 			{
 				res->wsBGM.Pause();
 			}
-			Add<StageSelect::Obj>();
+			Add<Back::Obj>();
+			Add<StageSelect::Obj>();	
 			Pause(2);
 		}
 		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {

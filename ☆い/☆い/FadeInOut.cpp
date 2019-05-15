@@ -86,9 +86,9 @@ namespace FadeInOut
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース")) {
 			for (int i = 0; i < 4; ++i) {
 				Frec src(16, 0, 16, 16);
-				rSquere[i].Draw(&res->iStageImg, &src, true);
+				rSquere[i].Draw(&res->iStageImg, &src, false);
 			}
-			rStar.DrawAlpha(&res->tese, &Frec(0, 0, 16, 16), 255);
+			rStar.Draw(&res->tese, &Frec(0, 0, 16, 16), false);
 		}
 	}
 }

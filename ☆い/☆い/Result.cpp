@@ -197,7 +197,17 @@ namespace Result
 			//			Add<Back::Obj>();
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
 				manager->bStageNum = manager->bNextStage;
-				Add<StageLoad::Obj>();
+				if (manager->bStageNum == 255) {
+					RemoveAll();
+					Add<StageManager::Obj>();
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
+					Pause(2);
+				}
+				else {
+					Add<StageLoad::Obj>();
+					Pause(2);
+				}
 			}
 			Pause(2);
 		}
