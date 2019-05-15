@@ -75,10 +75,10 @@ namespace FadeInOut
 		fStarSize += fStarSizeValue;
 
 		rStar.Scaling(fStarSize, fStarSize);
-		rSquere[0].SetPos(&Point(rStar.GetPosX() - rSquere[0].GetW() * 0.5f - fStarSize * 0.5f, rStar.GetPosY()));
-		rSquere[1].SetPos(&Point(rStar.GetPosX() + rSquere[1].GetW() * 0.5f + fStarSize * 0.5f, rStar.GetPosY()));
-		rSquere[2].SetPos(&Point(rStar.GetPosX(), rStar.GetPosY() - rSquere[2].GetH() * 0.5f - fStarSize * 0.5f));
-		rSquere[3].SetPos(&Point(rStar.GetPosX(), rStar.GetPosY() + rSquere[3].GetH() * 0.5f + fStarSize * 0.5f));
+		rSquere[0].SetPos(&Point(rStar.GetPosX() - rSquere[0].GetW() * 0.45f - fStarSize * 0.45f, rStar.GetPosY()));
+		rSquere[1].SetPos(&Point(rStar.GetPosX() + rSquere[1].GetW() * 0.45f + fStarSize * 0.45f, rStar.GetPosY()));
+		rSquere[2].SetPos(&Point(rStar.GetPosX(), rStar.GetPosY() - rSquere[2].GetH() * 0.45f - fStarSize * 0.45f));
+		rSquere[3].SetPos(&Point(rStar.GetPosX(), rStar.GetPosY() + rSquere[3].GetH() * 0.45f + fStarSize * 0.45f));
 	}
 	/*É^ÉXÉNÇÃï`âÊèàóù*/
 	void Obj::Render()
