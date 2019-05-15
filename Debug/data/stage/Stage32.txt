@@ -1,0 +1,9 @@
+F 1  850 540 0
+S 1 1350 800 24
+A 6 1000  540 aMR_ aBUR aFUR aARo
+     500  540 aMR  aBDL aFDL aARo
+     600 1100 aMR  aBUL aFUL aARo
+    1600  800 aMV  aBDR aFUR aANo
+    1600  250 aMV_ aBDR aFDR aANo
+     600    0 aMH_ aBDL aFDL aAHo
+R 1 33
