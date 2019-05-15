@@ -1041,10 +1041,14 @@ float JoyPad::GetDegR() const
 //スタティック変数の初期化
 HDC Rec::off = nullptr;
 HBITMAP Rec::hoffbmp = nullptr;
+HDC Rec::hAlphaDc = nullptr;
+BLENDFUNCTION Rec::bBlendFunc = {};
+HBITMAP Rec::hAlphaBmp = nullptr;
 Frec Rec::Win = {};
 Frec Rec::frZoom = {};
 Point Rec::Cam = {};
 Point Rec::pAdjust = {};
+POINT Rec::pDrawPoint[5] = {};
 
 //矩形クラスに共通の描画バッファを作成
 bool Rec::Init(HWND hWnd_)
@@ -1077,6 +1081,12 @@ bool Rec::Init(HWND hWnd_)
 	//
 	SelectObject(off, hoffbmp);
 
+	hAlphaDc = CreateCompatibleDC(off);
+	hAlphaBmp = CreateCompatibleBitmap(off, int(Win.r), int(Win.b));
+	SelectObject(hAlphaDc, hAlphaBmp);
+
+	bBlendFunc.BlendOp = AC_SRC_OVER;
+
 	//SetStretchBltMode(off, HALFTONE);
 	return 0;
 }
@@ -1099,6 +1109,9 @@ void Rec::Release()
 {
 	if (hoffbmp) DeleteObject(hoffbmp);
 	if (off) DeleteDC(off);
+
+	if (hAlphaBmp) DeleteObject(hAlphaBmp);
+	if (hAlphaDc) DeleteDC(hAlphaDc);
 }
 //カメラの座標に合わせて位置を調整する
 const Point &Rec::AdjustCamPos(const Point * const pPos)
@@ -1360,11 +1373,11 @@ void Rec::Draw(Image * const mybitmap_, const bool rot_)
 	if (AdjustCamPos(&p[CENTER]).x + w < Win.l) return;
 	if (AdjustCamPos(&p[CENTER]).y + h < Win.t) return;
 
-	POINT dp[3] = {};
+	//POINT dp[3] = {};
 	for (int i = 0; i < 3; ++i)
 	{
-		dp[i].x = (long)AdjustCamPos(&p[i]).x;
-		dp[i].y = (long)AdjustCamPos(&p[i]).y;
+		pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
+		pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 	}
 
 	if (rot_)
@@ -1389,16 +1402,16 @@ void Rec::Draw(Image * const mybitmap_, const bool rot_)
 
 			for (int i = 0; i < 3; ++i)
 			{
-				dp[i].x = (long)pp[i][0];
-				dp[i].y = (long)pp[i][1];
+				pDrawPoint[i].x = (long)pp[i][0];
+				pDrawPoint[i].y = (long)pp[i][1];
 			}
 			/**/
-			PlgBlt(off, dp, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
+			PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
 			/**/
 		}
-		else/**/ PlgBlt(off, dp, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+		else/**/ PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 	}
-	else PlgBlt(off, dp, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+	else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 }
 //読み込んでおいたビットマップを描画(回転も可)
 void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot_)
@@ -1408,11 +1421,11 @@ void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot
 	if (AdjustCamPos(&p[CENTER]).x + w < Win.l) return;
 	if (AdjustCamPos(&p[CENTER]).y + h < Win.t) return;
 
-	POINT dp[3];
+	//POINT dp[3];
 	for (int i = 0; i < 3; ++i)
 	{
-		dp[i].x = (long)AdjustCamPos(&p[i]).x;
-		dp[i].y = (long)AdjustCamPos(&p[i]).y;
+		pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
+		pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 	}
 
 	if (rot_)
@@ -1438,88 +1451,88 @@ void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot
 
 			for (int i = 0; i < 3; ++i)
 			{
-				dp[i].x = (long)pp[i][0];
-				dp[i].y = (long)pp[i][1];
+				pDrawPoint[i].x = (long)pp[i][0];
+				pDrawPoint[i].y = (long)pp[i][1];
 			}
 			/**/
-			PlgBlt(off, dp, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
+			PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
 			/**/
 		}
-		else PlgBlt(off, dp, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
+		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 	}
-	else PlgBlt(off, dp, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
+	else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 }
 //
 void Rec::DrawAlpha(Image * const mybitmap_, byte alpha_)
 {
-	POINT dp;
-	dp.x = (long)AdjustCamPos(&p[TOP_LEFT]).x;
-	dp.y = (long)AdjustCamPos(&p[TOP_LEFT]).y;
+	//POINT dp;
+	pDrawPoint[0].x = (long)AdjustCamPos(&p[TOP_LEFT]).x;
+	pDrawPoint[0].y = (long)AdjustCamPos(&p[TOP_LEFT]).y;
 
-	if (dp.x - w > Win.r) return;
-	if (dp.y - h > Win.b) return;
-	if (dp.x + w < Win.l) return;
-	if (dp.y + h < Win.t) return;
+	if (pDrawPoint[0].x - w > Win.r) return;
+	if (pDrawPoint[0].y - h > Win.b) return;
+	if (pDrawPoint[0].x + w < Win.l) return;
+	if (pDrawPoint[0].y + h < Win.t) return;
 
-	BLENDFUNCTION bfu = {};
-	bfu.BlendOp = AC_SRC_OVER;
-	bfu.SourceConstantAlpha = alpha_;
+	//BLENDFUNCTION bfu = {};
+	//bfu.BlendOp = AC_SRC_OVER;
+	//bfu.SourceConstantAlpha = alpha_;
 
-	auto hBufDc = CreateCompatibleDC(off);
-	auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
-	SelectObject(hBufDc, hBufBmp);
+	bBlendFunc.SourceConstantAlpha = alpha_;
 
-	POINT pBufArr[3] =
-	{
-		{0, 0},
-		{mybitmap_->GetBmpInfo().bmWidth, 0},
-		{0, mybitmap_->GetBmpInfo().bmHeight},
-	};
+	//auto hBufDc = CreateCompatibleDC(off);
+	//auto hBufBmp = CreateCompatibleBitmap(off, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight);
+	//SelectObject(hBufDc, hBufBmp);
 
-	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
+	static POINT pBufArr[3] = {};
+	pBufArr[0] = { 0, 0 };
+	pBufArr[1] = { mybitmap_->GetBmpInfo().bmWidth, 0 };
+	pBufArr[2] = { 0, mybitmap_->GetBmpInfo().bmHeight };
 
-	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+	PlgBlt(hAlphaDc, pBufArr, off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, nullptr, 0, 0);
 
-	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bfu);
+	PlgBlt(hAlphaDc, pBufArr, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 
-	DeleteObject(hBufBmp);
-	DeleteDC(hBufDc);
+	AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
+
+	//DeleteObject(hBufBmp);
+	//DeleteDC(hBufDc);
 }
 //
 void Rec::DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alpha_)
 {
-	POINT dp;
-	dp.x = (long)AdjustCamPos(&p[TOP_LEFT]).x;
-	dp.y = (long)AdjustCamPos(&p[TOP_LEFT]).y;
+	//POINT dp;
+	pDrawPoint[0].x = (long)AdjustCamPos(&p[TOP_LEFT]).x;
+	pDrawPoint[0].y = (long)AdjustCamPos(&p[TOP_LEFT]).y;
 
-	if (dp.x - w > Win.r) return;
-	if (dp.y - h > Win.b) return;
-	if (dp.x + w < Win.l) return;
-	if (dp.y + h < Win.t) return;
+	if (pDrawPoint[0].x - w > Win.r) return;
+	if (pDrawPoint[0].y - h > Win.b) return;
+	if (pDrawPoint[0].x + w < Win.l) return;
+	if (pDrawPoint[0].y + h < Win.t) return;
 
-	BLENDFUNCTION bfu = {};
-	bfu.BlendOp = AC_SRC_OVER;
-	bfu.SourceConstantAlpha = alpha_;
+	//BLENDFUNCTION bfu = {};
+	//bfu.BlendOp = AC_SRC_OVER;
+	//bfu.SourceConstantAlpha = alpha_;
 
-	auto hBufDc = CreateCompatibleDC(off);
-	auto hBufBmp = CreateCompatibleBitmap(off, (int)w, (int)h);
-	SelectObject(hBufDc, hBufBmp);
+	bBlendFunc.SourceConstantAlpha = alpha_;
 
-	POINT pBufArr[3] =
-	{
-		{0, 0},
-		{(int)w, 0},
-		{0, (int)h},
-	};
+	//auto hBufDc = CreateCompatibleDC(off);
+	//auto hBufBmp = CreateCompatibleBitmap(off, (int)w, (int)h);
+	//SelectObject(hBufDc, hBufBmp);
 
-	PlgBlt(hBufDc, pBufArr, off, dp.x, dp.y, (int)w, (int)h, nullptr, 0, 0);
+	static POINT pBufArr[3] = {};
+	pBufArr[0] = { 0, 0 };
+	pBufArr[1] = { (int)w, 0 };
+	pBufArr[2] = { 0, (int)h };
 
-	PlgBlt(hBufDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
+	PlgBlt(hAlphaDc, pBufArr, off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, nullptr, 0, 0);
 
-	AlphaBlend(off, dp.x, dp.y, (int)w, (int)h, hBufDc, 0, 0, (int)w, (int)h, bfu);
+	PlgBlt(hAlphaDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 
-	DeleteObject(hBufBmp);
-	DeleteDC(hBufDc);
+	AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
+
+	//DeleteObject(hBufBmp);
+	//DeleteDC(hBufDc);
 }
 //矩形の外枠を描画するメンバ関数
 void Rec::Draw()
@@ -1529,28 +1542,28 @@ void Rec::Draw()
 	if (AdjustCamPos(&p[CENTER]).x + w < Win.l) return;
 	if (AdjustCamPos(&p[CENTER]).y + h < Win.t) return;
 
-	POINT dp[5];
+	//POINT dp[5];
 	for (int i = 0; i < 4; ++i)
 	{
-		dp[i].x = (long)AdjustCamPos(&p[i]).x;
-		dp[i].y = (long)AdjustCamPos(&p[i]).y;
+		pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
+		pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 	}
 
-	Swap(dp[BOTTOM_LEFT].x, dp[BOTTOM_RIGHT].x);
-	Swap(dp[BOTTOM_LEFT].y, dp[BOTTOM_RIGHT].y);
+	Swap(pDrawPoint[BOTTOM_LEFT].x, pDrawPoint[BOTTOM_RIGHT].x);
+	Swap(pDrawPoint[BOTTOM_LEFT].y, pDrawPoint[BOTTOM_RIGHT].y);
 
-	dp[4] = dp[TOP_LEFT];
+	pDrawPoint[4] = pDrawPoint[TOP_LEFT];
 
 	HPEN hPen = CreatePen(PS_SOLID, 0, cColor);
 	HGDIOBJ old = SelectObject(off, hPen);
 
-	Polyline(off, dp, sizeof(dp) / sizeof(dp[0]));
+	Polyline(off, pDrawPoint, sizeof(pDrawPoint) / sizeof(pDrawPoint[0]));
 
 	SelectObject(off, old);
 	DeleteObject(hPen);
 }
 //
-constexpr bool LineCheckCross(const float ax, const float ay, const float bx, const float by, const float cx, const float cy, const float dx, const float dy)
+inline constexpr bool LineCheckCross(const float ax, const float ay, const float bx, const float by, const float cx, const float cy, const float dx, const float dy)
 {
 	float ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
 	float tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);

@@ -693,9 +693,13 @@ class Rec
 private:
 	static HDC off;
 	static HBITMAP hoffbmp;
+	static HDC hAlphaDc;
+	static HBITMAP hAlphaBmp;
+	static BLENDFUNCTION bBlendFunc;
 	static Frec frZoom;
 	static Point Cam;
 	static Point pAdjust;
+	static POINT pDrawPoint[5];
 	Point p[5];
 	COLORREF cColor;
 	float w;
