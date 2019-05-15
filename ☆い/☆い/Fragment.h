@@ -36,6 +36,7 @@ namespace Fragment
 
 		Animation aAnim;
 
+		bool bPreRotationActive;
 		Obj() {}
 		~Obj() {}
 	private:
@@ -48,6 +49,8 @@ namespace Fragment
 		void Checkhitbeam(TaskBase* bm);
 		void Checkhitfagment(TaskBase* fg);
 		void CheckhitAlien(TaskBase* al);
+
+		void HitAfterInit();
 	}*OBJ_ptr;
 	void AnimFragmentY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 	void AnimFragmentR(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
