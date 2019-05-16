@@ -27,6 +27,7 @@ namespace Jupitor
 		rJupitor = Rec(800, 270, 16 * 20, 16 * 20);
 		cJupitorHitBase = Circle(&rJupitor.GetPos(), rJupitor.GetW()*0.4f);
 		cGravityCircle = Circle(&rJupitor.GetPos(), rJupitor.GetW()*0.8f);
+		cGravityCircle.SetColor(0, 255, 0);
 		rGravityCircle = Rec(rJupitor.GetPosX(), rJupitor.GetPosY(), rJupitor.GetW()*2.f, rJupitor.GetH()*2.f);
 	}
 	/*タスクの終了処理*/
@@ -61,15 +62,6 @@ namespace Jupitor
 		cGravityCircle.SetPos(&rJupitor.GetPos());
 		cGravityCircle.SetRadius(rJupitor.GetW()*0.8f);
 		rGravityCircle = Rec(rJupitor.GetPosX(), rJupitor.GetPosY(), rJupitor.GetW()*2.f, rJupitor.GetH()*2.f);
-		if (iAlpha == 0)
-		{
-			iCnt = 3;
-		}
-		else if (iAlpha == 255)
-		{
-			iCnt = -3;
-		}
-		iAlpha += iCnt;
 
 	}
 	/*タスクの描画処理*/
@@ -85,12 +77,10 @@ namespace Jupitor
 			}
 			++i;
 			rJupitor.Draw(&res->iStageImg, &src, true);
-			Frec src2(16.f*83.f, 0, 16, 16);
-			rGravityCircle.DrawAlpha(&res->iStageImg, &src2, iAlpha);
 		}
+		cGravityCircle.Draw();
 #ifdef _DEBUG
 		cJupitorHitBase.Draw();
-		cGravityCircle.Draw();
 		Font f;
 		std::string s = std::to_string(rJupitor.GetPosX()) + " " + std::to_string(rJupitor.GetPosY()) + " " + std::to_string(rJupitor.GetH());
 		f.Draw(&rJupitor.GetPos(), s.c_str());
