@@ -22,7 +22,7 @@ namespace StageSelectObjGalaxy
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rGalaxy = Rec(950, 600, 16 * 10, 16 * 10);
+		rGalaxy = Rec(950, 600 - 200.f, 16 * 10, 16 * 10);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

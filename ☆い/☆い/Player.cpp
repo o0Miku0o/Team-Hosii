@@ -45,7 +45,7 @@ namespace Player
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク")) 
+		if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク"))
 		{
 			if (fade->IsComplete())
 			{
@@ -71,54 +71,106 @@ namespace Player
 				}
 				if (!Find<Beam::Obj>("ビームタスク"))
 				{
-					float fSpd = 0.2f, fAng = 0.3f;
+					float fSpdY = pad->GetAxisL().GetY() * 0.2f;
+					float fAng = 0.5f;
+					if (kb->On('W'))
+					{
+						fSpdY = -5.f;
+					}
+					if (kb->On('S'))
+					{
+						fSpdY = 5.f;
+					}
+					if (kb->On(VK_LEFT))
+					{
+						fSpdY *= 0.5f;
+						fAng *= 0.5f;
+					}
 					if (pad->On(J_BUT_5))
 					{
-						fSpd = 0.1f;
-						fAng = 0.1f;
+						fSpdY *= 0.5f;
+						fAng *= 0.5f;
 					}
-					fSPAngle = max(min(fSPAngle - pad->GetAxisL().GetY() * fSpd, 198.f), 162.f);
+					const float fPosX = rBase.GetPosX();
+					const float fPosY = rBase.GetPosY();
+					float fAfterPosY = fPosY + fSpdY;
+					constexpr float cfWinRecDist = 100.f;
+					constexpr float cfPlayerPosMin = 0.f + cfWinRecDist;
+					constexpr float cfPlayerPosMax = 1080.f - cfWinRecDist;
+					if (fAfterPosY >= cfPlayerPosMax) fAfterPosY = cfPlayerPosMax;
+					if (fAfterPosY <= cfPlayerPosMin) fAfterPosY = cfPlayerPosMin;
+					rBase.SetPos(&Point(fPosX, fAfterPosY));
+
+					if (kb->On(VK_UP))
+					{
+						fPAngle = Max(fPAngle - fAng, rBase.GetDeg(&pStandardPoint) + 145);
+					}
+					if (kb->On(VK_DOWN))
+					{
+						fPAngle = Min(fPAngle + fAng, rBase.GetDeg(&pStandardPoint) + 215);
+					}
 					fPAngle =
-						max
+						Max
 						(
-							min
+							Min
 							(
 								fPAngle + pad->GetAxisR().GetY() * fAng,
 								rBase.GetDeg(&pStandardPoint) + 215
 							),
 							rBase.GetDeg(&pStandardPoint) + 145
 						);
-					if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
-					{
-						fSPAngle = 180.f;
-						fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
-					}
-					if (kb->Now('W'))
-					{
-						fSPAngle = min(fSPAngle + 0.2f, 198.f);
-					}
-					if (kb->Now('S'))
-					{
-						fSPAngle = max(fSPAngle - 0.2f, 162.f);
-					}
-					if (kb->Now(VK_UP))
-					{
-						fPAngle = max(fPAngle - 1.f, rBase.GetDeg(&pStandardPoint) + 145);
-					}
-					if (kb->Now(VK_DOWN))
-					{
-						fPAngle = min(fPAngle + 1.f, rBase.GetDeg(&pStandardPoint) + 215);
-					}
-					if (kb->Now('Z') == 1)
-					{
-						fSPAngle = 180.f;
-						fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
-					}
+					rBase.SetDeg(fPAngle);
+
+
+
+					//float fSpd = 0.2f, fAng = 0.3f;
+					//if (pad->On(J_BUT_5))
+					//{
+					//	fSpd = 0.1f;
+					//	fAng = 0.1f;
+					//}
+					//fSPAngle = max(min(fSPAngle - pad->GetAxisL().GetY() * fSpd, 198.f), 162.f);
+					//fPAngle =
+					//	max
+					//	(
+					//		min
+					//		(
+					//			fPAngle + pad->GetAxisR().GetY() * fAng,
+					//			rBase.GetDeg(&pStandardPoint) + 215
+					//		),
+					//		rBase.GetDeg(&pStandardPoint) + 145
+					//	);
+					//if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
+					//{
+					//	fSPAngle = 180.f;
+					//	fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
+					//}
+					//if (kb->Now('W'))
+					//{
+					//	fSPAngle = min(fSPAngle + 0.2f, 198.f);
+					//}
+					//if (kb->Now('S'))
+					//{
+					//	fSPAngle = max(fSPAngle - 0.2f, 162.f);
+					//}
+					//if (kb->Now(VK_UP))
+					//{
+					//	fPAngle = max(fPAngle - 1.f, rBase.GetDeg(&pStandardPoint) + 145);
+					//}
+					//if (kb->Now(VK_DOWN))
+					//{
+					//	fPAngle = min(fPAngle + 1.f, rBase.GetDeg(&pStandardPoint) + 215);
+					//}
+					//if (kb->Now('Z') == 1)
+					//{
+					//	fSPAngle = 180.f;
+					//	fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
+					//}
 				}
 			}
 		}
-		/**/rBase.SetPos(&Point(cos(DtoR(fSPAngle)) * fSPDist + pStandardPoint.x, sin(DtoR(fSPAngle)) * fSPDist + pStandardPoint.y));/**/
-		rBase.SetDeg(fPAngle);
+		///**/rBase.SetPos(&Point(cos(DtoR(fSPAngle)) * fSPDist + pStandardPoint.x, sin(DtoR(fSPAngle)) * fSPDist + pStandardPoint.y));/**/
+		//rBase.SetDeg(fPAngle);
 
 		if (fSPAngle >= 189.f)
 		{
@@ -168,12 +220,12 @@ namespace Player
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		MyArc maArc;
-		maArc.SetPos(&pStandardPoint);
-		maArc.SetRadius(fSPDist);
-		maArc.SetAngle(180.f, 198.f - 162.f);
-		maArc.SetColor(130, 130, 255);
-		maArc.Draw();
+		//MyArc maArc;
+		//maArc.SetPos(&pStandardPoint);
+		//maArc.SetRadius(fSPDist);
+		//maArc.SetAngle(180.f, 198.f - 162.f);
+		//maArc.SetColor(130, 130, 255);
+		//maArc.Draw();
 
 		lGuideLine.Draw();
 		if (lGuideLineFgm.GetLen())

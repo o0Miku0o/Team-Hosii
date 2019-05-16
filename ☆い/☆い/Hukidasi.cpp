@@ -25,8 +25,7 @@ namespace Hukidasi
 
 		/*データの初期化*/
 		rHukidasi = Rec();
-		pFontPos[0] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.25f * 0.25f));
-		pFontPos[1] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f));
+		pFontPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) - 10.f);
 		fAddScale = 0.f;
 		fWidthMax = 1800.f;
 		fHeightMax = 400.f;
@@ -53,25 +52,18 @@ namespace Hukidasi
 				const float fQuarterWidth = fHalfWidth * 0.5f;
 				const float fQuarterHeight = fHalfHeight * 0.5f;
 				constexpr float cfDist = 30.f;
-				const Point pPosArr[2][3] =
+				const Point pPosArr[3] =
 				{
-					{
-						Point(fQuarterWidth, fQuarterHeight - cfDist),
-						Point(fHalfWidth, fQuarterHeight - cfDist),
-						Point(fHalfWidth + fQuarterWidth, fQuarterHeight - cfDist)
-					},
-					{
-						Point(fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist),
-						Point(fHalfWidth, fHalfHeight + fQuarterHeight - cfDist),
-						Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist)
-					},
+					Point(fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist),
+					Point(fHalfWidth, fHalfHeight + fQuarterHeight - cfDist),
+					Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist)
 				};
 				constexpr float cfPicWidth = 1920.f * (0.125f * 1.5f);
 				constexpr float cfPicHeight = 1080.f * (0.125f * 1.5f);
 
 				for (byte b = 0; b < 3; ++b)
 				{
-					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[pGroup][b].x, pPosArr[pGroup][b].y, cfPicWidth, cfPicHeight));
+					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[b].x, pPosArr[b].y, cfPicWidth, cfPicHeight));
 				}
 
 				//if (pGroup == PictureGroup::GROUP_UP)
@@ -124,7 +116,9 @@ namespace Hukidasi
 			Font f;
 			f.FontCreate("メイリオ", 100);
 			f.SetColor(RGB(255, 0, 0));
-			f.Draw(&pFontPos[pGroup], std::string("test").c_str(), false);
+			std::string sStageName = "私たちは地球なんですよ";
+			const float fDecPosX = sStageName.size() * 16.f;
+			f.Draw(&Point(pFontPos.x - fDecPosX, pFontPos.y), sStageName.c_str());
 		}
 	}
 	/*吹き出しのサイズ変更*/
@@ -168,9 +162,8 @@ namespace Hukidasi
 		++bSetPictureCount;
 	}
 	/*ステージのグループの設定*/
-	void Obj::SetStageGroup(const PictureGroup apStageGroup, const StageGroup asStageGroup)
+	void Obj::SetStageGroup(const StageGroup asStageGroup)
 	{
-		pGroup = apStageGroup;
 		sGroup = asStageGroup;
 	}
 }

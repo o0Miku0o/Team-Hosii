@@ -3,11 +3,6 @@
 
 namespace Hukidasi
 {
-	enum PictureGroup
-	{
-		GROUP_UP,
-		GROUP_DOWN,
-	};
 	enum StageGroup
 	{
 		GROUP_EARTH,
@@ -38,10 +33,9 @@ namespace Hukidasi
 		Obj() {}
 		~Obj() {}
 	private:
-		PictureGroup pGroup;
 		StageGroup sGroup;
 		Rec rHukidasi;
-		Point pFontPos[2];
+		Point pFontPos;
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
@@ -60,6 +54,6 @@ namespace Hukidasi
 		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
 		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
-		void SetStageGroup(const PictureGroup apStageGroup, const StageGroup asStageGroup);
+		void SetStageGroup(const StageGroup asStageGroup);
 	}*OBJ_ptr;
 }

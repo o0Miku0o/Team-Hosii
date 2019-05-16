@@ -459,17 +459,21 @@ void Font::Release()
 	if (hf) DeleteObject(hf);
 }
 //色設定
-void Font::SetColor(COLORREF col_)
+const COLORREF Font::SetColor(const COLORREF col_)
 {
+	auto cOld = col_;
 	col = col_;
+	return cOld;
 }
 //色設定
-void Font::SetColor(const byte r_, const byte g_, const byte b_)
+const COLORREF Font::SetColor(const byte r_, const byte g_, const byte b_)
 {
+	auto cOld = col;
 	col = RGB(r_, g_, b_);
+	return cOld;
 }
 
-void Font::Draw(const Point * const pos_, const char * const text_, const bool bSetLeft)
+void Font::Draw(const Point * const pos_, const char * const text_)
 {
 	const POINT dp = { (long)Rec::AdjustCamPos(pos_).x, (long)Rec::AdjustCamPos(pos_).y };
 
@@ -479,16 +483,7 @@ void Font::Draw(const Point * const pos_, const char * const text_, const bool b
 	SetTextColor(hOff, col);
 	//背景色を透過に指定
 	SetBkMode(hOff, TRANSPARENT);
-	//引数から指定されたデバイスコンテキストに文字列を描画
-	if (bSetLeft)
-	{
-		TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
-	}
-	//else
-	//{
-	//	RECT rDraw = { long(dp.x - Rec::Win.r * 0.5f), long(dp.y - Rec::Win.b * 0.5f), (long)Rec::Win.r, (long)Rec::Win.b};
-	//	DrawText(hOff, text_, lstrlen(text_) + 1, &rDraw, DT_CENTER);
-	//}
+	TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
 	if (old) SelectObject(hOff, old);
 }
 
@@ -1248,6 +1243,13 @@ const COLORREF Rec::SetColor(const COLORREF ccColor)
 	cColor = ccColor;
 	return cOld;
 }
+//色設定
+const COLORREF Rec::SetColor(const byte r_, const byte g_, const byte b_)
+{
+	auto cOld = cColor;
+	cColor = RGB(r_, b_, b_);
+	return cOld;
+}
 //矩形を移動させる
 void Rec::SetPos(const Point * const pos_)
 {
@@ -1831,10 +1833,19 @@ void Circle::SetRadius(const float radius_)
 	radius = radius_;
 }
 /*色設定*/
-void Circle::SetColor(const byte r_, const byte g_, const byte b_)
+const COLORREF Circle::SetColor(const COLORREF color_)
 {
+	auto cOld = color;
+	color = color_;
+	return cOld;
+}
+/*色設定*/
+const COLORREF Circle::SetColor(const byte r_, const byte g_, const byte b_)
+{
+	auto cOld = color;
 	//color = r_ | (unsigned short)g_ << 8 | (unsigned long)b_ << 16;
 	color = RGB(r_, g_, b_);
+	return cOld;
 }
 /*座標取得*/
 const Point &Circle::GetPos() const
@@ -2015,9 +2026,18 @@ void Line::SetEPos(const Point * const epos_)
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
 /*色設定*/
-void Line::SetColor(const byte r_, const byte g_, const byte b_)
+const COLORREF Line::SetColor(const COLORREF color_)
 {
+	auto cOld = color;
+	color = color_;
+	return cOld;
+}
+/*色設定*/
+const COLORREF Line::SetColor(const byte r_, const byte g_, const byte b_)
+{
+	auto cOld = color;
 	color = RGB(r_, g_, b_);
+	return cOld;
 }
 /*幅設定*/
 void Line::SetWidth(const int width_)
@@ -2352,6 +2372,16 @@ const COLORREF Pixel::SetColor(const COLORREF ccColor)
 {
 	const COLORREF ccOld = cColor;
 	cColor = ccColor;
+	if (hPen) DeleteObject(hPen);
+	if (hBrush) DeleteObject(hBrush);
+	hPen = CreatePen(PS_SOLID, 1, cColor);
+	hBrush = CreateSolidBrush(cColor);
+	return ccOld;
+}
+const COLORREF Pixel::SetColor(const byte r_, const byte g_, const byte b_)
+{
+	const COLORREF ccOld = cColor;
+	cColor = RGB(r_, g_, b_);
 	if (hPen) DeleteObject(hPen);
 	if (hBrush) DeleteObject(hBrush);
 	hPen = CreatePen(PS_SOLID, 1, cColor);
