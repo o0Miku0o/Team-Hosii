@@ -6,11 +6,6 @@
 #include "StageSelectObjGalaxy.h"
 #include "StageSelectObjBH.h"
 #include "StageSelectObjAsteroid.h"
-#include "Stage1-1.h"
-#include "Stage2-1.h"
-#include "Stage3-1.h"
-#include "Stage4-1.h"
-#include "Stage5-1.h"
 #include "Title.h"
 #include "StageSelect.h"
 #include "Hukidasi.h"
@@ -135,15 +130,6 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
-				//if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
-				//{
-				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				//	Add<Back::Obj>();
-				//	Add<Stage11::Obj>();
-				//	Pause(2);
-				//	return;
-				//}
-
 				//試遊会
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -175,15 +161,6 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
-				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
-				//{
-				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				//	Add<Back::Obj>();
-				//	Add<Stage21::Obj>();
-				//	Pause(2);
-				//	return;
-				//}
-
 				//試遊会
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
 					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
@@ -214,15 +191,6 @@ namespace Cursor
 				bFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
-
-				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
-				//{
-				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				//	Add<Back::Obj>();
-				//	Add<Stage31::Obj>();
-				//	Pause(2);
-				//	return;
-				//}
 
 				//試遊会
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {

@@ -13,31 +13,31 @@
 #include "Stage.h"
 #include "Back.h"
 #include "StageSelect.h"
-#include <fstream>
 #include "FadeInOut.h"
 #include "Gas.h"
 #include "Rail.h"
+#include <fstream>
 
 namespace StageLoad
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒ[ƒhƒXƒe[ƒWƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ãƒ­ãƒ¼ãƒ‰ã‚¹ãƒ†ãƒ¼ã‚¸ã‚¿ã‚¹ã‚¯");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 		Add<Back::Obj>();
 		Add<Gas::Obj>();
 		Add<Player::Obj>();
@@ -52,20 +52,20 @@ namespace StageLoad
 		sAlien.state = false;
 		bStageNum = 11;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
-		if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
+		if (auto manager = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
 			bStageNum = manager->bStageNum;
 		}
 
 		if (!isLoad && LoadStage(bStageNum)) {
-			//˜f¯‚ÍŒ‡•Ğ‚ğŒÄ‚Ô‘O‚É•K‚¸
+			//æƒ‘æ˜Ÿã¯æ¬ ç‰‡ã‚’å‘¼ã¶å‰ã«å¿…ãš
 			if (sJupiter.state) {
 				auto pj = Add<Jupitor::Obj>();
 				pj->rJupitor = sJupiter.rec;
@@ -78,7 +78,7 @@ namespace StageLoad
 				auto sa = Add<Saturn::Obj>();
 				sa->rSaturn = sSaturn.rec;
 			}
-			//Œ‡•Ğ‚Í˜f¯‚½‚¿‚ğ“Ç‚ñ‚¾Œã‚É
+			//æ¬ ç‰‡ã¯æƒ‘æ˜ŸãŸã¡ã‚’èª­ã‚“ã å¾Œã«
 			if (sFragement.state) {
 				auto fg = Add<FragmentGenerator::Obj>();
 				fg->Bridge2(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
@@ -104,7 +104,7 @@ namespace StageLoad
 				bh->Bridge(sblackhole.iNum, sblackhole.vpPos, sblackhole.vpSize, sblackhole.viMode);
 			}
 			if (sResult.state) {
-				if (auto ma = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
+				if (auto ma = Find<StageManager::Obj>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ã‚¿ã‚¹ã‚¯")) {
 					ma->usBeamCount = 0;
 					ma->bClearFragmentNum = 0;
 					ma->bClearFragmentNumMax = sResult.iFragement;
@@ -116,7 +116,7 @@ namespace StageLoad
 			Add<Stage::Obj>();
 			Add<Rail::Obj>();
 
-			if (auto fade = Find<FadeInOut::Obj>("ƒtƒFƒCƒhƒCƒ“ƒAƒEƒgƒ^ƒXƒN"))
+			if (auto fade = Find<FadeInOut::Obj>("ãƒ•ã‚§ã‚¤ãƒ‰ã‚¤ãƒ³ã‚¢ã‚¦ãƒˆã‚¿ã‚¹ã‚¯"))
 			{
 				//fade->bActive = false;
 				fade->Start();
@@ -131,7 +131,7 @@ namespace StageLoad
 			//fade->bIsIn = false;
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 
@@ -143,7 +143,7 @@ namespace StageLoad
 			return false;
 		}
 		string sIdentifier;
-		//Œ‡•ĞA¯A‰ó‚ê‚é¯A–Ø¯AŠC‰¤¯A“y¯Aè¦ÎAŠOŠElAƒuƒ‰ƒbƒNƒz[ƒ‹AƒRƒƒ“ƒgn“_AƒRƒƒ“ƒgI“_
+		//æ¬ ç‰‡ã€æ˜Ÿã€å£Šã‚Œã‚‹æ˜Ÿã€æœ¨æ˜Ÿã€æµ·ç‹æ˜Ÿã€åœŸæ˜Ÿã€éš•çŸ³ã€å¤–ç•Œäººã€ãƒ–ãƒ©ãƒƒã‚¯ãƒ›ãƒ¼ãƒ«ã€ã‚³ãƒ¡ãƒ³ãƒˆå§‹ç‚¹ã€ã‚³ãƒ¡ãƒ³ãƒˆçµ‚ç‚¹
 		const char* sArr[] = { "F", "S", "Bs", "J", "N","Sa", "M", "A", "B", "R",  "/*", "*/", };
 		while (!ifs.eof()) {
 			ifs >> sIdentifier;
@@ -265,28 +265,28 @@ namespace StageLoad
 			string bufMove, bufHitB, bufHitF, bufAnim;
 			ifs >> x >> y >> bufMove >> bufHitB >> bufHitF >> bufAnim;
 			sAlien.vpPos.push_back(Point(x, y));
-			//ˆÚ“®ƒ^ƒCƒv‚ğŒŸõ
+			//ç§»å‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
 			for (int i = 0; i < sizeof(arrMove) / sizeof(char*); ++i) {
 				if (bufMove == arrMove[i]) {
 					sAlien.vaMove.push_back(fPmove[i]);
 					break;
 				}
 			}
-			//ƒr[ƒ€‚Ìs“®ƒ^ƒCƒv‚ğŒŸõ
+			//ãƒ“ãƒ¼ãƒ ã®è¡Œå‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
 			for (int i = 0; i < sizeof(arrHitB) / sizeof(char*); ++i) {
 				if (bufHitB == arrHitB[i]) {
 					sAlien.vaBMHit.push_back(fpBMHit[i]);
 					break;
 				}
 			}
-			//Œ‡•Ğ‚Ìs“®ƒ^ƒCƒv‚ğŒŸõ
+			//æ¬ ç‰‡ã®è¡Œå‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
 			for (int i = 0; i < sizeof(arrHitF) / sizeof(char*); ++i) {
 				if (bufHitF == arrHitF[i]) {
 					sAlien.vaFGHit.push_back(fpFGHit[i]);
 					break;
 				}
 			}
-			//Œ‡•Ğ‚Ìs“®ƒ^ƒCƒv‚ğŒŸõ
+			//æ¬ ç‰‡ã®è¡Œå‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
 			for (int i = 0; i < sizeof(arrAnim) / sizeof(char*); ++i) {
 				if (bufAnim == arrAnim[i]) {
 					sAlien.vaAnim.push_back(fpAnim[i]);
@@ -296,7 +296,7 @@ namespace StageLoad
 		}
 		sAlien.state = true;
 	}
-	//À•WA‘å‚«‚³
+	//åº§æ¨™ã€å¤§ãã•
 	void Obj::LoadBlackHole(ifstream &ifs) {
 		ifs >> sblackhole.iNum;
 		for (int i = 0; i < sblackhole.iNum; ++i) {
