@@ -27,21 +27,6 @@
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Result.cpp" />
-    <ClCompile Include="Stage1-1.cpp" />
-    <ClCompile Include="Stage1-2.cpp" />
-    <ClCompile Include="Stage1-3.cpp" />
-    <ClCompile Include="Stage2-1.cpp" />
-    <ClCompile Include="Stage2-2.cpp" />
-    <ClCompile Include="Stage2-3.cpp" />
-    <ClCompile Include="Stage3-1.cpp" />
-    <ClCompile Include="Stage3-2.cpp" />
-    <ClCompile Include="Stage3-3.cpp" />
-    <ClCompile Include="Stage4-1.cpp" />
-    <ClCompile Include="Stage4-2.cpp" />
-    <ClCompile Include="Stage4-3.cpp" />
-    <ClCompile Include="Stage5-1.cpp" />
-    <ClCompile Include="Stage5-2.cpp" />
-    <ClCompile Include="Stage5-3.cpp" />
     <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="StageSelect.cpp" />
@@ -58,8 +43,8 @@
     <ClCompile Include="Hukidasi.cpp" />
     <ClCompile Include="Eff1.cpp" />
     <ClCompile Include="StagePicture.cpp" />
-    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="FadeInOut.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Rail.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,21 +78,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Result.h" />
-    <ClInclude Include="Stage1-1.h" />
-    <ClInclude Include="Stage1-2.h" />
-    <ClInclude Include="Stage1-3.h" />
-    <ClInclude Include="Stage2-1.h" />
-    <ClInclude Include="Stage2-2.h" />
-    <ClInclude Include="Stage2-3.h" />
-    <ClInclude Include="Stage3-1.h" />
-    <ClInclude Include="Stage3-2.h" />
-    <ClInclude Include="Stage3-3.h" />
-    <ClInclude Include="Stage4-1.h" />
-    <ClInclude Include="Stage4-2.h" />
-    <ClInclude Include="Stage4-3.h" />
-    <ClInclude Include="Stage5-1.h" />
-    <ClInclude Include="Stage5-2.h" />
-    <ClInclude Include="Stage5-3.h" />
     <ClInclude Include="StageLoad.h" />
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="StageSelect.h" />
@@ -122,8 +92,8 @@
     <ClInclude Include="Title.h" />
     <ClInclude Include="Hukidasi.h" />
     <ClInclude Include="StagePicture.h" />
-    <ClInclude Include="Stage.h" />
     <ClInclude Include="FadeInOut.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Rail.h" />
   </ItemGroup>
   <ItemGroup>

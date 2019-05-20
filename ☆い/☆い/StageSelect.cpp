@@ -7,9 +7,8 @@
 #include "StageSelectObjAsteroid.h"
 #include "Cursor.h"
 #include "Hukidasi.h"
-
-//tamesi
 #include "StageLoad.h"
+
 
 namespace StageSelect
 {
