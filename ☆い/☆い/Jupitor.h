@@ -27,8 +27,6 @@ namespace Jupitor
 		Circle cGravityCircle;
 		int iAnimCount;
 		int i;
-		int iAlpha;
-		int iCnt;
 
 		Obj() {}
 		~Obj() {}
