@@ -82,7 +82,9 @@ namespace BreakStar
 				rStar.Draw(&res->iStageImg, &src, true);
 
 			}
+#ifdef _DEBUG
 			rStar.Draw();
+#endif
 			if (iTime > 299)
 			{
 				Remove(this);

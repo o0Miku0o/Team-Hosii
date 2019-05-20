@@ -5,6 +5,8 @@
 #include "Fragment.h"
 #include "FadeInOut.h"
 
+//#include "Rail.h"
+
 namespace Player
 {
 	/*リソースの初期化処理*/
@@ -25,8 +27,10 @@ namespace Player
 		/*リソース生成*/
 
 		/*タスクの生成*/
-
+		//Add<Rail::Obj>();
 		/*データの初期化*/
+		SetRenderPriority(0.2f);
+
 		rBase = Rec(Rec::Win.l + 100.f, Rec::Win.b * 0.5f, 16 * 8.f, 16 * 8.f, 180);
 		rImgBase = rBase;
 		pStandardPoint = Point(Rec::Win.r - 500.f, Rec::Win.b * 0.5f);

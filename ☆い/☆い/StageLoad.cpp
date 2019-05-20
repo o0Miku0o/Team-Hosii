@@ -16,6 +16,7 @@
 #include <fstream>
 #include "FadeInOut.h"
 #include "Gas.h"
+#include "Rail.h"
 
 namespace StageLoad
 {
@@ -113,6 +114,7 @@ namespace StageLoad
 			isLoad = true;
 			Remove(this);
 			Add<Stage::Obj>();
+			Add<Rail::Obj>();
 
 			if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク"))
 			{

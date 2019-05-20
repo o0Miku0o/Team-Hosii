@@ -1,6 +1,7 @@
 #include "Hukidasi.h"
 #include "StageManager.h"
 #include "StagePicture.h"
+#include "StarGenerator.h"
 
 namespace Hukidasi
 {
@@ -25,7 +26,7 @@ namespace Hukidasi
 
 		/*データの初期化*/
 		rHukidasi = Rec();
-		pFontPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) - 10.f);
+		pFontPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) - 8.f);
 		fAddScale = 0.f;
 		fWidthMax = 1800.f;
 		fHeightMax = 400.f;
@@ -65,6 +66,13 @@ namespace Hukidasi
 				{
 					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[b].x, pPosArr[b].y, cfPicWidth, cfPicHeight));
 				}
+
+				//auto sg = Add<StarGenerator::Obj>();
+				//constexpr int iNum = 9;
+				//vector<int> viChange;
+				//vector<int> viEffect;
+				//vector<Frec> viRec;				
+				//sg->Bridge(iNum, { 25, 25, 25, 25, 25, 25, 25, 25, 25 }, {}, vector<Frec>({}));
 
 				//if (pGroup == PictureGroup::GROUP_UP)
 				//{
@@ -114,11 +122,30 @@ namespace Hukidasi
 		if (rHukidasi.GetH() >= fHeightMax)
 		{
 			Font f;
-			f.FontCreate("メイリオ", 100);
-			f.SetColor(RGB(255, 0, 0));
-			std::string sStageName = "私たちは地球なんですよ";
-			const float fDecPosX = sStageName.size() * 16.f;
-			f.Draw(&Point(pFontPos.x - fDecPosX, pFontPos.y), sStageName.c_str());
+			FontOP fop = FOP_DEFAULT;
+			fop.Weight = FW_HEAVY;
+			f.FontCreate("メイリオ", 100, 0.f, &fop);
+			f.SetColor(RGB(0, 0, 0));
+
+			//enum StageGroup
+			//{
+			//	GROUP_EARTH,
+			//	GROUP_ASTEROID,
+			//	GROUP_GALAXY,
+			//	GROUP_URANUS,
+			//	GROUP_BLACKHOLE
+			//};
+
+			/*仮*/ static const std::string sStageName[5] =
+			{
+				"チキュウ",
+				"メテオベルト",//"アステロイドベルト",
+				"エイリアンゾーン",
+				"フラジャイル",
+				"ブラックホール"
+			};
+			const float fDecPosX = sStageName[sGroup].size() * 16.f;
+			f.Draw(&Point(pFontPos.x - fDecPosX, pFontPos.y), sStageName[sGroup].c_str());
 		}
 	}
 	/*吹き出しのサイズ変更*/

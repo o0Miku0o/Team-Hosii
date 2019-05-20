@@ -70,4 +70,21 @@ namespace StarGenerator
 		}
 		Remove(this);
 	}
+	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<int> iEffect, const vector<Frec> fRec)
+	{
+		Point pPos;
+		for (int i = 0; i < iNum; ++i)
+		{
+			auto star = Add<Star::Obj>();
+			pPos = Point(fRec.at(i).l, fRec.at(i).t);
+			star->rStar.SetPos(&pPos);
+			star->rStar.Scaling(fRec.at(i).r, fRec.at(i).b);
+			star->cStarhitbase.SetPos(&pPos);
+			//	star->iChange = iChange.at(i);
+			//	star->iStarEffect = iEffect.at(i);
+			star->starColor = (Star::Obj::StarColor)iChange.at(i);
+			star->starEffect = (Star::Obj::StarEffect)iEffect.at(i);
+		}
+		Remove(this);
+	}
 }

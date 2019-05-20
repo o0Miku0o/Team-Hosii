@@ -145,6 +145,7 @@
     <ClInclude Include="MyGame\TaskBase.h" />
     <ClInclude Include="Neptune.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Rail.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Stage.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="MyWinMain.cpp" />
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1-1.cpp">
