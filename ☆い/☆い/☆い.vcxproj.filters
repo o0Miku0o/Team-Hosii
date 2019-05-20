@@ -27,7 +27,6 @@
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Result.cpp" />
-    <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StageSelectObjAsteroid.cpp" />
@@ -46,6 +45,7 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="FadeInOut.cpp" />
     <ClCompile Include="Rail.cpp" />
+    <ClCompile Include="StageLoad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
