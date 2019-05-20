@@ -1,6 +1,7 @@
 #include "Hukidasi.h"
 #include "StageManager.h"
 #include "StagePicture.h"
+#include "StarGenerator.h"
 
 namespace Hukidasi
 {
@@ -25,11 +26,12 @@ namespace Hukidasi
 
 		/*データの初期化*/
 		rHukidasi = Rec();
-		pFontPos[0] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.25f * 0.25f));
-		pFontPos[1] = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f));
+		pFontPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) - 8.f);
 		fAddScale = 0.f;
-		fWidthMax = 0.f;
-		fHeightMax = 0.f;
+		fWidthMax = 1800.f;
+		fHeightMax = 400.f;
+		//constexpr float fScaleWMax = 1800.f;
+		//constexpr float fScaleHMax = 400.f;
 		bSetPictureCount = 0;
 	}
 	/*タスクの終了処理*/
@@ -51,26 +53,26 @@ namespace Hukidasi
 				const float fQuarterWidth = fHalfWidth * 0.5f;
 				const float fQuarterHeight = fHalfHeight * 0.5f;
 				constexpr float cfDist = 30.f;
-				const Point pPosArr[2][3] =
+				const Point pPosArr[3] =
 				{
-					{
-						Point(fQuarterWidth, fQuarterHeight - cfDist),
-						Point(fHalfWidth, fQuarterHeight - cfDist),
-						Point(fHalfWidth + fQuarterWidth, fQuarterHeight - cfDist)
-					},
-					{
-						Point(fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist),
-						Point(fHalfWidth, fHalfHeight + fQuarterHeight - cfDist),
-						Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist)
-					},
+					Point(fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist),
+					Point(fHalfWidth, fHalfHeight + fQuarterHeight - cfDist),
+					Point(fHalfWidth + fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist)
 				};
 				constexpr float cfPicWidth = 1920.f * (0.125f * 1.5f);
 				constexpr float cfPicHeight = 1080.f * (0.125f * 1.5f);
 
 				for (byte b = 0; b < 3; ++b)
 				{
-					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[pGroup][b].x, pPosArr[pGroup][b].y, cfPicWidth, cfPicHeight));
+					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[b].x, pPosArr[b].y, cfPicWidth, cfPicHeight));
 				}
+
+				//auto sg = Add<StarGenerator::Obj>();
+				//constexpr int iNum = 9;
+				//vector<int> viChange;
+				//vector<int> viEffect;
+				//vector<Frec> viRec;				
+				//sg->Bridge(iNum, { 25, 25, 25, 25, 25, 25, 25, 25, 25 }, {}, vector<Frec>({}));
 
 				//if (pGroup == PictureGroup::GROUP_UP)
 				//{
@@ -120,9 +122,30 @@ namespace Hukidasi
 		if (rHukidasi.GetH() >= fHeightMax)
 		{
 			Font f;
-			f.FontCreate("メイリオ", 100);
-			f.SetColor(RGB(255, 0, 0));
-			f.Draw(&pFontPos[pGroup], std::string("test").c_str(), false);
+			FontOP fop = FOP_DEFAULT;
+			fop.Weight = FW_HEAVY;
+			f.FontCreate("メイリオ", 100, 0.f, &fop);
+			f.SetColor(RGB(0, 0, 0));
+
+			//enum StageGroup
+			//{
+			//	GROUP_EARTH,
+			//	GROUP_ASTEROID,
+			//	GROUP_GALAXY,
+			//	GROUP_URANUS,
+			//	GROUP_BLACKHOLE
+			//};
+
+			/*仮*/ static const std::string sStageName[5] =
+			{
+				"チキュウ",
+				"メテオベルト",//"アステロイドベルト",
+				"エイリアンゾーン",
+				"フラジャイル",
+				"ブラックホール"
+			};
+			const float fDecPosX = sStageName[sGroup].size() * 16.f;
+			f.Draw(&Point(pFontPos.x - fDecPosX, pFontPos.y), sStageName[sGroup].c_str());
 		}
 	}
 	/*吹き出しのサイズ変更*/
@@ -166,9 +189,8 @@ namespace Hukidasi
 		++bSetPictureCount;
 	}
 	/*ステージのグループの設定*/
-	void Obj::SetStageGroup(const PictureGroup apStageGroup, const StageGroup asStageGroup)
+	void Obj::SetStageGroup(const StageGroup asStageGroup)
 	{
-		pGroup = apStageGroup;
 		sGroup = asStageGroup;
 	}
 }

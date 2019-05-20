@@ -212,6 +212,8 @@ public:
 
 	static void RemoveAll(const char *taskname_ = nullptr, RemoveFlag rflag_ = REMOVE_NAME);
 
+	static void RemoveAll(const std::initializer_list<std::string> &iInitList, RemoveFlag rflag_ = REMOVE_NAME);
+
 	void SetName(const char *taskname_);
 
 	static void Pause(const char *taskname_, const u_int waitframe_);

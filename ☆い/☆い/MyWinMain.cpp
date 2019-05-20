@@ -46,9 +46,9 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 
 		if (auto kb = KB::GetState())
 		{
-			if (kb->On(VK_CONTROL) && kb->Down('S'))
+			if (kb->On(VK_CONTROL) && kb->Down('Z'))
 			{
-				SaveBitMap(hDC, &Rec::Win, "./screenshot/ScreenShot.bmp");
+				SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
 			}
 		}
 

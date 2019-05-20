@@ -203,6 +203,48 @@ void TaskBase::RemoveAll(const char *taskname_, RemoveFlag rflag_)
 	}
 }
 
+void TaskBase::RemoveAll(const std::initializer_list<std::string> &iInitList, RemoveFlag rflag_)
+{
+	if (rflag_ == REMOVE_NAME)
+	{
+		for (TaskBase *now = top; now != nullptr; now = now->next)
+		{
+			bool bEndTaskFlag = false;
+			for (const auto &it : iInitList)
+			{
+				if (now->tname == it)
+				{
+					bEndTaskFlag = true;
+					break;
+				}
+			}
+			if (bEndTaskFlag)
+			{
+				now->tstate = END;
+			}
+		}
+	}
+	else
+	{
+		for (TaskBase *now = top; now != nullptr; now = now->next)
+		{
+			bool bEndTaskFlag = true;
+			for (const auto &it : iInitList)
+			{
+				if (now->tname == it)
+				{
+					bEndTaskFlag = false;
+					break;
+				}
+			}
+			if (bEndTaskFlag)
+			{
+				now->tstate = END;
+			}
+		}
+	}
+}
+
 void TaskBase::SetName(const char *taskname_)
 {
 	this->tname = taskname_;

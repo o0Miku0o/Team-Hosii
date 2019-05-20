@@ -27,6 +27,8 @@ namespace Fragment
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.3f);
+
 		rFragment = Rec(Rec::Win.r*0.5f, Rec::Win.b*0.5f, 100.f, 100.f);
 		cFragmentHitBase = Circle(&rFragment.GetPos(), rFragment.GetW()*0.4f);
 		pInitPos = Point();

@@ -43,8 +43,9 @@
     <ClCompile Include="Hukidasi.cpp" />
     <ClCompile Include="Eff1.cpp" />
     <ClCompile Include="StagePicture.cpp" />
-    <ClCompile Include="FadeInOut.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="FadeInOut.cpp" />
+    <ClCompile Include="Rail.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -91,8 +92,9 @@
     <ClInclude Include="Title.h" />
     <ClInclude Include="Hukidasi.h" />
     <ClInclude Include="StagePicture.h" />
-    <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="FadeInOut.h" />
+    <ClInclude Include="Rail.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

@@ -23,7 +23,7 @@ namespace StageSelectObjUS
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rUranus = Rec(1250, 400, 16 * 10, 16 * 10);
+		rUranus = Rec(1250, 400 - 200.f, 16 * 10, 16 * 10);
 		iAnimCount = 0;
 		i = 12;
 

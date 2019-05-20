@@ -39,6 +39,9 @@ namespace FadeInOut
 		bIsIn = true;
 		bActive = false;
 
+		/*仮*/
+		fStarSizeMax = 5600.f;
+		fStarSizeMin = 0.f;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -52,27 +55,33 @@ namespace FadeInOut
 		if (!bActive) {
 			if (bIsIn) {
 				fStarSizeValue = -32.f;
-				fStarSize = 1920.f;
+				fStarSize = fStarSizeMax * 0.5f;
 			}
 			else {
 				fStarSizeValue = 32.f;
-				fStarSize = 0.f;
+				fStarSize = fStarSizeMin;
 			}
 			bActive = true;
 		}
-		else {
+		//else {
+		//}
+
+		fStarSize += fStarSizeValue;
+		if (bActive)
+		{
 			if (bIsIn) {
-				if (fStarSize < 0) {
-					Remove(this);
+				if (fStarSize <= fStarSizeMin) {
+					fStarSize = fStarSizeMin;
+					//Remove(this);
 				}
 			}
 			else {
-				if (fStarSize >= 3840) {
-					Remove(this);
+				if (fStarSize >= fStarSizeMax) {
+					fStarSize = fStarSizeMax;
+					//Remove(this);
 				}
 			}
 		}
-		fStarSize += fStarSizeValue;
 
 		rStar.Scaling(fStarSize, fStarSize);
 		rSquere[0].SetPos(&Point(rStar.GetPosX() - rSquere[0].GetW() * 0.45f - fStarSize * 0.45f, rStar.GetPosY()));
@@ -90,5 +99,18 @@ namespace FadeInOut
 			}
 			rStar.Draw(&res->tese, &Frec(0, 0, 16, 16), false);
 		}
+	}
+	/*仮*/
+	void Obj::Start()
+	{
+		bActive = false;
+	}
+	void Obj::Stop()
+	{
+		bActive = true;
+	}
+	const bool Obj::IsComplete() const
+	{
+		return fStarSize >= fStarSizeMax || fStarSize <= fStarSizeMin;
 	}
 }

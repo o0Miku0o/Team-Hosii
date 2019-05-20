@@ -35,9 +35,9 @@ namespace StageSelect
 		Add<StageSelectObjAsteroid::Obj>();
 		Add<StageSelectObjEarth::Obj>();
 		Add<StageSelectObjUS::Obj>();
-		auto cs = Add<Cursor::Obj>();
-		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
 		Add<Hukidasi::Obj>();
+		auto cs = Add<Cursor::Obj>();
+		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 
 		/*データの初期化*/
 		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
