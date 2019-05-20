@@ -61,7 +61,7 @@ namespace Fragment
 		if (auto beam = Find<Beam::Obj>("ビームタスク"))
 		{
 			//test追加記入
-			bPreRotationActive = bRotationActive;
+			//bPreRotationActive = bRotationActive;
 
 			Checkhitbeam(beam);
 		}
@@ -215,6 +215,8 @@ namespace Fragment
 					oBeam->rHitBase.SetDeg(pl->lGuideLineFgm.GetDeg() + 180.f);
 				}
 			}
+			//呼び出し前から呼び出し後に移動
+			bPreRotationActive = bRotationActive;
 			bRotationActive = false;
 			Pause(30);
 			/**/
@@ -258,6 +260,7 @@ namespace Fragment
 		cPreHit.SetPos(&pPrePos);
 		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
+			rFragment.SetPos(&oAlien->cAlienRHitBase.GetPos());
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
 	}

@@ -61,6 +61,7 @@ namespace BlackHole
 		cInnerCircle.SetPos(&pPos);
 		cOutCircle.SetPos(&pPos);
 		cOutCircle.SetRadius(cInnerCircle.GetRadius()*2.00f);
+		cOutCircle.SetColor(224, 44, 135);
 		++fAngle;
 		rBlackHole.SetDeg(fAngle);
 
@@ -71,9 +72,9 @@ namespace BlackHole
 		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース")) {
 			rBlackHole.Draw(&stageRes->iStageImg, &Frec(192, 0, 16, 16), true);
 		}
+		cOutCircle.Draw();
 #ifdef _DEBUG
 		cInnerCircle.Draw();
-		cOutCircle.Draw();
 #endif // DEBUG
 	}
 	bool Obj::IsCreate() {
