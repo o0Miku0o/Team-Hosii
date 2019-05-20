@@ -22,7 +22,7 @@ namespace StageSelectObjAsteroid
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rAsteroid = Rec(650, 400, 16 * 10, 16 * 10);
+		rAsteroid = Rec(650, 400 - 200.f, 16 * 10, 16 * 10);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

@@ -118,8 +118,6 @@ namespace Cursor
 		constexpr float fScaleWMax = 1800.f;
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
-		Point pPos;
-		Hukidasi::PictureGroup pGroup = Hukidasi::PictureGroup::GROUP_UP;
 		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 		if (auto us = Find<StageSelectObjEarth::Obj>("’n‹…ƒ^ƒXƒN"))
 		{
@@ -130,9 +128,6 @@ namespace Cursor
 				us->rEarth.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
 				//ŽŽ—V‰ï
@@ -164,9 +159,6 @@ namespace Cursor
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
 				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
 				//ŽŽ—V‰ï
@@ -198,9 +190,6 @@ namespace Cursor
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
 
 				//ŽŽ—V‰ï
@@ -232,9 +221,6 @@ namespace Cursor
 				us->rUranus.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
 				sGroup = Hukidasi::StageGroup::GROUP_URANUS;
 
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
@@ -266,9 +252,6 @@ namespace Cursor
 				us->rBH.Scaling(16 * 15, 16 * 15);
 				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_UP;
 				sGroup = Hukidasi::StageGroup::GROUP_BLACKHOLE;
 
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
@@ -295,10 +278,11 @@ namespace Cursor
 		{
 			if (bFlag)
 			{
+				Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 				hu->SetPos(&pPos);
 				hu->SetScaleMax(fScaleWMax, fScaleHMax);
 				hu->SetAddScale(fAddScale);
-				hu->SetStageGroup(pGroup, sGroup);
+				hu->SetStageGroup(sGroup);
 			}
 			else
 			{

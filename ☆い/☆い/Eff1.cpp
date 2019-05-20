@@ -22,6 +22,8 @@ namespace Eff1
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.3f);
+
 		rEffBase = Rec(0.f, 0.f, 16.f, 16.f);
 		fSpdX = 0;
 		fSpdY = 0;

@@ -7,6 +7,9 @@
 
 #include "FadeInOut.h"
 
+#include "Back.h"
+#include "StageLoad.h"
+
 namespace StageManager
 {
 	/*リソースの初期化処理*/
@@ -117,26 +120,60 @@ namespace StageManager
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
+			auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク");
 			++iResultCnt;
 			if (iResultCnt == 1) {
-				auto fade = Add<FadeInOut::Obj>();
-				fade->bIsIn = true;
+				if (fade)
+				{
+					//fade->bActive = false;
+					fade->Start();
+					fade->bIsIn = true;
+				}
+				else
+				{
+					fade = Add<FadeInOut::Obj>();
+					fade->bIsIn = true;
+				}
 			}
-			else if (Find<FadeInOut::Obj>("フェイドインアウトタスク") == nullptr)
+			else if (fade)//Find<FadeInOut::Obj>("フェイドインアウトタスク") == nullptr)
 			{
-				bClearFragmentNum = 0;
-				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				auto re = Add<Result::Obj>();
-				re->bNextStage = bNextStage;
-				if (usBeamCount <= bClearFragmentNumMax)
+				if (fade->IsComplete())
 				{
-					re->bScore = 3;
+					bClearFragmentNum = 0;
+
+					RemoveAll({ "ステージ統括タスク", "フェイドインアウトタスク" }, NOT_REMOVE_NAME);
+					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+
+					//			Add<Back::Obj>();
+					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+						manager->bStageNum = manager->bNextStage;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							//Pause(2);
+						}
+					}
+
+
+					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					//auto re = Add<Result::Obj>();
+					//re->bNextStage = bNextStage;
+					//if (usBeamCount <= bClearFragmentNumMax)
+					//{
+					//	re->bScore = 3;
+					//}
+					//else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					//{
+					//	re->bScore = 2;
+					//}
+					iResultCnt = 0;
 				}
-				else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-				{
-					re->bScore = 2;
-				}
-				iResultCnt = 0;
 			}
 		}
 	}

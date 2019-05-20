@@ -497,11 +497,11 @@ public:
 	//フォントの消去
 	void Release();
 	//色設定
-	void SetColor(COLORREF col_);
+	const COLORREF SetColor(const COLORREF col_);
 	//色設定
-	void SetColor(const byte r_, const byte g_, const byte b_);
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_);
 	//描画
-	void Draw(const Point * const pos_, const char * const text_, const bool bSetLeft = true);
+	void Draw(const Point * const pos_, const char * const text_);
 };
 
 /*waveファイル再生クラス*/
@@ -693,9 +693,13 @@ class Rec
 private:
 	static HDC off;
 	static HBITMAP hoffbmp;
+	static HDC hAlphaDc;
+	static HBITMAP hAlphaBmp;
+	static BLENDFUNCTION bBlendFunc;
 	static Frec frZoom;
 	static Point Cam;
 	static Point pAdjust;
+	static POINT pDrawPoint[5];
 	Point p[5];
 	COLORREF cColor;
 	float w;
@@ -741,6 +745,8 @@ public:
 	Rec(const Rec & cpyrec_);
 	//枠線の色設定
 	const COLORREF SetColor(const COLORREF ccColor);
+	//色設定
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_);
 	//矩形を移動させる
 	void SetPos(const Point * const pos_);
 	//矩形を拡大縮小させる
@@ -907,7 +913,9 @@ public:
 	/*半径設定*/
 	void SetRadius(const float radius_);
 	/*色設定*/
-	void SetColor(const byte r_, const byte g_, const byte b_);
+	const COLORREF SetColor(const COLORREF color_);
+	/*色設定*/
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_);
 	/*座標取得*/
 	const Point &GetPos() const;
 	/*X座標取得*/
@@ -963,7 +971,9 @@ public:
 	/*終点設定*/
 	void SetEPos(const Point * const epos_);
 	/*色設定*/
-	void SetColor(const byte r_, const byte g_, const byte b_);
+	const COLORREF SetColor(const COLORREF color_);
+	/*色設定*/
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_);
 	/*幅設定*/
 	void SetWidth(const int width_);
 	/*角度設定*/
@@ -997,7 +1007,7 @@ public:
 	/*移動*/
 	void Move(const float movespd_);
 	/*描画*/
-	void Draw();
+	void Draw(const u_int penstyle_ = PS_SOLID);
 	/*当たり判定*/
 	bool CheckHit(const Line * const line_);
 	/*当たり判定*/
@@ -1080,6 +1090,7 @@ public:
 	Pixel(const Pixel &crefPixel);
 	const Point SetPos(const Point * const cppPos);
 	const COLORREF SetColor(const COLORREF ccColor);
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_);
 	const byte SetSize(const byte cbSize);
 	const Point &GetPos() const;
 	const float GetPosX() const;
@@ -1137,6 +1148,13 @@ public:
 	{
 		fAngle = afAngle;
 		fAngleRange = afAngleRange;
+	}
+	const COLORREF SetColor(const COLORREF color_)
+	{
+		cColor = color_;
+		if (hPen) DeleteObject(hPen);
+		hPen = CreatePen(PS_SOLID, 1, cColor);
+		return cColor;
 	}
 	const COLORREF SetColor(const byte abR, const byte abG, const byte abB)
 	{

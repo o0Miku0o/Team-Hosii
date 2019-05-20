@@ -34,6 +34,9 @@ namespace FadeInOut
 		Rec rStar;
 		float fStarSize;
 		float fStarSizeValue;
+		
+		float fStarSizeMax;
+		float fStarSizeMin;
 
 		RS_ptr res;
 		void Init();
@@ -41,5 +44,10 @@ namespace FadeInOut
 	public:
 		void Update();
 		void Render();
+
+		/*‰¼*/
+		void Start();
+		void Stop();
+		const bool IsComplete() const;
 	}*OBJ_ptr;
 }

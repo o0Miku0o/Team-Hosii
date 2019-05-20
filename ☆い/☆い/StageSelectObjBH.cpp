@@ -22,7 +22,7 @@ namespace StageSelectObjBH
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rBH = Rec(1500, 600, 16 * 10, 16 * 10);
+		rBH = Rec(1500, 600 - 200.f, 16 * 10, 16 * 10);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
