@@ -291,7 +291,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Font f;
 			f.FontCreate("ÉÅÉCÉäÉI");
 			Point pP(Rec::GetCameraPosX() - Rec::Win.r * 0.5f, Rec::GetCameraPosY() + Rec::Win.b * 0.5f - 20.f);
-			f.Draw(&pP, std::to_string(bFPS).c_str());
+			//f.Draw(&pP, std::to_string(bFPS).c_str());
 
 			bArr[bCount] = byte(1000.0 / FToD(SubFP(FP(timeGetTime()), FP(tmptime2))));
 			++bCount;
