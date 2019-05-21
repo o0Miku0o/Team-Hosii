@@ -482,8 +482,9 @@ void Font::Draw(const Point * const pos_, const char * const text_)
 	//文字色を引数から指定
 	SetTextColor(hOff, col);
 	//背景色を透過に指定
-	SetBkMode(hOff, TRANSPARENT);
+	const int ioldMode = SetBkMode(hOff, TRANSPARENT);
 	TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
+	SetBkMode(hOff, ioldMode);
 	if (old) SelectObject(hOff, old);
 }
 
@@ -2202,8 +2203,23 @@ void Line::Draw(const u_int penstyle_)
 	hPen = CreatePen(penstyle_, width, color);
 	HGDIOBJ old = SelectObject(hOff, hPen);
 
+	const int ioldMode = SetBkMode(hOff, TRANSPARENT);
 	MoveToEx(hOff, (int)pS.x, (int)pS.y, nullptr);
 	LineTo(hOff, (int)pE.x, (int)pE.y);
+	SetBkMode(hOff, ioldMode);
+
+	//POINT dP[2] =
+	//{
+	//	{(LONG)pS.x, (LONG)pS.y},
+	//	{(LONG)pE.x, (LONG)pE.y},
+	//};
+	//BYTE bT[2] =
+	//{
+	//	PT_MOVETO,
+	//	PT_LINETO
+	//};
+	//Polyline(hOff, dP, 2);
+	//PolyDraw(hOff, dP, bT, 2);
 
 	SelectObject(hOff, old);
 	DeleteObject(hPen);

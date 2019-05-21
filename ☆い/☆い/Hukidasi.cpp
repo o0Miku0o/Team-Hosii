@@ -8,12 +8,12 @@ namespace Hukidasi
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-
+		iTextImg.ImageCreate("./data/image/other/stagelogo.bmp");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
-
+		iTextImg.Release();
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -25,8 +25,13 @@ namespace Hukidasi
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rHukidasi = Rec();
-		pFontPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) - 8.f);
+		faWidth[0] = 16.f * 4;
+		faWidth[1] = 16.f * 6;
+		faWidth[2] = 16.f * 8;
+		faWidth[3] = 16.f * 6;
+		faWidth[4] = 16.f * 7;
+
+		rTextBox.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) + 38.f));
 		fAddScale = 0.f;
 		fWidthMax = 1800.f;
 		fHeightMax = 400.f;
@@ -121,31 +126,12 @@ namespace Hukidasi
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
 		if (rHukidasi.GetH() >= fHeightMax)
 		{
-			Font f;
-			FontOP fop = FOP_DEFAULT;
-			fop.Weight = FW_HEAVY;
-			f.FontCreate("メイリオ", 100, 0.f, &fop);
-			f.SetColor(RGB(0, 0, 0));
-
-			//enum StageGroup
-			//{
-			//	GROUP_EARTH,
-			//	GROUP_ASTEROID,
-			//	GROUP_GALAXY,
-			//	GROUP_URANUS,
-			//	GROUP_BLACKHOLE
-			//};
-
-			/*仮*/ static const std::string sStageName[5] =
+			if (auto res = RB::Find<Hukidasi::RS>("吹き出しリソース"))
 			{
-				"チキュウ",
-				"メテオベルト",//"アステロイドベルト",
-				"エイリアンゾーン",
-				"フラジャイル",
-				"ブラックホール"
-			};
-			const float fDecPosX = sStageName[sGroup].size() * 16.f;
-			f.Draw(&Point(pFontPos.x - fDecPosX, pFontPos.y), sStageName[sGroup].c_str());
+				Frec src(0.f, 16.f * sGroup, faWidth[sGroup], 16.f);
+				rTextBox.Scaling(faWidth[sGroup] * 4.f, 16.f * 4.f);
+				rTextBox.Draw(&res->iTextImg, &src, false);
+			}
 		}
 	}
 	/*吹き出しのサイズ変更*/

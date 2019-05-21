@@ -16,6 +16,7 @@ namespace Hukidasi
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
+		Image iTextImg;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -34,8 +35,9 @@ namespace Hukidasi
 		~Obj() {}
 	private:
 		StageGroup sGroup;
+		float faWidth[5];
 		Rec rHukidasi;
-		Point pFontPos;
+		Rec rTextBox;
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
