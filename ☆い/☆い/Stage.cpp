@@ -64,7 +64,7 @@ namespace Stage
 			Add<StageLoad::Obj>();
 			Pause(2);
 		}
-
+#ifdef _DEBUG
 		if (kb->Now('T') == 1 || pad->NowBut(J_BUT_3) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
@@ -82,6 +82,7 @@ namespace Stage
 				}
 			}
 		}
+#endif
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
