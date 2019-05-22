@@ -11,24 +11,24 @@
 
 namespace StageSelect
 {
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
 	{
 
 	}
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
 	void Obj::Init()
 	{
-		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		/*ƒ^ƒXƒN–¼İ’è*/
 		SetName(caTaskName);
-		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		/*ƒŠƒ\[ƒX¶¬*/
 
-		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN‚Ì¶¬*/
 		Add<StageSelectObjGalaxy::Obj>();
 		Add<StageSelectObjBH::Obj>();
 		Add<StageSelectObjAsteroid::Obj>();
@@ -38,18 +38,18 @@ namespace StageSelect
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 
-		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
 			sm->bStageNum = 11;
 		}
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌXVˆ—*/
 	void Obj::Update()
 	{
 		//tamesi
@@ -62,7 +62,7 @@ namespace StageSelect
 			return;
 		}
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
 	{
 

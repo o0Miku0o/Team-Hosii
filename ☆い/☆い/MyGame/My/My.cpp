@@ -1,8 +1,8 @@
 #include "My.h"
 
-//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚¯ãƒ©ã‚¹
+//ƒL[ƒ{[ƒhƒNƒ‰ƒX
 KB *KB::instance = nullptr;
-//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 KB::KB()
 {
 	instance = this;
@@ -11,7 +11,7 @@ KB::KB()
 	for (int i = 0; i < 256; ++i)
 		prevkey[i] = 0;
 }
-//ã‚­ãƒ¼å…¥åŠ›ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//ƒL[“ü—Í‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 bool KB::GetKeyState()
 {
 	if (!instance) return 1;
@@ -36,12 +36,12 @@ KB *KB::GetState()
 {
 	return instance;
 }
-/*ç¾åœ¨ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—*/
+/*Œ»İ‚ÌƒL[“ü—Íó‘Ô‚ğæ“¾*/
 byte KB::Now(const char key_)
 {
 	return nowkey[key_];
 }
-/*å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—*/
+/*‘OƒtƒŒ[ƒ€‚ÌƒL[“ü—Íó‘Ô‚ğæ“¾*/
 byte KB::Prev(const char key_)
 {
 	return prevkey[key_];
@@ -67,11 +67,11 @@ bool KB::Off(const char cKey)
 	return (!prevkey[cKey] && !nowkey[cKey]);
 }
 
-/*ãƒã‚¦ã‚¹ã‚¯ãƒ©ã‚¹*/
+/*ƒ}ƒEƒXƒNƒ‰ƒX*/
 HWND MS::hWnd = nullptr;
 MS *MS::instance = nullptr;
 
-//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 MS::MS(const HWND hWnd_)
 	:
 	pos(0.f, 0.f)
@@ -83,7 +83,7 @@ MS::MS(const HWND hWnd_)
 	for (int i = 0; i < MS_BUT_MAX; ++i)
 		prevbut[i] = 0;
 }
-//ãƒã‚¦ã‚¹ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//ƒ}ƒEƒX‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 bool MS::GetMouseState()
 {
 	if (!instance) return 1;
@@ -111,23 +111,23 @@ bool MS::GetMouseState()
 	/*/instance->pos = Rec::AdjustCamPos(&Point((float)point.x, (float)point.y));/**/
 	return 0;
 }
-/*ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—*/
+/*ƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒAƒhƒŒƒX‚ğæ“¾*/
 MS *MS::GetState()
 {
 	return instance;
 }
-/*ãƒã‚¦ã‚¹ã‚«ãƒ¼ã‚½ãƒ«ã®è¡¨ç¤ºã®æœ‰ç„¡*/
+/*ƒ}ƒEƒXƒJ[ƒ\ƒ‹‚Ì•\¦‚Ì—L–³*/
 bool MS::Visible(const bool bVisible)
 {
 	while (ShowCursor(bVisible) != -1);
 	return 1;
 }
-/*ç¾åœ¨ã®ãƒã‚¦ã‚¹å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—*/
+/*Œ»İ‚Ìƒ}ƒEƒX“ü—Íó‘Ô‚ğæ“¾*/
 byte MS::Now(const MouseButton but_)
 {
 	return nowbut[but_];
 }
-/*å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒã‚¦ã‚¹å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—*/
+/*‘OƒtƒŒ[ƒ€‚Ìƒ}ƒEƒX“ü—Íó‘Ô‚ğæ“¾*/
 byte MS::Prev(const MouseButton but_)
 {
 	return prevbut[but_];
@@ -152,17 +152,17 @@ bool MS::Off(const MouseButton but_)
 {
 	return (!prevbut[but_] && !nowbut[but_]);
 }
-/*ã‚«ãƒ¼ã‚½ãƒ«ã®ä½ç½®ã‚’å–å¾—*/
+/*ƒJ[ƒ\ƒ‹‚ÌˆÊ’u‚ğæ“¾*/
 const Point &MS::GetPos()
 {
 	return pos;
 }
-/*ã‚«ãƒ¼ã‚½ãƒ«ã®Xåº§æ¨™*/
+/*ƒJ[ƒ\ƒ‹‚ÌXÀ•W*/
 float MS::GetPosX()
 {
 	return pos.x;
 }
-/*ã‚«ãƒ¼ã‚½ãƒ«ã®Yåº§æ¨™*/
+/*ƒJ[ƒ\ƒ‹‚ÌYÀ•W*/
 float MS::GetPosY()
 {
 	return pos.y;
@@ -212,12 +212,12 @@ const float Vector2::GetY() const
 {
 	return y;
 }
-//ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—
+//ƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾
 const float Vector2::GetLen() const
 {
 	return Sqrt(x * x + y * y);
 }
-//ãƒ™ã‚¯ãƒˆãƒ«ã®è§’åº¦ã‚’å–å¾—
+//ƒxƒNƒgƒ‹‚ÌŠp“x‚ğæ“¾
 const float Vector2::GetDeg() const
 {
 	return RtoD(atan2(y, x));
@@ -232,30 +232,30 @@ const float Vector2::Cross(const Vector2 *vec2_) const
 {
 	return (x * vec2_->y - y * vec2_->x);
 }
-//ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚¹ã‚«ãƒ©ãƒ¼å€
+//ƒxƒNƒgƒ‹‚ÌƒXƒJƒ‰[”{
 void Vector2::MulVec(const float scalar_)
 {
 	x *= scalar_;
 	y *= scalar_;
 }
-//ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚¹ã‚«ãƒ©ãƒ¼å€
+//ƒxƒNƒgƒ‹‚ÌƒXƒJƒ‰[”{
 const Vector2 Vector2::operator * (const float scalar_) const
 {
 	return Vector2(x * scalar_, y * scalar_);
 }
-//ãƒ™ã‚¯ãƒˆãƒ«ã®æ¯”è¼ƒ
+//ƒxƒNƒgƒ‹‚Ì”äŠr
 const bool Vector2::operator == (const Vector2 &vec2_) const
 {
 	return ((x == vec2_.x) ? ((y == vec2_.y) ? 1 : 0) : 0);
 }
-//ãƒ™ã‚¯ãƒˆãƒ«ã®æ¯”è¼ƒ
+//ƒxƒNƒgƒ‹‚Ì”äŠr
 const bool Vector2::operator != (const Vector2 &vec2_) const
 {
 	return ((x != vec2_.x) ? 1 : ((y != vec2_.y) ? 1 : 0));
 }
 
-/*äºŒæ¬¡å…ƒåº§æ¨™æ§‹é€ ä½“*/
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*“ñŸŒ³À•W\‘¢‘Ì*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Point::Point()
 	:
 	x(0.f),
@@ -263,7 +263,7 @@ Point::Point()
 {
 
 }
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Point::Point(const float x_, const float y_)
 	:
 	x(x_),
@@ -271,14 +271,14 @@ Point::Point(const float x_, const float y_)
 {
 
 }
-/*POINTã¸ã®ã‚­ãƒ£ã‚¹ãƒˆ*/
+/*POINT‚Ö‚ÌƒLƒƒƒXƒg*/
 Point::operator POINT ()
 {
 	return { (long)x, (long)y };
 }
 
-/*ãƒ•ãƒ­ãƒ¼ãƒˆå‹RECT*/
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*ƒtƒ[ƒgŒ^RECT*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Frec::Frec()
 	:
 	l(0.f),
@@ -288,7 +288,7 @@ Frec::Frec()
 {
 
 }
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Frec::Frec(const float l_, const float t_, const float r_, const float b_)
 	:
 	l(l_),
@@ -298,14 +298,14 @@ Frec::Frec(const float l_, const float t_, const float r_, const float b_)
 {
 
 }
-/*RECTã¸ã®ã‚­ãƒ£ã‚¹ãƒˆ*/
+/*RECT‚Ö‚ÌƒLƒƒƒXƒg*/
 Frec::operator RECT()
 {
 	return { (long)l, (long)t, (long)r, (long)b };
 }
 
 //
-//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Image::Image()
 	:hBmpDC(nullptr), hMaskBmpDC(nullptr),
 	hBmp(nullptr), hMaskBmp(nullptr),
@@ -344,12 +344,12 @@ bool Image::ImageCreate(const char * const bmpfilename_)
 
 	SelectObject(hMaskBmpDC, hMaskBmp);
 
-	BitBlt(hMaskBmpDC, 0, 0, BmpInfo.bmWidth, BmpInfo.bmHeight, hBmpDC, 0, 0, NOTSRCCOPY);//è‰²åè»¢
+	BitBlt(hMaskBmpDC, 0, 0, BmpInfo.bmWidth, BmpInfo.bmHeight, hBmpDC, 0, 0, NOTSRCCOPY);//F”½“]
 
 	SetBkColor(hBmpDC, oldBkColor);
 	return 0;
 }
-//ç”»åƒã®è§£æ”¾
+//‰æ‘œ‚Ì‰ğ•ú
 void Image::Release()
 {
 	if (hBmpDC)
@@ -458,14 +458,14 @@ void Font::Release()
 {
 	if (hf) DeleteObject(hf);
 }
-//è‰²è¨­å®š
+//Fİ’è
 const COLORREF Font::SetColor(const COLORREF col_)
 {
 	auto cOld = col_;
 	col = col_;
 	return cOld;
 }
-//è‰²è¨­å®š
+//Fİ’è
 const COLORREF Font::SetColor(const byte r_, const byte g_, const byte b_)
 {
 	auto cOld = col;
@@ -479,9 +479,9 @@ void Font::Draw(const Point * const pos_, const char * const text_)
 
 	HGDIOBJ old = nullptr;
 	if (hf) old = SelectObject(hOff, hf);
-	//æ–‡å­—è‰²ã‚’å¼•æ•°ã‹ã‚‰æŒ‡å®š
+	//•¶šF‚ğˆø”‚©‚çw’è
 	SetTextColor(hOff, col);
-	//èƒŒæ™¯è‰²ã‚’é€éã«æŒ‡å®š
+	//”wŒiF‚ğ“§‰ß‚Éw’è
 	const int ioldMode = SetBkMode(hOff, TRANSPARENT);
 	TextOut(hOff, dp.x, dp.y, text_, lstrlen(text_) + 1);
 	SetBkMode(hOff, ioldMode);
@@ -490,8 +490,8 @@ void Font::Draw(const Point * const pos_, const char * const text_)
 
 static bool LoadWavFile(const char * const ccpFileName, WAVEFORMATEX *lpwfe, WAVEHDR *lpwhdr)
 {
-	/*ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ï¼†ã‚ªãƒ¼ãƒ«ã‚³ãƒ”ãƒ¼*/
-	/*ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦ã€ãã®å…¨ã¦ã‚’ãƒ¡ãƒ¢ãƒªé ˜åŸŸã«ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚*/
+	/*ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“•ƒI[ƒ‹ƒRƒs[*/
+	/*ƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚ÄA‚»‚Ì‘S‚Ä‚ğƒƒ‚ƒŠ—Ìˆæ‚ÉƒRƒs[‚µ‚Ü‚·B*/
 	HANDLE fh = CreateFile
 	(
 		ccpFileName, GENERIC_READ, 0, NULL,
@@ -499,7 +499,7 @@ static bool LoadWavFile(const char * const ccpFileName, WAVEFORMATEX *lpwfe, WAV
 	);
 	if (fh == INVALID_HANDLE_VALUE)
 	{
-		MessageBox(NULL, "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“", ccpFileName, MB_OK);
+		MessageBox(NULL, "ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñ", ccpFileName, MB_OK);
 		return 1;
 	}
 	DWORD dwFileSize = GetFileSize(fh, NULL);
@@ -507,41 +507,41 @@ static bool LoadWavFile(const char * const ccpFileName, WAVEFORMATEX *lpwfe, WAV
 	DWORD dwReadSize;
 	ReadFile(fh, lpBuf, dwFileSize, &dwReadSize, NULL);
 	CloseHandle(fh);
-	/*ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼ã®ãƒã‚§ãƒƒã‚¯*/
-	/*ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰8ï½11ãƒã‚¤ãƒˆã« "WAVE" ã¨ã„ã†æ–‡å­—åˆ—ãŒã‚ã‚Œã°WAVEãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚ã‚‹ã¨åˆ¤æ–­ã§ãã¾ã™ã€‚*/
+	/*ƒtƒ@ƒCƒ‹Œ`®‚Ìƒ`ƒFƒbƒN*/
+	/*ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç8`11ƒoƒCƒg‚É "WAVE" ‚Æ‚¢‚¤•¶š—ñ‚ª‚ ‚ê‚ÎWAVEƒtƒ@ƒCƒ‹‚Å‚ ‚é‚Æ”»’f‚Å‚«‚Ü‚·B*/
 	char str[5];
 	strncpy_s(str, (char *)(lpBuf + 8), 4);
 	if (strncmp(str, "WAVE", 4))
 	{
 		HeapFree(GetProcessHeap(), 0, lpBuf);
-		MessageBox(NULL, "WAVEãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã—ã¦ä¸‹ã•ã„", ccpFileName, MB_OK);
+		MessageBox(NULL, "WAVEƒtƒ@ƒCƒ‹‚ğw’è‚µ‚Ä‰º‚³‚¢", ccpFileName, MB_OK);
 		return 1;
 	}
-	/*ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæƒ…å ±ã®ã‚³ãƒ”ãƒ¼*/
-	/*ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæƒ…å ±(WAVEã®å±æ€§)ã‚’WAVEFORMATEXæ§‹é€ ä½“ã«ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚
-	  ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯PCMWAVEFORMATæ§‹é€ ä½“ã®å½¢ã§ä¿å­˜ã•ã‚Œã¦ã„ã¾ã™ãŒã€
-	  æœ€å¾Œã®ãƒ¡ãƒ³ãƒ WORD cbSize ãŒç„¡ã„ã ã‘ã§ã€ä»–ã¯åŒã˜ã§ã™ã€‚
+	/*ƒtƒH[ƒ}ƒbƒgî•ñ‚ÌƒRƒs[*/
+	/*ƒtƒH[ƒ}ƒbƒgî•ñ(WAVE‚Ì‘®«)‚ğWAVEFORMATEX\‘¢‘Ì‚ÉƒRƒs[‚µ‚Ü‚·B
+	  ƒtƒ@ƒCƒ‹‚É‚ÍPCMWAVEFORMAT\‘¢‘Ì‚ÌŒ`‚Å•Û‘¶‚³‚ê‚Ä‚¢‚Ü‚·‚ªA
+	  ÅŒã‚Ìƒƒ“ƒo WORD cbSize ‚ª–³‚¢‚¾‚¯‚ÅA‘¼‚Í“¯‚¶‚Å‚·B
 
-	  PCMWAVEFORMATæ§‹é€ ä½“ã®ã‚µã‚¤ã‚ºã¯16ãƒã‚¤ãƒˆã§ã™ã€‚
-	  ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰16ï½19ãƒã‚¤ãƒˆã«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆæƒ…å ±ã®ãƒã‚¤ãƒˆæ•°ãŒæ ¼ç´ã•ã‚Œã¦ã„ã¾ã™ãŒã€
-	  PCMå½¢å¼ã®å ´åˆã¯16ãƒã‚¤ãƒˆã«æ±ºã¾ã£ã¦ã„ã¾ã™ã€‚
-	  ã‚‚ã—16ãƒã‚¤ãƒˆã˜ã‚ƒãªã‘ã‚Œã°PCMå½¢å¼ã§ã¯ãªã„äº‹ã«ãªã‚‹ã®ã§ã€å¾Œã€…ã®ãƒã‚§ãƒƒã‚¯ã«å¼•ã£æ›ã‹ã‚‹ã§ã—ã‚‡ã†ã€‚
+	  PCMWAVEFORMAT\‘¢‘Ì‚ÌƒTƒCƒY‚Í16ƒoƒCƒg‚Å‚·B
+	  ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç16`19ƒoƒCƒg‚ÉƒtƒH[ƒ}ƒbƒgî•ñ‚ÌƒoƒCƒg”‚ªŠi”[‚³‚ê‚Ä‚¢‚Ü‚·‚ªA
+	  PCMŒ`®‚Ìê‡‚Í16ƒoƒCƒg‚ÉŒˆ‚Ü‚Á‚Ä‚¢‚Ü‚·B
+	  ‚à‚µ16ƒoƒCƒg‚¶‚á‚È‚¯‚ê‚ÎPCMŒ`®‚Å‚Í‚È‚¢–‚É‚È‚é‚Ì‚ÅAŒãX‚Ìƒ`ƒFƒbƒN‚Éˆø‚ÁŠ|‚©‚é‚Å‚µ‚å‚¤B
 
-	  ã¡ãªã¿ã«ã€ã‚³ãƒ”ãƒ¼å…ˆã§ã‚ã‚‹WAVEFORMATEXæ§‹é€ ä½“ã®ã‚µã‚¤ã‚ºã¯20ãƒã‚¤ãƒˆãªã®ã§ã€
-	  sizeof(WAVEFORMATEX) ã¨ã—ã¦ã¯ã„ã‘ã¾ã›ã‚“ã€‚*/
+	  ‚¿‚È‚İ‚ÉAƒRƒs[æ‚Å‚ ‚éWAVEFORMATEX\‘¢‘Ì‚ÌƒTƒCƒY‚Í20ƒoƒCƒg‚È‚Ì‚ÅA
+	  sizeof(WAVEFORMATEX) ‚Æ‚µ‚Ä‚Í‚¢‚¯‚Ü‚¹‚ñB*/
 	CopyMemory(lpwfe, lpBuf + 20, 16);
-	/*WAVEå½¢å¼ã®ãƒã‚§ãƒƒã‚¯*/
-	/*å½¢å¼ã¯WAVEFORMATEXæ§‹é€ ä½“ã® wFormatTag ãƒ¡ãƒ³ãƒã«æ ¼ç´ã•ã‚Œã¦ã„ã¾ã™ã€‚*/
+	/*WAVEŒ`®‚Ìƒ`ƒFƒbƒN*/
+	/*Œ`®‚ÍWAVEFORMATEX\‘¢‘Ì‚Ì wFormatTag ƒƒ“ƒo‚ÉŠi”[‚³‚ê‚Ä‚¢‚Ü‚·B*/
 	if (lpwfe->wFormatTag != WAVE_FORMAT_PCM)
 	{
 		HeapFree(GetProcessHeap(), 0, lpBuf);
-		MessageBox(NULL, "PCMå½¢å¼ã®WAVEãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã—ã¦ä¸‹ã•ã„", ccpFileName, MB_OK);
+		MessageBox(NULL, "PCMŒ`®‚ÌWAVEƒtƒ@ƒCƒ‹‚ğw’è‚µ‚Ä‰º‚³‚¢", ccpFileName, MB_OK);
 		return 1;
 	}
-	/*ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®å…ˆé ­ã¾ã§ã®ãƒã‚¤ãƒˆæ•°*/
-	/*ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰36ï½39ãƒã‚¤ãƒˆã«ã¯ "fact" ã‹ "data" ãŒã‚ã‚Šã¾ã™ã€‚
-	  factãƒãƒ£ãƒ³ã‚¯ã«ã¯å¿…è¦ãªæƒ…å ±ã¯ã‚ã‚Šã¾ã›ã‚“ãŒã€factãƒãƒ£ãƒ³ã‚¯ã®æœ‰ç„¡ã§å¾Œã€…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒé•ã£ã¦ãã‚‹ã®ã§ã€
-	  ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®å…ˆé ­ã¾ã§ã®ãƒã‚¤ãƒˆæ•°ã‚’è¨­å®šã—ã¾ã™ã€‚*/
+	/*ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç”gŒ`ƒf[ƒ^‚Ìæ“ª‚Ü‚Å‚ÌƒoƒCƒg”*/
+	/*ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç36`39ƒoƒCƒg‚É‚Í "fact" ‚© "data" ‚ª‚ ‚è‚Ü‚·B
+	  factƒ`ƒƒƒ“ƒN‚É‚Í•K—v‚Èî•ñ‚Í‚ ‚è‚Ü‚¹‚ñ‚ªAfactƒ`ƒƒƒ“ƒN‚Ì—L–³‚ÅŒãX‚ÌƒAƒhƒŒƒX‚ªˆá‚Á‚Ä‚­‚é‚Ì‚ÅA
+	  ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç”gŒ`ƒf[ƒ^‚Ìæ“ª‚Ü‚Å‚ÌƒoƒCƒg”‚ğİ’è‚µ‚Ü‚·B*/
 	int offset = 0;
 	char *pIt = (char *)(lpBuf + 36);
 	int count = 0;
@@ -550,38 +550,38 @@ static bool LoadWavFile(const char * const ccpFileName, WAVEFORMATEX *lpwfe, WAV
 		++pIt;
 		++count;
 	}
-	if (!strncmp(pIt, "fact", 4)) offset = count + 56;         // factãƒãƒ£ãƒ³ã‚¯ãŒæœ‰ã‚‹
-	else if (!strncmp(pIt, "data", 4)) offset = count + 44;    // dataãƒãƒ£ãƒ³ã‚¯(factãƒãƒ£ãƒ³ã‚¯ãŒç„¡ã„)
+	if (!strncmp(pIt, "fact", 4)) offset = count + 56;         // factƒ`ƒƒƒ“ƒN‚ª—L‚é
+	else if (!strncmp(pIt, "data", 4)) offset = count + 44;    // dataƒ`ƒƒƒ“ƒN(factƒ`ƒƒƒ“ƒN‚ª–³‚¢)
 	else
 	{
 		HeapFree(GetProcessHeap(), 0, lpBuf);
-		MessageBox(NULL, "æ­£ä½“ä¸æ˜ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§ã™", ccpFileName, MB_OK);
+		MessageBox(NULL, "³‘Ì•s–¾‚Ìƒtƒ@ƒCƒ‹‚Å‚·", ccpFileName, MB_OK);
 		return 1;
 	}
-	/*æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼*/
-	/*ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®å…ˆé ­ã¾ã§ã®ãƒã‚¤ãƒˆæ•°ã§ã‚ã‚‹ offset ã®4ãƒã‚¤ãƒˆå‰ã«ã¯
-	  æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°ãŒæ ¼ç´ã•ã‚Œã¦ã„ã¾ã™ã€‚
-	  æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°ã‚’å–å¾—ï¼†ä¿å­˜ã—ãŸã‚‰ã€
-	  ã“ã®ã‚µã‚¤ã‚ºåˆ†ã®æ–°ãŸãªãƒ¡ãƒ¢ãƒªé ˜åŸŸã‚’ç¢ºä¿ã—ã¦æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼ã—ã¾ã—ã‚‡ã†ã€‚
-	  æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ã‚³ãƒ”ãƒ¼ãŒçµ‚äº†ã—ãŸã‚‰ãƒ•ã‚¡ã‚¤ãƒ«å…¨ä½“ã‚’ã‚³ãƒ”ãƒ¼ã—ãŸãƒ¡ãƒ¢ãƒªé ˜åŸŸã¯è§£æ”¾ã—ã¦ã—ã¾ã„ã¾ã™ã€‚
+	/*”gŒ`ƒf[ƒ^‚ğƒRƒs[*/
+	/*ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚ç”gŒ`ƒf[ƒ^‚Ìæ“ª‚Ü‚Å‚ÌƒoƒCƒg”‚Å‚ ‚é offset ‚Ì4ƒoƒCƒg‘O‚É‚Í
+	  ”gŒ`ƒf[ƒ^‚ÌƒoƒCƒg”‚ªŠi”[‚³‚ê‚Ä‚¢‚Ü‚·B
+	  ”gŒ`ƒf[ƒ^‚ÌƒoƒCƒg”‚ğæ“¾••Û‘¶‚µ‚½‚çA
+	  ‚±‚ÌƒTƒCƒY•ª‚ÌV‚½‚Èƒƒ‚ƒŠ—Ìˆæ‚ğŠm•Û‚µ‚Ä”gŒ`ƒf[ƒ^‚ğƒRƒs[‚µ‚Ü‚µ‚å‚¤B
+	  ”gŒ`ƒf[ƒ^‚ÌƒRƒs[‚ªI—¹‚µ‚½‚çƒtƒ@ƒCƒ‹‘S‘Ì‚ğƒRƒs[‚µ‚½ƒƒ‚ƒŠ—Ìˆæ‚Í‰ğ•ú‚µ‚Ä‚µ‚Ü‚¢‚Ü‚·B
 
-	  æ–°ã—ãç¢ºä¿ã—ã¦ã„ã‚‹ã®ã¯ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®è§£æ”¾ã®æ™‚ã‚’è€ƒãˆã¦ã®äº‹ã§ã™ã€‚
-	  é–¢æ•°ã‚’å‘¼ã³å‡ºã—ãŸå´ãŒå–å¾—ã™ã‚‹ãƒã‚¤ãƒ³ã‚¿ã¯
-	  æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®å…ˆé ­ã‚’æŒ‡ã™ãƒã‚¤ãƒ³ã‚¿ã§ã™(WAVEHDRæ§‹é€ ä½“ã®lpDataãƒ¡ãƒ³ãƒ)ã€‚
-	  å½“ç„¶ã€ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®è§£æ”¾ã«ã‚‚ã“ã®ãƒã‚¤ãƒ³ã‚¿ã‚’ä½¿ã†ã§ã—ã‚‡ã†ãŒã€
-	  ã“ã®ãƒã‚¤ãƒ³ã‚¿ã¯ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®å…ˆé ­ã‚’æŒ‡ã—ã¦ã„ã¾ã›ã‚“ã€‚
-	  ãƒ¡ãƒ¢ãƒªé ˜åŸŸã®å…ˆé ­ã‚’æŒ‡ã—ã¦ã„ãªã„ãƒã‚¤ãƒ³ã‚¿ã§ãƒ¡ãƒ¢ãƒªé ˜åŸŸã‚’è§£æ”¾ã™ã‚‹äº‹ã¯ã§ããªã„ã®ã§ã™ã€‚
-	  ã‚‚ã¡ã‚ã‚“é–¢æ•°ã®è©³ç´°ã‚’çŸ¥ã£ã¦ã„ã‚Œã°å…ˆé ­ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨ˆç®—ã§ãã¾ã™ãŒã€é–¢æ•°ã®ä½¿ã„ã‚„ã™ã•ã¯å¤§å¹…æ¸›ã§ã™ã€‚
+	  V‚µ‚­Šm•Û‚µ‚Ä‚¢‚é‚Ì‚Íƒƒ‚ƒŠ—Ìˆæ‚Ì‰ğ•ú‚Ì‚ğl‚¦‚Ä‚Ì–‚Å‚·B
+	  ŠÖ”‚ğŒÄ‚Ño‚µ‚½‘¤‚ªæ“¾‚·‚éƒ|ƒCƒ“ƒ^‚Í
+	  ”gŒ`ƒf[ƒ^‚Ìæ“ª‚ğw‚·ƒ|ƒCƒ“ƒ^‚Å‚·(WAVEHDR\‘¢‘Ì‚ÌlpDataƒƒ“ƒo)B
+	  “–‘RAƒƒ‚ƒŠ—Ìˆæ‚Ì‰ğ•ú‚É‚à‚±‚Ìƒ|ƒCƒ“ƒ^‚ğg‚¤‚Å‚µ‚å‚¤‚ªA
+	  ‚±‚Ìƒ|ƒCƒ“ƒ^‚Íƒƒ‚ƒŠ—Ìˆæ‚Ìæ“ª‚ğw‚µ‚Ä‚¢‚Ü‚¹‚ñB
+	  ƒƒ‚ƒŠ—Ìˆæ‚Ìæ“ª‚ğw‚µ‚Ä‚¢‚È‚¢ƒ|ƒCƒ“ƒ^‚Åƒƒ‚ƒŠ—Ìˆæ‚ğ‰ğ•ú‚·‚é–‚Í‚Å‚«‚È‚¢‚Ì‚Å‚·B
+	  ‚à‚¿‚ë‚ñŠÖ”‚ÌÚ×‚ğ’m‚Á‚Ä‚¢‚ê‚Îæ“ª‚ÌƒAƒhƒŒƒX‚ğŒvZ‚Å‚«‚Ü‚·‚ªAŠÖ”‚Ìg‚¢‚â‚·‚³‚Í‘å•Œ¸‚Å‚·B
 
-	  æ–°ã—ã„ãƒ¡ãƒ¢ãƒªé ˜åŸŸã«ã¯å«ã¾ã‚Œãªã„æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°ã¯
-	  ä»¥å‰ã®ãƒ¡ãƒ¢ãƒªé ˜åŸŸã‚’è§£æ”¾ã™ã‚‹å‰ã«ä¿å­˜ã—ã¦ãŠãå¿…è¦ãŒã‚ã‚‹äº‹ã«æ³¨æ„ã—ã¦ä¸‹ã•ã„ã€‚
-	  WAVEHDRæ§‹é€ ä½“ã® dwBufferLength ãƒ¡ãƒ³ãƒã®è¨­å®šãŒã¾ã æ®‹ã£ã¦ã„ã‚‹ã‹ã‚‰ã§ã™ã€‚*/
+	  V‚µ‚¢ƒƒ‚ƒŠ—Ìˆæ‚É‚ÍŠÜ‚Ü‚ê‚È‚¢”gŒ`ƒf[ƒ^‚ÌƒoƒCƒg”‚Í
+	  ˆÈ‘O‚Ìƒƒ‚ƒŠ—Ìˆæ‚ğ‰ğ•ú‚·‚é‘O‚É•Û‘¶‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚é–‚É’ˆÓ‚µ‚Ä‰º‚³‚¢B
+	  WAVEHDR\‘¢‘Ì‚Ì dwBufferLength ƒƒ“ƒo‚Ìİ’è‚ª‚Ü‚¾c‚Á‚Ä‚¢‚é‚©‚ç‚Å‚·B*/
 	DWORD size = *(DWORD *)(lpBuf + offset - 4);
 	BYTE *lpWave = (BYTE *)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, size);
 	CopyMemory(lpWave, lpBuf + offset, size);
 	HeapFree(GetProcessHeap(), 0, lpBuf);
 
-	/*WAVEHDRæ§‹é€ ä½“ã®è¨­å®š*/
+	/*WAVEHDR\‘¢‘Ì‚Ìİ’è*/
 	lpwhdr->lpData = (LPSTR)lpWave;
 	lpwhdr->dwBufferLength = size;
 	lpwhdr->dwFlags = WHDR_BEGINLOOP | WHDR_ENDLOOP;
@@ -724,17 +724,17 @@ byte JoyPad::p_buttons[PADNUM_MAX][J_BUT_MAX] = {};
 long JoyPad::axisx[PADNUM_MAX] = {};
 
 long JoyPad::axisy[PADNUM_MAX] = {};
-/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã®åˆæœŸçŠ¶æ…‹*/
+/*ƒXƒeƒBƒbƒN‚ÌX²‚Ì‰Šúó‘Ô*/
 unsigned long JoyPad::initaxisx[PADNUM_MAX] = {};
-/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Yè»¸ã®åˆæœŸçŠ¶æ…‹*/
+/*ƒXƒeƒBƒbƒN‚ÌY²‚Ì‰Šúó‘Ô*/
 unsigned long JoyPad::initaxisy[PADNUM_MAX] = {};
 
 long JoyPad::Raxisx[PADNUM_MAX] = {};
 
 long JoyPad::Raxisy[PADNUM_MAX] = {};
-/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã®åˆæœŸçŠ¶æ…‹*/
+/*ƒXƒeƒBƒbƒN‚ÌX²‚Ì‰Šúó‘Ô*/
 unsigned long JoyPad::Rinitaxisx[PADNUM_MAX] = {};
-/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Yè»¸ã®åˆæœŸçŠ¶æ…‹*/
+/*ƒXƒeƒBƒbƒN‚ÌY²‚Ì‰Šúó‘Ô*/
 unsigned long JoyPad::Rinitaxisy[PADNUM_MAX] = {};
 
 Vector2 JoyPad::vec2[2][PADNUM_MAX] = {};
@@ -772,7 +772,7 @@ bool JoyPad::Init(const long lTolerance)
 	{
 		joy_ex[b].dwSize = sizeof(JOYINFOEX);
 		joy_ex[b].dwFlags = JOY_RETURNALL;
-		/*æ¥ç¶šã•ã‚Œã¦ã„ãŸã‚‰*/
+		/*Ú‘±‚³‚ê‚Ä‚¢‚½‚ç*/
 		if (JOYERR_NOERROR == joyGetPosEx(b, &joy_ex[b]))
 		{
 			initaxisx[b] = joy_ex[b].dwXpos;
@@ -792,29 +792,29 @@ bool JoyPad::GetStateAll()
 {
 	if (!bIsConnect) return 1;
 	static const unsigned long table[10] = { JOY_BUTTON1,JOY_BUTTON2 ,JOY_BUTTON3 ,JOY_BUTTON4,JOY_BUTTON5,JOY_BUTTON6,JOY_BUTTON7,JOY_BUTTON8,JOY_BUTTON1CHG,JOY_BUTTON2CHG };
-	/*æ¥ç¶šã•ã‚Œã¦ã„ã‚‹JOYPADã‚’æ¤œç´¢*/
+	/*Ú‘±‚³‚ê‚Ä‚¢‚éJOYPAD‚ğŒŸõ*/
 	for (byte b = 0; b < PADNUM_MAX; ++b)
 	{
-		/*æ¥ç¶šã•ã‚Œã¦ã„ãŸã‚‰*/
+		/*Ú‘±‚³‚ê‚Ä‚¢‚½‚ç*/
 		if (JOYERR_NOERROR == joyGetPosEx(b, &joy_ex[b]))
 		{
-			/*å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®çŠ¶æ…‹ã‚’ã‚³ãƒ”ãƒ¼*/
+			/*‘OƒtƒŒ[ƒ€‚Ìó‘Ô‚ğƒRƒs[*/
 			memcpy(p_buttons[b], n_buttons[b], sizeof(p_buttons[b]));
 			memcpy(p_direct[b], n_direct[b], sizeof(p_direct[b]));
 
-			/*æƒ…å ±ã‚’å–å¾—*/
+			/*î•ñ‚ğæ“¾*/
 			for (byte b2 = 0; b2 < 10; ++b2)
 			{
 				if (joy_ex[b].dwButtons & table[b2])
 				{
-					/*ãƒœã‚¿ãƒ³ã®æŠ¼ã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ*/
+					/*ƒ{ƒ^ƒ“‚Ì‰Ÿ‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€”‚ğƒJƒEƒ“ƒg*/
 					++n_buttons[b][b2];
 					if (n_buttons[b][b2] >= 255) n_buttons[b][b2] = 2;
 				}
 				else n_buttons[b][b2] = 0;
 			}
 
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒå³ãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ª‰E‚È‚ç*/
 			if (joy_ex[b].dwXpos > initaxisx[b] + lStickTolerance)
 			{
 				axisx[b] = joy_ex[b].dwXpos - (initaxisx[b] + lStickTolerance);
@@ -822,7 +822,7 @@ bool JoyPad::GetStateAll()
 				if (n_direct[b][J_RIGHT] >= 255) n_direct[b][J_RIGHT] = 2;
 				n_direct[b][J_LEFT] = 0;
 			}
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒå·¦ãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ª¶‚È‚ç*/
 			else if (joy_ex[b].dwXpos < initaxisx[b] - lStickTolerance)
 			{
 				axisx[b] = joy_ex[b].dwXpos - (initaxisx[b] - lStickTolerance);
@@ -830,7 +830,7 @@ bool JoyPad::GetStateAll()
 				if (n_direct[b][J_LEFT] >= 255) n_direct[b][J_LEFT] = 2;
 				n_direct[b][J_RIGHT] = 0;
 			}
-			/*ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ãªã‚‰*/
+			/*ƒjƒ…[ƒgƒ‰ƒ‹‚È‚ç*/
 			else
 			{
 				axisx[b] = 0;
@@ -838,7 +838,7 @@ bool JoyPad::GetStateAll()
 				n_direct[b][J_RIGHT] = 0;
 			}
 
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒä¸Šãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ªã‚È‚ç*/
 			if (joy_ex[b].dwYpos < initaxisy[b] - lStickTolerance)
 			{
 				axisy[b] = joy_ex[b].dwYpos - (initaxisy[b] - lStickTolerance);
@@ -846,7 +846,7 @@ bool JoyPad::GetStateAll()
 				if (n_direct[b][J_UP] >= 255) n_direct[b][J_UP] = 2;
 				n_direct[b][J_DOWN] = 0;
 			}
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒä¸‹ãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ª‰º‚È‚ç*/
 			else if (joy_ex[b].dwYpos > initaxisy[b] + lStickTolerance)
 			{
 				axisy[b] = joy_ex[b].dwYpos - (initaxisy[b] + lStickTolerance);
@@ -854,7 +854,7 @@ bool JoyPad::GetStateAll()
 				if (n_direct[b][J_DOWN] >= 255) n_direct[b][J_DOWN] = 2;
 				n_direct[b][J_UP] = 0;
 			}
-			/*ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ãªã‚‰*/
+			/*ƒjƒ…[ƒgƒ‰ƒ‹‚È‚ç*/
 			else
 			{
 				axisy[b] = 0;
@@ -862,33 +862,33 @@ bool JoyPad::GetStateAll()
 				n_direct[b][J_DOWN] = 0;
 			}
 
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒå³ãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ª‰E‚È‚ç*/
 			if (joy_ex[b].dwZpos > Rinitaxisx[b] + lStickTolerance)
 			{
 				Raxisx[b] = joy_ex[b].dwZpos - (Rinitaxisx[b] + lStickTolerance);
 			}
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒå·¦ãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ª¶‚È‚ç*/
 			else if (joy_ex[b].dwZpos < Rinitaxisx[b] - lStickTolerance)
 			{
 				Raxisx[b] = joy_ex[b].dwZpos - (Rinitaxisx[b] - lStickTolerance);
 			}
-			/*ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ãªã‚‰*/
+			/*ƒjƒ…[ƒgƒ‰ƒ‹‚È‚ç*/
 			else
 			{
 				Raxisx[b] = 0;
 			}
 
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒä¸Šãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ªã‚È‚ç*/
 			if (joy_ex[b].dwRpos < Rinitaxisy[b] - lStickTolerance)
 			{
 				Raxisy[b] = joy_ex[b].dwRpos - (Rinitaxisy[b] - lStickTolerance);
 			}
-			/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚‚ã—ãã¯æ–¹å‘ã‚­ãƒ¼ãŒä¸‹ãªã‚‰*/
+			/*ƒXƒeƒBƒbƒN‚à‚µ‚­‚Í•ûŒüƒL[‚ª‰º‚È‚ç*/
 			else if (joy_ex[b].dwRpos > Rinitaxisy[b] + lStickTolerance)
 			{
 				Raxisy[b] = joy_ex[b].dwRpos - (Rinitaxisy[b] + lStickTolerance);
 			}
-			/*ãƒ‹ãƒ¥ãƒ¼ãƒˆãƒ©ãƒ«ãªã‚‰*/
+			/*ƒjƒ…[ƒgƒ‰ƒ‹‚È‚ç*/
 			else
 			{
 				Raxisy[b] = 0;
@@ -971,7 +971,7 @@ bool JoyPad::Off(const Joy_Direct direct_)
 {
 	return (!p_direct[joy_id][direct_] && !n_direct[joy_id][direct_]);
 }
-/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®XYè»¸æŠ¼ã—è¾¼ã¿çŠ¶æ…‹å–å¾—é–¢æ•°*/
+/*ƒXƒeƒBƒbƒN‚ÌXY²‰Ÿ‚µ‚İó‘Ôæ“¾ŠÖ”*/
 const Vector2 &JoyPad::GetAxisL() const
 {
 	return vec2[0][joy_id];
@@ -982,7 +982,7 @@ float JoyPad::GetAxisL(const char * const axis_) const
 	if (axis_ == axis[0])		return float(axisx[joy_id] / 3000) * .1f;
 	else if (axis_ == axis[1])	return float(axisy[joy_id] / 3000) * .1f;
 #ifdef _DEBUG
-	std::string dbgtex = "ã‚¹ãƒšãƒ«ãŒé•ã„ã¾ã™ \"";
+	std::string dbgtex = "ƒXƒyƒ‹‚ªˆá‚¢‚Ü‚· \"";
 	dbgtex += axis_;
 	dbgtex += "\"";
 	MessageBox(FindWindow("MyWindow", nullptr), dbgtex.c_str(), "", MB_OK | MB_ICONWARNING);
@@ -990,21 +990,21 @@ float JoyPad::GetAxisL(const char * const axis_) const
 #endif
 	return 0;
 }
-/*ãƒ©ã‚¸ã‚¢ãƒ³ã‚’å–å¾—é–¢æ•°*/
+/*ƒ‰ƒWƒAƒ“‚ğæ“¾ŠÖ”*/
 float JoyPad::GetRadL() const
 {
 	if (-float(axisx[joy_id] / 3000) * .1f || float(axisy[joy_id] / 3000) * .1f)
 		return (float)atan2(-float(axisx[joy_id] / 3000) * .1f, float(axisy[joy_id] / 3000) * .1f);
 	return 0;
 }
-/*ãƒ‡ã‚£ã‚°ãƒªãƒ¼ã‚’å–å¾—é–¢æ•°*/
+/*ƒfƒBƒOƒŠ[‚ğæ“¾ŠÖ”*/
 float JoyPad::GetDegL() const
 {
 	if (-float(axisx[joy_id] / 3000) * .1f || float(axisy[joy_id] / 3000) * .1f)
 		return RtoD(atan2(-float(axisx[joy_id] / 3000) * .1f, float(axisy[joy_id] / 3000) * .1f));
 	return 0;
 }
-/*ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®XYè»¸æŠ¼ã—è¾¼ã¿çŠ¶æ…‹å–å¾—é–¢æ•°*/
+/*ƒXƒeƒBƒbƒN‚ÌXY²‰Ÿ‚µ‚İó‘Ôæ“¾ŠÖ”*/
 const Vector2 &JoyPad::GetAxisR() const
 {
 	return vec2[1][joy_id];
@@ -1015,7 +1015,7 @@ float JoyPad::GetAxisR(const char * const axis_) const
 	if (axis_ == axis[0])		return float(Raxisx[joy_id] / 3000) * .1f;
 	else if (axis_ == axis[1])	return float(Raxisy[joy_id] / 3000) * .1f;
 #ifdef _DEBUG
-	std::string dbgtex = "ã‚¹ãƒšãƒ«ãŒé•ã„ã¾ã™ \"";
+	std::string dbgtex = "ƒXƒyƒ‹‚ªˆá‚¢‚Ü‚· \"";
 	dbgtex += axis_;
 	dbgtex += "\"";
 	MessageBox(FindWindow("MyWindow", nullptr), dbgtex.c_str(), "", MB_OK | MB_ICONWARNING);
@@ -1023,14 +1023,14 @@ float JoyPad::GetAxisR(const char * const axis_) const
 #endif
 	return 0;
 }
-/*ãƒ©ã‚¸ã‚¢ãƒ³ã‚’å–å¾—é–¢æ•°*/
+/*ƒ‰ƒWƒAƒ“‚ğæ“¾ŠÖ”*/
 float JoyPad::GetRadR() const
 {
 	if (-float(Raxisx[joy_id] / 3000) * .1f || float(Raxisy[joy_id] / 3000) * .1f)
 		return (float)atan2(-float(Raxisx[joy_id] / 3000) * .1f, float(Raxisy[joy_id] / 3000) * .1f);
 	return 0;
 }
-/*ãƒ‡ã‚£ã‚°ãƒªãƒ¼ã‚’å–å¾—é–¢æ•°*/
+/*ƒfƒBƒOƒŠ[‚ğæ“¾ŠÖ”*/
 float JoyPad::GetDegR() const
 {
 	if (-float(Raxisx[joy_id] / 3000) * .1f || float(Raxisy[joy_id] / 3000) * .1f)
@@ -1038,7 +1038,7 @@ float JoyPad::GetDegR() const
 	return 0;
 }
 
-//ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯å¤‰æ•°ã®åˆæœŸåŒ–
+//ƒXƒ^ƒeƒBƒbƒN•Ï”‚Ì‰Šú‰»
 HDC Rec::off = nullptr;
 HBITMAP Rec::hoffbmp = nullptr;
 HDC Rec::hAlphaDc = nullptr;
@@ -1050,7 +1050,7 @@ Point Rec::Cam = {};
 Point Rec::pAdjust = {};
 POINT Rec::pDrawPoint[5] = {};
 
-//çŸ©å½¢ã‚¯ãƒ©ã‚¹ã«å…±é€šã®æç”»ãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆ
+//‹éŒ`ƒNƒ‰ƒX‚É‹¤’Ê‚Ì•`‰æƒoƒbƒtƒ@‚ğì¬
 bool Rec::Init(HWND hWnd_)
 {
 	//if (off = hOff_) return 0;
@@ -1090,12 +1090,12 @@ bool Rec::Init(HWND hWnd_)
 	//SetStretchBltMode(off, HALFTONE);
 	return 0;
 }
-//ã‚ªãƒ•ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹é–¢æ•°
+//ƒIƒtƒXƒNƒŠ[ƒ“‚ğƒŠƒZƒbƒg‚·‚éŠÖ”
 void Rec::ResetOff(const DWORD rop_)
 {
 	PatBlt(off, 0, 0, int(Win.r), int(Win.b), rop_);
 }
-//WM_PAINTãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†å†…ã§ãƒ•ãƒ­ãƒ³ãƒˆã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã«æç”»
+//WM_PAINTƒƒbƒZ[ƒWˆ—“à‚Åƒtƒƒ“ƒgƒXƒNƒŠ[ƒ“‚É•`‰æ
 void Rec::DrawBackToFront(HDC hOn_)
 {
 	/**
@@ -1104,7 +1104,7 @@ void Rec::DrawBackToFront(HDC hOn_)
 	StretchBlt(hOn_, 0, 0, int(Win.r), int(Win.b), off, int(Win.l + frZoom.l), int(Win.t + frZoom.t), int(Win.r * frZoom.r), int(Win.b * frZoom.b), SRCCOPY);
 	/**/
 }
-//ã‚ªãƒ•ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã¨ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’ç ´æ£„
+//ƒIƒtƒXƒNƒŠ[ƒ“‚Æƒrƒbƒgƒ}ƒbƒv‚ğ”jŠü
 void Rec::Release()
 {
 	if (hoffbmp) DeleteObject(hoffbmp);
@@ -1113,34 +1113,34 @@ void Rec::Release()
 	if (hAlphaBmp) DeleteObject(hAlphaBmp);
 	if (hAlphaDc) DeleteDC(hAlphaDc);
 }
-//ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã«åˆã‚ã›ã¦ä½ç½®ã‚’èª¿æ•´ã™ã‚‹
+//ƒJƒƒ‰‚ÌÀ•W‚É‡‚í‚¹‚ÄˆÊ’u‚ğ’²®‚·‚é
 const Point &Rec::AdjustCamPos(const Point * const pPos)
 {
 	pAdjust.x = -(Cam.x - Win.r * 0.5f) + pPos->x;
 	pAdjust.y = -(Cam.y - Win.b * 0.5f) + pPos->y;
 	return pAdjust;
 }
-//ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã‚’è¨­å®š
+//ƒJƒƒ‰‚ÌÀ•W‚ğİ’è
 void Rec::SetCameraPos(const Point * const pPos)
 {
 	Cam = *pPos;
 }
-//ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ã‚’å–å¾—
+//ƒJƒƒ‰‚ÌÀ•W‚ğæ“¾
 const Point &Rec::GetCameraPos()
 {
 	return Cam;
 }
-//ã‚«ãƒ¡ãƒ©ã®Xåº§æ¨™ã‚’å–å¾—
+//ƒJƒƒ‰‚ÌXÀ•W‚ğæ“¾
 const float Rec::GetCameraPosX()
 {
 	return Cam.x;
 }
-//ã‚«ãƒ¡ãƒ©ã®Yåº§æ¨™ã‚’å–å¾—
+//ƒJƒƒ‰‚ÌYÀ•W‚ğæ“¾
 const float Rec::GetCameraPosY()
 {
 	return Cam.y;
 }
-//ç”»é¢ã‚’å¡—ã‚Šã¤ã¶ã™
+//‰æ–Ê‚ğ“h‚è‚Â‚Ô‚·
 void Rec::FullPaint(const COLORREF ccColor)
 {
 	auto hBlush = CreateSolidBrush(ccColor);
@@ -1149,13 +1149,13 @@ void Rec::FullPaint(const COLORREF ccColor)
 	SelectObject(off, hOld);
 	DeleteObject(hBlush);
 }
-//ã‚«ãƒ¡ãƒ©ã‚’ç§»å‹•
+//ƒJƒƒ‰‚ğˆÚ“®
 void Rec::MoveCamera(const Vector2 * const vMove)
 {
 	Cam.x += vMove->GetX();
 	Cam.y += vMove->GetY();
 }
-//ã‚ºãƒ¼ãƒ 
+//ƒY[ƒ€
 void Rec::Zoom(const float fMagni)
 {
 	if (fMagni < 1.f) return;
@@ -1164,19 +1164,19 @@ void Rec::Zoom(const float fMagni)
 	frZoom.l = (Win.r * (1.f - frZoom.r)) * 0.5f;
 	frZoom.t = (Win.b * (1.f - frZoom.b)) * 0.5f;
 }
-//ã‚ªãƒ•ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—
+//ƒIƒtƒXƒNƒŠ[ƒ“‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾
 HDC Rec::GetOffScreenHandle()
 {
 	return off;
 }
-//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float angleD_)
 	:w(w_), h(h_), cColor(WHITE_COLOR)
 {
 	p[CENTER].x = cx_;
 	p[CENTER].y = cy_;
 
-	//åŸç‚¹ã§æ‹¡ç¸®
+	//Œ´“_‚ÅŠgk
 	p[TOP_LEFT].x = -(w_ * 0.5f);
 	p[TOP_LEFT].y = -(h_ * 0.5f);
 	p[TOP_RIGHT].x = +(w_ * 0.5f);
@@ -1200,7 +1200,7 @@ Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float
 
 	angle = angleD_;
 
-	//åŸç‚¹ã‚’ä¸­å¿ƒã¨ã—ãŸä½ç½®ã«ç§»å‹•
+	//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 	float  pp[4][2] =
 	{
 		{ -dx , -dy },
@@ -1209,7 +1209,7 @@ Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float
 		{  dx ,  dy },
 	};
 
-	//åŸç‚¹ã«åˆã‚ã›ã¦å›è»¢
+	//Œ´“_‚É‡‚í‚¹‚Ä‰ñ“]
 	const double ang = (double)DtoR(ModAngle(angleD_));
 	for (int i = 0; i < POINT_MAX - 1; ++i)
 	{
@@ -1222,19 +1222,19 @@ Rec::Rec(const float cx_, const float cy_, const float w_, const float h_, float
 
 	for (int i = 0; i < POINT_MAX - 1; ++i)
 	{
-		//åŸç‚¹ã«åˆã‚ã›ã¦ãŠã„ãŸã®ã§å…ƒã«æˆ»ã™
+		//Œ´“_‚É‡‚í‚¹‚Ä‚¨‚¢‚½‚Ì‚ÅŒ³‚É–ß‚·
 		p[i].x += p[CENTER].x;
 		p[i].y += p[CENTER].y;
 	}
 }
-//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Rec::Rec()
 	:dx(0.f), dy(0.f), angle(0), w(0.f), h(0.f), cColor(WHITE_COLOR)
 {
 	for (int i = 0; i < POINT_MAX; ++i)
 		p[i] = { 0.,0. };
 }
-//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 Rec::Rec(const Rec & cpyrec_)
 	:dx(cpyrec_.dx), dy(cpyrec_.dy), angle(cpyrec_.angle), w(cpyrec_.w), h(cpyrec_.h), cColor(cpyrec_.cColor)
 {
@@ -1248,17 +1248,17 @@ const COLORREF Rec::SetColor(const COLORREF ccColor)
 	cColor = ccColor;
 	return cOld;
 }
-//è‰²è¨­å®š
+//Fİ’è
 const COLORREF Rec::SetColor(const byte r_, const byte g_, const byte b_)
 {
 	auto cOld = cColor;
 	cColor = RGB(r_, b_, b_);
 	return cOld;
 }
-//çŸ©å½¢ã‚’ç§»å‹•ã•ã›ã‚‹
+//‹éŒ`‚ğˆÚ“®‚³‚¹‚é
 void Rec::SetPos(const Point * const pos_)
 {
-	//åŸç‚¹ã‚’ä¸­å¿ƒã¨ã—ãŸä½ç½®ã«ç§»å‹•
+	//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 	float  pp[4][2] =
 	{
 		{ -dx , -dy },
@@ -1281,7 +1281,7 @@ void Rec::Scaling(const float recw_, const float rech_)
 {
 	w = recw_;
 	h = rech_;
-	//åŸç‚¹ã§æ‹¡ç¸®
+	//Œ´“_‚ÅŠgk
 	p[TOP_LEFT].x = -(recw_ * 0.5f);
 	p[TOP_LEFT].y = -(rech_ * 0.5f);
 	p[TOP_RIGHT].x = +(recw_ * 0.5f);
@@ -1306,7 +1306,7 @@ void Rec::Scaling(const float recw_, const float rech_)
 	double ang = (double)ModAngle(angle);
 	if (ang < -1.f || ang > 1.f)
 	{
-		//åŸç‚¹ã‚’ä¸­å¿ƒã¨ã—ãŸä½ç½®ã«ç§»å‹•
+		//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 		float  pp[4][2] =
 		{
 			{ -dx , -dy },
@@ -1326,7 +1326,7 @@ void Rec::Scaling(const float recw_, const float rech_)
 	}
 	for (int i = 0; i < POINT_MAX - 1; ++i)
 	{
-		//åŸç‚¹ã«åˆã‚ã›ã¦ãŠã„ãŸã®ã§å…ƒã«æˆ»ã™
+		//Œ´“_‚É‡‚í‚¹‚Ä‚¨‚¢‚½‚Ì‚ÅŒ³‚É–ß‚·
 		p[i].x += p[CENTER].x;
 		p[i].y += p[CENTER].y;
 	}
@@ -1336,7 +1336,7 @@ void Rec::SetDeg(const float angleD_)
 {
 	angle = angleD_;
 
-	//åŸç‚¹ã‚’ä¸­å¿ƒã¨ã—ãŸä½ç½®ã«ç§»å‹•
+	//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 	float  pp[4][2] =
 	{
 		{ -dx , -dy },
@@ -1345,7 +1345,7 @@ void Rec::SetDeg(const float angleD_)
 		{  dx ,  dy },
 	};
 
-	//åŸç‚¹ã«åˆã‚ã›ã¦å›è»¢
+	//Œ´“_‚É‡‚í‚¹‚Ä‰ñ“]
 	double ang = (double)ModAngle(angle);
 	if (ang < -1.f || ang > 1.f)
 	{
@@ -1361,7 +1361,7 @@ void Rec::SetDeg(const float angleD_)
 
 		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			//åŸç‚¹ã«åˆã‚ã›ã¦ãŠã„ãŸã®ã§å…ƒã«æˆ»ã™
+			//Œ´“_‚É‡‚í‚¹‚Ä‚¨‚¢‚½‚Ì‚ÅŒ³‚É–ß‚·
 			p[i].x += p[CENTER].x;
 			p[i].y += p[CENTER].y;
 		}
@@ -1372,7 +1372,7 @@ float Rec::GetDeg() const
 {
 	return angle;
 }
-//èª­ã¿è¾¼ã‚“ã§ãŠã„ãŸãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’æç”»(å›è»¢ã‚‚å¯)
+//“Ç‚İ‚ñ‚Å‚¨‚¢‚½ƒrƒbƒgƒ}ƒbƒv‚ğ•`‰æ(‰ñ“]‚à‰Â)
 void Rec::Draw(Image * const mybitmap_, const bool rot_)
 {
 	if (AdjustCamPos(&p[CENTER]).x - w > Win.r) return;
@@ -1389,11 +1389,11 @@ void Rec::Draw(Image * const mybitmap_, const bool rot_)
 
 	if (rot_)
 	{
-		//å›è»¢ã¨å¹³è¡Œç§»å‹•ã¨æ‹¡ç¸®ã«åˆã‚ã›ã¦æç”»
+		//‰ñ“]‚Æ•½sˆÚ“®‚ÆŠgk‚É‡‚í‚¹‚Ä•`‰æ
 		const float ang = ModAngle(angle);
 		if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
 		{
-			//åŸç‚¹ã‚’ä¸­å¿ƒã¨ã—ãŸä½ç½®ã«ç§»å‹•
+			//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 			float  pp[3][2] =
 			{
 				{ -dx , -dy },
@@ -1420,7 +1420,7 @@ void Rec::Draw(Image * const mybitmap_, const bool rot_)
 	}
 	else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 }
-//èª­ã¿è¾¼ã‚“ã§ãŠã„ãŸãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ã‚’æç”»(å›è»¢ã‚‚å¯)
+//“Ç‚İ‚ñ‚Å‚¨‚¢‚½ƒrƒbƒgƒ}ƒbƒv‚ğ•`‰æ(‰ñ“]‚à‰Â)
 void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot_)
 {
 	if (AdjustCamPos(&p[CENTER]).x - w > Win.r) return;
@@ -1437,12 +1437,12 @@ void Rec::Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot
 
 	if (rot_)
 	{
-		//å›è»¢ã¨å¹³è¡Œç§»å‹•ã¨æ‹¡ç¸®ã«åˆã‚ã›ã¦æç”»
-		//180åº¦ã«è¿‘ã„ã¨ãã ã‘å›è»¢ç”¨ãƒãƒƒãƒ•ã‚¡ã‚’ä½¿ç”¨
+		//‰ñ“]‚Æ•½sˆÚ“®‚ÆŠgk‚É‡‚í‚¹‚Ä•`‰æ
+		//180“x‚É‹ß‚¢‚Æ‚«‚¾‚¯‰ñ“]—pƒoƒbƒtƒ@‚ğg—p
 		const float ang = ModAngle(angle);
 		if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
 		{
-			//åŸç‚¹ã‚’ä¸­å¿ƒã¨ã—ãŸä½ç½®ã«ç§»å‹•
+			//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 			float  pp[3][2] =
 			{
 				{ -dx , -dy },
@@ -1541,7 +1541,7 @@ void Rec::DrawAlpha(Image * const mybitmap_, const Frec * const frSrc, byte alph
 	//DeleteObject(hBufBmp);
 	//DeleteDC(hBufDc);
 }
-//çŸ©å½¢ã®å¤–æ ã‚’æç”»ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//‹éŒ`‚ÌŠO˜g‚ğ•`‰æ‚·‚éƒƒ“ƒoŠÖ”
 void Rec::Draw()
 {
 	if (AdjustCamPos(&p[CENTER]).x - w > Win.r) return;
@@ -1715,32 +1715,32 @@ float Rec::GetH() const
 {
 	return h;
 }
-//æŒ‡å®šåº§æ¨™ã¨ã®è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//w’èÀ•W‚Æ‚ÌŠp“x(ƒ‰ƒWƒAƒ“)‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetRad(const float x_, const float y_) const
 {
 	return atan2(y_ - p[CENTER].y, x_ - p[CENTER].x);
 }
-//åˆ¥ã®çŸ©å½¢ã¨ã®è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//•Ê‚Ì‹éŒ`‚Æ‚ÌŠp“x(ƒ‰ƒWƒAƒ“)‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetRad(const Rec * const rec_) const
 {
 	return atan2(rec_->p[CENTER].y - p[CENTER].y, rec_->p[CENTER].x - p[CENTER].x);
 }
-//æŒ‡å®šåº§æ¨™ã¨ã®è§’åº¦(ãƒ‡ã‚£ã‚°ãƒªãƒ¼)ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//w’èÀ•W‚Æ‚ÌŠp“x(ƒfƒBƒOƒŠ[)‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetDeg(const float x_, const float y_) const
 {
 	return RtoD(atan2(y_ - p[CENTER].y, x_ - p[CENTER].x));
 }
-//æŒ‡å®šåº§æ¨™ã¨ã®è§’åº¦(ãƒ‡ã‚£ã‚°ãƒªãƒ¼)ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//w’èÀ•W‚Æ‚ÌŠp“x(ƒfƒBƒOƒŠ[)‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetDeg(const Point * const pos_) const
 {
 	return RtoD(atan2(pos_->y - p[CENTER].y, pos_->x - p[CENTER].x));
 }
-//åˆ¥ã®çŸ©å½¢ã¨ã®è§’åº¦(ãƒ‡ã‚£ã‚°ãƒªãƒ¼)ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//•Ê‚Ì‹éŒ`‚Æ‚ÌŠp“x(ƒfƒBƒOƒŠ[)‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetDeg(const Rec * const rec_) const
 {
 	return RtoD(atan2(rec_->p[CENTER].y - p[CENTER].y, rec_->p[CENTER].x - p[CENTER].x));
 }
-//çŸ©å½¢ã‚’ç§»å‹•ã•ã›ã‚‹
+//‹éŒ`‚ğˆÚ“®‚³‚¹‚é
 void Rec::Move(const Vector2 * const vec2_)
 {
 	for (int i = 0; i < POINT_MAX; ++i)
@@ -1757,7 +1757,7 @@ float Rec::GetDist(const float x_, const float y_) const
 	//return (float)Sqrt((unsigned long)(dx * dx + dy * dy));
 	return Sqrt(dx * dx + dy * dy);
 }
-//ç‚¹ã¨ã®è·é›¢ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//“_‚Æ‚Ì‹——£‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetDist(const Point * const pos_) const
 {
 	float dx = p[CENTER].x - pos_->x;
@@ -1765,7 +1765,7 @@ float Rec::GetDist(const Point * const pos_) const
 	//return (float)Sqrt((unsigned long)(dx * dx + dy * dy));
 	return Sqrt(dx * dx + dy * dy);
 }
-//åˆ¥ã®çŸ©å½¢ã¨ã®è·é›¢ã‚’å–å¾—ã™ã‚‹ãƒ¡ãƒ³ãƒé–¢æ•°
+//•Ê‚Ì‹éŒ`‚Æ‚Ì‹——£‚ğæ“¾‚·‚éƒƒ“ƒoŠÖ”
 float Rec::GetDist(const Rec * const rec_) const
 {
 	float dx = p[CENTER].x - rec_->p[CENTER].x;
@@ -1778,73 +1778,73 @@ const Point &Rec::GetPos() const
 {
 	return p[CENTER];
 }
-//çŸ©å½¢ã®ä¸­å¿ƒç‚¹ã®Xåº§æ¨™
+//‹éŒ`‚Ì’†S“_‚ÌXÀ•W
 float Rec::GetPosX() const
 {
 	return p[CENTER].x;
 }
-//çŸ©å½¢ã®ä¸­å¿ƒç‚¹ã®Yåº§æ¨™
+//‹éŒ`‚Ì’†S“_‚ÌYÀ•W
 float Rec::GetPosY() const
 {
 	return p[CENTER].y;
 }
-//çŸ©å½¢ã®å·¦ä¸Šã®åº§æ¨™ã‚’å–å¾—
+//‹éŒ`‚Ì¶ã‚ÌÀ•W‚ğæ“¾
 const Point &Rec::GetTL() const
 {
 	return p[TOP_LEFT];
 }
-//çŸ©å½¢ã®å³ä¸Šã®åº§æ¨™ã‚’å–å¾—
+//‹éŒ`‚Ì‰Eã‚ÌÀ•W‚ğæ“¾
 const Point &Rec::GetTR() const
 {
 	return p[TOP_RIGHT];
 }
-//çŸ©å½¢ã®å·¦ä¸‹ã®åº§æ¨™ã‚’å–å¾—
+//‹éŒ`‚Ì¶‰º‚ÌÀ•W‚ğæ“¾
 const Point &Rec::GetBL() const
 {
 	return p[BOTTOM_LEFT];
 }
-//çŸ©å½¢ã®å³ä¸‹ã®åº§æ¨™ã‚’å–å¾—
+//‹éŒ`‚Ì‰E‰º‚ÌÀ•W‚ğæ“¾
 const Point &Rec::GetBR() const
 {
 	return p[BOTTOM_RIGHT];
 }
-//ç¾åœ¨ã®ã‚µã‚¤ã‚ºãŒï¼ˆ0, 0ï¼‰ã‹ã©ã†ã‹
+//Œ»İ‚ÌƒTƒCƒY‚ªi0, 0j‚©‚Ç‚¤‚©
 const bool Rec::SizeZero() const
 {
 	return (!w && !h);
 }
 
-/*å††ã‚¯ãƒ©ã‚¹*/
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*‰~ƒNƒ‰ƒX*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Circle::Circle()
 	: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(WHITE_COLOR), center({ 0.f,0.f }), radius(1.f)
 {
 
 }
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Circle::Circle(const Point * const position_, const float radius_)
 	: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(WHITE_COLOR), center(*position_), radius(radius_)
 {
 
 }
-/*ä¸­å¿ƒåº§æ¨™è¨­å®š*/
+/*’†SÀ•Wİ’è*/
 void Circle::SetPos(const Point * const pos_)
 {
 	center = *pos_;
 }
-/*åŠå¾„è¨­å®š*/
+/*”¼Œaİ’è*/
 void Circle::SetRadius(const float radius_)
 {
 	radius = radius_;
 }
-/*è‰²è¨­å®š*/
+/*Fİ’è*/
 const COLORREF Circle::SetColor(const COLORREF color_)
 {
 	auto cOld = color;
 	color = color_;
 	return cOld;
 }
-/*è‰²è¨­å®š*/
+/*Fİ’è*/
 const COLORREF Circle::SetColor(const byte r_, const byte g_, const byte b_)
 {
 	auto cOld = color;
@@ -1852,27 +1852,27 @@ const COLORREF Circle::SetColor(const byte r_, const byte g_, const byte b_)
 	color = RGB(r_, g_, b_);
 	return cOld;
 }
-/*åº§æ¨™å–å¾—*/
+/*À•Wæ“¾*/
 const Point &Circle::GetPos() const
 {
 	return center;
 }
-/*Xåº§æ¨™å–å¾—*/
+/*XÀ•Wæ“¾*/
 const float Circle::GetPosX() const
 {
 	return center.x;
 }
-/*Yåº§æ¨™å–å¾—*/
+/*YÀ•Wæ“¾*/
 const float Circle::GetPosY() const
 {
 	return center.y;
 }
-/*åŠå¾„å–å¾—*/
+/*”¼Œaæ“¾*/
 const float Circle::GetRadius() const
 {
 	return radius;
 }
-/*æç”»*/
+/*•`‰æ*/
 void Circle::Draw()
 {
 	Point dp = Rec::AdjustCamPos(&center);
@@ -1881,47 +1881,47 @@ void Circle::Draw()
 	if (dp.x + radius < Rec::Win.l) return;
 	if (dp.x + radius < Rec::Win.t) return;
 
-	/*æç”»ç”¨ãƒšãƒ³ã‚’ä½œæˆ*/
+	/*•`‰æ—pƒyƒ“‚ğì¬*/
 	hPen = CreatePen(PS_INSIDEFRAME, 1, color);
-	/*offãŒãƒšãƒ³ã‚’ä½¿ã†ã‚ˆã†ã«ã™ã‚‹*/
+	/*off‚ªƒyƒ“‚ğg‚¤‚æ‚¤‚É‚·‚é*/
 	HGDIOBJ hOldPen = SelectObject(hOff, hPen);
 	HGDIOBJ hOldBlush = SelectObject(hOff, GetStockObject(NULL_BRUSH));
 
-	/*å††ã®æç”»é–‹å§‹*/
+	/*‰~‚Ì•`‰æŠJn*/
 	Ellipse(hOff, int(dp.x - radius), int(dp.y - radius), int(dp.x + radius), int(dp.y + radius));
 
-	/*offãŒä½¿ã†æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…ƒã«æˆ»ã™*/
+	/*off‚ªg‚¤•`‰æƒIƒuƒWƒFƒNƒg‚ğŒ³‚É–ß‚·*/
 	SelectObject(hOff, hOldPen);
 	SelectObject(hOff, hOldBlush);
-	/*ãƒšãƒ³ã‚’ç ´æ£„*/
+	/*ƒyƒ“‚ğ”jŠü*/
 	DeleteObject(hPen);
 	hPen = nullptr;
 }
-/*å½“ãŸã‚Šåˆ¤å®š*/
+/*“–‚½‚è”»’è*/
 const bool Circle::CheckHit(const Circle * const circle_) const
 {
-	/*åŠå¾„ã®åˆè¨ˆ*/
+	/*”¼Œa‚Ì‡Œv*/
 	float dist = this->radius + circle_->radius;
-	/*ä¸­å¿ƒåŒå£«ã®Xè»¸ä¸Šã®è·é›¢*/
+	/*’†S“¯m‚ÌX²ã‚Ì‹——£*/
 	float distx = this->center.x - circle_->center.x;
-	/*ä¸­å¿ƒåŒå£«ã®Yè»¸ä¸Šã®è·é›¢*/
+	/*’†S“¯m‚ÌY²ã‚Ì‹——£*/
 	float disty = this->center.y - circle_->center.y;
-	/*åŠå¾„ã‚ˆã‚Šã‚‚ä¸­å¿ƒç‚¹åŒå£«ã®è·é›¢ãŒçŸ­ã‹ã£ãŸã‚‰ã€€trueã€€*/
+	/*”¼Œa‚æ‚è‚à’†S“_“¯m‚Ì‹——£‚ª’Z‚©‚Á‚½‚ç@true@*/
 	return ((dist * dist) > (distx * distx + disty * disty));
 }
-/*å½“ãŸã‚Šåˆ¤å®š*/
+/*“–‚½‚è”»’è*/
 const bool Circle::CheckHit(const Point * const point_) const
 {
-	/*ä¸­å¿ƒã‹ã‚‰ç‚¹ã¾ã§ã®Xè»¸ä¸Šã®è·é›¢*/
+	/*’†S‚©‚ç“_‚Ü‚Å‚ÌX²ã‚Ì‹——£*/
 	float distx = center.x - point_->x;
-	/*ä¸­å¿ƒã‹ã‚‰ç‚¹ã¾ã§ã®Yè»¸ä¸Šã®è·é›¢*/
+	/*’†S‚©‚ç“_‚Ü‚Å‚ÌY²ã‚Ì‹——£*/
 	float disty = center.y - point_->y;
-	/*åŠå¾„ã‚ˆã‚Šã‚‚ç‚¹ã¾ã§ã®è·é›¢ãŒçŸ­ã‹ã£ãŸã‚‰ã€€trueã€€*/
+	/*”¼Œa‚æ‚è‚à“_‚Ü‚Å‚Ì‹——£‚ª’Z‚©‚Á‚½‚ç@true@*/
 	return ((radius * radius) > (distx * distx + disty * disty));
 }
 
-/*ç·šã‚¯ãƒ©ã‚¹*/
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*üƒNƒ‰ƒX*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Line::Line()
 	:
 	hPen(nullptr),
@@ -1940,7 +1940,7 @@ Line::Line()
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿*/
+/*ƒRƒ“ƒXƒgƒ‰ƒNƒ^*/
 Line::Line(const Point * const spos_, const Point * const epos_)
 	:
 	hPen(nullptr),
@@ -1959,7 +1959,7 @@ Line::Line(const Point * const spos_, const Point * const epos_)
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*å§‹ç‚¹è¨­å®š*/
+/*n“_İ’è*/
 void Line::SetPos(const Point * const spos_)
 {
 	epos = Point(epos.x - spos.x, epos.y - spos.y);
@@ -1968,7 +1968,7 @@ void Line::SetPos(const Point * const spos_)
 	epos.x += spos_->x;
 	epos.y += spos_->y;
 }
-/*å§‹ç‚¹ã¨çµ‚ç‚¹è¨­å®š*/
+/*n“_‚ÆI“_İ’è*/
 void Line::SetPos(const Point * const spos_, const Point * const epos_)
 {
 	spos = *spos_;
@@ -1983,7 +1983,7 @@ void Line::SetPos(const Point * const spos_, const Point * const epos_)
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*å§‹ç‚¹ã¨çµ‚ç‚¹è¨­å®š*/
+/*n“_‚ÆI“_İ’è*/
 void Line::SetPos(const Point * const spos_, const float angleD_, const float len_)
 {
 	spos = *spos_;
@@ -2002,7 +2002,7 @@ void Line::SetPos(const Point * const spos_, const float angleD_, const float le
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*å§‹ç‚¹è¨­å®š*/
+/*n“_İ’è*/
 void Line::SetSPos(const Point * const spos_)
 {
 	spos = *spos_;
@@ -2016,7 +2016,7 @@ void Line::SetSPos(const Point * const spos_)
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*çµ‚ç‚¹è¨­å®š*/
+/*I“_İ’è*/
 void Line::SetEPos(const Point * const epos_)
 {
 	epos = *epos_;
@@ -2030,26 +2030,26 @@ void Line::SetEPos(const Point * const epos_)
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*è‰²è¨­å®š*/
+/*Fİ’è*/
 const COLORREF Line::SetColor(const COLORREF color_)
 {
 	auto cOld = color;
 	color = color_;
 	return cOld;
 }
-/*è‰²è¨­å®š*/
+/*Fİ’è*/
 const COLORREF Line::SetColor(const byte r_, const byte g_, const byte b_)
 {
 	auto cOld = color;
 	color = RGB(r_, g_, b_);
 	return cOld;
 }
-/*å¹…è¨­å®š*/
+/*•İ’è*/
 void Line::SetWidth(const int width_)
 {
 	width = width_;
 }
-/*è§’åº¦è¨­å®š*/
+/*Šp“xİ’è*/
 void Line::SetDeg(const float angleD_)
 {
 	angle = angleD_;
@@ -2064,7 +2064,7 @@ void Line::SetDeg(const float angleD_)
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*é•·ã•è¨­å®š*/
+/*’·‚³İ’è*/
 void Line::SetLen(const float len_)
 {
 	len = len_;
@@ -2085,42 +2085,42 @@ void Line::SetLen(const float len_)
 
 	vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 }
-/*å§‹ç‚¹å–å¾—*/
+/*n“_æ“¾*/
 const Point &Line::GetSPos() const
 {
 	return spos;
 }
-/*çµ‚ç‚¹å–å¾—*/
+/*I“_æ“¾*/
 const Point &Line::GetEPos() const
 {
 	return epos;
 }
-/*è§’åº¦å–å¾—*/
+/*Šp“xæ“¾*/
 float Line::GetDeg() const
 {
 	return angle;
 }
-/*è§’åº¦å–å¾—*/
+/*Šp“xæ“¾*/
 float Line::GetDeg(const Line * const line_) const
 {
 	return RtoD(atan2(line_->spos.y - spos.y, line_->spos.x - spos.x));
 }
-/*è§’åº¦å–å¾—*/
+/*Šp“xæ“¾*/
 float Line::GetDeg(const Rec * const rec_) const
 {
 	return RtoD(atan2(rec_->GetPosY() - spos.y, rec_->GetPosX() - spos.x));
 }
-/*è§’åº¦å–å¾—*/
+/*Šp“xæ“¾*/
 float Line::GetDeg(const Point * const pos_) const
 {
 	return RtoD(atan2(pos_->y - spos.y, pos_->x - spos.x));
 }
-/*é•·ã•å–å¾—*/
+/*’·‚³æ“¾*/
 float Line::GetLen() const
 {
 	return len;
 }
-/*è·é›¢å–å¾—*/
+/*‹——£æ“¾*/
 float Line::GetDist(const Circle * const circle_) const
 {
 	const float dx = spos.x - circle_->GetPos().x;
@@ -2128,7 +2128,7 @@ float Line::GetDist(const Circle * const circle_) const
 
 	return Sqrt(dx * dx + dy * dy);
 }
-/*è·é›¢å–å¾—*/
+/*‹——£æ“¾*/
 float Line::GetDist(const Point * const pos_) const
 {
 	const float dx = spos.x - pos_->x;
@@ -2136,12 +2136,12 @@ float Line::GetDist(const Point * const pos_) const
 
 	return Sqrt(dx * dx + dy * dy);
 }
-/*ãƒ™ã‚¯ãƒˆãƒ«å–å¾—*/
+/*ƒxƒNƒgƒ‹æ“¾*/
 const Vector2 &Line::GetVec() const
 {
 	return vec2;
 }
-/*ç·šã¨å††ã®äº¤ç‚¹ã‚’å–å¾—*/
+/*ü‚Æ‰~‚ÌŒğ“_‚ğæ“¾*/
 const Point &Line::GetPOI(const Circle * const circle_)
 {
 	double xyr[3] = { circle_->GetPos().x, circle_->GetPos().y, circle_->GetRadius() };
@@ -2156,7 +2156,7 @@ const Point &Line::GetPOI(const Circle * const circle_)
 	inter = Point((float)*(xy + 0), (float)*(xy + 1));
 	return inter;
 }
-/*ç·šã¨ç·šã®äº¤ç‚¹ã‚’å–å¾—*/
+/*ü‚Æü‚ÌŒğ“_‚ğæ“¾*/
 const Point &Line::GetPOI(const Line * const line_)
 {
 	double line1[2][2] =
@@ -2178,7 +2178,7 @@ const Point &Line::GetPOI(const Line * const line_)
 	inter = Point((float)*(xy + 0), (float)*(xy + 1));
 	return inter;
 }
-/*ç§»å‹•*/
+/*ˆÚ“®*/
 void Line::Move(const float movespd_)
 {
 	const double ang = (double)DtoR(ModAngle(angle));
@@ -2194,7 +2194,7 @@ void Line::Move(const float movespd_)
 	//epos.x += cos(DtoR(angle)) * movespd_;
 	//epos.y += sin(DtoR(angle)) * movespd_;
 }
-/*æç”»*/
+/*•`‰æ*/
 void Line::Draw(const u_int penstyle_)
 {
 	const Point pS = Rec::AdjustCamPos(&spos);
@@ -2228,12 +2228,12 @@ void Line::Draw(const u_int penstyle_)
 	SelectObject(hOff, old);
 	DeleteObject(hPen);
 }
-/*å½“ãŸã‚Šåˆ¤å®š*/
+/*“–‚½‚è”»’è*/
 bool Line::CheckHit(const Line * const line_)
 {
 	return LineCheckCross(spos.x, spos.y, epos.x, epos.y, line_->spos.x, line_->spos.y, line_->epos.x, line_->epos.y);
 }
-/*å½“ãŸã‚Šåˆ¤å®š*/
+/*“–‚½‚è”»’è*/
 bool Line::CheckHit(const Rec * const rec_)
 {
 	return
@@ -2244,7 +2244,7 @@ bool Line::CheckHit(const Rec * const rec_)
 			LineCheckCross(spos.x, spos.y, epos.x, epos.y, rec_->GetBL().x, rec_->GetBL().y, rec_->GetTL().x, rec_->GetTL().y)
 			);
 }
-/*å½“ãŸã‚Šåˆ¤å®š*/
+/*“–‚½‚è”»’è*/
 bool Line::CheckHit(const Circle * const circle_)
 {
 	Vector2 vecA(circle_->GetPos().x - spos.x, circle_->GetPos().y - spos.y);
@@ -2263,12 +2263,12 @@ bool Line::CheckHit(const Circle * const circle_)
 }
 
 //
-//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 FileIO::FileIO()
 	:fp(nullptr)
 {
 }
-//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+//ƒfƒXƒgƒ‰ƒNƒ^
 FileIO::~FileIO()
 {
 	if (fp)
@@ -2309,7 +2309,7 @@ bool FileIO::Close()
 	return 1;
 }
 
-//ã‚¿ã‚¤ãƒãƒ¼ã‚¯ãƒ©ã‚¹
+//ƒ^ƒCƒ}[ƒNƒ‰ƒX
 //
 Timer::Timer(const int interval_)
 	:active(false), interval(interval_), cnt(0)

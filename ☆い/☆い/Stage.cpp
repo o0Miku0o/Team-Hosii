@@ -6,34 +6,34 @@
 
 namespace Stage
 {
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
 	{
 
 	}
-	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
+	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
 	void Obj::Init()
 	{
-		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		/*ƒ^ƒXƒN–¼İ’è*/
 		SetName(caTaskName);
-		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		/*ƒŠƒ\[ƒX¶¬*/
 
-		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+		/*ƒ^ƒXƒN‚Ì¶¬*/
 
-		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
+	/*ƒ^ƒXƒN‚ÌXVˆ—*/
 	void Obj::Update()
 	{
 		const auto kb = KB::GetState();
@@ -84,12 +84,12 @@ namespace Stage
 		}
 #endif
 	}
-	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
+	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
 	void Obj::Render()
 	{
 #ifdef _DEBUG
 		Font f;
-		std::string s = "ç¾åœ¨ã‚¹ãƒ†ãƒ¼ã‚¸";
+		std::string s = "Œ»İƒXƒe[ƒW";
 		if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 			s += to_string(manager->bStageNum);
 		}
