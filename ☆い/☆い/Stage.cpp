@@ -4,8 +4,6 @@
 #include "StageLoad.h"
 #include "Back.h"
 
-#include "SoundManager.h"
-
 namespace Stage
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
