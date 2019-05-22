@@ -4,11 +4,10 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
-
 #include "FadeInOut.h"
-
 #include "Back.h"
 #include "StageLoad.h"
+#include "Stage.h"
 
 namespace StageManager
 {
@@ -99,7 +98,7 @@ namespace StageManager
 		/*リソース生成*/
 		RB::Add<RS>("ステージ統括リソース");
 		/*タスクの生成*/
-		//Add<StageSelect::Obj>();
+
 		/*データの初期化*/
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
@@ -173,6 +172,45 @@ namespace StageManager
 					//	re->bScore = 2;
 					//}
 					iResultCnt = 0;
+				}
+			}
+		}
+
+		//BGMの振り分け
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			if (Find<Stage::Obj>("ステージタスク") != nullptr) {
+				if (bStageNum >= 30 && bStageNum < 40) {
+					if (res->wsBGM2.IsPlaying()) {
+						res->wsBGM2.Restart();
+					}
+					else {
+						if (res->wsBGM.IsPlaying())
+							res->wsBGM.Stop();
+						res->wsBGM2.PlayL();
+					}
+				}
+				else {
+					if (res->wsBGM.IsPlaying()) {
+						res->wsBGM.Restart();
+					}
+					else {
+						if (res->wsBGM2.IsPlaying()) {
+							res->wsBGM2.Stop();
+						}
+						res->wsBGM.PlayL();
+					}
+				}
+			}
+			if (Find<StageSelect::Obj>("ステージ選択タスク") != nullptr) {
+				if (res->wsBGM.IsPlaying()) {
+					res->wsBGM.Restart();
+				}
+				else {
+					if (res->wsBGM2.IsPlaying()) {
+						res->wsBGM2.Stop();
+					}
+					res->wsBGM.PlayL();
 				}
 			}
 		}

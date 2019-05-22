@@ -26,10 +26,7 @@ namespace Stage
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			res->wsBGM.Restart();
-		}
+		
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -59,7 +56,7 @@ namespace Stage
 				res->wsBGM.Pause();
 			}
 			Add<Back::Obj>();
-			Add<StageSelect::Obj>();	
+			Add<StageSelect::Obj>();
 			Pause(2);
 		}
 		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
@@ -67,7 +64,7 @@ namespace Stage
 			Add<StageLoad::Obj>();
 			Pause(2);
 		}
-
+#ifdef _DEBUG
 		if (kb->Now('T') == 1 || pad->NowBut(J_BUT_3) == 1) {
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
@@ -85,6 +82,7 @@ namespace Stage
 				}
 			}
 		}
+#endif
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
