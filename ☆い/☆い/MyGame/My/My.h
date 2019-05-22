@@ -554,6 +554,8 @@ public:
 	void Restart();
 	/*停止*/
 	void Stop();
+
+	const bool IsPlaying() const;
 };
 
 /*JoyPadの方向キー（スティック）*/

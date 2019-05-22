@@ -42,4 +42,4 @@ A 36  500   100 aMS aBDR aFDR aADR
      1300   975 aMS aBDL aFDL aADL
      1500   975 aMS aBUR aFUR aAUR
 
-R 1 41
+R 1 255

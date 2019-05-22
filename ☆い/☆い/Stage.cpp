@@ -6,37 +6,34 @@
 
 namespace Stage
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
 		SetName(caTaskName);
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
-		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
-		{
-			res->wsBGM.Restart();
-		}
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		const auto kb = KB::GetState();
@@ -59,7 +56,7 @@ namespace Stage
 				res->wsBGM.Pause();
 			}
 			Add<Back::Obj>();
-			Add<StageSelect::Obj>();	
+			Add<StageSelect::Obj>();
 			Pause(2);
 		}
 		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
@@ -67,7 +64,7 @@ namespace Stage
 			Add<StageLoad::Obj>();
 			Pause(2);
 		}
-
+#ifdef _DEBUG
 		if (kb->Now('T') == 1 || pad->NowBut(J_BUT_3) == 1) {
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
@@ -85,13 +82,14 @@ namespace Stage
 				}
 			}
 		}
+#endif
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 #ifdef _DEBUG
 		Font f;
-		std::string s = "Œ»İƒXƒe[ƒW";
+		std::string s = "ç¾åœ¨ã‚¹ãƒ†ãƒ¼ã‚¸";
 		if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 			s += to_string(manager->bStageNum);
 		}

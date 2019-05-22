@@ -113,8 +113,9 @@ namespace StageLoad
 					ma->bNextStage = sResult.iNextStage;
 				}
 			}
+
 			isLoad = true;
-			Remove(this);
+
 			Add<Stage::Obj>();
 			Add<Rail::Obj>();
 			/*‚½‚ß‚µ*
@@ -128,7 +129,6 @@ namespace StageLoad
 			/**/
 			if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 			{
-				//fade->bActive = false;
 				fade->Start();
 				fade->bIsIn = false;
 			}
@@ -137,8 +137,7 @@ namespace StageLoad
 				fade = Add<FadeInOut::Obj>();
 				fade->bIsIn = false;
 			}
-			//auto fade = Add<FadeInOut::Obj>();
-			//fade->bIsIn = false;
+			Remove(this);
 		}
 	}
 	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
