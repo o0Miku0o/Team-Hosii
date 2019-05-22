@@ -697,6 +697,10 @@ void WSound::Stop()
 	bIsPlaying = false;
 	waveOutReset(hWaveOut);
 }
+const bool WSound::IsPlaying() const
+{
+	return bIsPlaying;
+}
 
 long JoyPad::lStickTolerance = 2000;
 
@@ -2204,7 +2208,7 @@ void Line::Draw(const u_int penstyle_)
 
 	MoveToEx(hOff, (int)pS.x, (int)pS.y, nullptr);
 	LineTo(hOff, (int)pE.x, (int)pE.y);
-
+	SetBkMode(hOff, TRANSPARENT);
 	SelectObject(hOff, old);
 	DeleteObject(hPen);
 }

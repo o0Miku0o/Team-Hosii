@@ -111,14 +111,14 @@ namespace StageLoad
 					ma->bNextStage = sResult.iNextStage;
 				}
 			}
+
 			isLoad = true;
-			Remove(this);
+
 			Add<Stage::Obj>();
 			Add<Rail::Obj>();
 
 			if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク"))
 			{
-				//fade->bActive = false;
 				fade->Start();
 				fade->bIsIn = false;
 			}
@@ -127,8 +127,7 @@ namespace StageLoad
 				fade = Add<FadeInOut::Obj>();
 				fade->bIsIn = false;
 			}
-			//auto fade = Add<FadeInOut::Obj>();
-			//fade->bIsIn = false;
+			Remove(this);
 		}
 	}
 	/*タスクの描画処理*/

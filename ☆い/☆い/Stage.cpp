@@ -4,6 +4,8 @@
 #include "StageLoad.h"
 #include "Back.h"
 
+#include "SoundManager.h"
+
 namespace Stage
 {
 	/*リソースの初期化処理*/
@@ -26,10 +28,7 @@ namespace Stage
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			res->wsBGM.Restart();
-		}
+		
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -59,7 +58,7 @@ namespace Stage
 				res->wsBGM.Pause();
 			}
 			Add<Back::Obj>();
-			Add<StageSelect::Obj>();	
+			Add<StageSelect::Obj>();
 			Pause(2);
 		}
 		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
