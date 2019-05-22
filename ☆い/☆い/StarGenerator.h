@@ -5,6 +5,9 @@ using namespace std;
 
 namespace StarGenerator
 {
+	const char caTaskName[] = { "星生成タスク" };
+	const char caResName[] = { "星生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

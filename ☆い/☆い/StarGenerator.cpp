@@ -15,7 +15,7 @@ namespace StarGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("星生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/

@@ -262,7 +262,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 				fZoom = Max(fZoom - 0.2f, 1.f);
 			}
 			if (kb.Down(VK_BACK)) {
-				if (auto sm = TaskBase::Find<StageManager::Obj>("ステージ統括タスク"))
+				if (auto sm = TaskBase::Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					sm->bIsDebug = !sm->bIsDebug;
 				}

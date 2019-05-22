@@ -3,6 +3,9 @@
 
 namespace Cursor
 {
+	const char caTaskName[] = { "カーソルタスク" };
+	const char caResName[] = { "カーソルリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

@@ -11,24 +11,24 @@
 
 namespace StageSelect
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒXƒe[ƒW‘I‘ğƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName(caTaskName);
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 		Add<StageSelectObjGalaxy::Obj>();
 		Add<StageSelectObjBH::Obj>();
 		Add<StageSelectObjAsteroid::Obj>();
@@ -38,37 +38,31 @@ namespace StageSelect
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
-		//tamesu;
-		//if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
-		//{
-		//	res->wsBGM.Restart();
-		//}
-
-		if (auto sm = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN"))
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
 			sm->bStageNum = 11;
 		}
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		//tamesi
 		const auto kb = KB::GetState();
 		if (kb->Now('O') == 1)
 		{
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
 			return;
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 

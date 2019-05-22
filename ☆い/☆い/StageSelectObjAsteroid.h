@@ -3,6 +3,9 @@
 
 namespace StageSelectObjAsteroid
 {
+	const char caTaskName[] = { "小惑星タスク" };
+	const char caResName[] = { "小惑星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

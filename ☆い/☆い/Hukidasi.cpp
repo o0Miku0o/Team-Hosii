@@ -8,25 +8,30 @@ namespace Hukidasi
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-
+		iTextImg.ImageCreate("./data/image/other/stagelogo.bmp");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
-
+		iTextImg.Release();
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("吹き出しタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<RS>("吹き出しリソース");
+		RB::Add<RS>(caResName);
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rHukidasi = Rec();
-		pFontPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) - 8.f);
+		faWidth[0] = 16.f * 4;
+		faWidth[1] = 16.f * 6;
+		faWidth[2] = 16.f * 8;
+		faWidth[3] = 16.f * 6;
+		faWidth[4] = 16.f * 7;
+
+		rTextBox.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) + 70.f));
 		fAddScale = 0.f;
 		fWidthMax = 1800.f;
 		fHeightMax = 400.f;
@@ -37,13 +42,13 @@ namespace Hukidasi
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		RB::Remove("吹き出しリソース");
+		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
 		Resize();
-		auto sp = Find<StagePicture::Obj>("ステージピクチャータスク");
+		auto sp = Find<StagePicture::Obj>(StagePicture::caTaskName);
 		if (rHukidasi.GetW() >= fWidthMax && rHukidasi.GetH() >= fHeightMax)
 		{
 			if (!sp)
@@ -52,7 +57,7 @@ namespace Hukidasi
 				const float fHalfHeight = Rec::Win.b * 0.5f;
 				const float fQuarterWidth = fHalfWidth * 0.5f;
 				const float fQuarterHeight = fHalfHeight * 0.5f;
-				constexpr float cfDist = 30.f;
+				constexpr float cfDist = -40.f;
 				const Point pPosArr[3] =
 				{
 					Point(fQuarterWidth, fHalfHeight + fQuarterHeight - cfDist),
@@ -101,7 +106,7 @@ namespace Hukidasi
 		{
 			if (sp)
 			{
-				RemoveAll("ステージピクチャータスク");
+				RemoveAll(StagePicture::caTaskName);
 				//Remove(sp);
 			}
 			bSetPictureCount = 0;
@@ -112,7 +117,7 @@ namespace Hukidasi
 	{
 		if (!rHukidasi.SizeZero())
 		{
-			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				Frec src(16.f * 59, 16.f * 0, 16.f, 16.f);
 				rHukidasi.Draw(&res->iStageImg, &src, false);
@@ -121,31 +126,12 @@ namespace Hukidasi
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
 		if (rHukidasi.GetH() >= fHeightMax)
 		{
-			Font f;
-			FontOP fop = FOP_DEFAULT;
-			fop.Weight = FW_HEAVY;
-			f.FontCreate("メイリオ", 100, 0.f, &fop);
-			f.SetColor(RGB(0, 0, 0));
-
-			//enum StageGroup
-			//{
-			//	GROUP_EARTH,
-			//	GROUP_ASTEROID,
-			//	GROUP_GALAXY,
-			//	GROUP_URANUS,
-			//	GROUP_BLACKHOLE
-			//};
-
-			/*仮*/ static const std::string sStageName[5] =
+			if (auto res = RB::Find<Hukidasi::RS>(caResName))
 			{
-				"チキュウ",
-				"メテオベルト",//"アステロイドベルト",
-				"エイリアンゾーン",
-				"フラジャイル",
-				"ブラックホール"
-			};
-			const float fDecPosX = sStageName[sGroup].size() * 16.f;
-			f.Draw(&Point(pFontPos.x - fDecPosX, pFontPos.y), sStageName[sGroup].c_str());
+				Frec src(0.f, 16.f * sGroup, faWidth[sGroup], 16.f);
+				rTextBox.Scaling(faWidth[sGroup] * 6.f, 16.f * 6.f);
+				rTextBox.Draw(&res->iTextImg, &src, false);
+			}
 		}
 	}
 	/*吹き出しのサイズ変更*/

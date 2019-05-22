@@ -17,7 +17,7 @@ namespace FadeInOut
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("フェイドインアウトタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
@@ -92,7 +92,7 @@ namespace FadeInOut
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース")) {
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName)) {
 			for (int i = 0; i < 4; ++i) {
 				Frec src(16, 0, 16, 16);
 				rSquere[i].Draw(&res->iStageImg, &src, false);

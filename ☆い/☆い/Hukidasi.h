@@ -3,6 +3,9 @@
 
 namespace Hukidasi
 {
+	const char caTaskName[] = { "吹き出しタスク" };
+	const char caResName[] = { "吹き出しリソース" };
+
 	enum StageGroup
 	{
 		GROUP_EARTH,
@@ -16,6 +19,7 @@ namespace Hukidasi
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Image iTextImg;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -34,8 +38,9 @@ namespace Hukidasi
 		~Obj() {}
 	private:
 		StageGroup sGroup;
+		float faWidth[5];
 		Rec rHukidasi;
-		Point pFontPos;
+		Rec rTextBox;
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;

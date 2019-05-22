@@ -21,7 +21,7 @@ namespace BeamGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ビーム生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -29,7 +29,7 @@ namespace BeamGenerator
 		/*データの初期化*/
 		bBeamCount = 0;
 
-		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
 			++sm->usBeamCount;
 		}
@@ -42,7 +42,7 @@ namespace BeamGenerator
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (auto player = Find<Player::Obj>("プレイヤータスク"))
+		if (auto player = Find<Player::Obj>(Player::caTaskName))
 		{
 			if (bBeamCount > 5)
 			{
@@ -58,7 +58,7 @@ namespace BeamGenerator
 			beam->rHitBase.SetPos(&pPos);
 			beam->rHitBase.SetDeg(player->rBase.GetDeg() + 180);
 		}
-		else if (Find<Title::Obj>("タイトルタスク"))
+		else if (Find<Title::Obj>(Title::caTaskName))
 		{
 			if (bBeamCount > 13)
 			{

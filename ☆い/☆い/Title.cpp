@@ -34,10 +34,10 @@ namespace Title
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("タイトルタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<RS>("タイトルリソース");
-		RB::Add<StageManager::RS>("ステージ統括リソース");
+		RB::Add<RS>(caResName);
+		RB::Add<StageManager::RS>(StageManager::caResName);
 		/*タスクの生成*/
 		CreateBeam();
 
@@ -59,7 +59,7 @@ namespace Title
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		RB::Remove("タイトルリソース");
+		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -67,14 +67,14 @@ namespace Title
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
-		auto bm = Find<Beam::Obj>("ビームタスク");
+		auto bm = Find<Beam::Obj>(Beam::caTaskName);
 		if (!bm) return;
 
 		bShineFlag = false;
 		if (bm->vSpd != Vector2::right * 20.f && bm->rHitBase.GetPosX() <= Rec::Win.l + 600.f)
 		{
 			bShineFlag = true;
-			Pause("ビームタスク");
+			Pause(Beam::caTaskName);
 		}
 
 		if (bShineFlag)
@@ -88,7 +88,7 @@ namespace Title
 
 			MeteoUpdate();
 
-			if (Find<Cursor::Obj>("カーソルタスク")) return;
+			if (Find<Cursor::Obj>(Cursor::caTaskName)) return;
 
 			CreateCursor();
 
@@ -103,7 +103,7 @@ namespace Title
 	{
 		DrawMeteo();
 
-		if (auto s = RB::Find<Title::RS>("タイトルリソース"))
+		if (auto s = RB::Find<Title::RS>(caResName))
 		{
 			Frec src(0.f, 0.f, 64.f, 64.f);
 			DrawLogo(s, &src);
@@ -176,7 +176,7 @@ namespace Title
 	/*メテオの描画*/
 	void Obj::DrawMeteo()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
 			rMeteo.Draw(&res->iStageImg, &src, true);
@@ -220,7 +220,7 @@ namespace Title
 		auto sg = Add<StarGenerator::Obj>();
 		sg->Bridge(1, { 24 }, { 46 }, { Point(1190.f, Rec::Win.b * 0.43f) });
 		//sg->Bridge(1, &iChange, &Point(1190.f, Rec::Win.b * 0.43f));
-		if (auto st = Find<Star::Obj>("星タスク"))
+		if (auto st = Find<Star::Obj>(Star::caTaskName))
 		{
 			st->rStar.Scaling(100 * 1.2f, 100 * 1.2f);
 		}
@@ -228,7 +228,7 @@ namespace Title
 	/*BGMの再生*/
 	void Obj::PlayBgm()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.PlayL();
 		}

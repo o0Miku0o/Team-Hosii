@@ -3,6 +3,9 @@
 
 namespace Rail
 {
+	const char caTaskName[] = { "レールタスク" };
+	const char caResName[] = { "レールリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

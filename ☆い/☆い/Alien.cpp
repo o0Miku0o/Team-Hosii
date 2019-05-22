@@ -19,7 +19,7 @@ namespace Alien
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("宇宙人タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -46,9 +46,9 @@ namespace Alien
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (Find<Beam::Obj>("ビームタスク"))
+		if (Find<Beam::Obj>(Beam::caTaskName))
 		{
-			for (auto &bm : FindAll<Beam::Obj>("ビームタスク"))
+			for (auto &bm : FindAll<Beam::Obj>(Beam::caTaskName))
 			{
 				BeamCheckhit(bm);
 			}
@@ -79,7 +79,7 @@ namespace Alien
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iOffSetX + iAddOffSet), 16.f * iOffSetY, 16, 16);
 
@@ -217,7 +217,7 @@ namespace Alien
 	}
 	void FGReflectDR(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}
@@ -227,7 +227,7 @@ namespace Alien
 	}
 	void FGReflectUR(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}
@@ -237,7 +237,7 @@ namespace Alien
 	}
 	void FGReflectDL(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}
@@ -247,7 +247,7 @@ namespace Alien
 	}
 	void FGReflectUL(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}

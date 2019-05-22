@@ -3,6 +3,9 @@
 
 namespace Beam
 {
+	const char caTaskName[] = { "ビームタスク" };
+	const char caResName[] = { "ビームリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

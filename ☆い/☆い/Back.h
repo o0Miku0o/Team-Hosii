@@ -3,6 +3,9 @@
 
 namespace Back
 {
+	const char caTaskName[] = { "背景タスク" };
+	const char caResName[] = { "背景リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

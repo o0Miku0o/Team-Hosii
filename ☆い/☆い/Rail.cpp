@@ -16,9 +16,9 @@ namespace Rail
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("レールタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<Rail::RS>("レールリソース");
+		RB::Add<Rail::RS>(caResName);
 		/*タスクの生成*/
 
 		/*データの初期化*/
@@ -29,7 +29,7 @@ namespace Rail
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		RB::Remove("レールリソース");
+		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -39,7 +39,7 @@ namespace Rail
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<Rail::RS>("レールリソース"))
+		if (auto res = RB::Find<Rail::RS>(caResName))
 		{
 			rRailBase.Draw(&res->iRailImg, false);
 		}

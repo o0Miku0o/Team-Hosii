@@ -20,7 +20,7 @@ namespace Star
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("星タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -57,7 +57,7 @@ namespace Star
 			EffectInit();
 		}
 		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
-		auto vFgm = FindAll <Fragment::Obj>("欠片タスク");
+		auto vFgm = FindAll <Fragment::Obj>(Fragment::caTaskName);
 		if (vFgm.size())
 		{
 			for (auto &vf : vFgm)
@@ -83,7 +83,7 @@ namespace Star
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			//Frec src(16.f * iChange, 0, 16.f, 16.f);
 			Frec src(16.f * starColor, 0, 16.f, 16.f);
@@ -97,7 +97,7 @@ namespace Star
 			src = Frec(16.f * aAnimetor.GetSrcX(), 16.f * aAnimetor.GetSrcY(), 16.f, 16.f);
 
 			//rStar.DrawAlpha(&res->iStageImg, &src, 100);
-			if (Find<Result::Obj>("リザルトタスク") == nullptr && Find<Title::Obj>("タイトルタスク") == nullptr)
+			if (Find<Result::Obj>(Result::caTaskName) == nullptr && Find<Title::Obj>(Title::caTaskName) == nullptr)
 			{
 				Frec src2(16.f*starCircle, 0, 16.f, 16.f);
 				rStarCircle.DrawAlpha(&res->iStageImg, &src2, iAlpha);
@@ -230,7 +230,7 @@ namespace Star
 	}
 
 	void Obj::SoundPlay(const int SoundNum_) {
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース")) {
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName)) {
 			switch (SoundNum_)
 			{
 			case Full:
@@ -270,7 +270,7 @@ namespace Star
 			if (starSound == Full) {
 				SoundPlay(Full);
 				Remove(fr);
-				if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+				if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					++sm->bClearFragmentNum;
 				}

@@ -6,42 +6,42 @@
 
 namespace Stage
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒXƒe[ƒWƒ^ƒXƒN");
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName(caTaskName);
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
-		
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
+
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		const auto kb = KB::GetState();
 		const auto pad = JoyPad::GetState(0);
 		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
-			if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsBGM.Pause();
 			}
@@ -50,8 +50,8 @@ namespace Stage
 		}
 
 		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
-			if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsBGM.Pause();
 			}
@@ -60,14 +60,14 @@ namespace Stage
 			Pause(2);
 		}
 		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
 		}
 #ifdef _DEBUG
 		if (kb->Now('T') == 1 || pad->NowBut(J_BUT_3) == 1) {
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
-			if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 				manager->bStageNum = manager->bNextStage;
 				if (manager->bStageNum == 255) {
 					RemoveAll();
@@ -84,13 +84,13 @@ namespace Stage
 		}
 #endif
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 #ifdef _DEBUG
 		Font f;
-		std::string s = "Œ»İƒXƒe[ƒW";
-		if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN")) {
+		std::string s = "ç¾åœ¨ã‚¹ãƒ†ãƒ¼ã‚¸";
+		if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 			s += to_string(manager->bStageNum);
 		}
 		f.Draw(&Point(960, 10), s.c_str());

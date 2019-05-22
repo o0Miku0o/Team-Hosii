@@ -5,6 +5,9 @@ using namespace std;
 
 namespace FragmentGenerator
 {
+	const char caTaskName[] = { "欠片生成タスク" };
+	const char caResName[] = { "欠片生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

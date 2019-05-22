@@ -3,6 +3,9 @@
 
 namespace Jupitor
 {
+	const char caTaskName[] = { "木星タスク" };
+	const char caResName[] = { "木星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

@@ -21,7 +21,7 @@ namespace Meteo
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("隕石タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
@@ -40,11 +40,11 @@ namespace Meteo
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (auto beam = Find<Beam::Obj>("ビームタスク"))
+		if (auto beam = Find<Beam::Obj>(Beam::caTaskName))
 		{
 			Obj::BeamCheckhit(beam);
 		}
-		auto vFgm = FindAll <Fragment::Obj>("欠片タスク");
+		auto vFgm = FindAll <Fragment::Obj>(Fragment::caTaskName);
 		if (vFgm.size())
 		{
 			for (auto &vf : vFgm)
@@ -99,7 +99,7 @@ namespace Meteo
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16 * 4, 16, 16, 16);
 			rMeteo.Draw(&res->iStageImg, &src, true);

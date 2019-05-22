@@ -5,6 +5,9 @@ using namespace std;
 
 namespace BreakStarGenerator
 {
+	const char caTaskName[] = { "壊す星生成タスク" };
+	const char caResName[] = { "壊す星生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

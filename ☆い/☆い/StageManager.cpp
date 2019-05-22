@@ -94,12 +94,13 @@ namespace StageManager
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ステージ統括タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<RS>("ステージ統括リソース");
+		RB::Add<RS>(caResName);
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		pTutorialPos = Point(0.f, 0.f);
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
@@ -115,11 +116,16 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		if (auto pl = Find<Player::Obj>(Player::caTaskName))
+		{
+			pTutorialPos.x = pl->pPos.x + 100.f;
+			pTutorialPos.y = pl->pPos.y - 100.f;
+		}
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
-			auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク");
+			auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName);
 			++iResultCnt;
 			if (iResultCnt == 1) {
 				if (fade)
@@ -140,11 +146,11 @@ namespace StageManager
 				{
 					bClearFragmentNum = 0;
 
-					RemoveAll({ "ステージ統括タスク", "フェイドインアウトタスク" }, NOT_REMOVE_NAME);
+					RemoveAll({ caTaskName, FadeInOut::caTaskName }, NOT_REMOVE_NAME);
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 
 					//			Add<Back::Obj>();
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					if (auto manager = Find<StageManager::Obj>(caTaskName)) {
 						manager->bStageNum = manager->bNextStage;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
