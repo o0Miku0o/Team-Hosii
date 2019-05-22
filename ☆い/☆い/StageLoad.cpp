@@ -16,6 +16,7 @@
 #include "FadeInOut.h"
 #include "Gas.h"
 #include "Rail.h"
+#include "Tutorial.h"
 #include <fstream>
 
 namespace StageLoad
@@ -34,13 +35,14 @@ namespace StageLoad
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ロードステージタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
 		Add<Back::Obj>();
 		Add<Gas::Obj>();
 		Add<Player::Obj>();
+
 		isLoad = false;
 		sFragement.state = false;
 		sStar.state = false;
@@ -60,7 +62,7 @@ namespace StageLoad
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+		if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 			bStageNum = manager->bStageNum;
 		}
 
@@ -104,7 +106,7 @@ namespace StageLoad
 				bh->Bridge(sblackhole.iNum, sblackhole.vpPos, sblackhole.vpSize, sblackhole.viMode);
 			}
 			if (sResult.state) {
-				if (auto ma = Find<StageManager::Obj>("ステージ統括タスク")) {
+				if (auto ma = Find<StageManager::Obj>(StageManager::caTaskName)) {
 					ma->usBeamCount = 0;
 					ma->bClearFragmentNum = 0;
 					ma->bClearFragmentNumMax = sResult.iFragement;
@@ -115,8 +117,16 @@ namespace StageLoad
 			Remove(this);
 			Add<Stage::Obj>();
 			Add<Rail::Obj>();
-
-			if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク"))
+			/*ためし*
+			const Point *ppTutorialPos = nullptr;
+			if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+			{
+				ppTutorialPos = &sm->pTutorialPos;
+			}
+			auto tu = Add<Tutorial::Obj>();
+			tu->SetParam(600, Tutorial::Ttl_State::TTS_BUTTON, Tutorial::Buttons::BTN_R, &Point(50.f, 50.f), ppTutorialPos);
+			/**/
+			if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 			{
 				//fade->bActive = false;
 				fade->Start();

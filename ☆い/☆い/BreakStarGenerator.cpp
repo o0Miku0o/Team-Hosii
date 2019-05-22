@@ -15,7 +15,7 @@ namespace BreakStarGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("壊す星生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/

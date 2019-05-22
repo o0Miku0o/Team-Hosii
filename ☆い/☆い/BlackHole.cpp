@@ -1,5 +1,4 @@
 #include "BlackHole.h"
-#include "Game.h"
 #include "Beam.h"
 #include "StageManager.h"
 #include "BeamGenerator.h"
@@ -21,7 +20,7 @@ namespace BlackHole
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ブラックホールタスク");
+		SetName(caTaskName);
 
 		/*リソース生成*/
 
@@ -48,11 +47,11 @@ namespace BlackHole
 			bMove = IsMove();
 		}
 
-		if (auto beam = Find<Beam::Obj>("ビームタスク")) {
+		if (auto beam = Find<Beam::Obj>(Beam::caTaskName)) {
 			CheckHitBeam(beam);
 		}
 
-		auto frag = FindAll<Fragment::Obj>("欠片タスク");
+		auto frag = FindAll<Fragment::Obj>(Fragment::caTaskName);
 		for (const auto fg : frag) {
 			CheckHitFragment(fg);
 
@@ -69,7 +68,7 @@ namespace BlackHole
 	/*タスクごとの描画処理*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース")) {
+		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName)) {
 			rBlackHole.Draw(&stageRes->iStageImg, &Frec(192, 0, 16, 16), true);
 		}
 		cOutCircle.Draw();

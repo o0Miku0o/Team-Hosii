@@ -3,6 +3,9 @@
 
 namespace BlackHole
 {
+	const char caTaskName[] = { "ブラックホールタスク" };
+	const char caResName[] = { "ブラックホールリソース" };
+
 	/*リソース*/
 	class RS : public ResourceBase
 	{

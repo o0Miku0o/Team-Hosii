@@ -6,6 +6,9 @@ using namespace std;
 
 namespace StageLoad
 {
+	const char caTaskName[] = { "ロードステージタスク" };
+	const char caResName[] = { "ロードステージリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

@@ -15,7 +15,7 @@ namespace FragmentGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("欠片生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/

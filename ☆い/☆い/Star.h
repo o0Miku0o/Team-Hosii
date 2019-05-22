@@ -3,6 +3,9 @@
 
 namespace Star
 {
+	const char caTaskName[] = { "星タスク" };
+	const char caResName[] = { "星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

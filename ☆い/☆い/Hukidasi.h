@@ -3,6 +3,9 @@
 
 namespace Hukidasi
 {
+	const char caTaskName[] = { "吹き出しタスク" };
+	const char caResName[] = { "吹き出しリソース" };
+
 	enum StageGroup
 	{
 		GROUP_EARTH,

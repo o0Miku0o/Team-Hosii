@@ -3,6 +3,9 @@
 
 namespace Player
 {
+	const char caTaskName[] = { "プレイヤータスク" };
+	const char caResName[] = { "プレイヤーリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -26,6 +29,7 @@ namespace Player
 		Line lGuideLine;
 		Line lGuideLineFgm;
 		Point pStandardPoint;
+		Point pPos;
 		float fSPDist;
 		float fSPAngle;
 		float fPAngle;

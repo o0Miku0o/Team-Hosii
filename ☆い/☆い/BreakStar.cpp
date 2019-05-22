@@ -22,7 +22,7 @@ namespace BreakStar
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("壊す星タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -44,11 +44,11 @@ namespace BreakStar
 	{
 		if (!bHitAct && !bBlackMode)
 		{
-			if (auto beam = Find<Beam::Obj>("ビームタスク"))
+			if (auto beam = Find<Beam::Obj>(Beam::caTaskName))
 			{
 				BeamCheckHit(beam);
 			}
-			auto vFgm = FindAll <Fragment::Obj>("欠片タスク");
+			auto vFgm = FindAll <Fragment::Obj>(Fragment::caTaskName);
 			if (vFgm.size())
 			{
 				for (auto &vf : vFgm)
@@ -57,7 +57,7 @@ namespace BreakStar
 				}
 			}
 		}
-		if (!Find<Beam::Obj>("ビームタスク"))
+		if (!Find<Beam::Obj>(Beam::caTaskName))
 		{
 			bHitAct = false;
 		}
@@ -69,7 +69,7 @@ namespace BreakStar
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			if (bBlackMode)
 			{
@@ -128,11 +128,11 @@ namespace BreakStar
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cHitbase.CheckHit(&cHit))
 		{
-			if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+			if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 			{
 				--sm->usBeamCount;
 			}
-			auto res = RB::Find<StageManager::RS>("ステージ統括リソース");
+			auto res = RB::Find<StageManager::RS>(StageManager::caResName);
 			if (!bBlackMode)
 			{
 				if (iChange <= 36)
@@ -160,7 +160,7 @@ namespace BreakStar
 					Remove(this);
 				}
 			}
-			RemoveAll("ビームタスク");
+			RemoveAll(Beam::caTaskName);
 			bHitAct = true;
 		}
 	}
@@ -172,7 +172,7 @@ namespace BreakStar
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cHitbase.CheckHit(&cHit))
 		{
-			auto res = RB::Find<StageManager::RS>("ステージ統括リソース");
+			auto res = RB::Find<StageManager::RS>(StageManager::caResName);
 			if (iChange <= 36)
 			{
 				if (res)

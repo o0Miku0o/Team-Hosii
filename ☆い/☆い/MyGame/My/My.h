@@ -283,6 +283,11 @@ inline const float randf(const int n)
 {
 	return float(rand() % n);
 }
+/*ファルスかどうか*/
+inline constexpr bool IsFalse(const bool bResult)
+{
+	return !bResult;
+}
 //Myネームスペース内のクラスで使用する透明色
 constexpr COLORREF TRANSPARENT_COLOR = RGB(255, 0, 255);
 constexpr COLORREF WHITE_COLOR = RGB(255, 255, 255);

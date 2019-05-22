@@ -3,6 +3,9 @@
 
 namespace BreakStar
 {
+	const char caTaskName[] = { "壊す星タスク" };
+	const char caResName[] = { "壊す星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

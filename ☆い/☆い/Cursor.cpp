@@ -27,7 +27,7 @@ namespace Cursor
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("カーソルタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -95,7 +95,7 @@ namespace Cursor
 			}
 			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
 		}
-		if (auto ti = Find<Title::Obj>("タイトルタスク"))
+		if (auto ti = Find<Title::Obj>(Title::caTaskName))
 		{
 			ti->fStartImgSrcY = 0.f;
 			ti->rStart.Scaling(16 * 30.f, 16 * 5.f);
@@ -105,7 +105,7 @@ namespace Cursor
 				ti->rStart.Scaling(16 * 30.f * 1.5f, 16 * 5.f * 1.5f);
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<StageSelect::Obj>();
 					Pause(2);
@@ -119,7 +119,7 @@ namespace Cursor
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
 		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
-		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
+		if (auto us = Find<StageSelectObjEarth::Obj>(StageSelectObjEarth::caTaskName))
 		{
 			us->rEarth.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rEarth.GetPos(), us->rEarth.GetW() * 0.5f);
@@ -132,8 +132,8 @@ namespace Cursor
 
 				//試遊会
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 11;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -150,7 +150,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjAsteroid::Obj>("小惑星タスク"))
+		if (auto us = Find<StageSelectObjAsteroid::Obj>(StageSelectObjAsteroid::caTaskName))
 		{
 			us->rAsteroid.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rAsteroid.GetPos(), us->rAsteroid.GetW() * 0.5f);
@@ -163,8 +163,8 @@ namespace Cursor
 
 				//試遊会
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 21;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -181,7 +181,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjGalaxy::Obj>("銀河タスク"))
+		if (auto us = Find<StageSelectObjGalaxy::Obj>(StageSelectObjGalaxy::caTaskName))
 		{
 			us->rGalaxy.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rGalaxy.GetPos(), us->rGalaxy.GetW() * 0.5f);
@@ -194,8 +194,8 @@ namespace Cursor
 
 				//試遊会
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 31;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -212,7 +212,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjUS::Obj>("天王星タスク"))
+		if (auto us = Find<StageSelectObjUS::Obj>(StageSelectObjUS::caTaskName))
 		{
 			us->rUranus.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rUranus.GetPos(), us->rUranus.GetW() * 0.5f);
@@ -225,8 +225,8 @@ namespace Cursor
 
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 41;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -243,7 +243,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto us = Find<StageSelectObjBH::Obj>("ブラックホール地帯タスク"))
+		if (auto us = Find<StageSelectObjBH::Obj>(StageSelectObjBH::caTaskName))
 		{
 			us->rBH.Scaling(16 * 10, 16 * 10);
 			Circle cHit(&us->rBH.GetPos(), us->rBH.GetW() * 0.5f);
@@ -256,8 +256,8 @@ namespace Cursor
 
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 51;
 						if (manager->bStageNum == 255) {
 							RemoveAll();
@@ -274,7 +274,7 @@ namespace Cursor
 				}
 			}
 		}
-		if (auto hu = Find<Hukidasi::Obj>("吹き出しタスク"))
+		if (auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName))
 		{
 			if (bFlag)
 			{
@@ -294,7 +294,7 @@ namespace Cursor
 	void Obj::Render()
 	{
 		//33
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * 32, 16.f, 15.f, 15.f);
 			rCursorBase.Draw(&res->iStageImg, &src);

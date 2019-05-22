@@ -17,7 +17,7 @@ namespace BlackHoleGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ブラックホール生成タスク");
+		SetName(caTaskName);
 
 		/*リソース生成*/
 
@@ -30,7 +30,7 @@ namespace BlackHoleGenerator
 	/*タスクごとの更新処理*/
 	void Obj::Update()
 	{
-		Remove(this);
+		//Remove(this);
 	}
 	/*タスクごとの描画処理*/
 	void Obj::Render()
@@ -51,6 +51,7 @@ namespace BlackHoleGenerator
 				blackHole->pEndPos = *(pMovePos + i);
 			}
 		}
+		Remove(this);
 	}
 	void Obj::Bridge(const int iNum, const vector<Point> pPos, const vector<float> pSize, const vector<int> mode, const vector<Point>* pMovePos) {
 		for (int i = 0; i < iNum; i++) {
@@ -65,5 +66,6 @@ namespace BlackHoleGenerator
 				blackHole->pEndPos = pMovePos->at(i);
 			}
 		}
+		Remove(this);
 	}
 }

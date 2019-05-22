@@ -26,7 +26,7 @@ namespace StageSelect
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ステージ選択タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -40,11 +40,11 @@ namespace StageSelect
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 
 		/*データの初期化*/
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.Restart();
 		}
-		if (auto sm = Find<StageManager::Obj>("ステージ統括タスク"))
+		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
 			sm->bStageNum = 11;
 
@@ -62,7 +62,7 @@ namespace StageSelect
 		const auto kb = KB::GetState();
 		if (kb->Now('O') == 1)
 		{
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
 			return;

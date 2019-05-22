@@ -23,7 +23,7 @@ namespace Player
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("プレイヤータスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -49,7 +49,7 @@ namespace Player
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (auto fade = Find<FadeInOut::Obj>("フェイドインアウトタスク"))
+		if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 		{
 			if (fade->IsComplete())
 			{
@@ -57,10 +57,10 @@ namespace Player
 				const auto kb = KB::GetState();
 				if (pad->NowBut(J_BUT_6) == 1)
 				{
-					if (!Find<Beam::Obj>("ビームタスク"))
+					if (!Find<Beam::Obj>(Beam::caTaskName))
 					{
 						auto bm = Add<BeamGenerator::Obj>();
-						if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+						if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 						{
 							res->wsTest4.Play();
 						}
@@ -68,12 +68,12 @@ namespace Player
 				}
 				if (kb->Now(VK_RIGHT) == 1)
 				{
-					if (!Find<Beam::Obj>("ビームタスク"))
+					if (!Find<Beam::Obj>(Beam::caTaskName))
 					{
 						auto bm = Add<BeamGenerator::Obj>();
 					}
 				}
-				if (!Find<Beam::Obj>("ビームタスク"))
+				if (!Find<Beam::Obj>(Beam::caTaskName))
 				{
 					float fSpdY = pad->GetAxisL().GetY() * 0.2f;
 					float fAng = 0.5f;
@@ -103,8 +103,8 @@ namespace Player
 					constexpr float cfPlayerPosMax = 1080.f - cfWinRecDist;
 					if (fAfterPosY >= cfPlayerPosMax) fAfterPosY = cfPlayerPosMax;
 					if (fAfterPosY <= cfPlayerPosMin) fAfterPosY = cfPlayerPosMin;
-					rBase.SetPos(&Point(fPosX, fAfterPosY));
-
+					pPos = Point(fPosX, fAfterPosY);
+					rBase.SetPos(&pPos);
 					if (kb->On(VK_UP))
 					{
 						fPAngle = Max(fPAngle - fAng, rBase.GetDeg(&pStandardPoint) + 145);
@@ -200,7 +200,7 @@ namespace Player
 		lGuideLine.SetPos(&rBase.GetPos());
 		lGuideLine.SetDeg(rBase.GetDeg() + 180);
 
-		auto vFgm = FindAll<Fragment::Obj>("欠片タスク");
+		auto vFgm = FindAll<Fragment::Obj>(Fragment::caTaskName);
 		if (vFgm.size())
 		{
 			for (auto &vf : vFgm)
@@ -229,7 +229,7 @@ namespace Player
 		{
 			lGuideLineFgm.Draw(PS_DASH);
 		}
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * fSrcX, 16.f, 16.f, 16.f);
 			rImgBase.Draw(&res->iStageImg, &src, true);

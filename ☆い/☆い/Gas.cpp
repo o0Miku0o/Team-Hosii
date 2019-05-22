@@ -23,7 +23,7 @@ namespace Gas
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ガスタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -69,7 +69,7 @@ namespace Gas
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			/*Frec src(16.f * (aAnim.GetSrcX() + 87), 0.f, 16.f, 16.f);
 			rGas.DrawAlpha(&stageRes->iStageImg, &src, bAlpha);*/

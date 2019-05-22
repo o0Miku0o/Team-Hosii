@@ -17,7 +17,7 @@ namespace StageSelectObjAsteroid
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("小惑星タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
@@ -37,7 +37,7 @@ namespace StageSelectObjAsteroid
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iAnimCount + 41), 16, 16, 16);
 

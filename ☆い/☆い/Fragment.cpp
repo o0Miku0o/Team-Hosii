@@ -21,7 +21,7 @@ namespace Fragment
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("欠片タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -58,14 +58,14 @@ namespace Fragment
 			RemoveAll();
 			Add<Title::Obj>();
 		}*/
-		if (auto beam = Find<Beam::Obj>("ビームタスク"))
+		if (auto beam = Find<Beam::Obj>(Beam::caTaskName))
 		{
 			//test追加記入
 			//bPreRotationActive = bRotationActive;
 
 			Checkhitbeam(beam);
 		}
-		auto frg = FindAll<Fragment::Obj>("欠片タスク");
+		auto frg = FindAll<Fragment::Obj>(caTaskName);
 		for (const auto fr : frg)
 		{
 			if (fr != this)
@@ -130,7 +130,7 @@ namespace Fragment
 			rFragment.SetDeg(0.f);
 			bMoveActive = false;
 		}
-		auto vAli = FindAll<Alien::Obj>("宇宙人タスク");
+		auto vAli = FindAll<Alien::Obj>(Alien::caTaskName);
 		if (vAli.size())
 		{
 			for (auto&va : vAli)
@@ -169,7 +169,7 @@ namespace Fragment
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			if (iColor == 0)
 			{
@@ -200,14 +200,14 @@ namespace Fragment
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cFragmentHitBase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest.Play();
 				//res->wsTest1.Pause();
 			}
 			rFragment.SetDeg(oBeam->rHitBase.GetDeg(&rFragment));
 			oBeam->rHitBase.SetDeg(rFragment.GetDeg(&oBeam->rHitBase));
-			if (auto pl = Find<Player::Obj>("プレイヤータスク"))
+			if (auto pl = Find<Player::Obj>(Player::caTaskName))
 			{
 				if (pl->lGuideLineFgm.GetLen())
 				{
@@ -235,7 +235,7 @@ namespace Fragment
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cFragmentHitBase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();

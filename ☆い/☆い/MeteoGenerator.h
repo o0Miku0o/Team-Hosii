@@ -5,6 +5,9 @@ using namespace std;
 
 namespace MeteoGenerator
 {
+	const char caTaskName[] = { "隕石生成タスク" };
+	const char caResName[] = { "隕石生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

@@ -3,6 +3,9 @@
 
 namespace Eff1
 {
+	const char caTaskName[] = { "エフェクト１タスク" };
+	const char caResName[] = { "エフェクト１リソース" };
+
 	enum Type
 	{
 		TYPE_BEAM,

@@ -3,6 +3,9 @@
 
 namespace StageSelectObjEarth
 {
+	const char caTaskName[] = { "地球タスク" };
+	const char caResName[] = { "地球リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

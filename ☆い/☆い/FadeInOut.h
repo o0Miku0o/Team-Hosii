@@ -3,6 +3,9 @@
 
 namespace FadeInOut
 {
+	const char caTaskName[] = { "フェイドインアウトタスク" };
+	const char caResName[] = { "フェイドインアウトリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

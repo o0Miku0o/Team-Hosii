@@ -3,6 +3,9 @@
 
 namespace Fragment
 {
+	const char caTaskName[] = { "欠片タスク" };
+	const char caResName[] = { "欠片リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

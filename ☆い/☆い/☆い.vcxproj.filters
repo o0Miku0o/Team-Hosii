@@ -13,7 +13,6 @@
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInit.cpp" />
     <ClCompile Include="Gas.cpp" />
     <ClCompile Include="Jupitor.cpp" />
@@ -46,6 +45,7 @@
     <ClCompile Include="FadeInOut.cpp" />
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="StageLoad.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -62,7 +62,6 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="FragmentGenerator.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameInit.h" />
     <ClInclude Include="Gas.h" />
     <ClInclude Include="Jupitor.h" />
@@ -95,6 +94,7 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="Rail.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

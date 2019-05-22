@@ -16,7 +16,7 @@ namespace StagePicture
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ステージピクチャータスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
