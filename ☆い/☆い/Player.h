@@ -30,8 +30,8 @@ namespace Player
 		Line lGuideLineFgm;
 		Point pStandardPoint;
 		Point pPos;
-		float fSPDist;
-		float fSPAngle;
+	//	float fSPDist;
+	//	float fSPAngle;
 		float fPAngle;
 		float fSrcX;
 

@@ -34,9 +34,10 @@ namespace Player
 		rBase = Rec(Rec::Win.l + 100.f, Rec::Win.b * 0.5f, 16 * 8.f, 16 * 8.f, 180);
 		rImgBase = rBase;
 		pStandardPoint = Point(Rec::Win.r - 500.f, Rec::Win.b * 0.5f);
-		fSPDist = rBase.GetDist(&pStandardPoint);
-		fSPAngle = (float)rBase.GetDeg(&pStandardPoint) + 180;
-		fPAngle = fSPAngle;
+		//fSPDist = rBase.GetDist(&pStandardPoint);
+		//fSPAngle = (float)rBase.GetDeg(&pStandardPoint) + 180;
+//		fPAngle = fSPAngle;
+		fPAngle = (float)rBase.GetDeg(&pStandardPoint) + 180;
 		lGuideLine.SetLen(2000.f);
 		lGuideLine.SetColor(130, 130, 255);
 		lGuideLineFgm.SetColor(255, 130, 130);
@@ -75,7 +76,7 @@ namespace Player
 				}
 				if (!Find<Beam::Obj>(Beam::caTaskName))
 				{
-					float fSpdY = pad->GetAxisL().GetY() * 0.2f;
+					float fSpdY = pad->GetAxisL().GetY() * 2.0f;
 					float fAng = 0.5f;
 					if (kb->On('W'))
 					{
@@ -125,6 +126,14 @@ namespace Player
 						);
 					rBase.SetDeg(fPAngle);
 
+					//プレイヤの位置リセット
+					if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
+					{
+	//					fSPAngle = 180.f;
+						fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
+						pPos = Point(Rec::Win.l + 100.f, Rec::Win.b * 0.5f);
+						rBase.SetPos(&pPos);
+					}
 
 
 					//float fSpd = 0.2f, fAng = 0.3f;
@@ -144,11 +153,7 @@ namespace Player
 					//		),
 					//		rBase.GetDeg(&pStandardPoint) + 145
 					//	);
-					//if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
-					//{
-					//	fSPAngle = 180.f;
-					//	fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;
-					//}
+				
 					//if (kb->Now('W'))
 					//{
 					//	fSPAngle = min(fSPAngle + 0.2f, 198.f);
@@ -176,13 +181,14 @@ namespace Player
 		///**/rBase.SetPos(&Point(cos(DtoR(fSPAngle)) * fSPDist + pStandardPoint.x, sin(DtoR(fSPAngle)) * fSPDist + pStandardPoint.y));/**/
 		//rBase.SetDeg(fPAngle);
 
-		if (fSPAngle >= 189.f)
+//		if (fSPAngle >= 189.f)
+		if (fPAngle >= 189.f)
 		{
 			fSrcX = 6.f;
 			rImgBase.SetPos(&rBase.GetPos());
 			rImgBase.SetDeg(rBase.GetDeg() - 45.f);
 		}
-		else if (fSPAngle <= 171.f)
+		else if (fPAngle <= 171.f)
 		{
 			fSrcX = 8.f;
 			rImgBase.SetPos(&rBase.GetPos());

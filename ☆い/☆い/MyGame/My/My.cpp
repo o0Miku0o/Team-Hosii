@@ -2210,8 +2210,8 @@ void Line::Draw(const u_int penstyle_)
 	const int ioldMode = SetBkMode(hOff, TRANSPARENT);
 	MoveToEx(hOff, (int)pS.x, (int)pS.y, nullptr);
 	LineTo(hOff, (int)pE.x, (int)pE.y);
+	SetBkMode(hOff, ioldMode);
 
-  SetBkMode(hOff, ioldMode);
 
 	//POINT dP[2] =
 	//{
