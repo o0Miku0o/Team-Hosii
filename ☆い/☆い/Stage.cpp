@@ -38,7 +38,7 @@ namespace Stage
 	{
 		const auto kb = KB::GetState();
 		const auto pad = JoyPad::GetState(0);
-		if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
+	/*	if (kb->Now('G') == 1 || pad->NowBut(J_BUT_8) == 1)
 		{
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
@@ -47,7 +47,7 @@ namespace Stage
 			}
 			Add<StageLoad::Obj>();
 			Pause(2);
-		}
+		}*/
 
 		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
