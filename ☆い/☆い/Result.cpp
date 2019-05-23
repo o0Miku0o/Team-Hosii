@@ -23,9 +23,9 @@ namespace Result
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("リザルトタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<Result::RS>("リザルトリソース");
+		RB::Add<Result::RS>(caResName);
 		/*タスクの生成*/
 
 		/*データの初期化*/
@@ -45,7 +45,7 @@ namespace Result
 		bMoveStarIdx = 0;
 		bScore = 1;
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.Pause();
 			res->wsBGM2.Pause();
@@ -55,7 +55,7 @@ namespace Result
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-
+		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -64,7 +64,7 @@ namespace Result
 		auto kb = KB::GetState();
 
 		std::vector<TB_ptr> vsMoveStar;
-		for (auto &vs : FindAll<Star::Obj>("星タスク"))
+		for (auto &vs : FindAll<Star::Obj>(Star::caTaskName))
 		{
 			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
@@ -78,7 +78,7 @@ namespace Result
 			if (st->rStar.GetPosY() >= 500.f)
 			{
 				++bMoveStarIdx;
-				if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+				if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 				{
 					res->wsTest2.Play();
 				}
@@ -178,9 +178,9 @@ namespace Result
 		//	Pause(2);
 		//}
 		else if (pad->Down(J_BUT_6) || kb->Down('8') || kb->Down(VK_RETURN)) {
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			//			Add<Back::Obj>();
-			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
+			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 				manager->bStageNum = manager->bNextStage;
 				if (manager->bStageNum == 255) {
 					RemoveAll();
@@ -213,7 +213,7 @@ namespace Result
 		{
 			Rec::FullPaint(RGB(144, 151, 160));
 		}
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			//rBack.Draw(&res->iStageImg, &Frec(16.f * (45.f - (bScore - 1)), 0.f, 16.f, 16.f));
 
@@ -221,7 +221,7 @@ namespace Result
 			rPlayer.Draw(&res->iStageImg, &src, true);
 		}
 
-		if (auto s = RB::Find<Result::RS>("リザルトリソース"))
+		if (auto s = RB::Find<Result::RS>(caResName))
 		{
 			rWord.Draw(&s->iWord, &Frec(0, 16.f * 6.f, 16.f * 5.f, 16.f), true);
 		}

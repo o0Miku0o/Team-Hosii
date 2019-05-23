@@ -46,9 +46,9 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 
 		if (auto kb = KB::GetState())
 		{
-			if (kb->On(VK_CONTROL) && kb->Down('S'))
+			if (kb->On(VK_CONTROL) && kb->Down('Z'))
 			{
-				SaveBitMap(hDC, &Rec::Win, "./screenshot/ScreenShot.bmp");
+				SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
 			}
 		}
 
@@ -262,7 +262,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 				fZoom = Max(fZoom - 0.2f, 1.f);
 			}
 			if (kb.Down(VK_BACK)) {
-				if (auto sm = TaskBase::Find<StageManager::Obj>("ステージ統括タスク"))
+				if (auto sm = TaskBase::Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					sm->bIsDebug = !sm->bIsDebug;
 				}
@@ -291,7 +291,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Font f;
 			f.FontCreate("メイリオ");
 			Point pP(Rec::GetCameraPosX() - Rec::Win.r * 0.5f, Rec::GetCameraPosY() + Rec::Win.b * 0.5f - 20.f);
-			f.Draw(&pP, std::to_string(bFPS).c_str());
+			//f.Draw(&pP, std::to_string(bFPS).c_str());
 
 			bArr[bCount] = byte(1000.0 / FToD(SubFP(FP(timeGetTime()), FP(tmptime2))));
 			++bCount;

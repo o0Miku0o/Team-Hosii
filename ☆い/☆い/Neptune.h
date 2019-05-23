@@ -3,6 +3,9 @@
 
 namespace Neptune
 {
+	const char caTaskName[] = { "海王星タスク" };
+	const char caResName[] = { "海王星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

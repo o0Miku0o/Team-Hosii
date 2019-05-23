@@ -3,6 +3,9 @@
 
 namespace Result
 {
+	const char caTaskName[] = { "リザルトタスク" };
+	const char caResName[] = { "リザルトリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

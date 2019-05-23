@@ -3,6 +3,9 @@
 
 namespace StagePicture
 {
+	const char caTaskName[] = { "ステージピクチャータスク" };
+	const char caResName[] = { "ステージピクチャーリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

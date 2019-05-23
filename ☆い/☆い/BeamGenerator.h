@@ -3,6 +3,9 @@
 
 namespace BeamGenerator
 {
+	const char caTaskName[] = { "ビーム生成タスク" };
+	const char caResName[] = { "ビーム生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

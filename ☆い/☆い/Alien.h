@@ -3,6 +3,9 @@
 
 namespace Alien
 {
+	const char caTaskName[] = { "宇宙人タスク" };
+	const char caResName[] = { "宇宙人リソース" };
+
 	/*動きを制御する関数ポインタ*/
 	using Move = void(*)(Point*, const Point*, int * const, float * const);
 	/*当たった後の動きを制御する関数ポインタ*/

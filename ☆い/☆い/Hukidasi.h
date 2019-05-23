@@ -3,11 +3,9 @@
 
 namespace Hukidasi
 {
-	enum PictureGroup
-	{
-		GROUP_UP,
-		GROUP_DOWN,
-	};
+	const char caTaskName[] = { "吹き出しタスク" };
+	const char caResName[] = { "吹き出しリソース" };
+
 	enum StageGroup
 	{
 		GROUP_EARTH,
@@ -21,6 +19,7 @@ namespace Hukidasi
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Image iTextImg;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -38,10 +37,10 @@ namespace Hukidasi
 		Obj() {}
 		~Obj() {}
 	private:
-		PictureGroup pGroup;
 		StageGroup sGroup;
+		float faWidth[5];
 		Rec rHukidasi;
-		Point pFontPos[2];
+		Rec rTextBox;
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
@@ -60,6 +59,6 @@ namespace Hukidasi
 		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
 		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
-		void SetStageGroup(const PictureGroup apStageGroup, const StageGroup asStageGroup);
+		void SetStageGroup(const StageGroup asStageGroup);
 	}*OBJ_ptr;
 }

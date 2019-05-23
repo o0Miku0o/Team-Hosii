@@ -3,6 +3,9 @@
 
 namespace Jupitor
 {
+	const char caTaskName[] = { "木星タスク" };
+	const char caResName[] = { "木星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -27,8 +30,6 @@ namespace Jupitor
 		Circle cGravityCircle;
 		int iAnimCount;
 		int i;
-		int iAlpha;
-		int iCnt;
 
 		Obj() {}
 		~Obj() {}

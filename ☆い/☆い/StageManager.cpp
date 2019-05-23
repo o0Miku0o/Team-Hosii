@@ -4,8 +4,10 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
-
 #include "FadeInOut.h"
+#include "Back.h"
+#include "StageLoad.h"
+#include "Stage.h"
 
 namespace StageManager
 {
@@ -92,12 +94,13 @@ namespace StageManager
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ステージ統括タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<RS>("ステージ統括リソース");
+		RB::Add<RS>(caResName);
 		/*タスクの生成*/
-		//Add<StageSelect::Obj>();
+
 		/*データの初期化*/
+		pTutorialPos = Point(0.f, 0.f);
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
@@ -113,30 +116,108 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		if (auto pl = Find<Player::Obj>(Player::caTaskName))
+		{
+			pTutorialPos.x = pl->pPos.x + 100.f;
+			pTutorialPos.y = pl->pPos.y - 100.f;
+		}
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
+			auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName);
 			++iResultCnt;
 			if (iResultCnt == 1) {
-				auto fade = Add<FadeInOut::Obj>();
-				fade->bIsIn = true;
+				if (fade)
+				{
+					//fade->bActive = false;
+					fade->Start();
+					fade->bIsIn = true;
+				}
+				else
+				{
+					fade = Add<FadeInOut::Obj>();
+					fade->bIsIn = true;
+				}
 			}
-			else if (Find<FadeInOut::Obj>("フェイドインアウトタスク") == nullptr)
+			else if (fade)//Find<FadeInOut::Obj>("フェイドインアウトタスク") == nullptr)
 			{
-				bClearFragmentNum = 0;
-				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				auto re = Add<Result::Obj>();
-				re->bNextStage = bNextStage;
-				if (usBeamCount <= bClearFragmentNumMax)
+				if (fade->IsComplete())
 				{
-					re->bScore = 3;
+					bClearFragmentNum = 0;
+
+					RemoveAll({ caTaskName, FadeInOut::caTaskName }, NOT_REMOVE_NAME);
+					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+
+					//			Add<Back::Obj>();
+					if (auto manager = Find<StageManager::Obj>(caTaskName)) {
+						manager->bStageNum = manager->bNextStage;
+						if (manager->bStageNum == 255) {
+							RemoveAll();
+							Add<StageManager::Obj>();
+							Add<Back::Obj>();
+							Add<StageSelect::Obj>();
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+							//Pause(2);
+						}
+					}
+
+
+					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					//auto re = Add<Result::Obj>();
+					//re->bNextStage = bNextStage;
+					//if (usBeamCount <= bClearFragmentNumMax)
+					//{
+					//	re->bScore = 3;
+					//}
+					//else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					//{
+					//	re->bScore = 2;
+					//}
+					iResultCnt = 0;
 				}
-				else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-				{
-					re->bScore = 2;
+			}
+		}
+
+		//BGMの振り分け
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		{
+			if (Find<Stage::Obj>("ステージタスク") != nullptr) {
+				if (bStageNum >= 30 && bStageNum < 40) {
+					if (res->wsBGM2.IsPlaying()) {
+						res->wsBGM2.Restart();
+					}
+					else {
+						if (res->wsBGM.IsPlaying())
+							res->wsBGM.Stop();
+						res->wsBGM2.PlayL();
+					}
 				}
-				iResultCnt = 0;
+				else {
+					if (res->wsBGM.IsPlaying()) {
+						res->wsBGM.Restart();
+					}
+					else {
+						if (res->wsBGM2.IsPlaying()) {
+							res->wsBGM2.Stop();
+						}
+						res->wsBGM.PlayL();
+					}
+				}
+			}
+			if (Find<StageSelect::Obj>("ステージ選択タスク") != nullptr) {
+				if (res->wsBGM.IsPlaying()) {
+					res->wsBGM.Restart();
+				}
+				else {
+					if (res->wsBGM2.IsPlaying()) {
+						res->wsBGM2.Stop();
+					}
+					res->wsBGM.PlayL();
+				}
 			}
 		}
 	}

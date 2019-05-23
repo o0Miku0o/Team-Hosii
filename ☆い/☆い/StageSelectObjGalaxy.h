@@ -3,6 +3,9 @@
 
 namespace StageSelectObjGalaxy
 {
+	const char caTaskName[] = { "銀河タスク" };
+	const char caResName[] = { "銀河リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

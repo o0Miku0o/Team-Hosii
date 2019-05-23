@@ -18,12 +18,14 @@ namespace Beam
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ビームタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		//RB::Add<RS>("ビームリソース");
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.3f);
+
 		rHitBase = Rec(0.f, Rec::Win.b * 0.5f, 30.f, 16.f);
 		bLifeCount = 0;
 		vSpd = Vector2::zero;
@@ -39,7 +41,7 @@ namespace Beam
 		if (bLifeCount >= 120) Remove(this);
 		++bLifeCount;
 		/*移動ベクトル設定*/
-		if (auto prev = FindPrev<Beam::Obj>("ビームタスク"))
+		if (auto prev = FindPrev<Beam::Obj>(caTaskName))
 		{
 			const float ang = rHitBase.GetDeg(&prev->rHitBase);
 			rHitBase.SetDeg(ang);
@@ -48,7 +50,7 @@ namespace Beam
 		/*矩形を移動*/
 		rHitBase.Move(&vSpd);
 
-		if (!FindNext<Beam::Obj>("ビームタスク"))
+		if (!FindNext<Beam::Obj>(caTaskName))
 		{
 			/*エフェクト放出*/
 			for (byte b = 0; b < 2; ++b)
@@ -72,7 +74,7 @@ namespace Beam
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			//rHitBase.Draw(&stageRes->iStageImg, 16 * 10, 0, 16, 16, true, true);
 

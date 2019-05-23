@@ -130,7 +130,6 @@
     <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="Fragment.h" />
     <ClInclude Include="FragmentGenerator.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameInit.h" />
     <ClInclude Include="Gas.h" />
     <ClInclude Include="Hukidasi.h" />
@@ -145,6 +144,7 @@
     <ClInclude Include="MyGame\TaskBase.h" />
     <ClInclude Include="Neptune.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Rail.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Stage.h" />
@@ -161,6 +161,7 @@
     <ClInclude Include="StarGenerator.h" />
     <ClInclude Include="Saturn.h" />
     <ClInclude Include="Title.h" />
+    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
@@ -177,7 +178,6 @@
     <ClCompile Include="FadeInOut.cpp" />
     <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInit.cpp" />
     <ClCompile Include="Gas.cpp" />
     <ClCompile Include="Hukidasi.cpp" />
@@ -191,6 +191,7 @@
     <ClCompile Include="MyWinMain.cpp" />
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageLoad.cpp" />
@@ -206,6 +207,7 @@
     <ClCompile Include="StarGenerator.cpp" />
     <ClCompile Include="Saturn.cpp" />
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="WinProg.cpp" />
   </ItemGroup>
   <ItemGroup>

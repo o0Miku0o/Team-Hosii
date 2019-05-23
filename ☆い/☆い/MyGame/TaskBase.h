@@ -212,6 +212,8 @@ public:
 
 	static void RemoveAll(const char *taskname_ = nullptr, RemoveFlag rflag_ = REMOVE_NAME);
 
+	static void RemoveAll(const std::initializer_list<std::string> &iInitList, RemoveFlag rflag_ = REMOVE_NAME);
+
 	void SetName(const char *taskname_);
 
 	static void Pause(const char *taskname_, const u_int waitframe_);
@@ -230,24 +232,6 @@ public:
 
 	const float GetRenderPriority() const;
 
-	//Renderèáî‘Çç≈å„ÇÃÇ∆Ç±ÇÎÇ…à⁄ìÆ
-	//template<class EndPositonTask>
-	//static EndPositonTask* EndPositon(const char *taskname_) {
-	//	TaskBase *find, *pre = nullptr, *next = nullptr;
-	//	if (find = Find<EndPositonTask>(taskname_)) {
-	//		if (find->next != nullptr) {
-	//			auto it = top;
-	//			for (; it->next != nullptr; ++it);
-	//			pre->next = find->next;
-	//			next->prev = find->prev;
-	//			next->next = find;
-	//			find->prev = next;
-	//			find->next = nullptr;
-	//			
-	//		}
-	//	}
-	//	return dynamic_cast<EndPositonTask*>(find);
-	//}
 }TB;
 
 typedef TB *TB_ptr;

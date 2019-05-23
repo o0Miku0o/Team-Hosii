@@ -3,6 +3,9 @@
 
 namespace GameInit
 {
+	const char caTaskName[] = { "ゲーム開始タスク" };
+	const char caResName[] = { "ゲーム開始リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

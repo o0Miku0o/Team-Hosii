@@ -3,6 +3,9 @@
 
 namespace FadeInOut
 {
+	const char caTaskName[] = { "フェイドインアウトタスク" };
+	const char caResName[] = { "フェイドインアウトリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -34,6 +37,9 @@ namespace FadeInOut
 		Rec rStar;
 		float fStarSize;
 		float fStarSizeValue;
+		
+		float fStarSizeMax;
+		float fStarSizeMin;
 
 		RS_ptr res;
 		void Init();
@@ -41,5 +47,10 @@ namespace FadeInOut
 	public:
 		void Update();
 		void Render();
+
+		/*仮*/
+		void Start();
+		void Stop();
+		const bool IsComplete() const;
 	}*OBJ_ptr;
 }

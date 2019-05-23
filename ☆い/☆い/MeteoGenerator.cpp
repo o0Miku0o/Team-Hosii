@@ -17,7 +17,7 @@ namespace MeteoGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("隕石生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/

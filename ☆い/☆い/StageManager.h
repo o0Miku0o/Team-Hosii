@@ -3,6 +3,9 @@
 
 namespace StageManager
 {
+	const char caTaskName[] = { "ステージ統括タスク" };
+	const char caResName[] = { "ステージ統括リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -39,6 +42,7 @@ namespace StageManager
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Point pTutorialPos;
 		u_short usBeamCount;
 		byte bClearFragmentNumMax;
 		byte bClearFragmentNum;

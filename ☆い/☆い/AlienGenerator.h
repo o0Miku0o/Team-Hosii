@@ -6,6 +6,9 @@ using namespace std;
 
 namespace AlienGenerator
 {
+	const char caTaskName[] = { "宇宙人生成タスク" };
+	const char caResName[] = { "宇宙人生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

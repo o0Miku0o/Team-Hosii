@@ -1,33 +1,45 @@
 F 1  300 540 0
-S 1 1800 270 24
-A 25  510     0 aMS aBDR aFDR aADR
-      760     0 aMS aBDR aFDR aADR
-     1010     0 aMS aBUR aFUR aAUR
-     1260     0 aMS aBUR aFUR aAUR
-     1510     0 aMS aBDR aFDR aADR
+S 1 1700 800 24
+A 36  500   100 aMS aBDR aFDR aADR
+      700   100 aMS aBDR aFDR aADR
+      900   100 aMS aBDR aFDR aADR
+     1100   100 aMS aBDR aFDR aADR
+     1300   100 aMS aBDR aFDR aADR
+     1500   100 aMS aBUL aFUL aAUL
 
-      510   270 aMS aBDR aFDR aADR
-      760   270 aMS aBUR aFUR aAUR
-     1010   270 aMS aBUR aFUR aAUR
-     1260   270 aMS aBDR aFDR aADR
-     1510   270 aMS aBDR aFDR aADR
+      500   275 aMS aBUR aFUR aAUR
+      700   275 aMS aBUR aFUR aAUR
+      900   275 aMS aBUR aFUR aAUR
+     1100   275 aMS aBUR aFUR aAUR
+     1300   275 aMS aBUR aFUR aAUR
+     1500   275 aMS aBDR aFDR aADR
 
-      510   540 aMS aBUR aFUR aAUR
-      760   540 aMS aBUR aFUR aAUR
-     1010   540 aMS aBUR aFUR aAUR
-     1260   540 aMS aBDR aFDR aADR
-     1510   540 aMS aBUR aFUR aAUR
+      500   450 aMS aBUR aFUR aAUR
+      700   450 aMS aBDR aFDR aADR
+      900   450 aMS aBDR aFDR aADR
+     1100   450 aMS aBUR aFUR aAUR
+     1300   450 aMS aBDR aFDR aADR
+     1500   450 aMS aBDL aFDL aADL
 
-      510   810 aMS aBDR aFDR aADR
-      760   810 aMS aBDR aFDR aADR
-     1010   810 aMS aBUR aFUR aAUR
-     1260   810 aMS aBUL aFUL aAUL
-     1510   810 aMS aBDL aFDL aADL
+      500   625 aMS aBUR aFUR aAUR
+      700   625 aMS aBUR aFUR aAUR
+      900   625 aMS aBUR aFUR aAUR
+     1100   625 aMS aBUR aFUR aAUR
+     1300   625 aMS aBDR aFDR aADR
+     1500   625 aMS aBDR aFDR aADR
 
-      510  1080 aMS aBUR aFUR aAUR
-      760  1080 aMS aBUR aFUR aAUR
-     1010  1080 aMS aBUR aFUR aAUR
-     1260  1080 aMS aBDL aFDL aADL
-     1510  1080 aMS aBUR aFUR aAUR
+      500   800 aMS aBDR aFDR aADR
+      700   800 aMS aBDR aFDR aADR
+      900   800 aMS aBUL aFUL aAUL
+     1100   800 aMS aBUR aFUR aAUR
+     1300   800 aMS aBDR aFDR aADR
+     1500   800 aMS aBDL aFDL aADL
 
-R 1 41
+      500   975 aMS aBUR aFUR aAUR
+      700   975 aMS aBUR aFUR aAUR
+      900   975 aMS aBUR aFUR aAUR
+     1100   975 aMS aBUR aFUR aAUR
+     1300   975 aMS aBDL aFDL aADL
+     1500   975 aMS aBUR aFUR aAUR
+
+R 1 255

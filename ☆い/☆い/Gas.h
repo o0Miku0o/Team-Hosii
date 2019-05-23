@@ -3,6 +3,9 @@
 
 namespace Gas
 {
+	const char caTaskName[] = { "ガスタスク" };
+	const char caResName[] = { "ガスリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

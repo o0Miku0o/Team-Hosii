@@ -21,12 +21,14 @@ namespace Fragment
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("欠片タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.3f);
+
 		rFragment = Rec(Rec::Win.r*0.5f, Rec::Win.b*0.5f, 100.f, 100.f);
 		cFragmentHitBase = Circle(&rFragment.GetPos(), rFragment.GetW()*0.4f);
 		pInitPos = Point();
@@ -56,14 +58,14 @@ namespace Fragment
 			RemoveAll();
 			Add<Title::Obj>();
 		}*/
-		if (auto beam = Find<Beam::Obj>("ビームタスク"))
+		if (auto beam = Find<Beam::Obj>(Beam::caTaskName))
 		{
 			//test追加記入
-			bPreRotationActive = bRotationActive;
+			//bPreRotationActive = bRotationActive;
 
 			Checkhitbeam(beam);
 		}
-		auto frg = FindAll<Fragment::Obj>("欠片タスク");
+		auto frg = FindAll<Fragment::Obj>(caTaskName);
 		for (const auto fr : frg)
 		{
 			if (fr != this)
@@ -128,7 +130,7 @@ namespace Fragment
 			rFragment.SetDeg(0.f);
 			bMoveActive = false;
 		}
-		auto vAli = FindAll<Alien::Obj>("宇宙人タスク");
+		auto vAli = FindAll<Alien::Obj>(Alien::caTaskName);
 		if (vAli.size())
 		{
 			for (auto&va : vAli)
@@ -167,7 +169,7 @@ namespace Fragment
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto stageRes = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			if (iColor == 0)
 			{
@@ -198,14 +200,14 @@ namespace Fragment
 		cHit.SetPos(&oBeam->rHitBase.GetPos());
 		if (cFragmentHitBase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest.Play();
 				//res->wsTest1.Pause();
 			}
 			rFragment.SetDeg(oBeam->rHitBase.GetDeg(&rFragment));
 			oBeam->rHitBase.SetDeg(rFragment.GetDeg(&oBeam->rHitBase));
-			if (auto pl = Find<Player::Obj>("プレイヤータスク"))
+			if (auto pl = Find<Player::Obj>(Player::caTaskName))
 			{
 				if (pl->lGuideLineFgm.GetLen())
 				{
@@ -213,6 +215,8 @@ namespace Fragment
 					oBeam->rHitBase.SetDeg(pl->lGuideLineFgm.GetDeg() + 180.f);
 				}
 			}
+			//呼び出し前から呼び出し後に移動
+			bPreRotationActive = bRotationActive;
 			bRotationActive = false;
 			Pause(30);
 			/**/
@@ -231,7 +235,7 @@ namespace Fragment
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cFragmentHitBase.CheckHit(&cHit))
 		{
-			if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
@@ -256,6 +260,7 @@ namespace Fragment
 		cPreHit.SetPos(&pPrePos);
 		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
+			rFragment.SetPos(&oAlien->cAlienRHitBase.GetPos());
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
 	}

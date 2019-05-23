@@ -3,6 +3,9 @@
 
 namespace Title
 {
+	const char caTaskName[] = { "タイトルタスク" };
+	const char caResName[] = { "タイトルリソース" };
+	
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{

@@ -16,12 +16,14 @@ namespace Eff1
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("エフェクト１タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<RS>("エフェクトリソース");
+		RB::Add<RS>(caResName);
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.3f);
+
 		rEffBase = Rec(0.f, 0.f, 16.f, 16.f);
 		fSpdX = 0;
 		fSpdY = 0;
@@ -33,9 +35,9 @@ namespace Eff1
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		if (!Find<Obj>("エフェクト１タスク"))
+		if (!Find<Obj>(caTaskName))
 		{
-			RB::Remove("エフェクトリソース");
+			RB::Remove(caResName);
 		}
 	}
 	/*タスクの更新処理*/
@@ -55,7 +57,7 @@ namespace Eff1
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<RS>("エフェクトリソース"))
+		if (auto res = RB::Find<RS>(caResName))
 		{
 			Frec src(0.f, 16.f * tType, 16.f, 16.f);
 			rEffBase.Draw(&res->iEff1Img, &src, true);
