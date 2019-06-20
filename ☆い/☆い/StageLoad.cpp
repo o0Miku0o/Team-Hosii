@@ -87,7 +87,7 @@ namespace StageLoad
 			}
 			if (sStar.state) {
 				auto sg = Add<StarGenerator::Obj>();
-				sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos);
+				sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos, sStar.vfSize);
 			}
 			if (sBreakStar.state) {
 				auto bs = Add<BreakStarGenerator::Obj>();
@@ -216,6 +216,7 @@ namespace StageLoad
 			ifs >> x >> y >> change;
 			sStar.viChange.push_back(change);
 			sStar.vpPos.push_back(Point(x, y));
+			sStar.vfSize.push_back(100.f);
 		}
 		sStar.state = true;
 	}
