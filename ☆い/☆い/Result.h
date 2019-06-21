@@ -11,7 +11,7 @@ namespace Result
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Image iWord;
+		Image iResult;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -26,8 +26,8 @@ namespace Result
 	public:
 		/*必要なメンバはここに追加*/
 		Rec rBack;
-		Rec rPlayer;
-		Rec rWord;
+		Rec rResult;
+		Rec rNumber;
 		byte bNextStage;
 		byte bMoveStarIdx;
 		byte bScore;
