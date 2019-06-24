@@ -3,6 +3,7 @@
 #include "StageManager.h"
 #include "Title.h"
 #include "Result.h"
+#include "Eff1.h"
 
 namespace Star
 {
@@ -267,9 +268,33 @@ namespace Star
 				break;
 			}
 
+
 			if (starSound == Full) {
 				SoundPlay(Full);
 				Remove(fr);
+				/*エフェクト放出*/
+				byte loopmax = 15;
+				for (byte b = 0; b < loopmax; ++b)
+				{
+					auto ef1 = Add<Eff1::Obj>();
+					const fix fAng = ModAngle(-90.f+90.f / loopmax * b);
+					Rec rEf(rStar.GetPosX(), rStar.GetPosY(), 5, 5);//constつけなくてもOK
+					Vector2 vSpd(cos(DtoR(fAng)) * 5, sin(DtoR(fAng)) * 5);
+					Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+					if (oFragment->iColor == 0)
+					{
+						tEffectType = Eff1::Type::TYPE_Y_FRG;
+					}
+					else if (oFragment->iColor == 1)
+					{
+						tEffectType = Eff1::Type::TYPE_R_FRG;
+					}
+					else if (oFragment->iColor == 2)
+					{
+						tEffectType = Eff1::Type::TYPE_B_FRG;
+					}
+					ef1->SetParam(&rEf, &vSpd, 25, tEffectType, fAng);
+				}
 				if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					++sm->bClearFragmentNum;
@@ -277,6 +302,29 @@ namespace Star
 			}
 			else if (starSound == Reflact) {
 				SoundPlay(Reflact);
+				/*エフェクト放出*/
+				byte loopmax = 31;
+				for (byte b = 0; b < loopmax; ++b)
+				{
+					auto ef1 = Add<Eff1::Obj>();
+					const fix fAng = ModAngle(360.f / loopmax * b);
+					Rec rEf(oFragment->rFragment.GetPosX(), oFragment->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
+					Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
+					Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+					if (oFragment->iColor == 0)
+					{
+						tEffectType = Eff1::Type::TYPE_Y_FRG;
+					}
+					else if (oFragment->iColor == 1)
+					{
+						tEffectType = Eff1::Type::TYPE_R_FRG;
+					}
+					else if (oFragment->iColor == 2)
+					{
+						tEffectType = Eff1::Type::TYPE_B_FRG;
+					}
+					ef1->SetParam(&rEf, &vSpd, 15, tEffectType, fAng);
+				}
 				oFragment->rFragment.SetPos(&oFragment->pInitPos);
 				oFragment->bMoveActive = false;
 			}
