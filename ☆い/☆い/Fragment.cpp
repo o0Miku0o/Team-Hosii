@@ -141,30 +141,33 @@ namespace Fragment
 
 		if (!bMoveActive) return;
 
-		/*エフェクト放出*/
-		for (byte b = 0; b < 4; ++b)
-		{
-			auto ef1 = Add<Eff1::Obj>();
-			const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
-			const fix fRad = DtoR(fAng);
-			const fix fSpdX = cos_fast((float)fRad) * 2.f;
-			const fix fSpdY = sin_fast((float)fRad) * 2.f;
-			Rec rEf(rFragment.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), rFragment.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), 3.f, 3.f, fAng);
-			Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
-			if (iColor == 0)
-			{
-				tEffectType = Eff1::Type::TYPE_Y_FRG;
-			}
-			else if (iColor == 1)
-			{
-				tEffectType = Eff1::Type::TYPE_R_FRG;
-			}
-			else if (iColor == 2)
-			{
-				tEffectType = Eff1::Type::TYPE_B_FRG;
-			}
-			ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
-		}
+		Eff1::CreateOugi(4, Eff1::TYPE_Y_STAR, &rFragment.GetPos(), rFragment.GetDeg(), -30, +30);
+		
+		///*エフェクト放出*/
+		//for (byte b = 0; b < 4; ++b)
+		//{
+		//	auto ef1 = Add<Eff1::Obj>();
+		//	const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
+		//	const fix fRad = DtoR(fAng);
+		//	const fix fSpdX = cos_fast((float)fRad) * 2.f;
+		//	const fix fSpdY = sin_fast((float)fRad) * 2.f;
+		//	Rec rEf(rFragment.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), rFragment.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), 8.f, 8.f, fAng);
+		//	Eff1::ChipType tEffectType = Eff1::ChipType::TYPE_R_FRG;
+		//	if (iColor == 0)
+		//	{
+		//		//tEffectType = Eff1::ChipType::TYPE_Y_FRG;
+		//		tEffectType = Eff1::ChipType::TYPE_Y_STAR;
+		//	}
+		//	else if (iColor == 1)
+		//	{
+		//		tEffectType = Eff1::ChipType::TYPE_R_FRG;
+		//	}
+		//	else if (iColor == 2)
+		//	{
+		//		tEffectType = Eff1::ChipType::TYPE_B_FRG;
+		//	}
+		//	ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
+		//}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()

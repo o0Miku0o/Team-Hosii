@@ -38,8 +38,7 @@ namespace Saturn
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto vf = FindAll<Fragment::Obj>(Fragment::caTaskName);
-		for (auto &f : vf)
+		for (auto &f : FindAll<Fragment::Obj>(Fragment::caTaskName))
 		{
 			FragmentCheckhit(f);
 			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos)) {
@@ -82,7 +81,6 @@ namespace Saturn
 		std::string s = std::to_string(rSaturn.GetPosX()) + " " + std::to_string(rSaturn.GetPosY()) + " " + std::to_string(rSaturn.GetH());
 		f.Draw(&rSaturn.GetPos(), s.c_str());
 #endif // _DEBUG
-
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
 	{

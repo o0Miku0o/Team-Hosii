@@ -25,6 +25,7 @@ namespace Cursor
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Rec rCursorBase;
+		float fSpd;
 
 		Obj() {}
 		~Obj() {}
@@ -32,8 +33,11 @@ namespace Cursor
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void MoveKeyBoard(std::shared_ptr<KB> &apKB, const float afX, const float afY, const float afW, const float afH);
+		void MovePad(std::shared_ptr<JoyPad> &apPad, const float afX, const float afY, const float afW, const float afH);
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

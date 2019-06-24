@@ -6,13 +6,19 @@ namespace Eff1
 	const char caTaskName[] = { "エフェクト１タスク" };
 	const char caResName[] = { "エフェクト１リソース" };
 
-	enum Type
+	enum ChipType
 	{
 		TYPE_BEAM,
 		TYPE_R_FRG,
 		TYPE_Y_FRG,
 		TYPE_B_FRG,
+		TYPE_Y_STAR,
 		TYPE_MAX
+	};
+	enum EffGroupType
+	{
+		EFFECT_TYPE_HOUKI,
+		EFFECT_TYPE_HANABI
 	};
 	/*リソースクラス*/
 	class RS : public ResourceBase
@@ -38,13 +44,15 @@ namespace Eff1
 		~Obj() {}
 	private:
 		Rec rEffBase;
-		fix fSpdX;
-		fix fSpdY;
-		fix fAngle;
-		fix fAddAngle;
+		float fSpdX;
+		float fSpdY;
+		float fAddSpdX;
+		float fAddSpdY;
+		float fAngle;
+		float fAddAngle;
 		byte bLifeMax;
 		byte bLife;
-		Type tType;
+		ChipType tType;
 
 		void Init();
 		void Finalize();
@@ -52,6 +60,8 @@ namespace Eff1
 		void Update();
 		void Render();
 
-		void SetParam(const Rec * const crpcEffBase, const Vector2 * const cvpcSpd, const byte cbLifeMax, const Type ctType, const fix cfAngle = 0.f, const fix cfAddAngle = 0.f);
-	}*OBJ_ptr;
+		void SetParam(const Rec * const crpcEffBase, const Vector2 * const cvpcSpd, const byte cbLifeMax, const ChipType ctType, const float cfAngle = 0.f, const float cfAddAngle = 0.f, const Vector2 * const vAddSpd = &Vector2::zero);
+	}*Obj_ptr;
+	void CreateOugi(const int iNum, const ChipType cType, const Point * const pPos, const float fInitAngle, const float fMax, const float fMin, const byte bLife = 20, const float fSpd = 1.f, const Vector2 * const vAddSpd = &Vector2::zero);
+	void CreateHanabi(const int iNum, const ChipType cType, const Point * const pPos, const float fInitAngle, const byte bLife = 20, const float fSpd = 1.f, const Vector2 * const vAddSpd = &Vector2::zero);
 }

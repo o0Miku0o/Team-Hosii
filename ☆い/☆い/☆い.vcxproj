@@ -138,7 +138,8 @@
     <ClInclude Include="MeteoGenerator.h" />
     <ClInclude Include="MyGame\MyApp.h" />
     <ClInclude Include="MyGame\My\Animation.h" />
-    <ClInclude Include="MyGame\My\CGDM.h" />
+    <ClInclude Include="MyGame\My\CADAM.h" />
+    <ClInclude Include="MyGame\My\File.h" />
     <ClInclude Include="MyGame\My\FixedPoint.h" />
     <ClInclude Include="MyGame\My\My.h" />
     <ClInclude Include="MyGame\TaskBase.h" />
@@ -185,7 +186,7 @@
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
     <ClCompile Include="MyGame\My\Animation.cpp" />
-    <ClCompile Include="MyGame\My\CGDM.cpp" />
+    <ClCompile Include="MyGame\My\CADAM.cpp" />
     <ClCompile Include="MyGame\My\My.cpp" />
     <ClCompile Include="MyGame\TaskBase.cpp" />
     <ClCompile Include="MyWinMain.cpp" />
