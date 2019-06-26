@@ -10,40 +10,41 @@
 #include "StageSelect.h"
 #include "Hukidasi.h"
 #include "StageLoad.h"
+#include "Result.h"
 #include "KeyMove.h"
 
 namespace Cursor
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
 		SetName(caTaskName);
-		/*ƒŠƒ\[ƒX¶¬*/
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		//spMove = std::shared_ptr<Move>(new KeyMove(pPos, fSpd));
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 		fSpd = 12.f;
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 		spMove.reset();
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		auto kb = KB::GetState();
@@ -52,9 +53,9 @@ namespace Cursor
 		const float fCursorY = rCursorBase.GetPosY();
 		const float fCursorW = rCursorBase.GetW();
 		const float fCursorH = rCursorBase.GetH();
-		/*ƒL[ƒ{[ƒhˆÚ“®*/
+		/*ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ç§»å‹•*/
 		MoveKeyBoard(kb, fCursorX, fCursorY, fCursorW, fCursorH);
-		/*ƒpƒbƒhˆÚ“®*/
+		/*ãƒ‘ãƒƒãƒ‰ç§»å‹•*/
 		MovePad(pad, fCursorX, fCursorY, fCursorW, fCursorH);
 
 		//spMove->Update();
@@ -91,7 +92,7 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
-				//—V‰ï
+				//è©¦éŠä¼š
 				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
@@ -122,7 +123,7 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
-				//—V‰ï
+				//è©¦éŠä¼š
 				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
@@ -153,7 +154,7 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
 
-				//—V‰ï
+				//è©¦éŠä¼š
 				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
@@ -254,7 +255,7 @@ namespace Cursor
 			}
 		}
 	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 		//33
@@ -267,7 +268,7 @@ namespace Cursor
 #endif // _DEBUG
 		}
 	}
-	/*ƒL[ƒ{[ƒh‚Å‚ÌˆÚ“®*/
+	/*ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã§ã®ç§»å‹•*/
 	void Obj::MoveKeyBoard(std::shared_ptr<KB> &apKB, const float afX, const float afY, const float afW, const float afH)
 	{
 		if (apKB->On('W'))
@@ -304,7 +305,7 @@ namespace Cursor
 				rCursorBase.Move(&(Vector2::right * fSpd));
 		}
 	}
-	/*ƒpƒbƒh‚Å‚ÌˆÚ“®*/
+	/*ãƒ‘ãƒƒãƒ‰ã§ã®ç§»å‹•*/
 	void Obj::MovePad(std::shared_ptr<JoyPad> &apPad, const float afX, const float afY, const float afW, const float afH)
 	{
 		if (apPad->Axis(JoyPad::Stick::STK_LEFT) != Vector2::zero)

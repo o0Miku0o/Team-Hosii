@@ -166,18 +166,17 @@ namespace StageManager
 						}
 					}
 
-
-					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					//auto re = Add<Result::Obj>();
-					//re->bNextStage = bNextStage;
-					//if (usBeamCount <= bClearFragmentNumMax)
-					//{
-					//	re->bScore = 3;
-					//}
-					//else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-					//{
-					//	re->bScore = 2;
-					//}
+					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					auto re = Add<Result::Obj>();
+					re->bNextStage = bNextStage;
+					if (usBeamCount <= bClearFragmentNumMax)
+					{
+						re->bScore = 3;
+					}
+					else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					{
+						re->bScore = 2;
+					}
 					iResultCnt = 0;
 				}
 			}

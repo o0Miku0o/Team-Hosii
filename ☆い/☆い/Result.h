@@ -11,7 +11,8 @@ namespace Result
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Image iWord;
+		Image iResult;
+		Image iHanko;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -26,11 +27,15 @@ namespace Result
 	public:
 		/*必要なメンバはここに追加*/
 		Rec rBack;
-		Rec rPlayer;
-		Rec rWord;
+		Rec rResult;
+		Rec rRestart;
+		Rec rNumber;
 		byte bNextStage;
 		byte bMoveStarIdx;
 		byte bScore;
+		void ButtonInit();
+		void ButtonResize();
+		void DrawButton(RS * const rpRes, const Frec * const fpSrc);
 
 		Obj() {}
 		~Obj() {}
