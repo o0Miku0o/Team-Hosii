@@ -51,7 +51,7 @@ namespace Saturn
 					const fix fAng = ModAngle(360.f / loopmax * b);
 					Rec rEf(f->rFragment.GetPosX(), f->rFragment.GetPosY(), 5, 5);//const‚Â‚¯‚È‚­‚Ä‚àOK
 					Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
-					ef1->SetParam(&rEf, &vSpd, 15, Eff1::Type::TYPE_Y_FRG, fAng);
+					ef1->SetParam(&rEf, &vSpd, 15, Eff1::ChipType::TYPE_Y_FRG, fAng);
 				}
 				/*if (!f->bRotationActive)
 				{

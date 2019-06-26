@@ -256,18 +256,18 @@ namespace Fragment
 				const fix fAng = ModAngle(oFragment->rFragment.GetDeg() - 90.f + 180.f / loopmax * b);
 				Rec rEf(fDisx, fDisy, 5, 5);//const‚Â‚¯‚È‚­‚Ä‚àOK
 				Vector2 vSpd(cos(DtoR(fAng)) * 7.f, sin(DtoR(fAng)) * 7.f);
-				Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+				Eff1::ChipType tEffectType = Eff1::ChipType::TYPE_R_FRG;
 				if (iColor == 0)
 				{
-					tEffectType = Eff1::Type::TYPE_Y_FRG;
+					tEffectType = Eff1::ChipType::TYPE_Y_FRG;
 				}
 				else if (iColor == 1)
 				{
-					tEffectType = Eff1::Type::TYPE_R_FRG;
+					tEffectType = Eff1::ChipType::TYPE_R_FRG;
 				}
 				else if (iColor == 2)
 				{
-					tEffectType = Eff1::Type::TYPE_B_FRG;
+					tEffectType = Eff1::ChipType::TYPE_B_FRG;
 				}
 				ef1->SetParam(&rEf, &vSpd, 7, tEffectType, fAng);
 			}
