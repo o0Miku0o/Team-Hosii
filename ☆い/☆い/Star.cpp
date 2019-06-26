@@ -270,6 +270,8 @@ namespace Star
 
 
 			if (starSound == Full) {
+				Eff1::Create("./data/effect/ef_star_full.txt", &rStar.GetPos(), rStar.GetDeg());
+				
 				SoundPlay(Full);
 				Remove(fr);
 				/*エフェクト放出*/

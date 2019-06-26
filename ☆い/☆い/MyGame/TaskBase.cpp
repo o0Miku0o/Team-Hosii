@@ -1,7 +1,7 @@
 #include "TaskBase.h"
 
 #ifdef _DEBUG
-	#include "..\StageManager.h"
+#include "..\StageManager.h"
 #endif // _DEBUG
 
 //スタティック変数の初期化
@@ -66,25 +66,21 @@ TaskBase::TaskBase()
 void TaskBase::SysFinalize()
 {
 	RB::Remove();
-	TB::RemoveAll();
 	if (top)
 	{
 		for (TB_ptr it = top; it != nullptr;)
 		{
-			if (it->tstate == END)
-			{
-				TB_ptr next = it->next;
-				TB_ptr prev = it->prev;
+			TB_ptr next = it->next;
+			TB_ptr prev = it->prev;
 
-				it->Finalize();
+			it->Finalize();
 
-				delete it;
+			delete it;
 
-				if (prev)prev->next = next;
-				else top = next;
-				it = next;
-				if (it)it->prev = prev;
-			}
+			if (prev)prev->next = next;
+			else top = next;
+			it = next;
+			if (it)it->prev = prev;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "MyGame/My/Move.h"
 
 namespace Cursor
 {
@@ -24,7 +25,10 @@ namespace Cursor
 	{
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
+		std::shared_ptr<Move> spMove;
 		Rec rCursorBase;
+		Point pPos;
+		float fSpd;
 
 		Obj() {}
 		~Obj() {}
@@ -32,8 +36,11 @@ namespace Cursor
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void MoveKeyBoard(std::shared_ptr<KB> &apKB, const float afX, const float afY, const float afW, const float afH);
+		void MovePad(std::shared_ptr<JoyPad> &apPad, const float afX, const float afY, const float afW, const float afH);
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

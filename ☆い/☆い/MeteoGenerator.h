@@ -38,5 +38,5 @@ namespace MeteoGenerator
 		void Render();
 		void Bridge(const int iNum, const Point * const pPos, const Vector2 * const vSpd);
 		void Bridge(const int iNum, const vector<Point> pPos, const vector<Vector2> vSpd);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

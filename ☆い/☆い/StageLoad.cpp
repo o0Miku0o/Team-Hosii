@@ -21,306 +21,381 @@
 
 namespace StageLoad
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
-	void RS::Init()
-	{
+    /*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
+    void RS::Init()
+    {
 
-	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
-	void RS::Finalize()
-	{
+    }
+    /*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
+    void RS::Finalize()
+    {
 
-	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
-	void Obj::Init()
-	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName(caTaskName);
-		/*ƒŠƒ\[ƒX¶¬*/
+    }
+    /*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
+    void Obj::Init()
+    {
+        /*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+        SetName(caTaskName);
+        /*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
-		Add<Back::Obj>();
-		Add<Gas::Obj>();
-		Add<Player::Obj>();
+        /*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
+        Add<Back::Obj>();
+# ifndef _DEBUG
+        Add<Gas::Obj>();
+#endif
+        Add<Player::Obj>();
 
-		isLoad = false;
-		sFragement.state = false;
-		sStar.state = false;
-		sBreakStar.state = false;
-		sJupiter.state = false;
-		sNeptune.state = false;
-		sSaturn.state = false;
-		sMeteo.state = false;
-		sAlien.state = false;
-		bStageNum = 11;
-	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
-	void Obj::Finalize()
-	{
+        isLoad = false;
+        sFragement.state = false;
+        sStar.state = false;
+        sBreakStar.state = false;
+        sJupiter.state = false;
+        sNeptune.state = false;
+        sSaturn.state = false;
+        sMeteo.state = false;
+        sAlien.state = false;
+        bStageNum = 11;
+    }
+    /*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
+    void Obj::Finalize()
+    {
 
-	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
-	void Obj::Update()
-	{
-		if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
-			bStageNum = manager->bStageNum;
-		}
+    }
+    /*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
+    void Obj::Update()
+    {
+        if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
+            bStageNum = manager->bStageNum;
+        }
 
-		if (!isLoad && LoadStage(bStageNum)) {
-			//˜f¯‚ÍŒ‡•Ğ‚ğŒÄ‚Ô‘O‚É•K‚¸
-			if (sJupiter.state) {
-				auto pj = Add<Jupitor::Obj>();
-				pj->rJupitor = sJupiter.rec;
-			}
-			if (sNeptune.state) {
-				auto pn = Add<Neptune::Obj>();
-				pn->rNeptune = sNeptune.rec;
-			}
-			if (sSaturn.state) {
-				auto sa = Add<Saturn::Obj>();
-				sa->rSaturn = sSaturn.rec;
-			}
-			//Œ‡•Ğ‚Í˜f¯‚½‚¿‚ğ“Ç‚ñ‚¾Œã‚É
-			if (sFragement.state) {
-				auto fg = Add<FragmentGenerator::Obj>();
-				fg->Bridge2(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
-			}
-			if (sStar.state) {
-				auto sg = Add<StarGenerator::Obj>();
-				sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos, sStar.vfSize);
-			}
-			if (sBreakStar.state) {
-				auto bs = Add<BreakStarGenerator::Obj>();
-				bs->Bridge(sBreakStar.iNum, sBreakStar.viChange, sBreakStar.vpPos, sBreakStar.bMode);
-			}
-			if (sMeteo.state) {
-				auto met = Add<MeteoGenerator::Obj>();
-				met->Bridge(sMeteo.iNum, sMeteo.vpPos, sMeteo.vvSpd);
-			}
-			if (sAlien.state) {
-				auto al = Add<AlienGenerator::Obj>();
-				al->Bridge(sAlien.iNum, sAlien.vpPos, sAlien.vaMove, sAlien.vaBMHit, sAlien.vaFGHit, sAlien.vaAnim);
-			}
-			if (sblackhole.state) {
-				auto bh = Add<BlackHoleGenerator::Obj>();
-				bh->Bridge(sblackhole.iNum, sblackhole.vpPos, sblackhole.vpSize, sblackhole.viMode);
-			}
-			if (sResult.state) {
-				if (auto ma = Find<StageManager::Obj>(StageManager::caTaskName)) {
-					ma->usBeamCount = 0;
-					ma->bClearFragmentNum = 0;
-					ma->bClearFragmentNumMax = sResult.iFragement;
-					ma->bNextStage = sResult.iNextStage;
-				}
-			}
-
-			isLoad = true;
-
-			Add<Stage::Obj>();
-			Add<Rail::Obj>();
-			/*‚½‚ß‚µ*
-			const Point *ppTutorialPos = nullptr;
-			if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+        if (!isLoad && LoadStage(bStageNum))
+        {
+            //æƒ‘æ˜Ÿã¯æ¬ ç‰‡ã‚’å‘¼ã¶å‰ã«å¿…ãš
+            if (sJupiter.state)
+            {
+                auto pj = Add<Jupitor::Obj>();
+                pj->rJupitor = sJupiter.rec;
+            }
+            if (sNeptune.state)
+            {
+                auto pn = Add<Neptune::Obj>();
+                pn->rNeptune = sNeptune.rec;
+            }
+            if (sSaturn.state)
+            {
+                auto sa = Add<Saturn::Obj>();
+                sa->rSaturn = sSaturn.rec;
+            }
+            //æ¬ ç‰‡ã¯æƒ‘æ˜ŸãŸã¡ã‚’èª­ã‚“ã å¾Œã«
+            if (sFragement.state)
+            {
+                auto fg = Add<FragmentGenerator::Obj>();
+                fg->Bridge2(sFragement.iNum, sFragement.vpPos, sFragement.iColor);
+            }
+            if (sStar.state)
+            {
+                auto sg = Add<StarGenerator::Obj>();
+                sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos,sStar.vfSize);
+            }
+            if (sBreakStar.state)
+            {
+                auto bs = Add<BreakStarGenerator::Obj>();
+                bs->Bridge(sBreakStar.iNum, sBreakStar.viChange, sBreakStar.vpPos, sBreakStar.bMode);
+            }
+            if (sMeteo.state)
+            {
+                auto met = Add<MeteoGenerator::Obj>();
+                met->Bridge(sMeteo.iNum, sMeteo.vpPos, sMeteo.vvSpd);
+            }
+            if (sAlien.state)
+            {
+                auto al = Add<AlienGenerator::Obj>();
+                al->Bridge(sAlien.iNum, sAlien.vpPos, sAlien.vaMove, sAlien.vaBMHit, sAlien.vaFGHit, sAlien.vaAnim);
+            }
+            if (sblackhole.state)
+            {
+                auto bh = Add<BlackHoleGenerator::Obj>();
+                bh->Bridge(sblackhole.iNum, sblackhole.vpPos, sblackhole.vpSize, sblackhole.viMode);
+            }
+            if (sResult.state)
+            {
+                if (auto ma = Find<StageManager::Obj>(StageManager::caTaskName)) {
+                    ma->usBeamCount = 0;
+                    ma->bClearFragmentNum = 0;
+                    ma->bClearFragmentNumMax = sResult.iFragement;
+                    ma->bNextStage = sResult.iNextStage;
+                }
+            }
+            isLoad = true;
+            Remove(this);
+            Add<Stage::Obj>();
+            Add<Rail::Obj>();
+            /*ãŸã‚ã—*/
+            const Point* ppTutorialPos = nullptr;
+            if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 			{
-				ppTutorialPos = &sm->pTutorialPos;
-			}
-			auto tu = Add<Tutorial::Obj>();
-			tu->SetParam(600, Tutorial::Ttl_State::TTS_BUTTON, Tutorial::Buttons::BTN_R, &Point(50.f, 50.f), ppTutorialPos);
-			/**/
-			if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
+                ppTutorialPos = &sm->pTutorialPos;
+            }
+            Tutorial::Ttl_State tState = Tutorial::Ttl_State::TTS_BUTTON;
+            unsigned int uiBtnOrStick = Tutorial::Buttons::BTN_R;
+
+            if (StageGroup(bStageNum) == 1)
+            {
+                if (StageNumber(bStageNum) == 2)
+                {
+                    tState = Tutorial::Ttl_State::TTS_STICK;
+                }
+                else if (StageNumber(bStageNum) == 3)
+                {
+                    tState = Tutorial::Ttl_State::TTS_STICK;
+                    uiBtnOrStick = Tutorial::Stk_State::STS_NEUTRAL_R;
+                }
+                auto tu = Add<Tutorial::Obj>();
+                tu->SetParam(600, tState, uiBtnOrStick, &Point(50.f, 50.f), ppTutorialPos);
+            }
+            else if (StageNumber(bStageNum) == 1)
+            {
+                auto tu = Add<Tutorial::Obj>();
+                tu->SetParam(600, tState, uiBtnOrStick, &Point(50.f, 50.f), ppTutorialPos);
+            }
+            /**/
+            if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 			{
-				fade->Start();
-				fade->bIsIn = false;
-			}
-			else
-			{
-				fade = Add<FadeInOut::Obj>();
-				fade->bIsIn = false;
-			}
-			Remove(this);
-		}
-	}
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
-	void Obj::Render()
-	{
+                //fade->bActive = false;
+                fade->Start();
+                fade->bIsIn = false;
+            }
 
-	}
-	bool Obj::LoadStage(int iStage) {
-		string path = "./data/stage/stage" + to_string(iStage / 10) + to_string(iStage % 10) + ".txt";
-		ifstream ifs(path);
-		if (!ifs) {
-			return false;
-		}
-		string sIdentifier;
-		//Œ‡•ĞA¯A‰ó‚ê‚é¯A–Ø¯AŠC‰¤¯A“y¯Aè¦ÎAŠOŠElAƒuƒ‰ƒbƒNƒz[ƒ‹AƒRƒƒ“ƒgn“_AƒRƒƒ“ƒgI“_
-		const char* sArr[] = { "F", "S", "Bs", "J", "N","Sa", "M", "A", "B", "R",  "/*", "*/", };
-		while (!ifs.eof()) {
-			ifs >> sIdentifier;
-			if (sIdentifier == sArr[0]) {
-				LoadFragments(ifs);
-			}
-			else if (sIdentifier == sArr[1]) {
-				LoadStar(ifs);
-			}
-			else if (sIdentifier == sArr[2]) {
-				LoadBreakStar(ifs);
-			}
-			else if (sIdentifier == sArr[3]) {
-				LoadPlanet(ifs, sJupiter);
-			}
-			else if (sIdentifier == sArr[4]) {
-				LoadPlanet(ifs, sNeptune);
-			}
-			else if (sIdentifier == sArr[5]) {
-				LoadPlanet(ifs, sSaturn);
-			}
-			else if (sIdentifier == sArr[6]) {
-				LoadMeteo(ifs);
-			}
-			else if (sIdentifier == sArr[7]) {
-				LoadAlien(ifs);
-			}
-			else if (sIdentifier == sArr[8]) {
-				LoadBlackHole(ifs);
-			}
-			else if (sIdentifier == sArr[9]) {
-				LoadResult(ifs);
-			}
-			else if (sIdentifier == sArr[10]) {
-				string dummy;
-				ifs >> dummy;
-				while (dummy == sArr[11]) {
-					ifs >> dummy;
-				}
-			}
-		}
-		return true;
-	}
+            else
+            {
+                fade = Add<FadeInOut::Obj>();
+                fade->bIsIn = false;
+            }
+            //auto fade = Add<FadeInOut::Obj>();
+            //fade->bIsIn = false;
+        }
+    }
+    /*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
+    void Obj::Render()
+    {
 
-	void Obj::LoadFragments(ifstream &ifs) {
-		ifs >> sFragement.iNum;
-		for (int i = 0; i < sFragement.iNum; ++i) {
-			float x, y;
-			int color;
-			ifs >> x >> y >> color;
-			sFragement.vpPos.push_back(Point(x, y));
-			sFragement.iColor.push_back(color);
-		}
-		sFragement.state = true;
-	}
-	void Obj::LoadStar(ifstream &ifs) {
-		ifs >> sStar.iNum;
-		for (int i = 0; i < sStar.iNum; ++i) {
-			float x, y;
-			int change;
-			ifs >> x >> y >> change;
-			sStar.viChange.push_back(change);
-			sStar.vpPos.push_back(Point(x, y));
-			sStar.vfSize.push_back(100.f);
-		}
-		sStar.state = true;
-	}
+    }
+    bool Obj::LoadStage(int iStage)
+    {
+        string path = "./data/stage/stage" + to_string(StageGroup(iStage)) + to_string(StageNumber(iStage)) + ".txt";
+        ifstream ifs(path);
+        if (!ifs)
+        {
+            return false;
+        }
+        string sIdentifier;
+        //æ¬ ç‰‡ã€æ˜Ÿã€å£Šã‚Œã‚‹æ˜Ÿã€æœ¨æ˜Ÿã€æµ·ç‹æ˜Ÿã€åœŸæ˜Ÿã€éš•çŸ³ã€å¤–ç•Œäººã€ãƒ–ãƒ©ãƒƒã‚¯ãƒ›ãƒ¼ãƒ«ã€ã‚³ãƒ¡ãƒ³ãƒˆå§‹ç‚¹ã€ã‚³ãƒ¡ãƒ³ãƒˆçµ‚ç‚¹
+        const char* sArr[] = { "F", "S", "Bs", "J", "N", "Sa", "M", "A", "B", "R", "/*", "*/", };
+        while (!ifs.eof())
+        {
+            ifs >> sIdentifier;
+            if (sIdentifier == sArr[0])
+            {
+                LoadFragments(ifs);
+            }
+            else if (sIdentifier == sArr[1])
+            {
+                LoadStar(ifs);
+            }
+            else if (sIdentifier == sArr[2])
+            {
+                LoadBreakStar(ifs);
+            }
+            else if (sIdentifier == sArr[3])
+            {
+                LoadPlanet(ifs, sJupiter);
+            }
+            else if (sIdentifier == sArr[4])
+            {
+                LoadPlanet(ifs, sNeptune);
+            }
+            else if (sIdentifier == sArr[5])
+            {
+                LoadPlanet(ifs, sSaturn);
+            }
+            else if (sIdentifier == sArr[6])
+            {
+                LoadMeteo(ifs);
+            }
+            else if (sIdentifier == sArr[7])
+            {
+                LoadAlien(ifs);
+            }
+            else if (sIdentifier == sArr[8])
+            {
+                LoadBlackHole(ifs);
+            }
+            else if (sIdentifier == sArr[9])
+            {
+                LoadResult(ifs);
+            }
+            else if (sIdentifier == sArr[10])
+            {
+                string dummy;
+                ifs >> dummy;
+                while (dummy == sArr[11])
+                {
+                    ifs >> dummy;
+                }
+            }
+        }
+        ifs.close();
+        return true;
+    }
 
-	void Obj::LoadBreakStar(ifstream &ifs) {
-		ifs >> sBreakStar.iNum;
-		for (int i = 0; i < sBreakStar.iNum; ++i) {
-			float x, y;
-			int change;
-			string mode;
-			ifs >> x >> y >> change >> mode;
-			sBreakStar.vpPos.push_back(Point(x, y));
-			sBreakStar.viChange.push_back(change);
-			if (mode == "True") {
-				sBreakStar.bMode.push_back(true);
-			}
-			else {
-				sBreakStar.bMode.push_back(false);
-			}
-		}
-		sBreakStar.state = true;
-	}
+    void Obj::LoadFragments(ifstream &ifs)
+    {
+        ifs >> sStar.iNum;
+        for (int i = 0; i < sStar.iNum; ++i)
+        {
+            float x, y;
+            int color;
+            ifs >> x >> y >> color;
+            sStar.vpPos.push_back(Point(x, y));
+            sStar.iColor.push_back(color);
+            sStar.vfSize.push_back(100.f);
+        }
+        sStar.state = true;
+    }
+    void Obj::LoadStar(ifstream &ifs)
+    {
+        ifs >> sStar.iNum;
+        for (int i = 0; i < sStar.iNum; ++i)
+        {
+            float x, y;
+            int change;
+            ifs >> x >> y >> change;
+            sStar.viChange.push_back(change);
+            sStar.vpPos.push_back(Point(x, y));
+        }
+        sStar.state = true;
+    }
 
-	void Obj::LoadPlanet(ifstream &ifs, Planet &planet) {
-		float x, y, r;
-		ifs >> x >> y >> r;
-		planet.rec = Rec(x, y, r, r);
-		planet.state = true;
-	}
+    void Obj::LoadBreakStar(ifstream &ifs)
+    {
+        ifs >> sBreakStar.iNum;
+        for (int i = 0; i < sBreakStar.iNum; ++i)
+        {
+            float x, y;
+            int change;
+            string mode;
+            ifs >> x >> y >> change >> mode;
+            sBreakStar.vpPos.push_back(Point(x, y));
+            sBreakStar.viChange.push_back(change);
+            if (mode == "True")
+            {
+                sBreakStar.bMode.push_back(true);
+            }
+            else
+            {
+                sBreakStar.bMode.push_back(false);
+            }
+        }
+        sBreakStar.state = true;
+    }
 
-	void Obj::LoadMeteo(ifstream &ifs) {
-		ifs >> sMeteo.iNum;
-		for (int i = 0; i < sMeteo.iNum; ++i) {
-			float posX, posY, x, y;
-			ifs >> posX >> posY >> x >> y;
-			sMeteo.vpPos.push_back(Point(posX, posY));
-			sMeteo.vvSpd.push_back(Vector2(x, y));
-		}
-		sMeteo.state = true;
-	}
+    void Obj::LoadPlanet(ifstream &ifs, Planet &planet)
+    {
+        float x, y, r;
+        ifs >> x >> y >> r;
+        planet.rec = Rec(x, y, r, r);
+        planet.state = true;
+    }
 
-	void Obj::LoadAlien(ifstream &ifs) {
-		ifs >> sAlien.iNum;
-		const char* arrMove[] = { "aMH", "aMH_", "aMV", "aMV_", "aMR", "aMR_", "aMS" };
-		Alien::Move fPmove[7] = { Alien::MoveHorizontal, Alien::Move_Horizontal, Alien::MoveVertical,
-			Alien::Move_Vertical, Alien::MoveRotation, Alien::Move_Rotation, Alien::MoveStay };
-		const char* arrHitB[] = { "aBRE", "aBDR", "aBUR", "aBDL", "aBUL" };
-		Alien::Hit fpBMHit[5] = { Alien::BMRemove, Alien::BMReflectDR, Alien::BMReflectUR, Alien::BMReflectDL, Alien::BMReflectUL };
-		const char* arrHitF[] = { "aFRE", "aFDR", "aFUR", "aFDL", "aFUL" };
-		Alien::Hit fpFGHit[5] = { Alien::FGRemove, Alien::FGReflectDR,Alien::FGReflectUR,Alien::FGReflectDL,Alien::FGReflectUL };
-		const char* arrAnim[] = { "aANo", "aAHo", "aARo", "aADR", "aAUR", "aADL", "aAUL" };
-		Alien::Anim fpAnim[7] = { Alien::AnimNormal, Alien::AnimHorizontal, Alien::AnimRotation,Alien::AnimReflectDR,
-			Alien::AnimReflectUR, Alien::AnimReflectDL, Alien::AnimReflectUL };
-		for (int i = 0; i < sAlien.iNum; ++i) {
-			float x, y;
-			string bufMove, bufHitB, bufHitF, bufAnim;
-			ifs >> x >> y >> bufMove >> bufHitB >> bufHitF >> bufAnim;
-			sAlien.vpPos.push_back(Point(x, y));
-			//ˆÚ“®ƒ^ƒCƒv‚ğŒŸõ
-			for (int i = 0; i < sizeof(arrMove) / sizeof(char*); ++i) {
-				if (bufMove == arrMove[i]) {
-					sAlien.vaMove.push_back(fPmove[i]);
-					break;
-				}
-			}
-			//ƒr[ƒ€‚Ìs“®ƒ^ƒCƒv‚ğŒŸõ
-			for (int i = 0; i < sizeof(arrHitB) / sizeof(char*); ++i) {
-				if (bufHitB == arrHitB[i]) {
-					sAlien.vaBMHit.push_back(fpBMHit[i]);
-					break;
-				}
-			}
-			//Œ‡•Ğ‚Ìs“®ƒ^ƒCƒv‚ğŒŸõ
-			for (int i = 0; i < sizeof(arrHitF) / sizeof(char*); ++i) {
-				if (bufHitF == arrHitF[i]) {
-					sAlien.vaFGHit.push_back(fpFGHit[i]);
-					break;
-				}
-			}
-			//Œ‡•Ğ‚Ìs“®ƒ^ƒCƒv‚ğŒŸõ
-			for (int i = 0; i < sizeof(arrAnim) / sizeof(char*); ++i) {
-				if (bufAnim == arrAnim[i]) {
-					sAlien.vaAnim.push_back(fpAnim[i]);
-					break;
-				}
-			}
-		}
-		sAlien.state = true;
-	}
-	//À•WA‘å‚«‚³
-	void Obj::LoadBlackHole(ifstream &ifs) {
-		ifs >> sblackhole.iNum;
-		for (int i = 0; i < sblackhole.iNum; ++i) {
-			float x, y, r;
-			int m;
-			ifs >> x >> y >> r >> m;
-			sblackhole.vpPos.push_back(Point(x, y));
-			sblackhole.vpSize.push_back(r);
-			sblackhole.viMode.push_back(m);
-		}
-		sblackhole.state = true;
-	}
-	void Obj::LoadResult(ifstream &ifs) {
-		ifs >> sResult.iFragement >> sResult.iNextStage;
-		sResult.state = true;
-	}
+    void Obj::LoadMeteo(ifstream &ifs)
+    {
+        ifs >> sMeteo.iNum;
+        for (int i = 0; i < sMeteo.iNum; ++i)
+        {
+            float posX, posY, x, y;
+            ifs >> posX >> posY >> x >> y;
+            sMeteo.vpPos.push_back(Point(posX, posY));
+            sMeteo.vvSpd.push_back(Vector2(x, y));
+        }
+        sMeteo.state = true;
+    }
+
+    void Obj::LoadAlien(ifstream &ifs)
+    {
+        ifs >> sAlien.iNum;
+        const char* arrMove[] = { "aMH", "aMH_", "aMV", "aMV_", "aMR", "aMR_", "aMS" };
+        Alien::Move fPmove[7] = { Alien::MoveHorizontal, Alien::Move_Horizontal, Alien::MoveVertical,
+            Alien::Move_Vertical, Alien::MoveRotation, Alien::Move_Rotation, Alien::MoveStay };
+        const char* arrHitB[] = { "aBRE", "aBDR", "aBUR", "aBDL", "aBUL" };
+        Alien::Hit fpBMHit[5] = { Alien::BMRemove, Alien::BMReflectDR, Alien::BMReflectUR, Alien::BMReflectDL, Alien::BMReflectUL };
+        const char* arrHitF[] = { "aFRE", "aFDR", "aFUR", "aFDL", "aFUL" };
+        Alien::Hit fpFGHit[5] = { Alien::FGRemove, Alien::FGReflectDR, Alien::FGReflectUR, Alien::FGReflectDL, Alien::FGReflectUL };
+        const char* arrAnim[] = { "aANo", "aAHo", "aARo", "aADR", "aAUR", "aADL", "aAUL" };
+        Alien::Anim fpAnim[7] = { Alien::AnimNormal, Alien::AnimHorizontal, Alien::AnimRotation,Alien::AnimReflectDR,
+            Alien::AnimReflectUR, Alien::AnimReflectDL, Alien::AnimReflectUL };
+        for (int i = 0; i < sAlien.iNum; ++i)
+        {
+            float x, y;
+            string bufMove, bufHitB, bufHitF, bufAnim;
+            ifs >> x >> y >> bufMove >> bufHitB >> bufHitF >> bufAnim;
+            sAlien.vpPos.push_back(Point(x, y));
+            //ç§»å‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
+            for (int i = 0; i < sizeof(arrMove) / sizeof(char*); ++i)
+            {
+                if (bufMove == arrMove[i])
+                {
+                    sAlien.vaMove.push_back(fPmove[i]);
+                    break;
+                }
+            }
+            //ãƒ“ãƒ¼ãƒ ã®è¡Œå‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
+            for (int i = 0; i < sizeof(arrHitB) / sizeof(char*); ++i)
+            {
+                if (bufHitB == arrHitB[i])
+                {
+                    sAlien.vaBMHit.push_back(fpBMHit[i]);
+                    break;
+                }
+            }
+            //æ¬ ç‰‡ã®è¡Œå‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
+            for (int i = 0; i < sizeof(arrHitF) / sizeof(char*); ++i)
+            {
+                if (bufHitF == arrHitF[i])
+                {
+                    sAlien.vaFGHit.push_back(fpFGHit[i]);
+                    break;
+                }
+            }
+            //æ¬ ç‰‡ã®è¡Œå‹•ã‚¿ã‚¤ãƒ—ã‚’æ¤œç´¢
+            for (int i = 0; i < sizeof(arrAnim) / sizeof(char*); ++i)
+            {
+                if (bufAnim == arrAnim[i])
+                {
+                    sAlien.vaAnim.push_back(fpAnim[i]);
+                    break;
+                }
+            }
+        }
+        sAlien.state = true;
+    }
+    //åº§æ¨™ã€å¤§ãã•
+    void Obj::LoadBlackHole(ifstream &ifs)
+    {
+        ifs >> sblackhole.iNum;
+        for (int i = 0; i < sblackhole.iNum; ++i)
+        {
+            float x, y, r;
+            int m;
+            ifs >> x >> y >> r >> m;
+            sblackhole.vpPos.push_back(Point(x, y));
+            sblackhole.vpSize.push_back(r);
+            sblackhole.viMode.push_back(m);
+        }
+        sblackhole.state = true;
+    }
+    void Obj::LoadResult(ifstream &ifs)
+    {
+        ifs >> sResult.iFragement >> sResult.iNextStage;
+        sResult.state = true;
+    }
 }
