@@ -8,13 +8,15 @@
 #include "StagePicture.h"
 #include "StageLoad.h"
 #include "StagePicture.h"
+#include "Cursor.h"
 
 namespace Result
 {
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-		iResult.ImageCreate("./data/image/other/Title/ResultResource.bmp");
+		iResult.ImageCreate("./data/image/other/ResultResource.bmp");
+		iHanko.ImageCreate("./data/image/other/ResultResource2.bmp");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
@@ -31,8 +33,11 @@ namespace Result
 		RB::Add<Result::RS>("リザルトリソース");
 
 		/*タスクの生成*/
+		auto cs = Add<Cursor::Obj>();
+		cs->rCursorBase.SetPos(&Point(1450.f, 1020.f));
 
 		/*データの初期化*/
+		ButtonInit();
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
 		rResult = Rec(Rec::Win.r * 0.5f, 700.f, 16.f * 95.f, 16.f * 100.f);
 		//rNumber = Rec(1050.f, 800.f, 16.f * 16.f, 16.f * 17.f);
@@ -135,14 +140,17 @@ namespace Result
 					Add<StageSelect::Obj>();
 					Pause(2);
 				}
-				else
+				/*else
 				{
-					Add<StageLoad::Obj>();
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
 					Pause(2);
-				}
+				}*/
 			}
 			Pause(2);
 		}
+
+		ButtonResize();
 	}
 
 	/*タスクの描画処理*/
@@ -163,8 +171,17 @@ namespace Result
 		if (auto s = RB::Find<Result::RS>("リザルトリソース"))
 		{
 			rResult.Draw(&s->iResult, &Frec(0.f, 0.f, 16.f, 16.f), true);
+			rRestart.Draw(&s->iHanko, &Frec(0.f, 0.f, 16.f, 16.f), true);
 			//rNumber.Draw(&s->iResult, &Frec(16.f, 0.f, 16.f, 16.f), true);
-
 		}
+	}
+
+	void Obj::ButtonInit()
+	{
+		rRestart = Rec(0.f, 0.f, 0.f, 0.f);
+	}
+	void Obj::ButtonResize()
+	{
+		rRestart = Rec(1630.f, 1020.f, 16.f * 8.f, 16.f * 8.f);
 	}
 }

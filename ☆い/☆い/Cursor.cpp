@@ -10,6 +10,7 @@
 #include "StageSelect.h"
 #include "Hukidasi.h"
 #include "StageLoad.h"
+#include "Result.h"
 
 namespace Cursor
 {
@@ -103,6 +104,21 @@ namespace Cursor
 			{
 				ti->fStartImgSrcY = 1.f;
 				ti->rStart.Scaling(16 * 30.f * 1.5f, 16 * 5.f * 1.5f);
+				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
+				{
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
+					Pause(2);
+					return;
+				}
+			}
+		}
+		if (auto re = Find<Result::Obj>(Result::caTaskName))
+		{
+			if (re->rRestart.CheckHit(&rCursorBase.GetPos()))
+			{
+				re->rRestart.Scaling(16.f * 10.f, 16.f * 10.f);
 				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
 				{
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
