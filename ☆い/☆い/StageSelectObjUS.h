@@ -37,5 +37,5 @@ namespace StageSelectObjUS
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

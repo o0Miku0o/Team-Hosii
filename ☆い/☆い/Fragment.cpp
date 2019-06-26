@@ -141,30 +141,34 @@ namespace Fragment
 
 		if (!bMoveActive) return;
 
-		/*エフェクト放出*/
-		for (byte b = 0; b < 4; ++b)
-		{
-			auto ef1 = Add<Eff1::Obj>();
-			const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
-			const fix fRad = DtoR(fAng);
-			const fix fSpdX = cos_fast((float)fRad) * 2.f;
-			const fix fSpdY = sin_fast((float)fRad) * 2.f;
-			Rec rEf(rFragment.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), rFragment.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), 3.f, 3.f, fAng);
-			Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
-			if (iColor == 0)
-			{
-				tEffectType = Eff1::Type::TYPE_Y_FRG;
-			}
-			else if (iColor == 1)
-			{
-				tEffectType = Eff1::Type::TYPE_R_FRG;
-			}
-			else if (iColor == 2)
-			{
-				tEffectType = Eff1::Type::TYPE_B_FRG;
-			}
-			ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
-		}
+		Eff1::Create("./data/effect/ef_move_frg.txt", &rFragment.GetPos(), rFragment.GetDeg());
+		//Eff1::CreateOugi(4, Eff1::TYPE_Y_STAR, &rFragment.GetPos(), rFragment.GetDeg(), -40, +40);
+		
+		///*エフェクト放出*/
+		//for (byte b = 0; b < 4; ++b)
+		//{
+		//	auto ef1 = Add<Eff1::Obj>();
+		//	const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
+		//	const fix fRad = DtoR(fAng);
+		//	const fix fSpdX = cos_fast((float)fRad) * 2.f;
+		//	const fix fSpdY = sin_fast((float)fRad) * 2.f;
+		//	Rec rEf(rFragment.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), rFragment.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 16 - 4.f), 8.f, 8.f, fAng);
+		//	Eff1::ChipType tEffectType = Eff1::ChipType::TYPE_R_FRG;
+		//	if (iColor == 0)
+		//	{
+		//		//tEffectType = Eff1::ChipType::TYPE_Y_FRG;
+		//		tEffectType = Eff1::ChipType::TYPE_Y_STAR;
+		//	}
+		//	else if (iColor == 1)
+		//	{
+		//		tEffectType = Eff1::ChipType::TYPE_R_FRG;
+		//	}
+		//	else if (iColor == 2)
+		//	{
+		//		tEffectType = Eff1::ChipType::TYPE_B_FRG;
+		//	}
+		//	ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
+		//}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -240,8 +244,33 @@ namespace Fragment
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
 			}
-
 			oFragment->rFragment.SetDeg(rFragment.GetDeg(&oFragment->rFragment));
+			cHit.GetRadius();
+			float fDisx = (rFragment.GetPosX() - oFragment->rFragment.GetPosX()) / 2.f + oFragment->rFragment.GetPosX();
+			float fDisy = (rFragment.GetPosY() - oFragment->rFragment.GetPosY()) / 2.f + oFragment->rFragment.GetPosY();
+			/*エフェクト放出*/
+			byte loopmax = 15;
+			for (byte b = 0; b < loopmax; ++b)
+			{
+				auto ef1 = Add<Eff1::Obj>();
+				const fix fAng = ModAngle(oFragment->rFragment.GetDeg() - 90.f + 180.f / loopmax * b);
+				Rec rEf(fDisx, fDisy, 5, 5);//constつけなくてもOK
+				Vector2 vSpd(cos(DtoR(fAng)) * 7.f, sin(DtoR(fAng)) * 7.f);
+				Eff1::ChipType tEffectType = Eff1::ChipType::TYPE_R_FRG;
+				if (iColor == 0)
+				{
+					tEffectType = Eff1::ChipType::TYPE_Y_FRG;
+				}
+				else if (iColor == 1)
+				{
+					tEffectType = Eff1::ChipType::TYPE_R_FRG;
+				}
+				else if (iColor == 2)
+				{
+					tEffectType = Eff1::ChipType::TYPE_B_FRG;
+				}
+				ef1->SetParam(&rEf, &vSpd, 7, tEffectType, fAng);
+			}
 			//rFragment.SetDeg(oFragment->rFragment.GetDeg(&rFragment));
 			oFragment->bRotationActive = false;
 			oFragment->bMoveActive = true;

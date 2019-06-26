@@ -12,31 +12,31 @@
 
 namespace Result
 {
-	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–å‡¦ç†*/
 	void RS::Init()
 	{
 		iResult.ImageCreate("./data/image/other/ResultResource.bmp");
 		iHanko.ImageCreate("./data/image/other/ResultResource2.bmp");
 	}
-	/*ƒŠƒ\[ƒX‚ÌI—¹ˆ—*/
+	/*ãƒªã‚½ãƒ¼ã‚¹ã®çµ‚äº†å‡¦ç†*/
 	void RS::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚Ì‰Šú‰»ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®åˆæœŸåŒ–å‡¦ç†*/
 	void Obj::Init()
 	{
-		/*ƒ^ƒXƒN–¼İ’è*/
-		SetName("ƒŠƒUƒ‹ƒgƒ^ƒXƒN");
+		/*ã‚¿ã‚¹ã‚¯åè¨­å®š*/
+		SetName("ãƒªã‚¶ãƒ«ãƒˆã‚¿ã‚¹ã‚¯");
 
-		/*ƒŠƒ\[ƒX¶¬*/
-		RB::Add<Result::RS>("ƒŠƒUƒ‹ƒgƒŠƒ\[ƒX");
+		/*ãƒªã‚½ãƒ¼ã‚¹ç”Ÿæˆ*/
+		RB::Add<Result::RS>("ãƒªã‚¶ãƒ«ãƒˆãƒªã‚½ãƒ¼ã‚¹");
 
-		/*ƒ^ƒXƒN‚Ì¶¬*/
+		/*ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ*/
 		auto cs = Add<Cursor::Obj>();
 		cs->rCursorBase.SetPos(&Point(1450.f, 1020.f));
 
-		/*ƒf[ƒ^‚Ì‰Šú‰»*/
+		/*ãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–*/
 		ButtonInit();
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
 		rResult = Rec(Rec::Win.r * 0.5f, 700.f, 16.f * 95.f, 16.f * 100.f);
@@ -44,8 +44,8 @@ namespace Result
 
 		auto sg = Add<StarGenerator::Obj>();
 
-		//Ô‚¢˜gü
-		//‚±‚±‚ÉƒXƒNƒVƒ‡“\‚è‚Â‚¯‚é
+		//èµ¤ã„æ ç·š
+		//ã“ã“ã«ã‚¹ã‚¯ã‚·ãƒ§è²¼ã‚Šã¤ã‘ã‚‹
 		for (int i = 0; i < 3; ++i)
 		{
 			auto sp = Add<StagePicture::Obj>();
@@ -54,7 +54,7 @@ namespace Result
 			sp->SetPos(&Point(490 + i * 470, 250));
 		}
 
-		//¯‚ÌÀ•W
+		//æ˜Ÿã®åº§æ¨™
 		vector<Frec> pStArr =
 		{
 			Frec(340.f,430.f , 70.f,70.f),
@@ -77,9 +77,9 @@ namespace Result
 			Frec(1760.f - 1000.f,430.f - 1000.f, 70.f,70.f)
 		};
 
-		//¯‚ÌŒ`(ƒŠƒ\[ƒX‚Ì”Ô†)
+		//æ˜Ÿã®å½¢(ãƒªã‚½ãƒ¼ã‚¹ã®ç•ªå·)
 		vector<int> iArr = { 37, 37, 37, 37, 37, 37, 37, 37, 37, 25, 25, 25, 25, 25, 25, 25, 25, 25 };
-		//¯‚ÌƒGƒtƒFƒNƒg(ƒŠƒ\[ƒX‚Ì”Ô†)
+		//æ˜Ÿã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ(ãƒªã‚½ãƒ¼ã‚¹ã®ç•ªå·)
 		vector<int> iEff = { 55, 55, 55, 55, 55, 55, 55, 55, 55, 47, 47, 47, 47, 47, 47, 47, 47, 47 };
 
 		sg->Bridge(18, iArr, iEff, pStArr);
@@ -87,26 +87,26 @@ namespace Result
 		bMoveStarIdx = 0;
 		bScore = 1;
 
-		if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+		if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			res->wsBGM.Pause();
 			res->wsBGM2.Pause();
 			res->wsBGM1.Pause();
 		}
 	}
-	/*ƒ^ƒXƒN‚ÌI—¹ˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®çµ‚äº†å‡¦ç†*/
 	void Obj::Finalize()
 	{
 
 	}
-	/*ƒ^ƒXƒN‚ÌXVˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æ›´æ–°å‡¦ç†*/
 	void Obj::Update()
 	{
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
 		std::vector<TB_ptr> vsMoveStar;
-		for (auto &vs : FindAll<Star::Obj>("¯ƒ^ƒXƒN"))
+		for (auto &vs : FindAll<Star::Obj>("æ˜Ÿã‚¿ã‚¹ã‚¯"))
 		{
 			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
@@ -115,22 +115,21 @@ namespace Result
 		}
 		if (bMoveStarIdx < bScore)
 		{
-			auto st = (Star::OBJ_ptr)vsMoveStar[bMoveStarIdx];
+			auto st = (Star::Obj_ptr)vsMoveStar[bMoveStarIdx];
 			st->rStar.Move(&Vector2(20.f, 20.f));
 			if (st->rStar.GetPosY() >= 430.f)
 			{
 				++bMoveStarIdx;
-				if (auto res = RB::Find<StageManager::RS>("ƒXƒe[ƒW“Š‡ƒŠƒ\[ƒX"))
+				if (auto res = RB::Find<StageManager::RS>("ã‚¹ãƒ†ãƒ¼ã‚¸çµ±æ‹¬ãƒªã‚½ãƒ¼ã‚¹"))
 				{
 					res->wsTest2.Play();
 				}
 			}
 		}
-		else if (pad->Down(J_BUT_6) || kb->Down('8') || kb->Down(VK_RETURN))
-		{
-			RemoveAll("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN", NOT_REMOVE_NAME);
-			if (auto manager = Find<StageManager::Obj>("ƒXƒe[ƒW“Š‡ƒ^ƒXƒN"))
-			{
+		else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN)) {
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			//			Add<Back::Obj>();
+			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 				manager->bStageNum = manager->bNextStage;
 				if (manager->bStageNum == 255)
 				{
@@ -153,7 +152,7 @@ namespace Result
 		ButtonResize();
 	}
 
-	/*ƒ^ƒXƒN‚Ì•`‰æˆ—*/
+	/*ã‚¿ã‚¹ã‚¯ã®æç”»å‡¦ç†*/
 	void Obj::Render()
 	{
 		if (bScore == 3)
@@ -168,7 +167,7 @@ namespace Result
 		{
 			Rec::FullPaint(RGB(144, 151, 160));
 		}
-		if (auto s = RB::Find<Result::RS>("ƒŠƒUƒ‹ƒgƒŠƒ\[ƒX"))
+		if (auto s = RB::Find<Result::RS>("ãƒªã‚¶ãƒ«ãƒˆãƒªã‚½ãƒ¼ã‚¹"))
 		{
 			rResult.Draw(&s->iResult, &Frec(0.f, 0.f, 16.f, 16.f), true);
 			rRestart.Draw(&s->iHanko, &Frec(0.f, 0.f, 16.f, 16.f), true);

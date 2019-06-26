@@ -60,5 +60,5 @@ namespace Hukidasi
 		void SetPos(const Point * const appPos);
 		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
 		void SetStageGroup(const StageGroup asStageGroup);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

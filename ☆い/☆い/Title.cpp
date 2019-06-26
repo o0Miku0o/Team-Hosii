@@ -212,6 +212,7 @@ namespace Title
 	void Obj::CreateCursor()
 	{
 		auto cs = Add<Cursor::Obj>();
+		//cs->pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 	}
 	/*™‚Ì¶¬*/
