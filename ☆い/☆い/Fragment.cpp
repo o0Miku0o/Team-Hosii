@@ -141,7 +141,8 @@ namespace Fragment
 
 		if (!bMoveActive) return;
 
-		Eff1::CreateOugi(4, Eff1::TYPE_Y_STAR, &rFragment.GetPos(), rFragment.GetDeg(), -30, +30);
+		Eff1::Create("./data/effect/ef_move_frg.txt", &rFragment.GetPos(), rFragment.GetDeg());
+		//Eff1::CreateOugi(4, Eff1::TYPE_Y_STAR, &rFragment.GetPos(), rFragment.GetDeg(), -40, +40);
 		
 		///*エフェクト放出*/
 		//for (byte b = 0; b < 4; ++b)

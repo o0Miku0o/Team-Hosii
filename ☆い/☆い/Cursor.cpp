@@ -10,6 +10,7 @@
 #include "StageSelect.h"
 #include "Hukidasi.h"
 #include "StageLoad.h"
+#include "KeyMove.h"
 
 namespace Cursor
 {
@@ -33,13 +34,14 @@ namespace Cursor
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		//spMove = std::shared_ptr<Move>(new KeyMove(pPos, fSpd));
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 		fSpd = 12.f;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-
+		spMove.reset();
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -54,6 +56,9 @@ namespace Cursor
 		MoveKeyBoard(kb, fCursorX, fCursorY, fCursorW, fCursorH);
 		/*パッド移動*/
 		MovePad(pad, fCursorX, fCursorY, fCursorW, fCursorH);
+
+		//spMove->Update();
+		//rCursorBase.SetPos(&pPos);
 
 		if (auto ti = Find<Title::Obj>(Title::caTaskName))
 		{

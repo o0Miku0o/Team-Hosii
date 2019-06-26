@@ -1,6 +1,9 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
+/*お試*/
+#include "MyGame/My/EventMsg.h"
+
 namespace Title
 {
 	const char caTaskName[] = { "タイトルタスク" };

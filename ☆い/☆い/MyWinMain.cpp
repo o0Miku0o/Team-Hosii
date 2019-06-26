@@ -182,6 +182,8 @@ inline bool WaitProcess(double * const setsec_, const double waitsec_)
 //(アプリケーションのエントリーポイント)
 int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, int nWinMode_)
 {
+	Debug::DetectLeak();
+
 	MSG msg;
 	//表示するウィンドウの定義、登録、表示
 	if (ApplicationInitialize(hThisInst_, nWinMode_))

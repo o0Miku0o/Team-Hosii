@@ -13,6 +13,8 @@ namespace Eff1
 		TYPE_Y_FRG,
 		TYPE_B_FRG,
 		TYPE_Y_STAR,
+		TYPE_R_STAR,
+		TYPE_B_STAR,
 		TYPE_MAX
 	};
 	enum EffGroupType
@@ -62,6 +64,7 @@ namespace Eff1
 
 		void SetParam(const Rec * const crpcEffBase, const Vector2 * const cvpcSpd, const byte cbLifeMax, const ChipType ctType, const float cfAngle = 0.f, const float cfAddAngle = 0.f, const Vector2 * const vAddSpd = &Vector2::zero);
 	}*Obj_ptr;
-	void CreateOugi(const int iNum, const ChipType cType, const Point * const pPos, const float fInitAngle, const float fMax, const float fMin, const byte bLife = 20, const float fSpd = 1.f, const Vector2 * const vAddSpd = &Vector2::zero);
-	void CreateHanabi(const int iNum, const ChipType cType, const Point * const pPos, const float fInitAngle, const byte bLife = 20, const float fSpd = 1.f, const Vector2 * const vAddSpd = &Vector2::zero);
+	void CreateOugi(const int iNum, const ChipType cType, const Point * const pPos, const float fW, const float fH, const float fInitAngle, const float fMax, const float fMin, const byte bLife = 20, const float fSpd = 1.f, const Vector2 * const vAddSpd = &Vector2::zero);
+	void CreateHanabi(const int iNum, const ChipType cType, const Point * const pPos, const float fW, const float fH, const float fInitAngle, const byte bLife = 20, const float fSpd = 1.f, const Vector2 * const vAddSpd = &Vector2::zero);
+	void Create(const std::string &asEfFileName, const Point * const apPos, const float afAngle);
 }

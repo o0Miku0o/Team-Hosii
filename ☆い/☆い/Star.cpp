@@ -3,6 +3,7 @@
 #include "StageManager.h"
 #include "Title.h"
 #include "Result.h"
+#include "Eff1.h"
 
 namespace Star
 {
@@ -268,6 +269,8 @@ namespace Star
 			}
 
 			if (starSound == Full) {
+				Eff1::Create("./data/effect/ef_star_full.txt", &rStar.GetPos(), rStar.GetDeg());
+				
 				SoundPlay(Full);
 				Remove(fr);
 				if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))

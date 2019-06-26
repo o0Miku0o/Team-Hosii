@@ -217,6 +217,7 @@ namespace StageLoad
 				}
 			}
 		}
+		ifs.close();
 		return true;
 	}
 

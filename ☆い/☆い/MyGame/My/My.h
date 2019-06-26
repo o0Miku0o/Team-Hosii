@@ -9,9 +9,10 @@
 #include <thread>
 #include <mutex>
 #include <algorithm>
-#include "File.h"
+#include "Stream.h"
 #include "FixedPoint.h"
 #include "CADAM.h"
+#include "Debug.h"
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
@@ -19,24 +20,6 @@
 //おすすめ
 //Xinput
 //Xaudio
-
-#ifdef _DEBUG
-#define DBG_OUT(ccpDbgText) MessageBox(nullptr, (const char * const)ccpDbgText, "DBG", MB_OK)
-#define DBG_SPRINTF(cStrName, cFmt, Src) char cStrName[1024]; sprintf_s(cStrName, cFmt, Src)
-#define \
-DBG_FONT(pPoint, cFmt, Src)\
-{\
-	char cDbg[1024];\
-	wsprintf(cDbg, cFmt, Src);\
-	Font f;\
-	f.FontCreate("メイリオ");\
-	f.Draw(&pPoint, cDbg);\
-}
-#else
-#define DBG_OUT(ccpDbgText) __noop
-#define DBG_SPRINTF(StrName, Fmt, StrSrc) __noop
-#define DBG_FONT(pPoint, cStrName, cFmt, Src) __noop
-#endif
 
 /*4文字をint型に変換(エラーチェックなどはない)*/
 inline const int FourCharToInt(const BYTE *abpFourStr)

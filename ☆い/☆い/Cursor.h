@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "MyGame/My/Move.h"
 
 namespace Cursor
 {
@@ -24,7 +25,9 @@ namespace Cursor
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
+		std::shared_ptr<Move> spMove;
 		Rec rCursorBase;
+		Point pPos;
 		float fSpd;
 
 		Obj() {}

@@ -95,7 +95,13 @@
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="MyGame\My\CADAM.h" />
-    <ClInclude Include="MyGame\My\File.h" />
+    <ClInclude Include="MyGame\My\Move.h" />
+    <ClInclude Include="MyGame\My\Debug.h" />
+    <ClInclude Include="Stop.h" />
+    <ClInclude Include="PadMove.h" />
+    <ClInclude Include="KeyMove.h" />
+    <ClInclude Include="MyGame\My\Stream.h" />
+    <ClInclude Include="MyGame\My\EventMsg.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

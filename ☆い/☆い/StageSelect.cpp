@@ -37,6 +37,7 @@ namespace StageSelect
 		Add<StageSelectObjUS::Obj>();
 		Add<Hukidasi::Obj>();
 		auto cs = Add<Cursor::Obj>();
+		//cs->pPos = es->rEarth.GetPos();
 		cs->rCursorBase.SetPos(&es->rEarth.GetPos());
 
 		/*ƒf[ƒ^‚Ì‰Šú‰»*/
