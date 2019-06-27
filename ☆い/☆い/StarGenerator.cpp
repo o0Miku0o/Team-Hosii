@@ -45,14 +45,13 @@ namespace StarGenerator
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos,const vector<float> fSize) {
+	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos) {
 		for (int i = 0; i < iNum; ++i)
 		{	
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(&pPos.at(i));
 			star->cStarhitbase.SetPos(&pPos.at(i));
-			star->rStar = Rec(pPos.at(i).x, pPos.at(i).y, fSize.at(i), fSize.at(i));
-			//		star->iChange = iChange.at(i);
+	//		star->iChange = iChange.at(i);
 			star->starColor = (Star::Obj::StarColor)iChange.at(i);
 		}
 		Remove(this);

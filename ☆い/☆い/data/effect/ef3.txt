@@ -1,2 +1,0 @@
-
- hanabi y_sta 24 20 2 0 1

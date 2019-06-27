@@ -4,7 +4,6 @@
 #include "StageManager.h"
 #include "MeteoGenerator.h"
 #include "FadeInOut.h"
-#include "Eff1.h"
 
 namespace Meteo
 {
@@ -126,16 +125,6 @@ namespace Meteo
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cMeteoHitBase.CheckHit(&cFrHit))
 		{
-			/*エフェクト放出*/
-			byte loopmax = 31;
-			for (byte b = 0; b < loopmax; ++b)
-			{
-				auto ef1 = Add<Eff1::Obj>();
-				const fix fAng = ModAngle(360.f/loopmax*b);
-				Rec rEf(oFragment->rFragment.GetPosX(), oFragment->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
-				Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
-				ef1->SetParam(&rEf, &vSpd, 15, Eff1::ChipType::TYPE_Y_FRG, fAng);
-			}
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;
 		}

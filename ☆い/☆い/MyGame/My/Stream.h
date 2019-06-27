@@ -4,6 +4,7 @@
 
 #include <Windows.h>
 #include <fstream>
+#include <ios>
 #include <string>
 
 enum IOMode
@@ -86,6 +87,16 @@ public:
 		_in = (In)is.get();
 		return *this;
 	}
+	Stream<IOMode::IO_IN> &Get(std::string &_in, const char _delim)
+	{
+		for (;;)
+		{
+			char buf = is.get();
+			if (buf == _delim) break;
+			_in += buf;
+		}
+		return *this;
+	}
 	Stream<IOMode::IO_IN> &Read(std::string &_in, const size_t _num)
 	{
 		char *_buf = (char *)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(char) * (_num + 1));
@@ -102,6 +113,16 @@ public:
 	Stream<IOMode::IO_IN> &Ignore(const char _ignore)
 	{
 		is.ignore(std::numeric_limits<std::streamsize>::max(), _ignore);
+		return *this;
+	}
+	Stream<IOMode::IO_IN> &Seek(const UINT _pos)
+	{
+		is.seekg(_pos, std::ios_base::beg);
+		return *this;
+	}
+	Stream<IOMode::IO_IN> &Clear()
+	{
+		is.clear();
 		return *this;
 	}
 	const bool IsOpened() const

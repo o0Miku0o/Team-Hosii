@@ -39,7 +39,6 @@ namespace StageLoad
 
 		struct Star : public Base {
 			vector<int> viChange;
-			vector<float>vfSize;
 		}sStar;
 
 		struct BreakStar : public Base {

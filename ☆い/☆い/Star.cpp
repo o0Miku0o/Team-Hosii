@@ -268,35 +268,11 @@ namespace Star
 				break;
 			}
 
-
 			if (starSound == Full) {
 				Eff1::Create("./data/effect/ef_star_full.txt", &rStar.GetPos(), rStar.GetDeg());
 				
 				SoundPlay(Full);
 				Remove(fr);
-				/*エフェクト放出*/
-				byte loopmax = 15;
-				for (byte b = 0; b < loopmax; ++b)
-				{
-					auto ef1 = Add<Eff1::Obj>();
-					const fix fAng = ModAngle(-90.f+90.f / loopmax * b);
-					Rec rEf(rStar.GetPosX(), rStar.GetPosY(), 5, 5);//constつけなくてもOK
-					Vector2 vSpd(cos(DtoR(fAng)) * 5, sin(DtoR(fAng)) * 5);
-					Eff1::ChipType tEffectType = Eff1::ChipType::TYPE_R_FRG;
-					if (oFragment->iColor == 0)
-					{
-						tEffectType = Eff1::ChipType::TYPE_Y_FRG;
-					}
-					else if (oFragment->iColor == 1)
-					{
-						tEffectType = Eff1::ChipType::TYPE_R_FRG;
-					}
-					else if (oFragment->iColor == 2)
-					{
-						tEffectType = Eff1::ChipType::TYPE_B_FRG;
-					}
-					ef1->SetParam(&rEf, &vSpd, 25, tEffectType, fAng);
-				}
 				if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					++sm->bClearFragmentNum;
@@ -304,32 +280,350 @@ namespace Star
 			}
 			else if (starSound == Reflact) {
 				SoundPlay(Reflact);
-				/*エフェクト放出*/
-				byte loopmax = 31;
-				for (byte b = 0; b < loopmax; ++b)
-				{
-					auto ef1 = Add<Eff1::Obj>();
-					const fix fAng = ModAngle(360.f / loopmax * b);
-					Rec rEf(oFragment->rFragment.GetPosX(), oFragment->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
-					Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
-					Eff1::ChipType tEffectType = Eff1::ChipType::TYPE_R_FRG;
-					if (oFragment->iColor == 0)
-					{
-						tEffectType = Eff1::ChipType::TYPE_Y_FRG;
-					}
-					else if (oFragment->iColor == 1)
-					{
-						tEffectType = Eff1::ChipType::TYPE_R_FRG;
-					}
-					else if (oFragment->iColor == 2)
-					{
-						tEffectType = Eff1::ChipType::TYPE_B_FRG;
-					}
-					ef1->SetParam(&rEf, &vSpd, 15, tEffectType, fAng);
-				}
 				oFragment->rFragment.SetPos(&oFragment->pInitPos);
 				oFragment->bMoveActive = false;
 			}
+
+			//旧ichange
+
+			//switch (iChange)
+			//{
+			//case 22:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 23;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 26;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 28;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 23:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 24;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 27;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 29;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 24:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iChangeCircle = 86;
+			//		iChange = 25;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iChangeCircle = 86;
+			//		iChange = 33;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iChangeCircle = 86;
+			//		iChange = 32;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 25:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//case 26:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 27;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 30;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 27:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iChangeCircle = 86;
+			//		iChange = 31;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	else
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	break;
+			//case 28:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 29;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iChangeCircle = 85;
+			//		iChange = 30;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	break;
+			//case 29:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iChangeCircle = 86;
+			//		iChange = 31;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	else
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	break;
+			//case 30:
+			//	iChangeCircle = 85;
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iChangeCircle = 86;
+			//		iChange = 31;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	else
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	break;
+			//case 31:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//case 32:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//case 33:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//}
+
+			//旧ieffct
+
+			//switch (iStarEffect)
+			//{
+			//case 44:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iStarEffect = 45;
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iStarEffect = 46;
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iStarEffect = 47;
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 45:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iStarEffect = 46;
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iStarEffect = 47;
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iStarEffect = 48;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 46:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//case 47:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//case 48:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iStarEffect = 49;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iStarEffect = 50;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iStarEffect = 51;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 49:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iStarEffect = 49;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iStarEffect = 50;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iStarEffect = 51;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 50:
+			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//	res->wsTest5.Play();
+			//	oFragment->bMoveActive = false;
+			//	break;
+			//case 51:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iStarEffect = 52;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iStarEffect = 44;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	break;
+			//case 53:
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		iStarEffect = 54;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	else
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	break;
+			//case 54:
+			//	if (oFragment->iColor == 0)
+			//	{
+			//		iStarEffect = 55;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 1)
+			//	{
+			//		iStarEffect = 56;
+			//		res->wsTest2.Play();
+			//		Remove(fr);
+			//	}
+			//	if (oFragment->iColor == 2)
+			//	{
+			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//		res->wsTest5.Play();
+			//		oFragment->bMoveActive = false;
+			//	}
+			//	break;
+			//}
 		}
 
 		//iChange = min(iChange + 1, 22 + 13);

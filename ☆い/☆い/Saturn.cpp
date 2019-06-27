@@ -2,7 +2,6 @@
 #include "Beam.h"
 #include "Fragment.h"
 #include "StageManager.h"
-#include "Eff1.h"
 
 namespace Saturn
 {
@@ -43,17 +42,7 @@ namespace Saturn
 		{
 			FragmentCheckhit(f);
 			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos)) {
-				/*エフェクト放出*/
-				byte loopmax = 31;
-				for (byte b = 0; b < loopmax; ++b)
-				{
-					auto ef1 = Add<Eff1::Obj>();
-					const fix fAng = ModAngle(360.f / loopmax * b);
-					Rec rEf(f->rFragment.GetPosX(), f->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
-					Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
-					ef1->SetParam(&rEf, &vSpd, 15, Eff1::ChipType::TYPE_Y_FRG, fAng);
-				}
-				/*if (!f->bRotationActive)
+		/*		if (!f->bRotationActive)
 				{
 					f->pRotPos = cGravityCircle.GetPos();
 					f->fRotRadius = cGravityCircle.GetRadius() - 1;
