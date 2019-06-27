@@ -16,6 +16,8 @@ namespace StageManager
 	{
 		iStageImg.ImageCreate("./data/image/main/resource.bmp");
 
+		iStageImg2.ImageCreate("./data/image/main/ResultResource2.bmp");
+
 		tese.ImageCreate("./data/image/other/fade.bmp");
 
 		wsTest.SoundCreate("./data/sound/”š”­‰¹.wav");

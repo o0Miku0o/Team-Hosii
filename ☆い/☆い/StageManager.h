@@ -12,6 +12,7 @@ namespace StageManager
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Image iStageImg;
+		Image iStageImg2;
 		Image tese;
 		WSound wsTest;
 		WSound wsTest2;
