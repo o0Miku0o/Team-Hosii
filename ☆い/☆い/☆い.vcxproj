@@ -161,6 +161,7 @@
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarGenerator.h" />
     <ClInclude Include="Saturn.h" />
+    <ClInclude Include="Tips.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Tutorial.h" />
   </ItemGroup>
@@ -208,6 +209,7 @@
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarGenerator.cpp" />
     <ClCompile Include="Saturn.cpp" />
+    <ClCompile Include="Tips.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="WinProg.cpp" />

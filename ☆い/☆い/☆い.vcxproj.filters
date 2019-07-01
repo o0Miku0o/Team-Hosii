@@ -47,6 +47,7 @@
     <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="StageSelectIcon.cpp" />
+    <ClCompile Include="Tips.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="StageSelectIcon.h" />
+    <ClInclude Include="Tips.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />
