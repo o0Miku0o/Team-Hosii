@@ -45,6 +45,8 @@ namespace Title
 		char cAddAlpha;
 		bool bShineFlag;
 
+		//EventMsg em;
+
 		Obj() {}
 		~Obj() {}
 	private:

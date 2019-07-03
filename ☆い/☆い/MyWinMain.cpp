@@ -34,28 +34,28 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 		}
 		break;
 	}
-		//描画処理
-	case WM_PAINT:
-	{
-		HDC hDC;
-		PAINTSTRUCT ps;
-		//描画開始
-		hDC = BeginPaint(hWnd_, &ps);
-		//オフスクリーンをオンスクリーンに描画
-		Rec::DrawBackToFront(hDC);
+	//	//描画処理
+	//case WM_PAINT:
+	//{
+	//	HDC hDC;
+	//	PAINTSTRUCT ps;
+	//	//描画開始
+	//	hDC = BeginPaint(hWnd_, &ps);
+	//	//オフスクリーンをオンスクリーンに描画
+	//	Rec::DrawBackToFront(hDC);
 
-		if (auto kb = KB::GetState())
-		{
-			if (kb->On(VK_CONTROL) && kb->Down('Z'))
-			{
-				SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
-			}
-		}
+	//	if (auto kb = KB::GetState())
+	//	{
+	//		if (kb->On(VK_CONTROL) && kb->Down('Z'))
+	//		{
+	//			SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
+	//		}
+	//	}
 
-		//描画終了
-		EndPaint(hWnd_, &ps);
-		break;
-	}
+	//	//描画終了
+	//	EndPaint(hWnd_, &ps);
+	//	break;
+	//}
 	case MM_WOM_DONE:
 	{
 		WSound::LoopProc(wParam_, lParam_);
@@ -156,18 +156,6 @@ bool ApplicationInitialize(HINSTANCE hThisInst_, int nWinMode_)
 
 //指定時間処理を待つ関数
 //(コンピュータの処理速度の違いで処理が速くなりすぎないようにする)
-inline bool WaitProcess(unsigned long * const setsec_, const unsigned long waitsec_)
-{
-	if (SubFP(FP(timeGetTime()), waitsec_) >= FP(*setsec_))
-	{
-		*setsec_ = timeGetTime();
-		return 1;
-	}
-	return 0;
-}
-
-//指定時間処理を待つ関数
-//(コンピュータの処理速度の違いで処理が速くなりすぎないようにする)
 inline bool WaitProcess(double * const setsec_, const double waitsec_)
 {
 	if (timeGetTime() - waitsec_ >= *setsec_)
@@ -218,7 +206,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	//ゲームの初期化処理
 	Init();
 	//メインメッセージループ
-	while (1)
+	for (;;)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -283,6 +271,10 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理
 			Render();
+
+			auto hFront = GetDC(g_hWnd);
+			Rec::DrawBackToFront(hFront);
+			ReleaseDC(g_hWnd, hFront);
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
 			{
@@ -301,13 +293,17 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 
 			bArr[bCount] = byte(1000.0 / (timeGetTime() - tmptime2));
 			++bCount;
+			if (kb->On(VK_CONTROL) && kb->Down('Z'))
+			{
+				SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
+			}
 #endif
 			tmptime2 = (double)timeGetTime();
 		}
 		//領域無効化
-		InvalidateRect(g_hWnd, nullptr, false);
+		//InvalidateRect(g_hWnd, nullptr, false);
 		//ウィンドウの更新を反映させる
-		UpdateWindow(g_hWnd);
+		//UpdateWindow(g_hWnd);
 	}
 	//終了処理
 	Finalize();

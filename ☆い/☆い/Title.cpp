@@ -55,6 +55,9 @@ namespace Title
 		OtherInit();
 
 		PlayBgm();
+
+		//em.Open("./data/event/ev1.txt");
+		//em.Color(RGB(0, 255, 200));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -101,6 +104,12 @@ namespace Title
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
+		//if (em.Run() == EventMsg::Result::RES_EOF)
+		//{
+		//	em.Clear();
+		//}
+		//em.DrawAscii(Point(250, 250), 36, 72);
+
 		DrawMeteo();
 
 		if (auto s = RB::Find<Title::RS>(caResName))

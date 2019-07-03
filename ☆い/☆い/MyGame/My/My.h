@@ -1601,6 +1601,13 @@ public:
 
 		PlgBlt(hAlphaDc, pBufArr, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 
+		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
+
+		//auto threadFunc1 = [this, mybitmap_]()
+		//{
+		//	std::lock_guard<std::mutex> lock(mutex);
+		//	PlgBlt(hAlphaDc, pBufArr, off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, nullptr, 0, 0);
+		//};
 		//auto threadFunc2 = [this, mybitmap_]()
 		//{
 		//	std::lock_guard<std::mutex> lock(mutex);
@@ -1612,12 +1619,12 @@ public:
 		//	AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
 		//};
 
+		//std::thread th1(threadFunc1);
 		//std::thread th2(threadFunc2);
 		//std::thread th3(threadFunc3);
+		//th1.join();
 		//th2.join();
 		//th3.join();
-
-		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
 
 		//DeleteObject(hBufBmp);
 		//DeleteDC(hBufDc);
@@ -1660,6 +1667,13 @@ public:
 
 		PlgBlt(hAlphaDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 
+		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
+
+		//auto threadFunc1 = [this, mybitmap_, frSrc]()
+		//{
+		//	std::lock_guard<std::mutex> lock(mutex);
+		//	PlgBlt(hAlphaDc, pBufArr, off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, nullptr, 0, 0);
+		//};
 		//auto threadFunc2 = [this, mybitmap_, frSrc]()
 		//{
 		//	std::lock_guard<std::mutex> lock(mutex);
@@ -1671,12 +1685,12 @@ public:
 		//	AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
 		//};
 
+		//std::thread th1(threadFunc1);
 		//std::thread th2(threadFunc2);
 		//std::thread th3(threadFunc3);
+		//th1.join();
 		//th2.join();
 		//th3.join();
-
-		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
 
 		//DeleteObject(hBufBmp);
 		//DeleteDC(hBufDc);
