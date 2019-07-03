@@ -5,6 +5,7 @@
 #include "BlackHoleGenerator.h"
 #include "Title.h"
 #include "Fragment.h"
+#include "Eff1.h"
 
 namespace BreakStar
 {
@@ -141,6 +142,7 @@ namespace BreakStar
 					{
 						res->wsTest6.Play();
 					}
+					Eff1::Create("./data/effect/ef_star_chipY.txt", &rStar.GetPos(), 0);
 					++iChange;
 				}
 				if (iChange > 36)
@@ -179,6 +181,7 @@ namespace BreakStar
 				{
 					res->wsTest6.Play();
 				}
+				Eff1::Create("./data/effect/ef_star_chipY.txt", &rStar.GetPos(), 0);
 				++iChange;
 			}
 			if (iChange > 36)

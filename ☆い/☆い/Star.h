@@ -38,6 +38,7 @@ namespace Star
 		Vector2 vMove;
 		byte bAlpha;
 		char cAddAlpha;
+		Point pPos;
 
 		enum StarColor {
 			Yellow2 = 22,

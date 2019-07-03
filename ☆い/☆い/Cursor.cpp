@@ -78,7 +78,7 @@ namespace Cursor
 			else
 				rCursorBase.Move(&(Vector2::right * 8.f));
 		}
-		if (pad->GetAxisL() != Vector2::zero)
+		if (pad->Axis(JoyPad::Stick::STK_LEFT) != Vector2::zero)
 		{
 
 			if (rCursorBase.GetPosX() - rCursorBase.GetW() * 0.5f - 1 < Rec::Win.l) {
@@ -93,7 +93,7 @@ namespace Cursor
 			else if (rCursorBase.GetPosY() + rCursorBase.GetH() * 0.5f > Rec::Win.r) {
 				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.b - rCursorBase.GetW()));
 			}
-			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
+			rCursorBase.Move(&(pad->Axis(JoyPad::Stick::STK_LEFT) * 8.f));
 		}
 		if (auto ti = Find<Title::Obj>(Title::caTaskName))
 		{
@@ -103,7 +103,7 @@ namespace Cursor
 			{
 				ti->fStartImgSrcY = 1.f;
 				ti->rStart.Scaling(16 * 30.f * 1.5f, 16 * 5.f * 1.5f);
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
 				{
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					Add<Back::Obj>();
@@ -131,7 +131,7 @@ namespace Cursor
 				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
 				//ŽŽ—V‰ï
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 11;
@@ -162,7 +162,7 @@ namespace Cursor
 				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
 				//ŽŽ—V‰ï
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 21;
@@ -193,7 +193,7 @@ namespace Cursor
 				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
 
 				//ŽŽ—V‰ï
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 						manager->bStageNum = 31;
@@ -223,7 +223,7 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_URANUS;
 
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
 				{
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
@@ -254,7 +254,7 @@ namespace Cursor
 
 				sGroup = Hukidasi::StageGroup::GROUP_BLACKHOLE;
 
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
 				{
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {

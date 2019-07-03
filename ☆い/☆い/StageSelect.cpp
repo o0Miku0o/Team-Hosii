@@ -54,7 +54,7 @@ namespace StageSelect
 	{
 		//tamesi
 		const auto kb = KB::GetState();
-		if (kb->Now('O') == 1)
+		if (kb->Down('O'))
 		{
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();

@@ -1,0 +1,11 @@
+
+ e_type hanabi
+ c_type b_sta
+ c_size 5 5
+ num    36
+ life   20
+ spd    2
+ op 0   0
+ op 1   0
+ 
+ do

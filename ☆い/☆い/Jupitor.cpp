@@ -2,6 +2,7 @@
 #include "StageManager.h"
 #include "Beam.h"
 #include "Fragment.h"
+#include "Eff1.h"
 
 namespace Jupitor
 {
@@ -105,8 +106,12 @@ namespace Jupitor
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cJupitorHitBase.CheckHit(&cFrHit))
 		{
-			oFragment->bPreRotationActive = !oFragment->bRotationActive;
-			oFragment->HitAfterInit();
+			/*エフェクト放出*/
+			static std::string fileName[3] = { "./data/effect/ef_remove_frgY.txt","./data/effect/ef_remove_frgR.txt","./data/effect/ef_remove_frgB.txt" };
+			Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+			oFragment->rFragment.SetDeg(rJupitor.GetDeg(&oFragment->rFragment));
+			//oFragment->bPreRotationActive = !oFragment->bRotationActive;
+			//oFragment->HitAfterInit();
 			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			//oFragment->bMoveActive = false;
 			//oFragment->bRotationActive = true;

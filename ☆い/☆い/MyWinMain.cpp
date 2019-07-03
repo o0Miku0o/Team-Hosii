@@ -175,19 +175,15 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	if (ApplicationInitialize(hThisInst_, nWinMode_))
 		return 0;
 	/*キーボード*/
-	KB kb;
+	KB::Create();
 	/*マウス*/
-	MS ms(g_hWnd);
+	MS::Create(g_hWnd);
 	/*マウスの表示/非表示*/
 	MS::Visible(false);
 	/*矩形クラスを初期化*/
 	Rec::Init(g_hWnd);
 	/*JoyPadの初期化*/
-	JoyPad::Init(3000);
-	/*JoyPad１*/
-	JoyPad joy1;
-	/*JoyPad２*/
-	JoyPad joy2;
+	JoyPad::Create(2);
 	/*乱数の初期化*/
 	srand(/**/(unsigned int)time(nullptr)/*/0/**/);
 	//アプリケーションまたはデバイスドライバの
@@ -231,37 +227,36 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			//ゲームの更新処理
 			if (Update()) PostQuitMessage(0);
 			//
-			Particle::UpdateAll();
-			//
 			Animation::UpdateAll();
 
 #ifdef _DEBUG
 			fix fX = 0.f, fY = 0.f;
-			if (kb.On('I'))
+			auto kb = KB::GetState();
+			if (kb->On('I'))
 			{
 				fY -= 10.f;
 			}
-			if (kb.On('K'))
+			if (kb->On('K'))
 			{
 				fY += 10.f;
 			}
-			if (kb.On('J'))
+			if (kb->On('J'))
 			{
 				fX -= 10.f;
 			}
-			if (kb.On('L'))
+			if (kb->On('L'))
 			{
 				fX += 10.f;
 			}
-			if (kb.On('Y'))
+			if (kb->On('Y'))
 			{
 				fZoom = Min(fZoom + 0.2f, 2.f);
 			}
-			if (kb.On('U'))
+			if (kb->On('U'))
 			{
 				fZoom = Max(fZoom - 0.2f, 1.f);
 			}
-			if (kb.Down(VK_BACK)) {
+			if (kb->Down(VK_BACK)) {
 				if (auto sm = TaskBase::Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					sm->bIsDebug = !sm->bIsDebug;
@@ -275,8 +270,6 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理
 			Render();
-			//
-			Particle::DrawAll();
 
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
 			{

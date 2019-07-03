@@ -142,7 +142,6 @@
     <ClInclude Include="MyGame\My\FixedPoint.h" />
     <ClInclude Include="MyGame\My\My.h" />
     <ClInclude Include="MyGame\TaskBase.h" />
-    <ClInclude Include="Neptune.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="resource.h" />
@@ -189,7 +188,6 @@
     <ClCompile Include="MyGame\My\My.cpp" />
     <ClCompile Include="MyGame\TaskBase.cpp" />
     <ClCompile Include="MyWinMain.cpp" />
-    <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Result.cpp" />

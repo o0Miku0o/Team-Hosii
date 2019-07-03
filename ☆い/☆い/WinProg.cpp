@@ -8,7 +8,8 @@
 void Init()
 {
 	/*ここで最初のタスクを追加*/
-	TB::SysInit<GameInit::Obj>();
+	TB::Add<GameInit::Obj>();
+	//TB::SysInit<GameInit::Obj>();
 }
 
 //終了処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//

@@ -49,7 +49,7 @@ namespace Stage
 			Pause(2);
 		}*/
 
-		if (kb->Now('F') == 1 || pad->NowBut(J_BUT_7) == 1) {
+		if (kb->Down('F') || pad->Down(JOY_BUTTON7)) {
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
@@ -59,13 +59,13 @@ namespace Stage
 			Add<StageSelect::Obj>();
 			Pause(2);
 		}
-		if (kb->Now('R') == 1 || pad->NowBut(J_BUT_4) == 1) {
+		if (kb->Down('R') || pad->Down(JOY_BUTTON4)) {
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
 		}
 #ifdef _DEBUG
-		if (kb->Now('T') == 1 || pad->NowBut(J_BUT_3) == 1) {
+		if (kb->Down('T') || pad->Down(JOY_BUTTON3)) {
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 				manager->bStageNum = manager->bNextStage;

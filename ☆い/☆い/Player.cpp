@@ -56,7 +56,7 @@ namespace Player
 			{
 				const auto pad = JoyPad::GetState(0);
 				const auto kb = KB::GetState();
-				if (pad->NowBut(J_BUT_6) == 1)
+				if (pad->Down(JOY_BUTTON6))
 				{
 					if (!Find<Beam::Obj>(Beam::caTaskName))
 					{
@@ -67,7 +67,7 @@ namespace Player
 						}
 					}
 				}
-				if (kb->Now(VK_RIGHT) == 1)
+				if (kb->Down(VK_RIGHT))
 				{
 					if (!Find<Beam::Obj>(Beam::caTaskName))
 					{
@@ -76,7 +76,7 @@ namespace Player
 				}
 				if (!Find<Beam::Obj>(Beam::caTaskName))
 				{
-					float fSpdY = pad->GetAxisL().GetY() * 2.0f;
+					float fSpdY = pad->Axis(JoyPad::Stick::STK_LEFT).GetY() * 2.0f;
 					float fAng = 0.5f;
 					if (kb->On('W'))
 					{
@@ -91,7 +91,7 @@ namespace Player
 						fSpdY *= 0.5f;
 						fAng *= 0.5f;
 					}
-					if (pad->On(J_BUT_5))
+					if (pad->On(JOY_BUTTON6))
 					{
 						fSpdY *= 0.5f;
 						fAng *= 0.5f;
@@ -119,7 +119,7 @@ namespace Player
 						(
 							Min
 							(
-								fPAngle + pad->GetAxisR().GetY() * fAng,
+								fPAngle + pad->Axis(JoyPad::Stick::STK_RIGHT).GetY() * fAng,
 								rBase.GetDeg(&pStandardPoint) + 215
 							),
 							rBase.GetDeg(&pStandardPoint) + 145
@@ -127,7 +127,7 @@ namespace Player
 					rBase.SetDeg(fPAngle);
 
 					//プレイヤの位置リセット
-					if (pad->NowBut(J_BUT_2) == 1 || kb->Now('6') == 1)
+					if (pad->Down(JOY_BUTTON2) || kb->Down('6'))
 					{
 	//					fSPAngle = 180.f;
 						fPAngle = 180.f/*rBase.GetDeg(&pStandardPoint) + 180.f*/;

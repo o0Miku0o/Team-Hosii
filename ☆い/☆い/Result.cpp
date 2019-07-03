@@ -177,7 +177,7 @@ namespace Result
 		//	}
 		//	Pause(2);
 		//}
-		else if (pad->Down(J_BUT_6) || kb->Down('8') || kb->Down(VK_RETURN)) {
+		else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN)) {
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			//			Add<Back::Obj>();
 			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {

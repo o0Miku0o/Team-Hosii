@@ -2,7 +2,7 @@
 #include "StarGenerator.h"
 #include "BreakStarGenerator.h"
 #include "Jupitor.h"
-#include "Neptune.h"
+
 #include "Saturn.h"
 #include "MeteoGenerator.h"
 #include "AlienGenerator.h"
@@ -71,10 +71,6 @@ namespace StageLoad
 			if (sJupiter.state) {
 				auto pj = Add<Jupitor::Obj>();
 				pj->rJupitor = sJupiter.rec;
-			}
-			if (sNeptune.state) {
-				auto pn = Add<Neptune::Obj>();
-				pn->rNeptune = sNeptune.rec;
 			}
 			if (sSaturn.state) {
 				auto sa = Add<Saturn::Obj>();
