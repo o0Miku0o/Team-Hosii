@@ -57,7 +57,7 @@ namespace Title
 		PlayBgm();
 
 		//em.Open("./data/event/ev1.txt");
-		//em.Color(RGB(0, 255, 200));
+		//em.Color(RGB(0, 255, 0));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -108,7 +108,7 @@ namespace Title
 		//{
 		//	em.Clear();
 		//}
-		//em.DrawAscii(Point(250, 250), 36, 72);
+		//em.DrawAscii(Point(150, 150), 6 * 10, 24 * 10);
 
 		DrawMeteo();
 

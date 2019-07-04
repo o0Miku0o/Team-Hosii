@@ -103,22 +103,32 @@ public:
 				if (CmdComp('['))
 				{
 					std::string _interval_string;
-					is.Get(_interval_string, ']');
+					is.Get(_interval_string, ',');
 					interval = atoi(_interval_string.c_str());
+					std::string _color_val;
+					is.Get(_color_val, ']');
+					if (_color_val == "default") return Result::RES_SUCCESS;
+					/*èâÇﬂÇÃÉJÉìÉ}Ç‹Ç≈*/
+					auto _first = _color_val.find(',');
+					auto _r = _color_val.substr(0, _first);
+					auto _second = _color_val.find(',', _first + 1);
+					auto _g = _color_val.substr(_first + 1, _second - _first - 1);
+					auto _b = _color_val.substr(_second + 1);
+					Color(RGB(atoi(_r.c_str()), atoi(_g.c_str()), atoi(_b.c_str())));
 					return Result::RES_SUCCESS;
 				}
-				if (CmdComp('#'))
-				{
-					std::string _color;
-					BYTE _rgb[3];
-					for (auto &c : _rgb)
-					{
-						is.Get(_color, ',');
-						c = atoi(_color.c_str());
-					}
-					Color(RGB(_rgb[0], _rgb[1], _rgb[2]));
-					return Result::RES_SUCCESS;
-				}
+				//if (CmdComp('#'))
+				//{
+				//	std::string _color;
+				//	BYTE _rgb[3];
+				//	for (auto &c : _rgb)
+				//	{
+				//		is.Get(_color, ',');
+				//		c = atoi(_color.c_str());
+				//	}
+				//	Color(RGB(_rgb[0], _rgb[1], _rgb[2]));
+				//	return Result::RES_SUCCESS;
+				//}
 			}
 			msg += _in;
 		}
@@ -126,7 +136,7 @@ public:
 	}
 	void DrawAscii(const Point &_pos, const float _width, const float _height)
 	{
-		Frec _src(0.f, 0.f, 6.f, 12.f);
+		Frec _src(0.f, 0.f, 6.f, 24.f);
 		draw.Scaling(_width, _height);
 		for (size_t i = 0; i < msg.size(); ++i)
 		{
@@ -134,7 +144,7 @@ public:
 			_d_pos.x += i * (_width + 2);
 			draw.SetPos(&_d_pos);
 			_src.l = (msg.at(i) % 32) * 6.f;
-			_src.t = (msg.at(i) / 32) * 12.f;
+			_src.t = (msg.at(i) / 32) * 24.f;
 			draw.Draw(&font, &_src, false);
 		}
 	}

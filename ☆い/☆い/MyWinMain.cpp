@@ -274,6 +274,12 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 
 			auto hFront = GetDC(g_hWnd);
 			Rec::DrawBackToFront(hFront);
+#ifdef _DEBUG
+			if (kb->On(VK_CONTROL) && kb->Down('Z'))
+			{
+				SaveBitMap(hFront, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
+			}
+#endif
 			ReleaseDC(g_hWnd, hFront);
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
@@ -293,10 +299,6 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 
 			bArr[bCount] = byte(1000.0 / (timeGetTime() - tmptime2));
 			++bCount;
-			if (kb->On(VK_CONTROL) && kb->Down('Z'))
-			{
-				SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
-			}
 #endif
 			tmptime2 = (double)timeGetTime();
 		}

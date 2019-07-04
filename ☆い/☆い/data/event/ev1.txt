@@ -1,1 +1,1 @@
-[10]#0,0,0,HELLO [5]WORLD
+[10,default]Now Loading [5,default]Monday Wednesday
