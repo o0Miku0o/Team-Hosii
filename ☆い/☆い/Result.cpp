@@ -115,7 +115,7 @@ namespace Result
 		}
 		if (bMoveStarIdx < bScore)
 		{
-			auto st = (Star::OBJ_ptr)vsMoveStar[bMoveStarIdx];
+			auto st = (Star::Obj_ptr)vsMoveStar[bMoveStarIdx];
 			st->rStar.Move(&Vector2(20.f, 20.f));
 			if (st->rStar.GetPosY() >= 430.f)
 			{
@@ -126,7 +126,7 @@ namespace Result
 				}
 			}
 		}
-		else if (pad->Down(J_BUT_6) || kb->Down('8') || kb->Down(VK_RETURN))
+		else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN))
 		{
 			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク"))
