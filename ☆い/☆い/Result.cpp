@@ -27,10 +27,10 @@ namespace Result
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("リザルトタスク");
+		SetName(caTaskName);// "リザルトタスク");
 
 		/*リソース生成*/
-		RB::Add<Result::RS>("リザルトリソース");
+		RB::Add<Result::RS>(caResName);// "リザルトリソース");
 
 		/*タスクの生成*/
 		auto cs = Add<Cursor::Obj>();
@@ -87,7 +87,7 @@ namespace Result
 		bMoveStarIdx = 0;
 		bScore = 1;
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.Pause();
 			res->wsBGM2.Pause();
@@ -106,7 +106,7 @@ namespace Result
 		auto kb = KB::GetState();
 
 		std::vector<TB_ptr> vsMoveStar;
-		for (auto &vs : FindAll<Star::Obj>("星タスク"))
+		for (auto &vs : FindAll<Star::Obj>(Star::caTaskName))
 		{
 			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
@@ -115,21 +115,21 @@ namespace Result
 		}
 		if (bMoveStarIdx < bScore)
 		{
-			auto st = (Star::OBJ_ptr)vsMoveStar[bMoveStarIdx];
+			auto st = (Star::Obj_ptr)vsMoveStar[bMoveStarIdx];
 			st->rStar.Move(&Vector2(20.f, 20.f));
 			if (st->rStar.GetPosY() >= 430.f)
 			{
 				++bMoveStarIdx;
-				if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+				if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 				{
 					res->wsTest2.Play();
 				}
 			}
 		}
-		else if (pad->Down(J_BUT_6) || kb->Down('8') || kb->Down(VK_RETURN))
+		else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN))
 		{
-			RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-			if (auto manager = Find<StageManager::Obj>("ステージ統括タスク"))
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
 			{
 				manager->bStageNum = manager->bNextStage;
 				if (manager->bStageNum == 255)
@@ -168,7 +168,7 @@ namespace Result
 		{
 			Rec::FullPaint(RGB(144, 151, 160));
 		}
-		if (auto s = RB::Find<Result::RS>("リザルトリソース"))
+		if (auto s = RB::Find<Result::RS>(Result::caResName))
 		{
 			rResult.Draw(&s->iResult, &Frec(0.f, 0.f, 16.f, 16.f), true);
 			rRestart.Draw(&s->iHanko, &Frec(0.f, 0.f, 16.f, 16.f), true);

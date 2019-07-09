@@ -19,7 +19,6 @@
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
     <ClCompile Include="MyGame\My\Animation.cpp" />
-    <ClCompile Include="MyGame\My\CGDM.cpp" />
     <ClCompile Include="MyGame\My\My.cpp" />
     <ClCompile Include="MyGame\TaskBase.cpp" />
     <ClCompile Include="MyWinMain.cpp" />
@@ -46,8 +45,10 @@
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="Tutorial.cpp" />
-    <ClCompile Include="StageSelectIcon.cpp" />
+    <ClCompile Include="MyGame\My\CADAM.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="Tips.cpp" />
+    <ClCompile Include="TimeAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -71,7 +72,6 @@
     <ClInclude Include="MeteoGenerator.h" />
     <ClInclude Include="MyGame\MyApp.h" />
     <ClInclude Include="MyGame\My\Animation.h" />
-    <ClInclude Include="MyGame\My\CGDM.h" />
     <ClInclude Include="MyGame\My\FixedPoint.h" />
     <ClInclude Include="MyGame\My\My.h" />
     <ClInclude Include="MyGame\TaskBase.h" />
@@ -97,7 +97,16 @@
     <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Tutorial.h" />
-    <ClInclude Include="StageSelectIcon.h" />
+    <ClInclude Include="MyGame\My\CADAM.h" />
+    <ClInclude Include="MyGame\My\Move.h" />
+    <ClInclude Include="MyGame\My\Debug.h" />
+    <ClInclude Include="Stop.h" />
+    <ClInclude Include="PadMove.h" />
+    <ClInclude Include="KeyMove.h" />
+    <ClInclude Include="MyGame\My\Stream.h" />
+    <ClInclude Include="MyGame\My\EventMsg.h" />
+    <ClInclude Include="MiniGame.h" />
+    <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="Tips.h" />
   </ItemGroup>
   <ItemGroup>

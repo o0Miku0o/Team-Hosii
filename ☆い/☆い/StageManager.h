@@ -12,7 +12,6 @@ namespace StageManager
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Image iStageImg;
-		Image iStageImg2;
 		Image tese;
 		WSound wsTest;
 		WSound wsTest2;
@@ -61,5 +60,5 @@ namespace StageManager
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

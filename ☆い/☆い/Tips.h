@@ -12,7 +12,6 @@ namespace Tips
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Image iTips;
 		Image iGuideBase;
 
 		RS() { Init(); }
@@ -27,8 +26,13 @@ namespace Tips
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Image iTips;
 		Rec rTips;
 		Rec rGuideBase;
+		Rec rBack;
+		int iAnimCount;
+		bool bIsLoaded;
+		void LoadImg(const unsigned int auiStageNumber);
 
 		Obj() {}
 		~Obj() {}
@@ -38,5 +42,5 @@ namespace Tips
 	public:
 		void Update();
 		void Render();
-	};
+	}*OBJ_ptr;
 }

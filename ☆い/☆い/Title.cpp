@@ -55,6 +55,9 @@ namespace Title
 		OtherInit();
 
 		PlayBgm();
+
+		//em.Open("./data/event/ev1.txt");
+		//em.Color(RGB(0, 255, 0));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -101,6 +104,12 @@ namespace Title
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
+		//if (em.Run() == EventMsg::Result::RES_EOF)
+		//{
+		//	em.Clear();
+		//}
+		//em.DrawAscii(Point(150, 150), 6 * 10, 24 * 10);
+
 		DrawMeteo();
 
 		if (auto s = RB::Find<Title::RS>(caResName))
@@ -212,6 +221,7 @@ namespace Title
 	void Obj::CreateCursor()
 	{
 		auto cs = Add<Cursor::Obj>();
+		//cs->pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 	}
 	/*☆の生成*/

@@ -27,10 +27,11 @@ namespace Tutorial
 	};
 	enum Stk_State
 	{
-		STS_NEUTRAL,
+		STS_NEUTRAL_L,
 		STS_UP,
 		STS_DOWN,
-		STS_MAX
+		STS_MAX,
+		STS_NEUTRAL_R
 	};
 	struct TtlButton
 	{
@@ -80,5 +81,5 @@ namespace Tutorial
 		void Render();
 
 		void SetParam(const unsigned int auiInitLife, const Ttl_State atState, const unsigned int auiBNumber, const Point * const appPos, const Point * const appTarget);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

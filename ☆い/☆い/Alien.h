@@ -56,7 +56,7 @@ namespace Alien
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 	void MoveHorizontal(Point* pPos, const Point* pCenter, int * const iCount, float * const fAddAngle);
 	void Move_Horizontal(Point* pPos, const Point* pCenter, int * const iCount, float * const fAddAngle);
 	void MoveVertical(Point* pPos, const Point* pCenter, int * const iCount, float * const fAddAngle);

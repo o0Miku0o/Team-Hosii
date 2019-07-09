@@ -142,7 +142,9 @@ namespace Fragment
 		if (!bMoveActive) return;
 
 		/*エフェクト放出*/
-		for (byte b = 0; b < 4; ++b)
+		static std::string fileName[3] = { "./data/effect/ef_move_frgY.txt","./data/effect/ef_move_frgR.txt","./data/effect/ef_move_frgB.txt" };
+		Eff1::Create(fileName[iColor], &rFragment.GetPos(), rFragment.GetDeg());
+		/*for (byte b = 0; b < 4; ++b)
 		{
 			auto ef1 = Add<Eff1::Obj>();
 			const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
@@ -164,7 +166,7 @@ namespace Fragment
 				tEffectType = Eff1::Type::TYPE_B_FRG;
 			}
 			ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
-		}
+		}*/
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -240,8 +242,36 @@ namespace Fragment
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
 			}
-
 			oFragment->rFragment.SetDeg(rFragment.GetDeg(&oFragment->rFragment));
+			cHit.GetRadius();
+			float fDisx = (rFragment.GetPosX() - oFragment->rFragment.GetPosX()) / 2.f + oFragment->rFragment.GetPosX();
+			float fDisy = (rFragment.GetPosY() - oFragment->rFragment.GetPosY()) / 2.f + oFragment->rFragment.GetPosY();
+			Point pPos(fDisx, fDisy);
+			/*エフェクト放出*/
+			static std::string fileName[3] = { "./data/effect/ef_reflect_frgY.txt","./data/effect/ef_reflect_frgR.txt","./data/effect/ef_reflect_frgB.txt" };
+			Eff1::Create(fileName[iColor], &pPos, rFragment.GetDeg());
+			/*byte loopmax = 15;
+			for (byte b = 0; b < loopmax; ++b)
+			{
+				auto ef1 = Add<Eff1::Obj>();
+				const fix fAng = ModAngle(oFragment->rFragment.GetDeg() - 90.f + 180.f / loopmax * b);
+				Rec rEf(fDisx, fDisy, 5, 5);//constつけなくてもOK
+				Vector2 vSpd(cos(DtoR(fAng)) * 7.f, sin(DtoR(fAng)) * 7.f);
+				Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+				if (iColor == 0)
+				{
+					tEffectType = Eff1::Type::TYPE_Y_FRG;
+				}
+				else if (iColor == 1)
+				{
+					tEffectType = Eff1::Type::TYPE_R_FRG;
+				}
+				else if (iColor == 2)
+				{
+					tEffectType = Eff1::Type::TYPE_B_FRG;
+				}
+				ef1->SetParam(&rEf, &vSpd, 7, tEffectType, fAng);
+			}*/
 			//rFragment.SetDeg(oFragment->rFragment.GetDeg(&rFragment));
 			oFragment->bRotationActive = false;
 			oFragment->bMoveActive = true;

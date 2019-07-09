@@ -53,7 +53,8 @@ namespace Beam
 		if (!FindNext<Beam::Obj>(caTaskName))
 		{
 			/*エフェクト放出*/
-			for (byte b = 0; b < 2; ++b)
+			Eff1::Create("./data/effect/ef_beam.txt", &rHitBase.GetPos(), rHitBase.GetDeg());
+			/*for (byte b = 0; b < 2; ++b)
 			{
 				auto ef1 = Add<Eff1::Obj>();
 				const fix fAng = ModAngle(rHitBase.GetDeg() + 180.f + (rand() % 21 - 10));
@@ -62,7 +63,7 @@ namespace Beam
 				const fix fSpdY = sin_fast((float)fRad) * 2.f;
 				Rec rEf(rHitBase.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 9 - 4.f), rHitBase.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 9 - 4.f), 24.f, 3.f, fAng);
 				ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, Eff1::Type::TYPE_BEAM, fAng);
-			}
+			}*/
 		}
 
 		/*画面外に出たら消滅*/

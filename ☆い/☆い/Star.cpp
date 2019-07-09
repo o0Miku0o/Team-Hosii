@@ -3,6 +3,7 @@
 #include "StageManager.h"
 #include "Title.h"
 #include "Result.h"
+#include "Eff1.h"
 
 namespace Star
 {
@@ -127,42 +128,51 @@ namespace Star
 
 	void Obj::CheckHitYellow() {
 		starSound = Full;
+		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
 		switch (starColor) {
 		case Yellow2:
 			starColor = Yellow3;
 			starEffect = EFTYellow3;
+			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Red:
 			starColor = Yellow3_Red;
 			starEffect = EFTYellow3_Red;
+			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Blue:
 			starColor = Yellow3_Blue;
 			starEffect = EFTYellow3_Blue;
+			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Red_Blue:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow4;
 			starEffect = EFTYellow4;
+			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow3_Red:
 			starColor = Yellow4_Red;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow3_Blue:
 			starColor = Yellow4_Blue;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow5;
 			starEffect = EFTYellow5;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
@@ -170,28 +180,34 @@ namespace Star
 	}
 	void Obj::CheckHitRed() {
 		starSound = Full;
+		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
 		switch (starColor) {
 		case Yellow2:
 			starColor = Yellow2_Red;
 			starEffect = EFTYellow2_Red;
+			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow2_Blue:
 			starColor = Yellow2_Red_Blue;
 			starEffect = EFTYellow2_Red_Blue;
+			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow3_Red;
 			starEffect = EFTYellow3_Red;
+			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow3_Blue:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullR.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow4_Red;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullR.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
@@ -200,28 +216,34 @@ namespace Star
 	}
 	void Obj::CheckHitBlue() {
 		starSound = Full;
+		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
 		switch (starColor) {
 		case Yellow2:
 			starColor = Yellow2_Blue;
 			starEffect = EFTYellow2_Blue;
+			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow2_Red:
 			starColor = Yellow2_Red_Blue;
 			starEffect = EFTYellow2_Red_Blue;
+			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow3_Blue;
 			starEffect = EFTYellow3_Blue;
+			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow3_Red:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow4_Blue;
 			starEffect = EFTYellow4_Blue;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
@@ -267,9 +289,35 @@ namespace Star
 				break;
 			}
 
+
 			if (starSound == Full) {
 				SoundPlay(Full);
 				Remove(fr);
+				/*エフェクト放出*/
+				/*static std::string fileName[3] = { "./data/effect/ef_star_fullY.txt","./data/effect/ef_star_fullR.txt","./data/effect/ef_star_fullB.txt" };
+				Eff1::Create(fileName[oFragment->iColor], &rStar.GetPos(), oFragment->rFragment.GetDeg());*/
+				/*byte loopmax = 15;
+				for (byte b = 0; b < loopmax; ++b)
+				{
+					auto ef1 = Add<Eff1::Obj>();
+					const fix fAng = ModAngle(-90.f+90.f / loopmax * b);
+					Rec rEf(rStar.GetPosX(), rStar.GetPosY(), 5, 5);//constつけなくてもOK
+					Vector2 vSpd(cos(DtoR(fAng)) * 5, sin(DtoR(fAng)) * 5);
+					Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+					if (oFragment->iColor == 0)
+					{
+						tEffectType = Eff1::Type::TYPE_Y_FRG;
+					}
+					else if (oFragment->iColor == 1)
+					{
+						tEffectType = Eff1::Type::TYPE_R_FRG;
+					}
+					else if (oFragment->iColor == 2)
+					{
+						tEffectType = Eff1::Type::TYPE_B_FRG;
+					}
+					ef1->SetParam(&rEf, &vSpd, 25, tEffectType, fAng);
+				}*/
 				if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 				{
 					++sm->bClearFragmentNum;
@@ -277,8 +325,34 @@ namespace Star
 			}
 			else if (starSound == Reflact) {
 				SoundPlay(Reflact);
-				oFragment->rFragment.SetPos(&oFragment->pInitPos);
-				oFragment->bMoveActive = false;
+				/*エフェクト放出*/
+				static std::string fileName[3] = { "./data/effect/ef_reflect_frgY.txt","./data/effect/ef_reflect_frgR.txt","./data/effect/ef_reflect_frgB.txt" };
+				Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+				/*byte loopmax = 31;
+				for (byte b = 0; b < loopmax; ++b)
+				{
+					auto ef1 = Add<Eff1::Obj>();
+					const fix fAng = ModAngle(360.f / loopmax * b);
+					Rec rEf(oFragment->rFragment.GetPosX(), oFragment->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
+					Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
+					Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+					if (oFragment->iColor == 0)
+					{
+						tEffectType = Eff1::Type::TYPE_Y_FRG;
+					}
+					else if (oFragment->iColor == 1)
+					{
+						tEffectType = Eff1::Type::TYPE_R_FRG;
+					}
+					else if (oFragment->iColor == 2)
+					{
+						tEffectType = Eff1::Type::TYPE_B_FRG;
+					}
+					ef1->SetParam(&rEf, &vSpd, 15, tEffectType, fAng);
+				}*/
+				oFragment->rFragment.SetDeg(rStar.GetDeg(&oFragment->rFragment));
+				//oFragment->rFragment.SetPos(&oFragment->pInitPos);
+				//oFragment->bMoveActive = false;
 			}
 
 			//旧ichange

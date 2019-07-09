@@ -4,6 +4,7 @@
 #include "StageManager.h"
 #include "MeteoGenerator.h"
 #include "FadeInOut.h"
+#include "Eff1.h"
 
 namespace Meteo
 {
@@ -125,8 +126,21 @@ namespace Meteo
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cMeteoHitBase.CheckHit(&cFrHit))
 		{
-			oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			oFragment->bMoveActive = false;
+			/*エフェクト放出*/
+			static std::string fileName[3] = { "./data/effect/ef_remove_frgY.txt","./data/effect/ef_remove_frgR.txt","./data/effect/ef_remove_frgB.txt" };
+			Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+			/*byte loopmax = 31;
+			for (byte b = 0; b < loopmax; ++b)
+			{
+				auto ef1 = Add<Eff1::Obj>();
+				const fix fAng = ModAngle(360.f/loopmax*b);
+				Rec rEf(oFragment->rFragment.GetPosX(), oFragment->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
+				Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
+				ef1->SetParam(&rEf, &vSpd, 15, Eff1::Type::TYPE_Y_FRG, fAng);
+			}*/
+			oFragment->rFragment.SetDeg(rMeteo.GetDeg(&oFragment->rFragment));
+			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//oFragment->bMoveActive = false;
 		}
 	}
 }

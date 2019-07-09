@@ -44,31 +44,13 @@ namespace BeamGenerator
 	{
 		if (auto player = Find<Player::Obj>(Player::caTaskName))
 		{
-			if (bBeamCount > 5)
-			{
-				Remove(this);
-				return;
-			}
-			auto beam = Add<Beam::Obj>();
-			Point pPos
-			(
-				cos(DtoR(player->rBase.GetDeg() - 180)) * player->rBase.GetW() * 0.5f + player->rBase.GetPosX(),
-				sin(DtoR(player->rBase.GetDeg() - 180)) * player->rBase.GetW() * 0.5f + player->rBase.GetPosY()
-			);
-			beam->rHitBase.SetPos(&pPos);
-			beam->rHitBase.SetDeg(player->rBase.GetDeg() + 180);
+			/*プレイヤーに合わせてビームを生成*/
+			BeamCreate(player);
 		}
+		/*タイトル画面だけ特殊に*/
 		else if (Find<Title::Obj>(Title::caTaskName))
 		{
-			if (bBeamCount > 13)
-			{
-				Remove(this);
-				return;
-			}
-			auto beam = Add<Beam::Obj>();
-			beam->rHitBase.SetPos(&Point(Rec::Win.l, Rec::Win.b * 0.423f));
-			beam->rHitBase.Scaling(21.f, 16.f * 2.f);
-			beam->rHitBase.SetDeg(0.f);
+			TitleBeamCreate();
 		}
 		++bBeamCount;
 	}
@@ -76,5 +58,36 @@ namespace BeamGenerator
 	void Obj::Render()
 	{
 
+	}
+	/*ビームを生成*/
+	void Obj::BeamCreate(TaskBase *atpPlayer)
+	{
+		auto player = (Player::Obj_ptr)atpPlayer;
+		if (bBeamCount > 5)
+		{
+			Remove(this);
+			return;
+		}
+		auto beam = Add<Beam::Obj>();
+		Point pPos
+		(
+			cos(DtoR(player->rBase.GetDeg() - 180)) * player->rBase.GetW() * 0.5f + player->rBase.GetPosX(),
+			sin(DtoR(player->rBase.GetDeg() - 180)) * player->rBase.GetW() * 0.5f + player->rBase.GetPosY()
+		);
+		beam->rHitBase.SetPos(&pPos);
+		beam->rHitBase.SetDeg(player->rBase.GetDeg() + 180);
+	}
+	/*タイトルだけ特殊に*/
+	void Obj::TitleBeamCreate()
+	{
+		if (bBeamCount > 13)
+		{
+			Remove(this);
+			return;
+		}
+		auto beam = Add<Beam::Obj>();
+		beam->rHitBase.SetPos(&Point(Rec::Win.l, Rec::Win.b * 0.423f));
+		beam->rHitBase.Scaling(21.f, 16.f * 2.f);
+		beam->rHitBase.SetDeg(0.f);
 	}
 }
