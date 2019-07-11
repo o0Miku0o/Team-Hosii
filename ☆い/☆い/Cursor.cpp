@@ -79,180 +79,67 @@ namespace Cursor
 			}
 		}
 		bool bHitFlag = false;
-		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
-		if (auto us = Find<StageSelectObjEarth::Obj>(StageSelectObjEarth::caTaskName))
+		constexpr float fAddScale = 70.f;
+		constexpr float fScaleWMax = 1800.f;//2000;
+		constexpr float fScaleHMax = 400.f;//600;
+		auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName);
+		for (auto si : FindAll<StageSelectIcon::Obj>(StageSelectIcon::caTaskName))
 		{
-			us->rEarth.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rEarth.GetPos(), us->rEarth.GetW() * 0.5f);
+			si->rIcon.Scaling(16.f * 10.f, 16.f * 10.f);
+			Circle cHit;
+			cHit.SetPos(&si->rIcon.GetPos());
+			cHit.SetRadius(si->rIcon.GetW() / 2);
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
-				us->rEarth.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
-
-				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
-
-				//ééóVâÔ
-				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
-					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
-						manager->bStageNum = 11;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
-				}
-			}
-		}
-		if (auto us = Find<StageSelectObjAsteroid::Obj>(StageSelectObjAsteroid::caTaskName))
-		{
-			us->rAsteroid.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rAsteroid.GetPos(), us->rAsteroid.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
-
-				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
-
-				//ééóVâÔ
-				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
-					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
-						manager->bStageNum = 21;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
-				}
-			}
-		}
-		if (auto us = Find<StageSelectObjGalaxy::Obj>(StageSelectObjGalaxy::caTaskName))
-		{
-			us->rGalaxy.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rGalaxy.GetPos(), us->rGalaxy.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
-
-				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
-
-				//ééóVâÔ
-				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6)) {
-					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
-						manager->bStageNum = 31;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
-				}
-			}
-		}
-		if (auto us = Find<StageSelectObjUS::Obj>(StageSelectObjUS::caTaskName))
-		{
-			us->rUranus.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rUranus.GetPos(), us->rUranus.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rUranus.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
-
-				sGroup = Hukidasi::StageGroup::GROUP_URANUS;
-
+				si->rIcon.Scaling(16.f * 15.f, 16.f * 15.f);
 				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
 				{
 					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
-						manager->bStageNum = 41;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
+					{
+						manager->bStageNum = ((si->type + 1) * 10) + 1;
+
+						Add<StageLoad::Obj>();
+						Pause(2);
+
 					}
 				}
-			}
-		}
-		if (auto us = Find<StageSelectObjBH::Obj>(StageSelectObjBH::caTaskName))
-		{
-			us->rBH.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rBH.GetPos(), us->rBH.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rBH.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
 
-				sGroup = Hukidasi::StageGroup::GROUP_BLACKHOLE;
 
-				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
+				if (hu)
 				{
-					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
-						manager->bStageNum = 51;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
+					Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+					hu->SetPos(&pPos);
+					hu->SetScaleMax(fScaleWMax, fScaleHMax);
+					hu->SetAddScale(fAddScale);
+					hu->SetStageGroup(si->type);
 				}
-			}
-		}
-		if (auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName))
-		{
-			constexpr float fAddScale = 70.f;
-			constexpr float fScaleWMax = 1800.f;//2000;
-			constexpr float fScaleHMax = 400.f;//600;
-			if (bHitFlag)
-			{
-				Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
-				hu->SetPos(&pPos);
-				hu->SetScaleMax(fScaleWMax, fScaleHMax);
-				hu->SetAddScale(fAddScale);
-				hu->SetStageGroup(sGroup);
+				break;
 			}
 			else
 			{
-				hu->SetAddScale(-fAddScale);
+				if (hu)hu->SetAddScale(-fAddScale);
 			}
 		}
+
+		//if (auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName))
+		//{
+		//	constexpr float fAddScale = 70.f;
+		//	constexpr float fScaleWMax = 1800.f;//2000;
+		//	constexpr float fScaleHMax = 400.f;//600;
+		//	if (bHitFlag)
+		//	{
+		//		Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+		//		hu->SetPos(&pPos);
+		//		hu->SetScaleMax(fScaleWMax, fScaleHMax);
+		//		hu->SetAddScale(fAddScale);
+		//		hu->SetStageGroup(sGroup);
+		//	}
+		//	else
+		//	{
+		//		hu->SetAddScale(-fAddScale);
+		//	}
+		//}
 	}
 	/*É^ÉXÉNÇÃï`âÊèàóù*/
 	void Obj::Render()

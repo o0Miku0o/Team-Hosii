@@ -2,6 +2,7 @@
 #include "StageManager.h"
 #include "Cursor.h"
 #include "StageLoad.h"
+#include "Hukidasi.h"
 
 namespace StageSelectIcon
 {
@@ -27,6 +28,7 @@ namespace StageSelectIcon
 
 		/*データの初期化*/
 		type = ET;
+		rIcon.Scaling(16.f * 10.f, 16.f * 10.f);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -36,33 +38,11 @@ namespace StageSelectIcon
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto pad = JoyPad::GetState(0);
-		auto kb = KB::GetState();
+		const auto kb = KB::GetState();
+		const auto pad = JoyPad::GetState(0);
 
 		IconAnimation[type](&i, &iAddOffSet, &iOffSetX, &iOffSetY);
 
-		if (auto cr = Find<Cursor::Obj>(Cursor::caTaskName))
-		{
-			Circle cHit;
-			cHit.SetPos(&rIcon.GetPos());
-			cHit.SetRadius(rIcon.GetW() / 2);
-			if (cHit.CheckHit(&cr->rCursorBase.GetPos()))
-			{
-				rIcon.Scaling(16.f * 15.f, 16.f * 15.f);
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
-				{
-					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
-					{
-						manager->bStageNum = (type * 3) + 1;
-
-						Add<StageLoad::Obj>();
-						Pause(2);
-
-					}
-				}
-			}
-		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()

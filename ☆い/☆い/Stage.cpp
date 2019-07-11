@@ -3,6 +3,7 @@
 #include "Stage.h"
 #include "StageLoad.h"
 #include "Back.h"
+#include "Title.h"
 
 namespace Stage
 {
@@ -59,7 +60,7 @@ namespace Stage
 				res->wsBGM.Pause();
 			}
 			Add<Back::Obj>();
-			Add<StageSelect::Obj>();	
+			Add<Title::Obj>();	
 			Pause(2);
 		}
 		if (kb->Down('R') || pad->Down(JOY_BUTTON4)) {

@@ -20,6 +20,17 @@ namespace StageSelectIcon
 	
 	void AnimFragment(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY);
 	
+	enum Type
+	{
+		ET,     //Earth
+		MT,     //Meteo
+		GL,     //Galaxy
+		US,     //Uranus
+		BH,     //Black Hole
+		FR,     //Fragment
+		TA,     //Time Attack
+		TYPEMAX
+	};
 
 	/*リソースクラス*/
 	class RS : public ResourceBase
@@ -46,17 +57,7 @@ namespace StageSelectIcon
 		int iOffSetY;
 		int i;
 
-		enum Type
-		{
-			ET,     //Earth
-			MT,     //Meteo
-			GL,     //Galaxy
-			US,     //Uranus
-			BH,     //Black Hole
-			FR,     //Fragment
-			TA,     //Time Attack
-			TYPEMAX
-		};
+		
 		Type type;
 
 		void(*IconAnimation[TYPEMAX])(int * const, int * const, int * const, int * const) =

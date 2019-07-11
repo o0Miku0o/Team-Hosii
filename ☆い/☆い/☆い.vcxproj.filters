@@ -49,6 +49,7 @@
     <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="Tips.cpp" />
     <ClCompile Include="TimeAttack.cpp" />
+    <ClCompile Include="StageSelectIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="MiniGame.h" />
     <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="Tips.h" />
+    <ClInclude Include="StageSelectIcon.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

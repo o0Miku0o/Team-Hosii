@@ -1,6 +1,7 @@
 #include "MiniGame.h"
 #include "Fragment.h"
 #include "Star.h"
+#include "Back.h"
 
 //ミニゲームで使うタスクです
 //カウントやらなんやらをします
@@ -24,6 +25,7 @@ namespace MiniGame
 		/*リソース生成*/
 
 		/*タスクの生成*/
+		Add<Back::Obj>();
 
 		/*データの初期化*/
 

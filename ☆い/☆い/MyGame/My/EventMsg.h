@@ -162,7 +162,7 @@ public:
 	{
 		return (is.IsOpened()) ? Result::RES_SUCCESS : Result::RES_FAILURE;
 	}
-	const std::string &Msg() const
+	std::string &Msg()
 	{
 		return msg;
 	}
