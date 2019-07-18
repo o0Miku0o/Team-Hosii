@@ -1,6 +1,9 @@
 #pragma once
 #include "MyGame/MyApp.h"
 
+/*お試*/
+#include "MyGame/My/EventMsg.h"
+
 namespace Title
 {
 	const char caTaskName[] = { "タイトルタスク" };
@@ -34,10 +37,10 @@ namespace Title
 		Rec rStart;
 		Rec rMeteo;
 		Vector2 vMSpd;
-		fix fZoom;
-		fix fStartImgSrcY;
-		fix fMSpdBase;
-		fix fMScale;
+		float fZoom;
+		float fStartImgSrcY;
+		float fMSpdBase;
+		float fMScale;
 		byte bAlpha;
 		char cAddAlpha;
 		bool bShineFlag;
@@ -70,7 +73,7 @@ namespace Title
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 	void AnimHo(byte * const bFrame, byte * const bAnim, byte * const bAnim2);
 	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2);
 }

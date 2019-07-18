@@ -46,7 +46,7 @@ namespace Gas
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 	void AnimGasW(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 	void AnimGasB(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 	void AnimGasY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);

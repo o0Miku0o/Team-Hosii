@@ -30,8 +30,8 @@ namespace Player
 		Line lGuideLineFgm;
 		Point pStandardPoint;
 		Point pPos;
-	//	float fSPDist;
-	//	float fSPAngle;
+		float fSPDist;
+		float fSPAngle;
 		float fPAngle;
 		float fSrcX;
 
@@ -41,8 +41,17 @@ namespace Player
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void BeamCreateFromPad(std::shared_ptr<JoyPad> &apPad);
+		void BeamCreateFromKeyBoard(std::shared_ptr<KB> &apKB);
+		const float GetAfterPosY(const float afSpdY);
+		const float GetSpdFromKeyBoard(std::shared_ptr<KB> &apKB);
+		const float GetSpdFromPad(std::shared_ptr<JoyPad> &apPad);
+		void ShotAngleFromKeyBoard(std::shared_ptr<KB> &apKB, float afAddAngle);
+		void ShotAngleFromPad(std::shared_ptr<JoyPad> &apPad, float afAddAngle);
+		void GuidLine();
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

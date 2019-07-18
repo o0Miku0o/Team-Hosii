@@ -51,7 +51,7 @@ namespace StarGenerator
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(&pPos.at(i));
 			star->cStarhitbase.SetPos(&pPos.at(i));
-	//		star->iChange = iChange.at(i);
+			//star->iChange = iChange.at(i);
 			star->starColor = (Star::Obj::StarColor)iChange.at(i);
 		}
 		Remove(this);
