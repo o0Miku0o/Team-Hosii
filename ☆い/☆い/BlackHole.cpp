@@ -138,7 +138,31 @@ namespace BlackHole
 		cBm.SetPos(&oBeam->rHitBase.GetPos());
 		if (cOutCircle.CheckHit(&cBm)) {
 			if (cInnerCircle.CheckHit(&cBm)) {
-				Remove(bm);
+				if (cInnerInner.CheckHit(&cBm)) {
+					Remove(bm);
+				}
+				else {
+					Point posStart = oBeam->rHitBase.GetPos();
+					Point posEnd = cInnerInner.GetPos();
+					float lenX = posEnd.x - posStart.x;
+					float lenY = posEnd.y - posStart.y;
+					float dist = lenX * lenX + lenY * lenY;
+
+					Point setPos;
+
+					if (dist > 0.01f) {
+						float len = sqrt(dist);
+						
+						Vector2 vec = Vector2(oBeam->vSpd.GetX() * 0.8f + (lenX / len) * 0.2f, oBeam->vSpd.GetY() * 0.8f + (lenY / len) * 0.2f);
+						oBeam->vSpd = vec;
+					}
+					setPos.x += posStart.x + oBeam->vSpd.GetX();
+					setPos.y += posStart.y + oBeam->vSpd.GetY();
+					oBeam->rHitBase.SetPos(&setPos);
+					oBeam->rHitBase.SetDeg(RtoD(atan2(lenY, lenX)));
+					oBeam->rHitBase.Scaling(oBeam->rHitBase.GetW() * 0.4f, oBeam->rHitBase.GetH() * 0.4f);
+
+				}
 			}
 			else {
 				while (oBeam->rHitBase.GetDeg() > 360) {
@@ -157,7 +181,7 @@ namespace BlackHole
 		if (cOutCircle.CheckHit(&cFg)) {
 			if (oFrag->bMoveActive) {
 				if (cInnerCircle.CheckHit(&cFg)) {
-					//				oFrag->rFragment.SetPos(&oFrag->pInitPos);
+					//oFrag->rFragment.SetPos(&oFrag->pInitPos);
 					oFrag->bMoveActive = false;
 				}
 				else {
@@ -181,7 +205,7 @@ namespace BlackHole
 					if (dist > 0.01f) {
 						float len = sqrt(dist);
 
-						Vector2 vec = Vector2(oFrag->vMove.GetX() * 0.8f + (lenX / len) * 0.4f, oFrag->vMove.GetY() * 0.8f + (lenY / len) * 0.4f);
+						Vector2 vec = Vector2(oFrag->vMove.GetX() * 0.8f + (lenX / len) * 0.3f, oFrag->vMove.GetY() * 0.8f + (lenY / len) * 0.3f);
 						oFrag->vMove = vec;
 					}
 					setPos.x += posStart.x + oFrag->vMove.GetX();
@@ -228,4 +252,3 @@ namespace BlackHole
 		++*bFrame;
 	}
 }
-#include <Vfw.h>

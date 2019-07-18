@@ -1,7 +1,7 @@
 Fragment 850 540 2
 Star 1350 800 24
 Alien 1000  540 20 R‰ñ“]
-Alien 500  540 20 L‰ñ“]
+Alien 700  540 20 L‰ñ“]
 Alien 600 1100 20 L‰ñ“]
 Alien 1600  800 14 U•ûŒü
 Alien 1600  250 14 D•ûŒü

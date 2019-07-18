@@ -347,8 +347,8 @@ namespace StageLoad
 			break;
 		case AlienIMG::REFLECTUR:
 			aAnim = Alien::AnimReflectUR;
-			aBHit = Alien::BMReflectDR;
-			aFHit = Alien::FGReflectDR;
+			aBHit = Alien::BMReflectUR;
+			aFHit = Alien::FGReflectUR;
 			break;
 		case AlienIMG::REFLECTDL:
 			aAnim = Alien::AnimReflectDL;
