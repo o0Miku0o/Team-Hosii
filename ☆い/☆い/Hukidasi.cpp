@@ -95,7 +95,7 @@ namespace Hukidasi
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				Frec src(16.f * 59, 16.f * 0, 16.f, 16.f);
-				rHukidasi.Draw(&res->iStageImg, &src, false);
+				rHukidasi.Draw(&res->iStageImg, &src);
 			}
 		}
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
@@ -105,7 +105,7 @@ namespace Hukidasi
 			{
 				Frec src(0.f, 16.f * sGroup, faWidth[sGroup], 16.f);
 				rTextBox.Scaling(faWidth[sGroup] * 6.f, 16.f * 6.f);
-				rTextBox.Draw(&res->iTextImg, &src, false);
+				rTextBox.Draw(&res->iTextImg, &src);
 			}
 		}
 	}

@@ -9,6 +9,7 @@
 
 #include "Back.h"
 #include "StageLoad.h"
+#include "Hukidasi.h"
 
 namespace StageManager
 {
@@ -102,6 +103,7 @@ namespace StageManager
 		//Add<StageSelect::Obj>();
 		/*データの初期化*/
 		pTutorialPos = Point(0.f, 0.f);
+		for (auto &it : bScores) it = 1;
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
@@ -151,33 +153,34 @@ namespace StageManager
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 
 					//			Add<Back::Obj>();
-					if (auto manager = Find<StageManager::Obj>(caTaskName)) {
-						manager->bStageNum = manager->bNextStage;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							//Pause(2);
-						}
+					byte bStageGroup = 0, bNowStage = 0;
+					/*北氏>>ファインドする意味はある？*/
+					bStageGroup = bStageNum / 10;
+					bNowStage = bStageNum - bStageGroup * 10 - 1;
+					if (usBeamCount <= bClearFragmentNumMax)
+					{
+						bScores.at(bNowStage) = 3;
 					}
+					else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					{
+						bScores.at(bNowStage) = 2;
+					}
+					bStageNum = bNextStage;
+					if (bStageNum == 255) {
+						RemoveAll();
 
-
-					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					//auto re = Add<Result::Obj>();
-					//re->bNextStage = bNextStage;
-					//if (usBeamCount <= bClearFragmentNumMax)
-					//{
-					//	re->bScore = 3;
-					//}
-					//else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-					//{
-					//	re->bScore = 2;
-					//}
+						Add<StageManager::Obj>();
+						auto re = Add<Result::Obj>();
+						re->SetParam(bStageGroup, bScores);
+						//Add<StageManager::Obj>();
+						//Add<Back::Obj>();
+						//Add<StageSelect::Obj>();
+						Pause(2);
+					}
+					else {
+						Add<StageLoad::Obj>();
+						//Pause(2);
+					}
 					iResultCnt = 0;
 				}
 			}

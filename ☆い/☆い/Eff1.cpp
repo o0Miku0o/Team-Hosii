@@ -2,6 +2,16 @@
 
 namespace Eff1
 {
+	const std::map<const std::string, const Eff1::ChipType> EffectCreater::m_type = 
+	{
+		{ "beam", Eff1::ChipType::TYPE_BEAM },
+		{ "r_frg", Eff1::ChipType::TYPE_R_FRG },
+		{ "y_frg", Eff1::ChipType::TYPE_Y_FRG },
+		{ "b_frg", Eff1::ChipType::TYPE_B_FRG },
+		{ "y_sta", Eff1::ChipType::TYPE_Y_STAR },
+		{ "r_sta", Eff1::ChipType::TYPE_R_STAR },
+		{ "b_sta", Eff1::ChipType::TYPE_B_STAR },
+	};
 	/*ÉäÉ\Å[ÉXÇÃèâä˙âªèàóù*/
 	void RS::Init()
 	{
@@ -64,7 +74,7 @@ namespace Eff1
 		if (auto res = RB::Find<RS>(caResName))
 		{
 			Frec src(0.f, 16.f * tType, 16.f, 16.f);
-			rEffBase.Draw(&res->iEff1Img, &src, false);
+			rEffBase.Draw(&res->iEff1Img, &src);
 		}
 	}
 
@@ -92,7 +102,7 @@ namespace Eff1
 			const float fAng = ModAngle(fIAngle - fMin + (fRange / iNum) * i + (rand() % 21 - 10.f));
 			Vector2 vSpd;
 			vSpd.SetVec(fAng, (rand() % 3 + fSpd));
-			const Rec rEf(pPos->x, pPos->y, fW, fH/*, fAng*/);
+			const Rec rEf(pPos->x, pPos->y, fW, fH, fAng);
 			ef1->SetParam(&rEf, &vSpd, bLife, cType, fAng, 0.f, vAddSpd);
 		}
 	}
@@ -104,7 +114,7 @@ namespace Eff1
 			const float fAngle = ModAngle(fInitAngle + (360.f / iNum) * i);
 			Vector2 vSpd;
 			vSpd.SetVec(fAngle, (rand() % 3 + fSpd));
-			const Rec rEf(pPos->x, pPos->y, fW, fH/*, fAngle*/);
+			const Rec rEf(pPos->x, pPos->y, fW, fH, fAngle);
 			ef1->SetParam(&rEf, &vSpd, bLife, cType, fAngle, 0.f, vAddSpd);
 		}
 	}

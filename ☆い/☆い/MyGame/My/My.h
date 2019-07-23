@@ -4,6 +4,7 @@
 #include <string>
 #include <time.h>
 #include <vector>
+#include <array>
 #include <map>
 #include <mmsystem.h>
 #include <thread>
@@ -13,6 +14,9 @@
 #include "FixedPoint.h"
 #include "CADAM.h"
 #include "Debug.h"
+#include "MciScript.h"
+#include "MciWnd.h"
+#include "DShow.h"
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
@@ -1430,9 +1434,7 @@ public:
 	//自分の角度（ディグリー）を設定するメンバ関数
 	void SetDeg(const float angleD_)
 	{
-		angle = angleD_;
-
-		//原点を中心とした位置に移動
+		angle = ModAngle(angleD_);
 		float  pp[4][2] =
 		{
 			{ -dx , -dy },
@@ -1440,27 +1442,14 @@ public:
 			{ -dx ,  dy },
 			{  dx ,  dy },
 		};
-
-		//原点に合わせて回転
-		double ang = (double)ModAngle(angle);
-		if (ang < -1.f || ang > 1.f)
+		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			ang = (double)DtoR((float)ang);
-			for (int i = 0; i < POINT_MAX - 1; ++i)
-			{
-				p[i].x = float(cos_fast(ang) * pp[i][0] - sin_fast(ang) * pp[i][1]);
-				p[i].y = float(sin_fast(ang) * pp[i][0] + cos_fast(ang) * pp[i][1]);
+			const double newrad = DtoR(angle);
+			p[i].x = float(cos_fast(newrad) * pp[i][0] - sin_fast(newrad) * pp[i][1]);
+			p[i].y = float(sin_fast(newrad) * pp[i][0] + cos_fast(newrad) * pp[i][1]);
 
-				//p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
-				//p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
-			}
-
-			for (int i = 0; i < POINT_MAX - 1; ++i)
-			{
-				//原点に合わせておいたので元に戻す
-				p[i].x += p[CENTER].x;
-				p[i].y += p[CENTER].y;
-			}
+			p[i].x += p[CENTER].x;
+			p[i].y += p[CENTER].y;
 		}
 	}
 	//自分の角度（ディグリー）を取得するメンバ関数
@@ -1469,7 +1458,7 @@ public:
 		return angle;
 	}
 	//読み込んでおいたビットマップを描画
-	void Draw(Image * const mybitmap_, const bool rot_ = false)
+	void Draw(Image * const mybitmap_)
 	{
 		auto lpTmp = AdjustCamPos(&p[CENTER]);
 		if (lpTmp.x - w > Win.r) return;
@@ -1485,38 +1474,17 @@ public:
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
 
-		if (rot_)
+		const float ang = ModAngle(angle);
+		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
-			//回転と平行移動と拡縮に合わせて描画
-			const float ang = ModAngle(angle);
-			if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
-			{
-				//原点を中心とした位置に移動
-				float  pp[3][2] =
-				{
-					{ -dx , -dy },
-					{ dx , -dy },
-					{ -dx ,  dy },
-				};
-
-				for (int i = 0; i < 3; ++i)
-				{
-					pp[i][0] += lpTmp.x;
-					pp[i][1] += lpTmp.y;
-
-					pDrawPoint[i].x = (long)pp[i][0];
-					pDrawPoint[i].y = (long)pp[i][1];
-				}
-				/**/
-				PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
-				/**/
-			}
-			else/**/ PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+			Swap(pDrawPoint[TOP_LEFT], pDrawPoint[BOTTOM_RIGHT]);
+			Swap(pDrawPoint[TOP_RIGHT], pDrawPoint[BOTTOM_LEFT]);
+			PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
 		}
-		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 	}
 	//読み込んでおいたビットマップを描画
-	void Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot_ = false)
+	void Draw(Image * const mybitmap_, const Frec * const frSrc)
 	{
 		auto lpTmp = AdjustCamPos(&p[CENTER]);
 		if (lpTmp.x - w > Win.r) return;
@@ -1525,41 +1493,19 @@ public:
 		if (lpTmp.y + h < Win.t) return;
 
 		//POINT dp[3];
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < POINT_MAX; ++i)
 		{
 			pDrawPoint[i] = AdjustCamPosToPOINT(&p[i]);
 			//pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
 
-		if (rot_)
+		const float ang = ModAngle(angle);
+		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
-			//回転と平行移動と拡縮に合わせて描画
-			//180度に近いときだけ回転用バッファを使用
-			const float ang = ModAngle(angle);
-			if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
-			{
-				//原点を中心とした位置に移動
-				float  pp[3][2] =
-				{
-					{ -dx , -dy },
-					{ dx , -dy },
-					{ -dx ,  dy },
-				};
-
-				for (int i = 0; i < 3; ++i)
-				{
-					pp[i][0] += lpTmp.x;
-					pp[i][1] += lpTmp.y;
-
-					pDrawPoint[i].x = (long)pp[i][0];
-					pDrawPoint[i].y = (long)pp[i][1];
-				}
-				/**/
-				PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
-				/**/
-			}
-			else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
+			Swap(pDrawPoint[TOP_LEFT], pDrawPoint[BOTTOM_RIGHT]);
+			Swap(pDrawPoint[TOP_RIGHT], pDrawPoint[BOTTOM_LEFT]);
+			PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
 		}
 		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 	}
@@ -2828,6 +2774,9 @@ class Rep
 	{
 
 	}
+	Rep(const Rep &);
+	Rep(const Rep &&);
+	Rep &operator = (const Rep &) = default;
 public:
 	/*終端に要素を追加*/
 	static bool Push(const double dData)
@@ -2837,10 +2786,7 @@ public:
 		if (rpTop)
 		{
 			auto rpIt = rpTop;
-			while (rpIt->rpNext)
-			{
-				rpIt = rpIt->rpNext;
-			}
+			while (rpIt->rpNext) rpIt = rpIt->rpNext;
 			rpIt->rpNext = (Rep *)malloc(sizeof(Rep) * 1);
 			if (!rpIt->rpNext) return 1;
 			rTmp.rpPrev = rpIt;
@@ -2855,7 +2801,7 @@ public:
 		return 0;
 	}
 	/*読み込みデータを一つずつ取得*/
-	static const double Output()
+	static const double Read()
 	{
 		if (!rpOut) return DBL_MAX;
 		const double dRet = rpOut->dData;
@@ -2880,10 +2826,10 @@ public:
 		return rpTop;
 	}
 	/*リプレイデータリストをファイルへ書き込み*/
-	static bool SaveFile(const char * const ccpFileName)
+	static bool SaveFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
-		fopen_s(&fpFile, ccpFileName, "wb");
+		fopen_s(&fpFile, asFileName.c_str(), "wb");
 		if (!fpFile) return 1;
 		auto rpIt = rpTop;
 		while (rpIt)
@@ -2895,10 +2841,10 @@ public:
 		return 0;
 	}
 	/*ファイルからリプレイデータリストを読み込み*/
-	static bool LoadFile(const char * const ccpFileName)
+	static bool LoadFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
-		fopen_s(&fpFile, ccpFileName, "rb");
+		fopen_s(&fpFile, asFileName.c_str(), "rb");
 		if (!fpFile) return 1;
 		if (sDataSize) Clear();
 		double dTmp = 0;

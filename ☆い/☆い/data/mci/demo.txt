@@ -1,0 +1,3 @@
+open "./data/sound/BGM1.wav" alias demo
+play demo
+close demo

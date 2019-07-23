@@ -45,7 +45,8 @@ namespace Title
 		char cAddAlpha;
 		bool bShineFlag;
 
-		//EventMsg em;
+		//MciScript ms;
+		//MciWnd mw;
 
 		Obj() {}
 		~Obj() {}

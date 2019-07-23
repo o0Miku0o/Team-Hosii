@@ -47,7 +47,7 @@ namespace StageSelectObjAsteroid
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rAsteroid.Draw(&res->iStageImg, &src, true);
+			rAsteroid.Draw(&res->iStageImg, &src);
 		}
 	}
 }

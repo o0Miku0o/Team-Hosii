@@ -34,6 +34,7 @@ namespace Player
 		float fSPAngle;
 		float fPAngle;
 		float fSrcX;
+		bool bIsReplay;
 
 		Obj() {}
 		~Obj() {}
@@ -44,14 +45,20 @@ namespace Player
 
 		void BeamCreateFromPad(std::shared_ptr<JoyPad> &apPad);
 		void BeamCreateFromKeyBoard(std::shared_ptr<KB> &apKB);
+		void BeamCreateFromReplay();
 		const float GetAfterPosY(const float afSpdY);
 		const float GetSpdFromKeyBoard(std::shared_ptr<KB> &apKB);
 		const float GetSpdFromPad(std::shared_ptr<JoyPad> &apPad);
+		const float GetSpdFromReplay();
 		void ShotAngleFromKeyBoard(std::shared_ptr<KB> &apKB, float afAddAngle);
 		void ShotAngleFromPad(std::shared_ptr<JoyPad> &apPad, float afAddAngle);
+		void ShotAngleFromReplay();
+		void ReplaySeekZero();
 		void GuidLine();
 	public:
 		void Update();
 		void Render();
+		const Rep *ReplayLoad(const std::string &asRepFileName);
+		void ReplayRelease();
 	}*Obj_ptr;
 }

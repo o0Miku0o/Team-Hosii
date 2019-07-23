@@ -43,5 +43,5 @@ namespace Meteo
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*Obj_ptr;
+	}*OBJ_ptr;
 }

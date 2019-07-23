@@ -56,12 +56,18 @@ namespace Title
 
 		PlayBgm();
 
-		//em.Open("./data/event/ev1.txt");
-		//em.Color(RGB(0, 255, 0));
+		//ms.Read("./data/mci/demo.txt");
+		//while (ms.Size() > 1)
+		//{
+		//	ms.Send();
+		//}
+		//mw.Create(FindWindow(nullptr, WINNAME), "./data/sound/BGM1.wav");
+		//mw.Play();
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
+		//ms.Send();
 		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
@@ -188,7 +194,7 @@ namespace Title
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
-			rMeteo.Draw(&res->iStageImg, &src, true);
+			rMeteo.Draw(&res->iStageImg, &src);
 		}
 	}
 	/*ロゴの描画*/

@@ -74,12 +74,12 @@ namespace BreakStar
 			if (bBlackMode)
 			{
 				Frec src(16.f * (iChange + iTime / 100), 0, 16.f, 16.f);
-				rStar.Draw(&res->iStageImg, &src, true);
+				rStar.Draw(&res->iStageImg, &src);
 			}
 			else
 			{
 				Frec src(16.f * iChange, 0, 16.f, 16.f);
-				rStar.Draw(&res->iStageImg, &src, true);
+				rStar.Draw(&res->iStageImg, &src);
 
 			}
 #ifdef _DEBUG

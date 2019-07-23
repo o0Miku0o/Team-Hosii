@@ -246,14 +246,71 @@ void TaskBase::SetName(const char *taskname_)
 	this->tname = taskname_;
 }
 
-void TaskBase::Pause(const char *taskname_, const u_int waitframe_)
+void TaskBase::Pause(const std::initializer_list<std::string> &iInitList, const u_int waitframe_, PauseFlag pflag_)
 {
-	for (TaskBase *now = top; now != nullptr; now = now->next)
+	if (pflag_ == PauseFlag::PAUSE_NAME)
 	{
-		if (now->tname == taskname_)
+		for (TaskBase *now = top; now != nullptr; now = now->next)
 		{
-			now->updflag = false;
-			now->wait = waitframe_;
+			bool bFlag = false;
+			for (const auto &it : iInitList)
+			{
+				if (now->tname == it)
+				{
+					bFlag = true;
+					break;
+				}
+			}
+			if (bFlag)
+			{
+				now->updflag = false;
+				now->wait = waitframe_;
+			}
+		}
+	}
+	else
+	{
+		for (TaskBase *now = top; now != nullptr; now = now->next)
+		{
+			bool bFlag = true;
+			for (const auto &it : iInitList)
+			{
+				if (now->tname == it)
+				{
+					bFlag = false;
+					break;
+				}
+			}
+			if (bFlag)
+			{
+				now->updflag = false;
+				now->wait = waitframe_;
+			}
+		}
+	}
+}
+void TaskBase::Pause(const char *taskname_, const u_int waitframe_, PauseFlag pflag_)
+{
+	if (pflag_ == PauseFlag::PAUSE_NAME)
+	{
+		for (TaskBase *now = top; now != nullptr; now = now->next)
+		{
+			if (now->tname == taskname_)
+			{
+				now->updflag = false;
+				now->wait = waitframe_;
+			}
+		}
+	}
+	else
+	{
+		for (TaskBase *now = top; now != nullptr; now = now->next)
+		{
+			if (now->tname != taskname_)
+			{
+				now->updflag = false;
+				now->wait = waitframe_;
+			}
 		}
 	}
 }
@@ -267,14 +324,28 @@ void TaskBase::Pause(const u_int waitframe_)
 	}
 }
 
-void TaskBase::Pause(const char *taskname_)
+void TaskBase::Pause(const char *taskname_, PauseFlag pflag_)
 {
-	for (TaskBase *now = top; now != nullptr; now = now->next)
+	if (pflag_ == PauseFlag::PAUSE_NAME)
 	{
-		if (now->tname == taskname_)
+		for (TaskBase *now = top; now != nullptr; now = now->next)
 		{
-			now->updflag = false;
-			now->wait = -1;
+			if (now->tname == taskname_)
+			{
+				now->updflag = false;
+				now->wait = -1;
+			}
+		}
+	}
+	else
+	{
+		for (TaskBase *now = top; now != nullptr; now = now->next)
+		{
+			if (now->tname != taskname_)
+			{
+				now->updflag = false;
+				now->wait = -1;
+			}
 		}
 	}
 }

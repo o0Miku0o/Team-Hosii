@@ -72,7 +72,7 @@ namespace BlackHole
 	void Obj::Render()
 	{
 		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName)) {
-			rBlackHole.Draw(&stageRes->iStageImg, &Frec(16.f * (aAnim.GetSrcX() + 53), 16, 16, 16)/*Frec(192, 0, 16, 16)*/, true);
+			rBlackHole.Draw(&stageRes->iStageImg, &Frec(16.f * (aAnim.GetSrcX() + 53), 16, 16, 16)/*Frec(192, 0, 16, 16)*/);
 		}
 		cOutCircle.Draw();
 #ifdef _DEBUG

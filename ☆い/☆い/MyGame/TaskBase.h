@@ -14,6 +14,12 @@ enum RemoveFlag
 	NOT_REMOVE_NAME
 };
 
+enum PauseFlag
+{
+	PAUSE_NAME,
+	NOT_PAUSE_NAME,
+};
+
 //継承もとになるリソースクラス
 typedef class ResourceBase
 {
@@ -208,11 +214,13 @@ public:
 
 	void SetName(const char *taskname_);
 
-	static void Pause(const char *taskname_, const u_int waitframe_);
+	static void Pause(const std::initializer_list<std::string> &iInitList, const u_int waitframe_, PauseFlag pflag_ = PAUSE_NAME);
+
+	static void Pause(const char *taskname_, const u_int waitframe_, PauseFlag pflag_ = PAUSE_NAME);
 
 	static void Pause(const u_int waitframe_);
 
-	static void Pause(const char *taskname_);
+	static void Pause(const char *taskname_, PauseFlag pflag_ = PAUSE_NAME);
 
 	static void Pause();
 

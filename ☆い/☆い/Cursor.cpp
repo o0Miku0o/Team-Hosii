@@ -10,7 +10,8 @@
 #include "StageSelect.h"
 #include "Hukidasi.h"
 #include "StageLoad.h"
-#include "KeyMove.h"
+#include "Result.h"
+#include "GameInit.h"
 
 namespace Cursor
 {
@@ -34,20 +35,20 @@ namespace Cursor
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		//spMove = std::shared_ptr<Move>(new KeyMove(pPos, fSpd));
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 		fSpd = 12.f;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		spMove.reset();
+
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto kb = KB::GetState();
 		auto pad = JoyPad::GetState(0);
+		auto kb = KB::GetState();
+
 		const float fCursorX = rCursorBase.GetPosX();
 		const float fCursorY = rCursorBase.GetPosY();
 		const float fCursorW = rCursorBase.GetW();
@@ -78,7 +79,30 @@ namespace Cursor
 				}
 			}
 		}
-		bool bHitFlag = false;
+		if (auto re = Find<Result::Obj>(Result::caTaskName))
+		{
+			re->rRestart.Scaling(16.f * 15.f, 16.f * 12.f);
+			if (re->rRestart.CheckHit(&rCursorBase.GetPos()))
+			{
+				re->rRestart.Scaling(16.f * 19.f, 16.f * 16.f);
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
+				{
+					re->rHanko.Scaling(16.f * 19.f * 10.f, 16.f * 16.f * 10.f);
+					re->bPushHanko = true;
+					//RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					//Add<Back::Obj>();
+					//Add<Title::Obj>();
+					////Add<StageSelect::Obj>();
+					//Pause(2);
+					return;
+				}
+			}
+		}
+		//auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
+		constexpr float fAddScale = 70.f;
+		constexpr float fScaleWMax = 1800.f;
+		constexpr float fScaleHMax = 400.f;
+		bool bFlag = false;
 		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 		if (auto us = Find<StageSelectObjEarth::Obj>(StageSelectObjEarth::caTaskName))
 		{
@@ -87,7 +111,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
+				bFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
@@ -118,7 +142,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
+				bFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
@@ -149,7 +173,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
+				bFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
 
@@ -180,7 +204,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rUranus.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
+				bFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_URANUS;
 
@@ -211,7 +235,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rBH.Scaling(16 * 15, 16 * 15);
-				bHitFlag = true;
+				bFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_BLACKHOLE;
 
@@ -237,10 +261,7 @@ namespace Cursor
 		}
 		if (auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName))
 		{
-			constexpr float fAddScale = 70.f;
-			constexpr float fScaleWMax = 1800.f;//2000;
-			constexpr float fScaleHMax = 400.f;//600;
-			if (bHitFlag)
+			if (bFlag)
 			{
 				Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 				hu->SetPos(&pPos);
@@ -299,10 +320,10 @@ namespace Cursor
 		{
 			if (afX >= Rec::Win.r - afW / 2) {
 				rCursorBase.SetPos(&Point(Rec::Win.r - afW / 2, afY));
-			}
+		}
 			else
 				rCursorBase.Move(&(Vector2::right * fSpd));
-		}
+	}
 	}
 	/*パッドでの移動*/
 	void Obj::MovePad(std::shared_ptr<JoyPad> &apPad, const float afX, const float afY, const float afW, const float afH)
@@ -324,5 +345,4 @@ namespace Cursor
 			}
 			rCursorBase.Move(&(apPad->Axis(JoyPad::Stick::STK_LEFT) * fSpd));
 		}
-	}
-}
+	}}

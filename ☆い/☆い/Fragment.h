@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Eff1.h"
 
 namespace Fragment
 {
@@ -30,6 +31,7 @@ namespace Fragment
 		Point pRotPos;
 		Point pPrevPos;
 		float fRotRadius;
+		float fInitAngle;
 
 		int iRotation;
 		int iColor;/*â©êFÇ™0ÅAê‘Ç™1ÅAê¬Ç™2*/
@@ -39,6 +41,9 @@ namespace Fragment
 
 		Animation aAnim;
 
+		Eff1::EffectCreater::SP effsp;
+		Eff1::EffectCreater::SP effsp1;
+		
 		bool bPreRotationActive;
 		Obj() {}
 		~Obj() {}
@@ -54,7 +59,7 @@ namespace Fragment
 		void CheckhitAlien(TaskBase* al);
 
 		void HitAfterInit();
-	}*Obj_ptr;
+	}*OBJ_ptr;
 	void AnimFragmentY(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 	void AnimFragmentR(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);
 	void AnimFragmentB(byte * const bFrame, byte * const bSrcX, byte * const bSrcY);

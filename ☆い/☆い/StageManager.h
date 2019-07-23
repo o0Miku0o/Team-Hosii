@@ -43,6 +43,7 @@ namespace StageManager
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Point pTutorialPos;
+		std::array<byte, 3> bScores;
 		u_short usBeamCount;
 		byte bClearFragmentNumMax;
 		byte bClearFragmentNum;

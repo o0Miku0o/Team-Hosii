@@ -40,11 +40,15 @@ namespace Player
 		lGuideLine.SetLen(2000.f);
 		lGuideLine.SetColor(130, 130, 255);
 		lGuideLineFgm.SetColor(255, 130, 130);
+		bIsReplay = false;
+
+		//ReplayLoad("./data/demo/replay.txt");
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-
+		Rep::SaveFile("./data/demo/replay.txt");
+		//ReplayRelease();
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -59,23 +63,39 @@ namespace Player
 		/*ビームを生成*/
 		BeamCreateFromPad(pad);
 		BeamCreateFromKeyBoard(kb);
+
+		if(bIsReplay) BeamCreateFromReplay();
+		else          Rep::Push(pad->Down(JOY_BUTTON6) || kb->Down(VK_RIGHT));
+
+		float fSpdY = 0;
+		float fPadSpd = 0;
+		float fRepSpd = 0.f;
 		if (!Find<Beam::Obj>(Beam::caTaskName))
 		{
 			/*入力からスピードを取得*/
-			float fSpdY = GetSpdFromKeyBoard(kb);
-			float fPadSpd = GetSpdFromPad(pad);
-			fSpdY = ((fPadSpd) ? fPadSpd : fSpdY);
-
-			float fPosX = rBase.GetPosX();
-			float fAfterPosY = GetAfterPosY(fSpdY);
-			pPos = Point(fPosX, fAfterPosY);
-			rBase.SetPos(&pPos);
+			fSpdY = GetSpdFromKeyBoard(kb);
+			fPadSpd = GetSpdFromPad(pad);
 
 			float fAng = 0.5f;
 
 			ShotAngleFromPad(pad, fAng);
 			ShotAngleFromKeyBoard(kb, fAng);
 		}
+
+		if (bIsReplay) fRepSpd = GetSpdFromReplay();
+		else                     Rep::Push(fSpdY);
+
+		fSpdY = ((fPadSpd) ? fPadSpd : fSpdY);
+		fSpdY = ((fRepSpd) ? fRepSpd : fSpdY);
+
+		float fPosX = rBase.GetPosX();
+		float fAfterPosY = GetAfterPosY(fSpdY);
+		pPos = Point(fPosX, fAfterPosY);
+		rBase.SetPos(&pPos);
+
+		if (bIsReplay) ShotAngleFromReplay();
+		else           Rep::Push(fPAngle);
+
 		/*ガイドライン*/
 		GuidLine();
 		rBase.SetDeg(fPAngle);
@@ -109,7 +129,7 @@ namespace Player
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * fSrcX, 16.f, 16.f, 16.f);
-			rImgBase.Draw(&res->iStageImg, &src, true);
+			rImgBase.Draw(&res->iStageImg, &src);
 		}
 	}
 	/*パッド入力からビームを生成*/
@@ -137,6 +157,19 @@ namespace Player
 				auto bm = Add<BeamGenerator::Obj>();
 			}
 		}
+	}
+	void Obj::BeamCreateFromReplay()
+	{
+		if (!bIsReplay) return;
+		auto d = Rep::Read();
+		if (d == DBL_MAX)
+		{
+			ReplaySeekZero();
+			d = Rep::Read();
+		}
+		if (!d) return;
+		if (Find<Beam::Obj>(Beam::caTaskName)) return;
+		Add<BeamGenerator::Obj>();
 	}
 	/*移動速度から移動後の座標を取得*/
 	const float Obj::GetAfterPosY(const float afSpdY)
@@ -179,6 +212,17 @@ namespace Player
 		}
 		return fSpdY;
 	}
+	const float Obj::GetSpdFromReplay()
+	{
+		if (!bIsReplay) return 0;
+		auto d = Rep::Read();
+		if (d == DBL_MAX)
+		{
+			ReplaySeekZero();
+			d = Rep::Read();
+		}
+		return (float)d;
+	}
 	/*キーボード入力から射撃角度を取得*/
 	void Obj::ShotAngleFromKeyBoard(std::shared_ptr<KB> &apKB, float afAddAngle)
 	{
@@ -219,6 +263,17 @@ namespace Player
 		//		rBase.GetDeg(&pStandardPoint) + 145
 		//	);
 	}
+	void Obj::ShotAngleFromReplay()
+	{
+		if (!bIsReplay) return;
+		auto d = Rep::Read();
+		if (d == DBL_MAX)
+		{
+			ReplaySeekZero();
+			d = Rep::Read();
+		}
+		fPAngle = (float)d;
+	}
 	/*ガイドラインの処理*/
 	void Obj::GuidLine()
 	{
@@ -244,5 +299,23 @@ namespace Player
 				}
 			}
 		}
+	}
+	const Rep *Obj::ReplayLoad(const std::string &asRepFileName)
+	{
+		if (bIsReplay) return Rep::GetDataList();
+		if (Rep::LoadFile(asRepFileName)) return nullptr;
+		bIsReplay = true;
+		return Rep::GetDataList();
+	}
+	void Obj::ReplayRelease()
+	{
+		if (!bIsReplay) return;
+		Rep::Clear();
+		bIsReplay = false;
+	}
+	void Obj::ReplaySeekZero()
+	{
+		if (!bIsReplay) return;
+		Rep::SetPosition(0);
 	}
 }

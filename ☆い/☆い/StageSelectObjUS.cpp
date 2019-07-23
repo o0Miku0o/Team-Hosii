@@ -52,7 +52,7 @@ namespace StageSelectObjUS
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rUranus.Draw(&res->iStageImg, &src, true);
+			rUranus.Draw(&res->iStageImg, &src);
 
 		}
 	}
