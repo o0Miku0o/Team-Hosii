@@ -230,9 +230,9 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			if (Update()) PostQuitMessage(0);
 			//
 			Animation::UpdateAll();
+			auto kb = KB::GetState();
 
 #ifdef _DEBUG
-			auto kb = KB::GetState();
 			fix fX = 0.f, fY = 0.f;
 			if (kb->On('I'))
 			{
@@ -274,12 +274,12 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 
 			auto hFront = GetDC(g_hWnd);
 			Rec::DrawBackToFront(hFront);
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			if (kb->On(VK_CONTROL) && kb->Down('Z'))
 			{
 				SaveBitMap(hFront, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
 			}
-#endif
+//#endif
 			ReleaseDC(g_hWnd, hFront);
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))

@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "../™‚¢/MyGame/My/EventMsg.h"
 
 namespace MiniGame
 {
@@ -24,8 +25,13 @@ namespace MiniGame
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
-		int iFragmentCnt;
-
+		float fFragmentCnt;
+		int score;
+		float width, height;
+		Point pos1,pos2;
+		std::string str[2];
+		EventMsg myMsg;
+		EventMsg highMsg;
 		Obj() {}
 		~Obj() {}
 	private:

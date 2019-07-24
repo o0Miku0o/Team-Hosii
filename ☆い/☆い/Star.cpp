@@ -4,6 +4,7 @@
 #include "Title.h"
 #include "Result.h"
 #include "Eff1.h"
+#include "MiniGame.h"
 
 namespace Star
 {
@@ -275,6 +276,10 @@ namespace Star
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cStarhitbase.CheckHit(&cHit))
 		{
+			if (auto mg = Find<MiniGame::Obj>(MiniGame::caTaskName))
+			{
+				mg->fFragmentCnt++;
+			}
 			//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 			//{
 			switch (oFragment->iColor) {

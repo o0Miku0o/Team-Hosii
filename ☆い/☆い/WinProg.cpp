@@ -3,6 +3,7 @@
 #include "GameInit.h"
 
 #include "StageManager.h"
+#include "TimeAttack.h"
 #include "MiniGame.h"
 //グローバル領域ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 

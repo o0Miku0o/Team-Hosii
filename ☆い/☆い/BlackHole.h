@@ -28,6 +28,7 @@ namespace BlackHole
 		/*ここにタスクごとの変数を追加*/
 		Rec	rBlackHole; //描画用
 		Circle cInnerCircle , cOutCircle; //内側円
+		Circle cInnerInner;
 		Point pPos;
 		bool bBigger;
 		bool bMove;

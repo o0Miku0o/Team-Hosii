@@ -1,6 +1,6 @@
 #include "TimeAttack.h"
-#include "StageLoad.h"
-#include "StageManager.h"
+#include "FadeInOut.h"
+#include <fstream>
 
 //タイムアタックで使うタスクです
 //カウントやらなんやらをします
@@ -26,21 +26,49 @@ namespace TimeAttack
 		/*タスクの生成*/
 
 		/*データの初期化*/
-
+		SetRenderPriority(1.f);
+		iTimeCnt = 0;
+		iFrameCnt = 0;
+		width = 50.f * 1.2f;
+		height = 100.f * 1.2f;
+		pos = Point(Rec::Win.r * 0.8f + width, Rec::Win.t + height - 30);
+		str = "00:00";
+		timeMsg.SetMsg(str);
+		timeMsg.Color(RGB(255, 150, 150));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		
+		std::ofstream off("./data/ta_data/ta.txt",std::ios_base::app);
+		off << iTimeCnt << '\n';
+		off.close();
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		auto kb = KB::GetState();
+		if (auto fi = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
+		{
+			if (fi->IsComplete() == false)
+			{
+				return;
+			}
+		}
 
+		if (iFrameCnt >= 60 || kb->On('A'))
+		{
+			iFrameCnt = 0;
+			iTimeCnt++;
+			std::string mn = (iTimeCnt / 60) < 10 ? "0" + std::to_string(iTimeCnt / 60) : "" + std::to_string(iTimeCnt / 60);
+			std::string sc = (iTimeCnt % 60) < 10 ? "0" + std::to_string(iTimeCnt % 60) : "" + std::to_string(iTimeCnt % 60);
+			str = mn + ":" + sc;
+			timeMsg.SetMsg(str);
+		}
+		iFrameCnt++;
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		
+		timeMsg.DrawAscii(pos, width, height);
 	}
 }

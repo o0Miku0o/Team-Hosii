@@ -27,47 +27,65 @@ namespace StageLoad
 	{
 	public:
 		/*ïKóvÇ»ÉÅÉìÉoÇÕÇ±Ç±Ç…í«â¡*/
+		enum Value
+		{
+			STAR, FRAGMENT, PLANET, BLACKHOLE, ALIEN,
+			BREAKSTAR, METEO, RESULT, COMMNETSTART, COMMNETEND
+		};
+		bool state[8];
 		struct Base
 		{
-			bool state;
-			int iNum;
-			vector<Point> vpPos;
+			int num;
+			vector<Point> pos;
+			vector<int> imgSrc;
 		};
-		struct Fragment : public Base {
-			vector<int> iColor;
-		}sFragement;
 
-		struct Star : public Base {
-			vector<int> viChange;
-		}sStar;
+		Base sStar, sFragment;
+		enum FragMentImgSrc {
+			YELLOW = 2, RED = 60, BLUE = 68
+		};
 
-		struct BreakStar : public Base {
-			vector<int> viChange;
-			vector<bool> bMode;
+		struct BreakStar : public Base
+		{
+			vector<bool> mode;
 		}sBreakStar;
+		enum BreakStarMode {
+			BREAKABLE = 34, NONBREAK = 37
+		};
 
-		struct Planet  {
-			bool state;
-			Rec rec;
-		}sJupiter, sNeptune, sSaturn;
+		struct Planet : public Base {
+			vector<float> size;
+		};
+		Planet sPlanet;
+		enum PlanetType {
+			JUPITOR = 112, NEPTUNE = 116, SATURN = 120
+		};
 
-		struct SMeteo : public Base {
-			vector<Vector2> vvSpd;
-		}sMeteo;
+		struct BlackHole : public Base {
+			vector<float> size;
+			vector<int> mode;
+		};
+		BlackHole sBlackHole;
+
+
+		struct Meteo : public Base {
+			vector<Vector2> moveVec;
+		};
+		Meteo sMeteo;
 
 		struct SAlien : public Base {
-			vector<Alien::Move> vaMove;
-			vector<Alien::Hit> vaBMHit, vaFGHit;
-			vector<Alien::Anim> vaAnim;
+			vector<Alien::Move> aMove;
+			vector<Alien::Hit> aBMHit, aFGHit;
+			vector<Alien::Anim> aAnim;
 		}sAlien;
 
-		struct SBlackhole : public Base {
-			vector<float> vpSize;
-			vector<int>   viMode;
-		}sblackhole;
-
+		enum AlienIMG {
+			VERTICAL = 14, HORIZONTAL = 16, ROTATION = 18, ROTATIONREVERSE = 20, REFLECTDR = 128, REFLECTUR = 130, REFLECTDL = 76, REFLECTUL = 78
+		};
+		enum AlienMOVE {
+			MOVESTAY, MOVEVERTICAL, MOVEVERTICALREVERSE, MOVEHORIZONTAL, MOVEHORIZONTALREVERSE, MOVEROTATION, MOVEROTATIONREVERSE
+		};
 		struct SReuslt {
-			bool state;
 			int iFragement, iNextStage;
 		}sResult;
 
@@ -84,7 +102,7 @@ namespace StageLoad
 		void LoadFragments(ifstream &ifs);
 		void LoadStar(ifstream &ifs);
 		void LoadBreakStar(ifstream &ifs);
-		void LoadPlanet(ifstream &ifs, Planet &planet);
+		void LoadPlanet(ifstream &ifs);
 		void LoadMeteo(ifstream &ifs);
 		void LoadAlien(ifstream &ifs);
 		void LoadBlackHole(ifstream &ifs);

@@ -1,10 +1,5 @@
 #include "StageSelect.h"
 #include "StageManager.h"
-//#include "StageSelectObjUS.h"
-//#include "StageSelectObjEarth.h"
-//#include "StageSelectObjGalaxy.h"
-//#include "StageSelectObjBH.h"
-//#include "StageSelectObjAsteroid.h"
 #include "StageSelectIcon.h"
 #include "Cursor.h"
 #include "Hukidasi.h"
@@ -16,7 +11,6 @@ namespace StageSelect
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
@@ -28,6 +22,7 @@ namespace StageSelect
 	{
 		/*タスク名設定*/
 		SetName(caTaskName);
+
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -50,6 +45,14 @@ namespace StageSelect
 		icon = Add<StageSelectIcon::Obj>();
 		icon->type = StageSelectIcon::Type::BH;
 		icon->rIcon.SetPos(&Point(1500.f, 400.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::FR;
+		icon->rIcon.SetPos(&Point(650.f, 600.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::TA;
+		icon->rIcon.SetPos(&Point(1250.f, 600.f));
 
 		Add<Hukidasi::Obj>();
 		auto cs = Add<Cursor::Obj>();
@@ -83,12 +86,10 @@ namespace StageSelect
 			Pause(2);
 			return;
 		}
-
-
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-
+		
 	}
 }

@@ -4,6 +4,7 @@
 #include "StageLoad.h"
 #include "Back.h"
 #include "Title.h"
+#include "TimeAttack.h"
 
 namespace Stage
 {
@@ -70,7 +71,7 @@ namespace Stage
 		}
 
 		if (kb->Down('T') || pad->Down(JOY_BUTTON3)) {
-			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			RemoveAll({ StageManager::caTaskName,TimeAttack::caTaskName }, NOT_REMOVE_NAME);
 			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 				manager->bStageNum = manager->bNextStage;
 				if (manager->bStageNum == 255) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "../™‚¢/MyGame/My/EventMsg.h"
 
 namespace TimeAttack
 {
@@ -25,6 +26,11 @@ namespace TimeAttack
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		int iTimeCnt;
+		int iFrameCnt;
+		std::string str;
+		Point pos;
+		float width, height;
+		EventMsg timeMsg;
 
 		Obj() {}
 		~Obj() {}

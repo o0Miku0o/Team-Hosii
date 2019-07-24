@@ -9,12 +9,10 @@ namespace StageSelectIcon
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
-
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -110,7 +108,7 @@ namespace StageSelectIcon
 	}
 	void AnimTimeAttack(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
 	{
-		*iOffSetX = 0;
+		*iOffSetX = 85;
 		*iOffSetY = 1;
 		if (*iAnimCount >= 16)
 		{
@@ -121,7 +119,7 @@ namespace StageSelectIcon
 	}
 	void AnimFragment(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
 	{
-		*iOffSetX = 4;
+		*iOffSetX = 89;
 		*iOffSetY = 1;
 		if (*iAnimCount >= 16)
 		{

@@ -1,9 +1,9 @@
-Bs 6  600    0 37 True
-      700 1080 37 True
-     1600  540 37 True
-     1920    0 37 True
-     1900 1000 37 True
-      600  540 34 False
-S  2 1200  850 22
-     1100  200 23
-R 5 255
+BreakStar 600    0 37
+BreakStar 700 1080 37
+BreakStar 1600  540 37
+BreakStar 1920    0 37
+BreakStar 1900 1000 37
+BreakStar 600  540 34
+Star 1200  850 22
+Star 1100  200 23
+Result 8 255

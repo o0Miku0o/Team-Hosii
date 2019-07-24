@@ -11,6 +11,8 @@
 #include "Hukidasi.h"
 #include "StageLoad.h"
 #include "KeyMove.h"
+#include "MiniGame.h"
+#include "TimeAttack.h"
 
 namespace Cursor
 {
@@ -100,11 +102,10 @@ namespace Cursor
 						manager->bStageNum = ((si->type + 1) * 10) + 1;
 
 						Add<StageLoad::Obj>();
+						
 						Pause(2);
-
 					}
 				}
-
 
 				if (hu)
 				{

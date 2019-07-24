@@ -1,0 +1,12 @@
+Star 1500 150 23
+Star 1600 350 22
+Star 1780 780 22
+Star 1100 650 24
+Star 500 920 24
+BreakStar 600 500 34
+Fragment 1400 780 2
+Fragment 1300 420 2
+Fragment 1200 100 2
+Fragment 1000 300 2
+Fragment 900 900 2
+Result 13 255
