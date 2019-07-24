@@ -2,6 +2,16 @@
 
 namespace Eff1
 {
+	const std::map<const std::string, const Eff1::ChipType> EffectCreater::m_type = 
+	{
+		{ "beam", Eff1::ChipType::TYPE_BEAM },
+		{ "r_frg", Eff1::ChipType::TYPE_R_FRG },
+		{ "y_frg", Eff1::ChipType::TYPE_Y_FRG },
+		{ "b_frg", Eff1::ChipType::TYPE_B_FRG },
+		{ "y_sta", Eff1::ChipType::TYPE_Y_STAR },
+		{ "r_sta", Eff1::ChipType::TYPE_R_STAR },
+		{ "b_sta", Eff1::ChipType::TYPE_B_STAR },
+	};
 	/*ÉäÉ\Å[ÉXÇÃèâä˙âªèàóù*/
 	void RS::Init()
 	{

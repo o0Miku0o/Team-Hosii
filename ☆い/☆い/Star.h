@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Eff1.h"
 
 namespace Star
 {
@@ -39,6 +40,9 @@ namespace Star
 		byte bAlpha;
 		char cAddAlpha;
 		Point pPos;
+		Eff1::EffectCreater::SP effsp;
+		Eff1::EffectCreater::SP effsp1;
+		Eff1::EffectCreater::SP effsp2;
 
 		enum StarColor {
 			Yellow2 = 22,
@@ -102,7 +106,7 @@ namespace Star
 		void Update();
 		void Render();
 		void CheckHit(TaskBase* fragment);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 
 	void AnimStar(byte* const bFrame, byte* const bSrcX, byte* const bSrcY);
 }

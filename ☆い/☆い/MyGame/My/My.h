@@ -13,6 +13,7 @@
 #include "FixedPoint.h"
 #include "CADAM.h"
 #include "Debug.h"
+//#include "EventMsg.h"
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
@@ -966,10 +967,6 @@ public:
 		bIsPlaying = false;
 		waveOutReset(hWaveOut);
 	}
-	bool IsPlaying() const
-	{
-		return bIsPlaying;
-	}
 };
 
 class JoyPad
@@ -1358,22 +1355,27 @@ public:
 	//矩形を移動させる
 	void SetPos(const Point * const pos_)
 	{
-		//原点を中心とした位置に移動
-		float  pp[4][2] =
+		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			{ -dx , -dy },
-			{ dx , -dy },
-			{ -dx ,  dy },
-			{ dx ,  dy },
-		};
+			p[i].x -= p[CENTER].x;
+			p[i].y -= p[CENTER].y;
+		}
+		////原点を中心とした位置に移動
+		//float  pp[4][2] =
+		//{
+		//	{ -dx , -dy },
+		//	{ dx , -dy },
+		//	{ -dx ,  dy },
+		//	{ dx ,  dy },
+		//};
 
 		p[CENTER].x = pos_->x;
 		p[CENTER].y = pos_->y;
 
 		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			p[i].x = p[CENTER].x + pp[i][0];
-			p[i].y = p[CENTER].y + pp[i][1];
+			p[i].x += p[CENTER].x/* + pp[i][0]*/;
+			p[i].y += p[CENTER].y/* + pp[i][1]*/;
 		}
 	}
 	//矩形を拡大縮小させる
@@ -1447,7 +1449,7 @@ public:
 
 		//原点に合わせて回転
 		double ang = (double)ModAngle(angle);
-		if (ang < -1.f || ang > 1.f)
+		//if (ang < -1.f || ang > 1.f)
 		{
 			ang = (double)DtoR((float)ang);
 			for (int i = 0; i < POINT_MAX - 1; ++i)
@@ -1605,6 +1607,13 @@ public:
 
 		PlgBlt(hAlphaDc, pBufArr, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 
+		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
+
+		//auto threadFunc1 = [this, mybitmap_]()
+		//{
+		//	std::lock_guard<std::mutex> lock(mutex);
+		//	PlgBlt(hAlphaDc, pBufArr, off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, nullptr, 0, 0);
+		//};
 		//auto threadFunc2 = [this, mybitmap_]()
 		//{
 		//	std::lock_guard<std::mutex> lock(mutex);
@@ -1616,12 +1625,12 @@ public:
 		//	AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
 		//};
 
+		//std::thread th1(threadFunc1);
 		//std::thread th2(threadFunc2);
 		//std::thread th3(threadFunc3);
+		//th1.join();
 		//th2.join();
 		//th3.join();
-
-		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, bBlendFunc);
 
 		//DeleteObject(hBufBmp);
 		//DeleteDC(hBufDc);
@@ -1664,6 +1673,13 @@ public:
 
 		PlgBlt(hAlphaDc, pBufArr, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 
+		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
+
+		//auto threadFunc1 = [this, mybitmap_, frSrc]()
+		//{
+		//	std::lock_guard<std::mutex> lock(mutex);
+		//	PlgBlt(hAlphaDc, pBufArr, off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, nullptr, 0, 0);
+		//};
 		//auto threadFunc2 = [this, mybitmap_, frSrc]()
 		//{
 		//	std::lock_guard<std::mutex> lock(mutex);
@@ -1675,12 +1691,12 @@ public:
 		//	AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
 		//};
 
+		//std::thread th1(threadFunc1);
 		//std::thread th2(threadFunc2);
 		//std::thread th3(threadFunc3);
+		//th1.join();
 		//th2.join();
 		//th3.join();
-
-		AlphaBlend(off, pDrawPoint[0].x, pDrawPoint[0].y, (int)w, (int)h, hAlphaDc, 0, 0, (int)w, (int)h, bBlendFunc);
 
 		//DeleteObject(hBufBmp);
 		//DeleteDC(hBufDc);

@@ -62,6 +62,7 @@ namespace Alien
 		//	}
 		//}
 		Point pPos;
+		/*移動関係の関数を実行*/
 		if (moveFunc)
 		{
 			moveFunc(&pPos, &pCenter, &iTime, &fAddAngle);
@@ -70,7 +71,7 @@ namespace Alien
 
 		rAlienR.SetDeg(rAlienR.GetDeg() + fAddAngle);
 		cAlienRHitBase.SetPos(&rAlienR.GetPos());
-
+		/*アニメーション関数を実行*/
 		if (AnimFunc)
 		{
 			AnimFunc(&iAnimCount, &iAddOffSet, &iOffSetX, &iOffSetY);

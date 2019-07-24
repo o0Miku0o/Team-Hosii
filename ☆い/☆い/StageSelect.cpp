@@ -9,6 +9,7 @@
 #include "Hukidasi.h"
 #include "StageLoad.h"
 
+
 namespace StageSelect
 {
 	/*リソースの初期化処理*/
@@ -32,16 +33,22 @@ namespace StageSelect
 		Add<StageSelectObjGalaxy::Obj>();
 		Add<StageSelectObjBH::Obj>();
 		Add<StageSelectObjAsteroid::Obj>();
-		Add<StageSelectObjEarth::Obj>();
+		auto es = Add<StageSelectObjEarth::Obj>();
 		Add<StageSelectObjUS::Obj>();
 		Add<Hukidasi::Obj>();
 		auto cs = Add<Cursor::Obj>();
-		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
+		//cs->pPos = es->rEarth.GetPos();
+		cs->rCursorBase.SetPos(&es->rEarth.GetPos());
 
 		/*データの初期化*/
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+		{
+			res->wsBGM.Restart();
+		}
 		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
 			sm->bStageNum = 11;
+
 		}
 	}
 	/*タスクの終了処理*/

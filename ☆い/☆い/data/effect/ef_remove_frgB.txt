@@ -1,7 +1,7 @@
 
  e_type hanabi
  c_type b_sta
- c_size 5 5
+ c_size 7 7
  num    36
  life   20
  spd    2

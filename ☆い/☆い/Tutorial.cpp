@@ -29,14 +29,14 @@ namespace Tutorial
 		tBtn.bState = Btn_State::BS_UP;
 
 		rTutoBase.SetPos(&Point(25.f, 25.f));
-		rTutoBase.Scaling(50.f, 50.f);
+		rTutoBase.Scaling(80.f, 80.f);
 		rEfBase.SetPos(&Point(50.f + 25.f, 25.f));
 		rEfBase.Scaling(50.f, 50.f);
 
 		iaStickState[0] = Stk_State::STS_UP;
-		iaStickState[1] = Stk_State::STS_NEUTRAL;
+		iaStickState[1] = Stk_State::STS_NEUTRAL_L;
 		iaStickState[2] = Stk_State::STS_DOWN;
-		iaStickState[3] = Stk_State::STS_NEUTRAL;
+		iaStickState[3] = Stk_State::STS_NEUTRAL_L;
 
 		uiStickStateCount = 1;
 		cppTarget = nullptr;
@@ -90,8 +90,13 @@ namespace Tutorial
 			}
 			else
 			{
-				const float cfSrcX = 16.f * (iaStickState[uiStickStateCount] + Buttons::BTN_MAX * 2);
-				src.l = cfSrcX;
+				float fSrcX = 0.f;
+				if (iaStickState[uiStickStateCount] == Stk_State::STS_NEUTRAL_R)
+				{
+					fSrcX = 16.f * 12;
+				}
+				else fSrcX = 16.f * (iaStickState[uiStickStateCount] + Buttons::BTN_MAX * 2);
+				src.l = fSrcX;
 				rTutoBase.Draw(&res->iTutoImg, &src, false);
 			}
 		}
@@ -104,6 +109,13 @@ namespace Tutorial
 		if (tState == Ttl_State::TTS_BUTTON)
 		{
 			tBtn.bBtn = (Buttons)Min(auiBNumber, (unsigned int)(Buttons::BTN_MAX - 1));
+		}
+		else if (auiBNumber == Stk_State::STS_NEUTRAL_R)
+		{
+			iaStickState[0] = Stk_State::STS_UP;
+			iaStickState[1] = Stk_State::STS_NEUTRAL_R;
+			iaStickState[2] = Stk_State::STS_DOWN;
+			iaStickState[3] = Stk_State::STS_NEUTRAL_R;
 		}
 		rTutoBase.SetPos(appPos);
 		cppTarget = appTarget;

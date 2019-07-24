@@ -156,11 +156,11 @@ bool ApplicationInitialize(HINSTANCE hThisInst_, int nWinMode_)
 
 //指定時間処理を待つ関数
 //(コンピュータの処理速度の違いで処理が速くなりすぎないようにする)
-bool WaitProcess(unsigned long * const setsec_, const unsigned long waitsec_)
+inline bool WaitProcess(double * const setsec_, const double waitsec_)
 {
-	if (SubFP(FP(timeGetTime()), waitsec_) >= FP(*setsec_))
+	if (timeGetTime() - waitsec_ >= *setsec_)
 	{
-		*setsec_ = timeGetTime();
+		*setsec_ = (double)timeGetTime();
 		return 1;
 	}
 	return 0;
@@ -170,6 +170,8 @@ bool WaitProcess(unsigned long * const setsec_, const unsigned long waitsec_)
 //(アプリケーションのエントリーポイント)
 int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, int nWinMode_)
 {
+	Debug::DetectLeak();
+
 	MSG msg;
 	//表示するウィンドウの定義、登録、表示
 	if (ApplicationInitialize(hThisInst_, nWinMode_))
@@ -182,7 +184,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	MS::Visible(false);
 	/*矩形クラスを初期化*/
 	Rec::Init(g_hWnd);
-	/*JoyPadの初期化*/
+	/*ゲームパッド*/
 	JoyPad::Create(2);
 	/*乱数の初期化*/
 	srand(/**/(unsigned int)time(nullptr)/*/0/**/);
@@ -190,21 +192,21 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	//最小タイマ分解能を、ミリ秒単位で指定
 	timeBeginPeriod(1);
 	//処理前の現在時間を取得する
-	unsigned long tmptime1 = timeGetTime();
-	unsigned long tmptime2 = timeGetTime();
-	constexpr unsigned long celFPS = FP(1000.0 / 60.0);
+	double tmptime1 = (double)timeGetTime();
+	double tmptime2 = (double)timeGetTime();
+	constexpr double FPS = 1000.0 / 60.0;
 
+#ifdef _DEBUG
 	byte bArr[40] = {};
 	byte bFPS = 0;
 	byte bCount = 0;
-#ifdef _DEBUG
 	fix fZoom = 1.f;
 #endif
 
 	//ゲームの初期化処理
 	Init();
 	//メインメッセージループ
-	while (1)
+	for (;;)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
@@ -215,7 +217,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		else if (WaitProcess(&tmptime1, celFPS))
+		else if (WaitProcess(&tmptime1, FPS))
 		{
 			//キーボード入力を取得
 			KB::GetKeyState();
@@ -230,8 +232,8 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Animation::UpdateAll();
 
 #ifdef _DEBUG
-			fix fX = 0.f, fY = 0.f;
 			auto kb = KB::GetState();
+			fix fX = 0.f, fY = 0.f;
 			if (kb->On('I'))
 			{
 				fY -= 10.f;
@@ -265,12 +267,21 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Rec::MoveCamera(&Vector2(fX, fY));
 			Rec::Zoom(fZoom);
 #endif
-
 			//描画前にオフスクリーンを黒く塗りつぶす（リセット？）
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理
 			Render();
 
+//			auto hFront = GetDC(g_hWnd);
+//			Rec::DrawBackToFront(hFront);
+//#ifdef _DEBUG
+//			if (kb->On(VK_CONTROL) && kb->Down('Z'))
+//			{
+//				SaveBitMap(hFront, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
+//			}
+//#endif
+//			ReleaseDC(g_hWnd, hFront);
+#ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
 			{
 				bCount = 0;
@@ -286,11 +297,10 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Point pP(Rec::GetCameraPosX() - Rec::Win.r * 0.5f, Rec::GetCameraPosY() + Rec::Win.b * 0.5f - 20.f);
 			//f.Draw(&pP, std::to_string(bFPS).c_str());
 
-			bArr[bCount] = byte(1000.0 / FToD(SubFP(FP(timeGetTime()), FP(tmptime2))));
+			bArr[bCount] = byte(1000.0 / (timeGetTime() - tmptime2));
 			++bCount;
-#ifdef _DEBUG
 #endif
-			tmptime2 = timeGetTime();
+			tmptime2 = (double)timeGetTime();
 		}
 		//領域無効化
 		InvalidateRect(g_hWnd, nullptr, false);

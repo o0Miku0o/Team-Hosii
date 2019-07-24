@@ -45,6 +45,9 @@ namespace Star
 
 		iAlpha = 0;
 		iCnt = 0;
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_chipY.txt"));
+		effsp1 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_fullY.txt"));
+		effsp2 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_reflect_frgY.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -133,49 +136,51 @@ namespace Star
 		case Yellow2:
 			starColor = Yellow3;
 			starEffect = EFTYellow3;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Red:
 			starColor = Yellow3_Red;
 			starEffect = EFTYellow3_Red;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Blue:
 			starColor = Yellow3_Blue;
 			starEffect = EFTYellow3_Blue;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Red_Blue:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow4;
 			starEffect = EFTYellow4;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow3_Red:
 			starColor = Yellow4_Red;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow3_Blue:
 			starColor = Yellow4_Blue;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow5;
 			starEffect = EFTYellow5;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
+		}
+		if (starCircle == Complete)
+		{
+			effsp1->_set_chip_type("y_sta");
+			effsp1->run(pPos, 0);
+		}
+		else
+		{
+			effsp->_set_chip_type("y_sta");
+			effsp->run(pPos, 0);
 		}
 	}
 	void Obj::CheckHitRed() {
@@ -185,69 +190,82 @@ namespace Star
 		case Yellow2:
 			starColor = Yellow2_Red;
 			starEffect = EFTYellow2_Red;
-			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow2_Blue:
 			starColor = Yellow2_Red_Blue;
 			starEffect = EFTYellow2_Red_Blue;
-			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow3_Red;
 			starEffect = EFTYellow3_Red;
-			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow3_Blue:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullR.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow4_Red;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullR.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
 			break;
 		}
+		if (starCircle == Complete)
+		{
+			effsp1->_set_chip_type("r_sta");
+			effsp1->run(pPos, 0);
+		}
+		else
+		{
+			effsp->_set_chip_type("r_sta");
+			effsp->run(pPos, 0);
+		}
 	}
 	void Obj::CheckHitBlue() {
 		starSound = Full;
 		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
+		effsp1->_set_chip_type("b_sta");
+		effsp1->run(pPos, 0);
 		switch (starColor) {
 		case Yellow2:
 			starColor = Yellow2_Blue;
 			starEffect = EFTYellow2_Blue;
-			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow2_Red:
 			starColor = Yellow2_Red_Blue;
 			starEffect = EFTYellow2_Red_Blue;
-			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow3_Blue;
 			starEffect = EFTYellow3_Blue;
-			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow3_Red:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow4_Blue;
 			starEffect = EFTYellow4_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
+			//Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
 			break;
+		}
+		if (starCircle == Complete)
+		{
+			effsp1->_set_chip_type("b_sta");
+			effsp1->run(pPos, 0);
+		}
+		else
+		{
+			effsp->_set_chip_type("b_sta");
+			effsp->run(pPos, 0);
 		}
 	}
 
@@ -326,8 +344,10 @@ namespace Star
 			else if (starSound == Reflact) {
 				SoundPlay(Reflact);
 				/*エフェクト放出*/
-				static std::string fileName[3] = { "./data/effect/ef_reflect_frgY.txt","./data/effect/ef_reflect_frgR.txt","./data/effect/ef_reflect_frgB.txt" };
-				Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+				static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+				//Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+				effsp2->_set_chip_type(fileName[oFragment->iColor]);
+				effsp2->run(oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
 				/*byte loopmax = 31;
 				for (byte b = 0; b < loopmax; ++b)
 				{
@@ -350,7 +370,8 @@ namespace Star
 					}
 					ef1->SetParam(&rEf, &vSpd, 15, tEffectType, fAng);
 				}*/
-				oFragment->rFragment.SetDeg(rStar.GetDeg(&oFragment->rFragment));
+				float f = ModAngle(rStar.GetDeg(&oFragment->rFragment));
+				oFragment->rFragment.SetDeg(f);
 				//oFragment->rFragment.SetPos(&oFragment->pInitPos);
 				//oFragment->bMoveActive = false;
 			}

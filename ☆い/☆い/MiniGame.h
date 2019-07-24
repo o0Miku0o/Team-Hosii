@@ -1,11 +1,11 @@
 #pragma once
 #include "MyGame/MyApp.h"
-#include "Eff1.h"
+#include "../☆い/MyGame/My/EventMsg.h"
 
-namespace Saturn
+namespace MiniGame
 {
-	const char caTaskName[] = { "土星タスク" };
-	const char caResName[] = { "土星リソース" };
+	const char caTaskName[] = { "ミニゲームタスク" };
+	const char caResName[] = { "ミニゲームリソース" };
 
 	/*リソースクラス*/
 	class RS : public ResourceBase
@@ -25,23 +25,24 @@ namespace Saturn
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		Rec rSaturn;
-		Circle cSaturnHitBase;
-		Circle cGravityCircle;
-		int iAnimCount;
-		int i;
-		Eff1::EffectCreater::SP effsp;
-
+		int iFragmentCnt;
+		int score;
+		float width, height;
+		Point pos1,pos2;
+		std::string str[2];
+		EventMsg myMsg;
+		EventMsg highMsg;
 		Obj() {}
 		~Obj() {}
 	private:
+
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
 	public:
 		void Update();
 		void Render();
-		void BeamCheckhit(TaskBase* bm);
-		void FragmentCheckhit(TaskBase* fr);
+
 	}*OBJ_ptr;
 }

@@ -3,7 +3,7 @@
  c_type beam
  c_size 20 5
  num    4
- life   20
+ life   10
  spd    2
  op 0   0
  op 1   0

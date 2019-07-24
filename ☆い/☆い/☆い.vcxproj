@@ -134,14 +134,22 @@
     <ClInclude Include="Gas.h" />
     <ClInclude Include="Hukidasi.h" />
     <ClInclude Include="Jupitor.h" />
+    <ClInclude Include="KeyMove.h" />
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="MeteoGenerator.h" />
+    <ClInclude Include="MiniGame.h" />
     <ClInclude Include="MyGame\MyApp.h" />
     <ClInclude Include="MyGame\My\Animation.h" />
-    <ClInclude Include="MyGame\My\CGDM.h" />
+    <ClInclude Include="MyGame\My\CADAM.h" />
+    <ClInclude Include="MyGame\My\Debug.h" />
+    <ClInclude Include="MyGame\My\EventMsg.h" />
+    <ClInclude Include="MyGame\My\Stream.h" />
     <ClInclude Include="MyGame\My\FixedPoint.h" />
+    <ClInclude Include="MyGame\My\Move.h" />
     <ClInclude Include="MyGame\My\My.h" />
     <ClInclude Include="MyGame\TaskBase.h" />
+    <ClInclude Include="Neptune.h" />
+    <ClInclude Include="PadMove.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="resource.h" />
@@ -159,6 +167,7 @@
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarGenerator.h" />
     <ClInclude Include="Saturn.h" />
+    <ClInclude Include="Stop.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Tutorial.h" />
   </ItemGroup>
@@ -183,11 +192,13 @@
     <ClCompile Include="Jupitor.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="MyGame\My\Animation.cpp" />
-    <ClCompile Include="MyGame\My\CGDM.cpp" />
+    <ClCompile Include="MyGame\My\CADAM.cpp" />
     <ClCompile Include="MyGame\My\My.cpp" />
     <ClCompile Include="MyGame\TaskBase.cpp" />
     <ClCompile Include="MyWinMain.cpp" />
+    <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Result.cpp" />

@@ -52,5 +52,5 @@ namespace FadeInOut
 		void Start();
 		void Stop();
 		const bool IsComplete() const;
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

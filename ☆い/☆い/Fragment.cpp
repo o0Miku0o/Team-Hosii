@@ -34,6 +34,7 @@ namespace Fragment
 		pInitPos = Point();
 		pRotPos = Point();
 		fRotRadius = 0.f;
+		fInitAngle = 0.f;
 		iColor = 0;/*黄色が0、赤が1、青が2*/
 		bMoveActive = false;
 		bRotationActive = false;
@@ -42,6 +43,8 @@ namespace Fragment
 		aAnim.SetAnim(AnimFragmentR, 0);
 		aAnim.SetAnim(AnimFragmentB, 0);
 		aAnim.Play();
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_move_frgY.txt"));
+		effsp1 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_reflect_frgY.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -81,6 +84,7 @@ namespace Fragment
 		{
 			vMove.SetVec(rFragment.GetDeg(), 15.f);
 			rFragment.Move(&vMove);
+			cFragmentHitBase.SetPos(&rFragment.GetPos());
 		}
 
 		//auto star = FindAll<Star::Obj>("星タスク");
@@ -99,10 +103,11 @@ namespace Fragment
 			iRotation = (iRotation + 1) % 360;
 			rFragment.SetPos(&pRotPos);
 		}
-		cFragmentHitBase.SetPos(&rFragment.GetPos());
 		if (rFragment.GetPosY() < Rec::Win.t - rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
 			//Remove(this);
@@ -110,6 +115,8 @@ namespace Fragment
 		if (rFragment.GetPosY() > Rec::Win.b + rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
 			//Remove(this);
@@ -118,6 +125,8 @@ namespace Fragment
 		{
 
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();	
 			//Remove(this);
@@ -125,9 +134,8 @@ namespace Fragment
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
 		{
 			rFragment.SetPos(&pInitPos);
-
-			//仮
-			rFragment.SetDeg(0.f);
+			cFragmentHitBase.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 		}
 		auto vAli = FindAll<Alien::Obj>(Alien::caTaskName);
@@ -142,8 +150,10 @@ namespace Fragment
 		if (!bMoveActive) return;
 
 		/*エフェクト放出*/
-		static std::string fileName[3] = { "./data/effect/ef_move_frgY.txt","./data/effect/ef_move_frgR.txt","./data/effect/ef_move_frgB.txt" };
-		Eff1::Create(fileName[iColor], &rFragment.GetPos(), rFragment.GetDeg());
+		static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+		effsp->_set_chip_type(fileName[iColor]);
+		effsp->run(rFragment.GetPos(), rFragment.GetDeg());
+		/*Eff1::Create(fileName[iColor], &rFragment.GetPos(), rFragment.GetDeg());*/
 		/*for (byte b = 0; b < 4; ++b)
 		{
 			auto ef1 = Add<Eff1::Obj>();
@@ -191,7 +201,7 @@ namespace Fragment
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 		}
-		//cFragmentHitBase.Draw();
+		cFragmentHitBase.Draw();
 	}
 
 	void Obj::Checkhitbeam(TaskBase* bm)
@@ -232,24 +242,27 @@ namespace Fragment
 	void Obj::Checkhitfagment(TaskBase* fg)
 	{
 		Fragment::Obj* oFragment = (Fragment::Obj*)fg;
-		Circle cHit;
-		cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
-		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
-		if (cFragmentHitBase.CheckHit(&cHit))
+		//Circle cHit;
+		//cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
+		//cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
+		if (cFragmentHitBase.CheckHit(&oFragment->cFragmentHitBase))
 		{
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
 			}
-			oFragment->rFragment.SetDeg(rFragment.GetDeg(&oFragment->rFragment));
-			cHit.GetRadius();
+			float f = ModAngle(rFragment.GetDeg(&oFragment->rFragment));
+			oFragment->rFragment.SetDeg(f);
+			//cHit.GetRadius();
 			float fDisx = (rFragment.GetPosX() - oFragment->rFragment.GetPosX()) / 2.f + oFragment->rFragment.GetPosX();
 			float fDisy = (rFragment.GetPosY() - oFragment->rFragment.GetPosY()) / 2.f + oFragment->rFragment.GetPosY();
 			Point pPos(fDisx, fDisy);
 			/*エフェクト放出*/
-			static std::string fileName[3] = { "./data/effect/ef_reflect_frgY.txt","./data/effect/ef_reflect_frgR.txt","./data/effect/ef_reflect_frgB.txt" };
-			Eff1::Create(fileName[iColor], &pPos, rFragment.GetDeg());
+			static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+			//Eff1::Create(fileName[iColor], &pPos, rFragment.GetDeg());
+			effsp1->_set_chip_type(fileName[iColor]);
+			effsp1->run(pPos, rFragment.GetDeg());
 			/*byte loopmax = 15;
 			for (byte b = 0; b < loopmax; ++b)
 			{

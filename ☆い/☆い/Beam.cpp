@@ -29,6 +29,7 @@ namespace Beam
 		rHitBase = Rec(0.f, Rec::Win.b * 0.5f, 30.f, 16.f);
 		bLifeCount = 0;
 		vSpd = Vector2::zero;
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_beam.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -53,7 +54,8 @@ namespace Beam
 		if (!FindNext<Beam::Obj>(caTaskName))
 		{
 			/*エフェクト放出*/
-			Eff1::Create("./data/effect/ef_beam.txt", &rHitBase.GetPos(), rHitBase.GetDeg());
+			//Eff1::Create("./data/effect/ef_beam.txt", &rHitBase.GetPos(), rHitBase.GetDeg());
+			effsp->run(rHitBase.GetPos(), rHitBase.GetDeg());
 			/*for (byte b = 0; b < 2; ++b)
 			{
 				auto ef1 = Add<Eff1::Obj>();

@@ -2,7 +2,7 @@
 #include "StarGenerator.h"
 #include "BreakStarGenerator.h"
 #include "Jupitor.h"
-
+#include "Neptune.h"
 #include "Saturn.h"
 #include "MeteoGenerator.h"
 #include "AlienGenerator.h"
@@ -40,7 +40,9 @@ namespace StageLoad
 
 		/*タスクの生成*/
 		Add<Back::Obj>();
+#ifndef _DEBUG
 		Add<Gas::Obj>();
+#endif
 		Add<Player::Obj>();
 
 		isLoad = false;
@@ -72,6 +74,10 @@ namespace StageLoad
 				auto pj = Add<Jupitor::Obj>();
 				pj->rJupitor = sJupiter.rec;
 			}
+			if (sNeptune.state) {
+				auto pn = Add<Neptune::Obj>();
+				pn->rNeptune = sNeptune.rec;
+			}
 			if (sSaturn.state) {
 				auto sa = Add<Saturn::Obj>();
 				sa->rSaturn = sSaturn.rec;
@@ -83,7 +89,7 @@ namespace StageLoad
 			}
 			if (sStar.state) {
 				auto sg = Add<StarGenerator::Obj>();
-				sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos, sStar.vfSize);
+				sg->Bridge(sStar.iNum, sStar.viChange, sStar.vpPos);
 			}
 			if (sBreakStar.state) {
 				auto bs = Add<BreakStarGenerator::Obj>();
@@ -109,22 +115,42 @@ namespace StageLoad
 					ma->bNextStage = sResult.iNextStage;
 				}
 			}
-
 			isLoad = true;
-
+			Remove(this);
 			Add<Stage::Obj>();
 			Add<Rail::Obj>();
-			/*ためし*
+			/*ためし*/
 			const Point *ppTutorialPos = nullptr;
 			if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 			{
 				ppTutorialPos = &sm->pTutorialPos;
 			}
-			auto tu = Add<Tutorial::Obj>();
-			tu->SetParam(600, Tutorial::Ttl_State::TTS_BUTTON, Tutorial::Buttons::BTN_R, &Point(50.f, 50.f), ppTutorialPos);
+			Tutorial::Ttl_State tState = Tutorial::Ttl_State::TTS_BUTTON;
+			unsigned int uiBtnOrStick = Tutorial::Buttons::BTN_R;
+
+			if (StageGroup(bStageNum) == 1)
+			{
+				if (StageNumber(bStageNum) == 2)
+				{
+					tState = Tutorial::Ttl_State::TTS_STICK;
+				}
+				else if (StageNumber(bStageNum) == 3)
+				{
+					tState = Tutorial::Ttl_State::TTS_STICK;
+					uiBtnOrStick = Tutorial::Stk_State::STS_NEUTRAL_R;
+				}
+				auto tu = Add<Tutorial::Obj>();
+				tu->SetParam(600, tState, uiBtnOrStick, &Point(50.f, 50.f), ppTutorialPos);
+			}
+			else if (StageNumber(bStageNum) == 1)
+			{
+				auto tu = Add<Tutorial::Obj>();
+				tu->SetParam(600, tState, uiBtnOrStick, &Point(50.f, 50.f), ppTutorialPos);
+			}
 			/**/
 			if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 			{
+				//fade->bActive = false;
 				fade->Start();
 				fade->bIsIn = false;
 			}
@@ -133,7 +159,8 @@ namespace StageLoad
 				fade = Add<FadeInOut::Obj>();
 				fade->bIsIn = false;
 			}
-			Remove(this);
+			//auto fade = Add<FadeInOut::Obj>();
+			//fade->bIsIn = false;
 		}
 	}
 	/*タスクの描画処理*/
@@ -142,7 +169,7 @@ namespace StageLoad
 
 	}
 	bool Obj::LoadStage(int iStage) {
-		string path = "./data/stage/stage" + to_string(iStage / 10) + to_string(iStage % 10) + ".txt";
+		string path = "./data/stage/stage" + to_string(StageGroup(iStage)) + to_string(StageNumber(iStage)) + ".txt";
 		ifstream ifs(path);
 		if (!ifs) {
 			return false;
@@ -190,6 +217,7 @@ namespace StageLoad
 				}
 			}
 		}
+		ifs.close();
 		return true;
 	}
 
@@ -212,7 +240,6 @@ namespace StageLoad
 			ifs >> x >> y >> change;
 			sStar.viChange.push_back(change);
 			sStar.vpPos.push_back(Point(x, y));
-			sStar.vfSize.push_back(100.f);
 		}
 		sStar.state = true;
 	}
