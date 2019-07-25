@@ -49,7 +49,7 @@ namespace Cursor
 	void Obj::Update()
 	{
 		auto kb = KB::GetState();
-
+		auto pad = JoyPad::GetState(0);
 		const float fCursorX = rCursorBase.GetPosX();
 		const float fCursorY = rCursorBase.GetPosY();
 		const float fCursorW = rCursorBase.GetW();

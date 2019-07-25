@@ -114,6 +114,14 @@ namespace Result
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
+		//âºÇÃî≤ÇØèàóù
+		if (kb->Down(VK_SPACE)) {
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			Add<Back::Obj>();
+			Add<StageSelect::Obj>();
+			Pause(2);
+		}
+
 		std::vector<TB_ptr> vsMoveStar;
 		for (auto &vs : FindAll<Star::Obj>("êØÉ^ÉXÉN"))
 		{
@@ -169,7 +177,7 @@ namespace Result
 				++iHanabiCount;
 			}
 			++iHanabiTime;
-			sPercent = std::to_string(int((bScore.at(0) + bScore.at(1) + bScore.at(2)) * 100 / 9.f));	
+			sPercent = std::to_string(int((bScore.at(0) + bScore.at(1) + bScore.at(2)) * 100 / 9.f));
 			return;
 		}
 		if (iRandomTime <= 1)
@@ -260,11 +268,10 @@ namespace Result
 			rPercent.Draw(&s->iResult, &Frec(0.f, 16.f, 16.f, 16.f));
 		}
 	}
-		//Point pPos(800, 1000);
-		//if (sPercent.length() >= 3) pPos.x -= 6 * 30;
-		//em.Msg() = sPercent;
-		//em.DrawAscii(pPos, 6 * 30, 24 * 30);
-	}
+	//Point pPos(800, 1000);
+	//if (sPercent.length() >= 3) pPos.x -= 6 * 30;
+	//em.Msg() = sPercent;
+	//em.DrawAscii(pPos, 6 * 30, 24 * 30);
 
 	void Obj::ButtonInit()
 	{

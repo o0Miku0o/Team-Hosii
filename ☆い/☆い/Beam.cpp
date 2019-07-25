@@ -62,7 +62,7 @@ namespace Beam
 			//rHitBase.Draw(&stageRes->iStageImg, 16 * 10, 0, 16, 16, true, true);
 
 			Frec src(16.f * 10, 0.f, 16.f, 16.f);
-			rHitBase.Draw(&stageRes->iStageImg, &src, true);
+			rHitBase.Draw(&stageRes->iStageImg, &src);
 		}
 	}
 	/*エフェクト放出*/
@@ -91,16 +91,5 @@ namespace Beam
 		if (rHitBase.GetPosX() < Rec::Win.l - 10.f) Remove(this);
 		if (rHitBase.GetPosY() > Rec::Win.b + 10.f) Remove(this);
 		if (rHitBase.GetPosY() < Rec::Win.t - 10.f) Remove(this);
-	}
-	/*タスクの描画処理*/
-	void Obj::Render()
-	{
-		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName))
-		{
-			//rHitBase.Draw(&stageRes->iStageImg, 16 * 10, 0, 16, 16, true, true);
-
-			Frec src(16.f * 10, 0.f, 16.f, 16.f);
-			rHitBase.Draw(&stageRes->iStageImg, &src);
-		}
 	}
 }
