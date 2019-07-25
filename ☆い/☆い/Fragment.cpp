@@ -34,6 +34,7 @@ namespace Fragment
 		pInitPos = Point();
 		pRotPos = Point();
 		fRotRadius = 0.f;
+		fInitAngle = 0.f;
 		iColor = 0;/*黄色が0、赤が1、青が2*/
 		bMoveActive = false;
 		bRotationActive = false;
@@ -42,6 +43,8 @@ namespace Fragment
 		aAnim.SetAnim(AnimFragmentR, 0);
 		aAnim.SetAnim(AnimFragmentB, 0);
 		aAnim.Play();
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_move_frgY.txt"));
+		effsp1 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_reflect_frgY.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -103,6 +106,7 @@ namespace Fragment
 		if (rFragment.GetPosY() < Rec::Win.t - rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
 			//Remove(this);
@@ -110,6 +114,7 @@ namespace Fragment
 		if (rFragment.GetPosY() > Rec::Win.b + rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
 			//Remove(this);
@@ -118,6 +123,7 @@ namespace Fragment
 		{
 
 			rFragment.SetPos(&pInitPos);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();	
 			//Remove(this);
@@ -125,9 +131,7 @@ namespace Fragment
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
 		{
 			rFragment.SetPos(&pInitPos);
-
-			//仮
-			rFragment.SetDeg(0.f);
+			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 		}
 		auto vAli = FindAll<Alien::Obj>(Alien::caTaskName);
@@ -142,7 +146,11 @@ namespace Fragment
 		if (!bMoveActive) return;
 
 		/*エフェクト放出*/
-		for (byte b = 0; b < 4; ++b)
+		static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+		effsp->_set_chip_type(fileName[iColor]);
+		effsp->run(rFragment.GetPos(), rFragment.GetDeg());
+		/*Eff1::Create(fileName[iColor], &rFragment.GetPos(), rFragment.GetDeg());*/
+		/*for (byte b = 0; b < 4; ++b)
 		{
 			auto ef1 = Add<Eff1::Obj>();
 			const fix fAng = ModAngle(rFragment.GetDeg() + 180.f + (rand() % 41 - 20));
@@ -164,7 +172,7 @@ namespace Fragment
 				tEffectType = Eff1::Type::TYPE_B_FRG;
 			}
 			ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, tEffectType, fAng);
-		}
+		}*/
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -174,19 +182,19 @@ namespace Fragment
 			if (iColor == 0)
 			{
 				Frec src(16.f * (aAnim.GetSrcX() + 2), 0.f, 16.f, 16.f);
-				rFragment.Draw(&stageRes->iStageImg, &src, true);
+				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 			else if (iColor == 1)
 			{
 
 				Frec src(16.f * (aAnim.GetSrcX() + 60), 0.f, 16.f, 16.f);
-				rFragment.Draw(&stageRes->iStageImg, &src, true);
+				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 			else if (iColor == 2)
 			{
 
 				Frec src(16.f * (aAnim.GetSrcX() + 68), 0.f, 16.f, 16.f);
-				rFragment.Draw(&stageRes->iStageImg, &src, true);
+				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 		}
 		//cFragmentHitBase.Draw();
@@ -240,8 +248,38 @@ namespace Fragment
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
 			}
-
 			oFragment->rFragment.SetDeg(rFragment.GetDeg(&oFragment->rFragment));
+			cHit.GetRadius();
+			float fDisx = (rFragment.GetPosX() - oFragment->rFragment.GetPosX()) / 2.f + oFragment->rFragment.GetPosX();
+			float fDisy = (rFragment.GetPosY() - oFragment->rFragment.GetPosY()) / 2.f + oFragment->rFragment.GetPosY();
+			Point pPos(fDisx, fDisy);
+			/*エフェクト放出*/
+			static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+			//Eff1::Create(fileName[iColor], &pPos, rFragment.GetDeg());
+			effsp1->_set_chip_type(fileName[iColor]);
+			effsp1->run(pPos, rFragment.GetDeg());
+			/*byte loopmax = 15;
+			for (byte b = 0; b < loopmax; ++b)
+			{
+				auto ef1 = Add<Eff1::Obj>();
+				const fix fAng = ModAngle(oFragment->rFragment.GetDeg() - 90.f + 180.f / loopmax * b);
+				Rec rEf(fDisx, fDisy, 5, 5);//constつけなくてもOK
+				Vector2 vSpd(cos(DtoR(fAng)) * 7.f, sin(DtoR(fAng)) * 7.f);
+				Eff1::Type tEffectType = Eff1::Type::TYPE_R_FRG;
+				if (iColor == 0)
+				{
+					tEffectType = Eff1::Type::TYPE_Y_FRG;
+				}
+				else if (iColor == 1)
+				{
+					tEffectType = Eff1::Type::TYPE_R_FRG;
+				}
+				else if (iColor == 2)
+				{
+					tEffectType = Eff1::Type::TYPE_B_FRG;
+				}
+				ef1->SetParam(&rEf, &vSpd, 7, tEffectType, fAng);
+			}*/
 			//rFragment.SetDeg(oFragment->rFragment.GetDeg(&rFragment));
 			oFragment->bRotationActive = false;
 			oFragment->bMoveActive = true;

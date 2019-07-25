@@ -28,6 +28,9 @@ namespace BlackHole
 		bBigger = false;
 		bMove = false;
 		fAngle = 0;
+
+		aAnim.SetAnim(AnimBH, 0);
+		aAnim.Play();
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -61,7 +64,7 @@ namespace BlackHole
 		cOutCircle.SetPos(&pPos);
 		cOutCircle.SetRadius(cInnerCircle.GetRadius()*2.00f);
 		cOutCircle.SetColor(224, 44, 135);
-		++fAngle;
+		//--fAngle;
 		rBlackHole.SetDeg(fAngle);
 
 	}
@@ -69,7 +72,7 @@ namespace BlackHole
 	void Obj::Render()
 	{
 		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName)) {
-			rBlackHole.Draw(&stageRes->iStageImg, &Frec(192, 0, 16, 16), true);
+			rBlackHole.Draw(&stageRes->iStageImg, &Frec(16.f * (aAnim.GetSrcX() + 53), 16, 16, 16)/*Frec(192, 0, 16, 16)*/);
 		}
 		cOutCircle.Draw();
 #ifdef _DEBUG
@@ -180,5 +183,15 @@ namespace BlackHole
 				targetAngle > 100 && targetAngle < 240 ? rtAngle += 1 : rtAngle -= 1;
 		}
 		return rtAngle;
+	}
+	void AnimBH(byte *bFrame, byte *bSrcX, byte *bSrcY)
+	{
+		*bSrcY = 0;
+		if (*bFrame >= 15)
+		{
+			*bFrame = 0;
+			*bSrcX = (*bSrcX + 2) % 8;
+		}
+		++*bFrame;
 	}
 }

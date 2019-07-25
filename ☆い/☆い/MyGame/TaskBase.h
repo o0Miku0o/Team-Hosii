@@ -14,6 +14,12 @@ enum RemoveFlag
 	NOT_REMOVE_NAME
 };
 
+enum PauseFlag
+{
+	PAUSE_NAME,
+	NOT_PAUSE_NAME,
+};
+
 //継承もとになるリソースクラス
 typedef class ResourceBase
 {
@@ -100,14 +106,6 @@ public:
 	virtual void Update() = 0;
 
 	virtual void Render() = 0;
-
-	template<class InitTask>
-	static void SysInit()
-	{
-		top = new InitTask;
-
-		top->Init();
-	}
 
 	static void SysFinalize();
 
@@ -216,11 +214,13 @@ public:
 
 	void SetName(const char *taskname_);
 
-	static void Pause(const char *taskname_, const u_int waitframe_);
+	static void Pause(const std::initializer_list<std::string> &iInitList, const u_int waitframe_, PauseFlag pflag_ = PAUSE_NAME);
+
+	static void Pause(const char *taskname_, const u_int waitframe_, PauseFlag pflag_ = PAUSE_NAME);
 
 	static void Pause(const u_int waitframe_);
 
-	static void Pause(const char *taskname_);
+	static void Pause(const char *taskname_, PauseFlag pflag_ = PAUSE_NAME);
 
 	static void Pause();
 
@@ -232,6 +232,24 @@ public:
 
 	const float GetRenderPriority() const;
 
+	//Render順番を最後のところに移動
+	//template<class EndPositonTask>
+	//static EndPositonTask* EndPositon(const char *taskname_) {
+	//	TaskBase *find, *pre = nullptr, *next = nullptr;
+	//	if (find = Find<EndPositonTask>(taskname_)) {
+	//		if (find->next != nullptr) {
+	//			auto it = top;
+	//			for (; it->next != nullptr; ++it);
+	//			pre->next = find->next;
+	//			next->prev = find->prev;
+	//			next->next = find;
+	//			find->prev = next;
+	//			find->next = nullptr;
+	//			
+	//		}
+	//	}
+	//	return dynamic_cast<EndPositonTask*>(find);
+	//}
 }TB;
 
 typedef TB *TB_ptr;

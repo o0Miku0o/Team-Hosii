@@ -32,9 +32,12 @@ namespace BeamGenerator
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void BeamCreate(TaskBase *atpPlayer);
+		void TitleBeamCreate();
 	public:
 		void Update();
 		void Render();
 
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

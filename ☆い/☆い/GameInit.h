@@ -28,11 +28,12 @@ namespace GameInit
 		Obj() {}
 		~Obj() {}
 	private:
+
 		RS_ptr res;
 		void Init();
 		void Finalize();
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

@@ -25,6 +25,7 @@ namespace Hukidasi
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		/*テキストの幅に合わせて調整*/
 		faWidth[0] = 16.f * 4;
 		faWidth[1] = 16.f * 6;
 		faWidth[2] = 16.f * 8;
@@ -47,12 +48,14 @@ namespace Hukidasi
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		/*サイズ変更*/
 		Resize();
 		auto sp = Find<StagePicture::Obj>(StagePicture::caTaskName);
 		if (rHukidasi.GetW() >= fWidthMax && rHukidasi.GetH() >= fHeightMax)
 		{
 			if (!sp)
 			{
+				/*画面の半分の位置、四分の一の位置*/
 				const float fHalfWidth = Rec::Win.r * 0.5f;
 				const float fHalfHeight = Rec::Win.b * 0.5f;
 				const float fQuarterWidth = fHalfWidth * 0.5f;
@@ -71,35 +74,6 @@ namespace Hukidasi
 				{
 					SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[b].x, pPosArr[b].y, cfPicWidth, cfPicHeight));
 				}
-
-				//auto sg = Add<StarGenerator::Obj>();
-				//constexpr int iNum = 9;
-				//vector<int> viChange;
-				//vector<int> viEffect;
-				//vector<Frec> viRec;				
-				//sg->Bridge(iNum, { 25, 25, 25, 25, 25, 25, 25, 25, 25 }, {}, vector<Frec>({}));
-
-				//if (pGroup == PictureGroup::GROUP_UP)
-				//{
-				//	for (byte b = 0; b < 3; ++b)
-				//	{
-				//		SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[pGroup][b].x, pPosArr[pGroup][b].y, fPicWidth, fPicHeight));
-				//	}
-				//}
-				//else
-				//{
-				//	for (byte b = 0; b < 3; ++b)
-				//	{
-				//		SetStagePicture(sGroup * 3 + b + 1, &Frec(pPosArr[1][b].x, pPosArr[1][b].y, fPicWidth, fPicHeight));
-				//	}
-				//}
-
-				//SetStagePicture(1, &Frec(fHalfWidth, fHalfHeight, 100.f, 100.f));
-
-				//sp = Add<StagePicture::Obj>();
-				//sp->LoadImg(1);
-				//sp->SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
-				//sp->SetSize(100.f, 100.f);
 			}
 		}
 		else
@@ -115,12 +89,13 @@ namespace Hukidasi
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
+		/*サイズが0でないなら*/
 		if (!rHukidasi.SizeZero())
 		{
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				Frec src(16.f * 59, 16.f * 0, 16.f, 16.f);
-				rHukidasi.Draw(&res->iStageImg, &src, false);
+				rHukidasi.Draw(&res->iStageImg, &src);
 			}
 		}
 		if (!rHukidasi.GetH()) rHukidasi.Draw();
@@ -130,7 +105,7 @@ namespace Hukidasi
 			{
 				Frec src(0.f, 16.f * sGroup, faWidth[sGroup], 16.f);
 				rTextBox.Scaling(faWidth[sGroup] * 6.f, 16.f * 6.f);
-				rTextBox.Draw(&res->iTextImg, &src, false);
+				rTextBox.Draw(&res->iTextImg, &src);
 			}
 		}
 	}

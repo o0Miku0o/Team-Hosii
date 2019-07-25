@@ -55,10 +55,19 @@ namespace Title
 		OtherInit();
 
 		PlayBgm();
+
+		//ms.Read("./data/mci/demo.txt");
+		//while (ms.Size() > 1)
+		//{
+		//	ms.Send();
+		//}
+		//mw.Create(FindWindow(nullptr, WINNAME), "./data/sound/BGM1.wav");
+		//mw.Play();
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
+		//ms.Send();
 		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
@@ -101,6 +110,12 @@ namespace Title
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
+		//if (em.Run() == EventMsg::Result::RES_EOF)
+		//{
+		//	em.Clear();
+		//}
+		//em.DrawAscii(Point(150, 150), 6 * 10, 24 * 10);
+
 		DrawMeteo();
 
 		if (auto s = RB::Find<Title::RS>(caResName))
@@ -179,7 +194,7 @@ namespace Title
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
-			rMeteo.Draw(&res->iStageImg, &src, true);
+			rMeteo.Draw(&res->iStageImg, &src);
 		}
 	}
 	/*ロゴの描画*/
@@ -212,6 +227,7 @@ namespace Title
 	void Obj::CreateCursor()
 	{
 		auto cs = Add<Cursor::Obj>();
+		//cs->pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
 	}
 	/*☆の生成*/

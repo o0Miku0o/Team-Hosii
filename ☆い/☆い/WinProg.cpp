@@ -2,13 +2,18 @@
 #include "Title.h"
 #include "GameInit.h"
 
+#include "Result.h"
+#include "StageManager.h"
+
 //グローバル領域ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 
 //初期化処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 void Init()
 {
 	/*ここで最初のタスクを追加*/
-	TB::SysInit<GameInit::Obj>();
+	/**/TB::Add<StageManager::Obj>();
+	TB::Add<Result::Obj>()->SetParam(1, std::array<byte, 3>({ 2, 3, 1 }));/*/
+	TB::Add<GameInit::Obj>();/**/
 }
 
 //終了処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//

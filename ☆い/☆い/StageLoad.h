@@ -75,8 +75,8 @@ namespace StageLoad
 
 		bool isLoad;
 		bool LoadStage(int iStage);
-		Obj() { Init(); }
-		~Obj() { Finalize(); }
+		Obj() {}
+		~Obj() {}
 	private:
 		RS_ptr res;
 		void Init();
@@ -93,5 +93,14 @@ namespace StageLoad
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
+
+	inline const unsigned int StageGroup(const unsigned int auiStageNum)
+	{
+		return (auiStageNum / 10);
+	}
+	inline const unsigned int StageNumber(const unsigned int auiStageNum)
+	{
+		return (auiStageNum % 10);
+	}
 }

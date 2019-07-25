@@ -46,5 +46,5 @@ namespace StagePicture
 		void SetSize(const float afWidth, const float afHeight);
 		/*Н└ХWТ▓Ро*/
 		void SetPos(const Point * const appPos);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

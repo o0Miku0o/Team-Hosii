@@ -4,10 +4,12 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
+
 #include "FadeInOut.h"
+
 #include "Back.h"
 #include "StageLoad.h"
-#include "Stage.h"
+#include "Hukidasi.h"
 
 namespace StageManager
 {
@@ -98,9 +100,10 @@ namespace StageManager
 		/*リソース生成*/
 		RB::Add<RS>(caResName);
 		/*タスクの生成*/
-
+		//Add<StageSelect::Obj>();
 		/*データの初期化*/
 		pTutorialPos = Point(0.f, 0.f);
+		for (auto &it : bScores) it = 1;
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
@@ -118,8 +121,8 @@ namespace StageManager
 	{
 		if (auto pl = Find<Player::Obj>(Player::caTaskName))
 		{
-			pTutorialPos.x = pl->pPos.x + 100.f;
-			pTutorialPos.y = pl->pPos.y - 100.f;
+			pTutorialPos.x = pl->pPos.x + 130.f;
+			pTutorialPos.y = pl->pPos.y - 130.f;
 		}
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
@@ -150,73 +153,35 @@ namespace StageManager
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 
 					//			Add<Back::Obj>();
-					if (auto manager = Find<StageManager::Obj>(caTaskName)) {
-						manager->bStageNum = manager->bNextStage;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							//Pause(2);
-						}
+					byte bStageGroup = 0, bNowStage = 0;
+					/*北氏>>ファインドする意味はある？*/
+					bStageGroup = bStageNum / 10;
+					bNowStage = bStageNum - bStageGroup * 10 - 1;
+					if (usBeamCount <= bClearFragmentNumMax)
+					{
+						bScores.at(bNowStage) = 3;
 					}
+					else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					{
+						bScores.at(bNowStage) = 2;
+					}
+					bStageNum = bNextStage;
+					if (bStageNum == 255) {
+						RemoveAll();
 
-
-					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					//auto re = Add<Result::Obj>();
-					//re->bNextStage = bNextStage;
-					//if (usBeamCount <= bClearFragmentNumMax)
-					//{
-					//	re->bScore = 3;
-					//}
-					//else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-					//{
-					//	re->bScore = 2;
-					//}
+						Add<StageManager::Obj>();
+						auto re = Add<Result::Obj>();
+						re->SetParam(bStageGroup, bScores);
+						//Add<StageManager::Obj>();
+						//Add<Back::Obj>();
+						//Add<StageSelect::Obj>();
+						Pause(2);
+					}
+					else {
+						Add<StageLoad::Obj>();
+						//Pause(2);
+					}
 					iResultCnt = 0;
-				}
-			}
-		}
-
-		//BGMの振り分け
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		{
-			if (Find<Stage::Obj>("ステージタスク") != nullptr) {
-				if (bStageNum >= 30 && bStageNum < 40) {
-					if (res->wsBGM2.IsPlaying()) {
-						res->wsBGM2.Restart();
-					}
-					else {
-						if (res->wsBGM.IsPlaying())
-							res->wsBGM.Stop();
-						res->wsBGM2.PlayL();
-					}
-				}
-				else {
-					if (res->wsBGM.IsPlaying()) {
-						res->wsBGM.Restart();
-					}
-					else {
-						if (res->wsBGM2.IsPlaying()) {
-							res->wsBGM2.Stop();
-						}
-						res->wsBGM.PlayL();
-					}
-				}
-			}
-			if (Find<StageSelect::Obj>("ステージ選択タスク") != nullptr) {
-				if (res->wsBGM.IsPlaying()) {
-					res->wsBGM.Restart();
-				}
-				else {
-					if (res->wsBGM2.IsPlaying()) {
-						res->wsBGM2.Stop();
-					}
-					res->wsBGM.PlayL();
 				}
 			}
 		}

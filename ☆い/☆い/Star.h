@@ -38,6 +38,7 @@ namespace Star
 		Vector2 vMove;
 		byte bAlpha;
 		char cAddAlpha;
+		Point pPos;
 
 		enum StarColor {
 			Yellow2 = 22,
@@ -101,7 +102,7 @@ namespace Star
 		void Update();
 		void Render();
 		void CheckHit(TaskBase* fragment);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 
 	void AnimStar(byte* const bFrame, byte* const bSrcX, byte* const bSrcY);
 }

@@ -45,7 +45,7 @@ namespace StarGenerator
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos) {
+	void Obj::Bridge(const int iNum, const vector<int> &iChange, const vector<Point> &pPos) {
 		for (int i = 0; i < iNum; ++i)
 		{	
 			auto star = Add<Star::Obj>();
@@ -56,7 +56,7 @@ namespace StarGenerator
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<int> iEffect, const vector<Point> pPos)
+	void Obj::Bridge(const int iNum, const vector<int> &iChange, const vector<int> &iEffect, const vector<Point> &pPos)
 	{
 		for (int i = 0; i < iNum; ++i)
 		{
@@ -70,7 +70,7 @@ namespace StarGenerator
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<int> iEffect, const vector<Frec> fRec)
+	void Obj::Bridge(const int iNum, const vector<int> &iChange, const vector<int> &iEffect, const vector<Frec> &fRec)
 	{
 		Point pPos;
 		for (int i = 0; i < iNum; ++i)

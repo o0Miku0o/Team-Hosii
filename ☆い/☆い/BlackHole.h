@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame\TaskBase.h"
+#include "MyGame/My/Animation.h"
 
 namespace BlackHole
 {
@@ -34,6 +35,7 @@ namespace BlackHole
 		Point pEndPos;
 		Point pStartPos;
 		float fAngle;
+		Animation aAnim;
 
 		//ïÅí 
 		bool IsCreate();
@@ -58,5 +60,7 @@ namespace BlackHole
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
+
+	void AnimBH(byte *bFrame, byte *bSrcX, byte *bSrcY);
 }
