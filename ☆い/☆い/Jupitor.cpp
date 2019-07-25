@@ -30,6 +30,7 @@ namespace Jupitor
 		cGravityCircle = Circle(&rJupitor.GetPos(), rJupitor.GetW()*0.8f);
 		cGravityCircle.SetColor(0, 255, 0);
 		rGravityCircle = Rec(rJupitor.GetPosX(), rJupitor.GetPosY(), rJupitor.GetW()*2.f, rJupitor.GetH()*2.f);
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_remove_frgY.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -107,8 +108,10 @@ namespace Jupitor
 		if (cJupitorHitBase.CheckHit(&cFrHit))
 		{
 			/*エフェクト放出*/
-			static std::string fileName[3] = { "./data/effect/ef_remove_frgY.txt","./data/effect/ef_remove_frgR.txt","./data/effect/ef_remove_frgB.txt" };
-			Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+			static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+			//Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+			effsp->_set_chip_type(fileName[oFragment->iColor]);
+			effsp->run(oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
 			oFragment->rFragment.SetDeg(rJupitor.GetDeg(&oFragment->rFragment));
 			//oFragment->bPreRotationActive = !oFragment->bRotationActive;
 			//oFragment->HitAfterInit();

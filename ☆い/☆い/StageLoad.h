@@ -39,7 +39,6 @@ namespace StageLoad
 			vector<Point> pos;
 			vector<int> imgSrc;
 		};
-
 		Base sStar, sFragment;
 		enum FragMentImgSrc {
 			YELLOW = 2, RED = 60, BLUE = 68

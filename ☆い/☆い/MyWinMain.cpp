@@ -280,6 +280,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 
 			//auto hFront = GetDC(g_hWnd);
 			//Rec::DrawBackToFront(hFront);
+
 //#ifdef _DEBUG
 //			if (kb->On(VK_CONTROL) && kb->Down('Z'))
 //			{

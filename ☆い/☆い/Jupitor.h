@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Eff1.h"
 
 namespace Jupitor
 {
@@ -30,6 +31,7 @@ namespace Jupitor
 		Circle cGravityCircle;
 		int iAnimCount;
 		int i;
+		Eff1::EffectCreater::SP effsp;
 
 		Obj() {}
 		~Obj() {}

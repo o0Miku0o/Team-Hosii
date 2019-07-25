@@ -92,7 +92,6 @@ namespace StageLoad
 				auto fg = Add<FragmentGenerator::Obj>();
 				fg->Bridge2(sFragment.num, sFragment.pos, sFragment.imgSrc);
 			}
-
 			if (state[BLACKHOLE]) {
 				auto bh = Add<BlackHoleGenerator::Obj>();
 				bh->Bridge(sBlackHole.num, sBlackHole.pos, sBlackHole.size, sBlackHole.mode);
@@ -156,6 +155,7 @@ namespace StageLoad
 			/**/
 			if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 			{
+				//fade->bActive = false;
 				fade->Start();
 				fade->bIsIn = false;
 			}

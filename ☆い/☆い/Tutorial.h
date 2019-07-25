@@ -79,7 +79,6 @@ namespace Tutorial
 	public:
 		void Update();
 		void Render();
-
 		void SetParam(const unsigned int auiInitLife, const Ttl_State atState, const unsigned int auiBNumber, const Point * const appPos, const Point * const appTarget);
 	}*Obj_ptr;
 }

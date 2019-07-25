@@ -17,6 +17,7 @@
 #include "MciScript.h"
 #include "MciWnd.h"
 #include "DShow.h"
+//#include "EventMsg.h"
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
@@ -1435,6 +1436,7 @@ public:
 	void SetDeg(const float angleD_)
 	{
 		angle = ModAngle(angleD_);
+
 		//Œ´“_‚ğ’†S‚Æ‚µ‚½ˆÊ’u‚ÉˆÚ“®
 		float  pp[4][2] =
 		{
@@ -1493,7 +1495,6 @@ public:
 		if (lpTmp.y + h < Win.t) return;
 
 		//POINT dp[3];
-
 		for (int i = 0; i < POINT_MAX; ++i)
 		{
 			pDrawPoint[i] = AdjustCamPosToPOINT(&p[i]);

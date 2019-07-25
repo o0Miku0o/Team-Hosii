@@ -151,8 +151,7 @@ namespace BlackHole
 					Point setPos;
 
 					if (dist > 0.01f) {
-						float len = sqrt(dist);
-						
+						float len = sqrt(dist);						
 						Vector2 vec = Vector2(oBeam->vSpd.GetX() * 0.8f + (lenX / len) * 0.2f, oBeam->vSpd.GetY() * 0.8f + (lenY / len) * 0.2f);
 						oBeam->vSpd = vec;
 					}

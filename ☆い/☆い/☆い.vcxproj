@@ -137,6 +137,7 @@
     <ClInclude Include="KeyMove.h" />
     <ClInclude Include="Meteo.h" />
     <ClInclude Include="MeteoGenerator.h" />
+    <ClInclude Include="MiniGame.h" />
     <ClInclude Include="MyGame\MyApp.h" />
     <ClInclude Include="MyGame\My\Animation.h" />
     <ClInclude Include="MyGame\My\CADAM.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="MyGame\My\EventMsg.h" />
     <ClInclude Include="MyGame\My\MciScript.h" />
     <ClInclude Include="MyGame\My\MciWnd.h" />
+    <ClInclude Include="MyGame\My\EventMsg.h" />
     <ClInclude Include="MyGame\My\Stream.h" />
     <ClInclude Include="MyGame\My\FixedPoint.h" />
     <ClInclude Include="MyGame\My\Move.h" />
@@ -194,6 +196,7 @@
     <ClCompile Include="Jupitor.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="MyGame\My\Animation.cpp" />
     <ClCompile Include="MyGame\My\CADAM.cpp" />
     <ClCompile Include="MyGame\My\My.cpp" />

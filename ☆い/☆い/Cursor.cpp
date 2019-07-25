@@ -104,7 +104,6 @@ namespace Cursor
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
 
-
 		bool bHitFlag = false;
 		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 		if (auto us = Find<StageSelectObjEarth::Obj>(StageSelectObjEarth::caTaskName))
@@ -326,7 +325,8 @@ namespace Cursor
 		{
 			if (afX >= Rec::Win.r - afW / 2) {
 				rCursorBase.SetPos(&Point(Rec::Win.r - afW / 2, afY));
-		}
+			}
+
 			else
 				rCursorBase.Move(&(Vector2::right * fSpd));
 		}
