@@ -1,10 +1,12 @@
-F 2  500  540 0
-     800  150 0
-S 2 1700  400 24
-    1200  900 24
-A 3 1000  540 aMR aBDL aFUL aARo
-    1700  400 aMR aBUR aFUL aARo
-     700  900 aMH aBRE aFUL aAUL
+Fragment  500  540 2
+Fragment  800  150 2
+Star 1700  400 24
+Star 1200  900 24
+Alien 1000 540 18 R‰ñ“]
+Alien 1700 400 18 R‰ñ“]
+Alien 700 900 78 R•ûŒü
+
 /* J   1900 1000 480 */
-Sa  1000  500 224
-R 2 42
+
+Planet  1000  500 120 224
+Result 2 42

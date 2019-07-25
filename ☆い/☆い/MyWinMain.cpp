@@ -166,6 +166,18 @@ inline bool WaitProcess(double * const setsec_, const double waitsec_)
 	return 0;
 }
 
+//指定時間処理を待つ関数
+//(コンピュータの処理速度の違いで処理が速くなりすぎないようにする)
+inline bool WaitProcess(double * const setsec_, const double waitsec_)
+{
+	if (timeGetTime() - waitsec_ >= *setsec_)
+	{
+		*setsec_ = (double)timeGetTime();
+		return 1;
+	}
+	return 0;
+}
+
 //ウィンドウズのメイン関数
 //(アプリケーションのエントリーポイント)
 int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, int nWinMode_)
@@ -287,6 +299,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 //			}
 //#endif
 			//ReleaseDC(g_hWnd, hFront);
+
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
 			{

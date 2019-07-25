@@ -11,7 +11,7 @@
 void Init()
 {
 	/*‚±‚±‚ÅÅ‰‚Ìƒ^ƒXƒN‚ğ’Ç‰Á*/
-	/**/TB::Add<StageManager::Obj>();
+	/*TB::Add<StageManager::Obj>();
 	TB::Add<Result::Obj>()->SetParam(1, std::array<byte, 3>({ 2, 3, 1 }));/*/
 	TB::Add<GameInit::Obj>();/**/
 }

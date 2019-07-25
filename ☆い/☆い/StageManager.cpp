@@ -4,9 +4,7 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
-
 #include "FadeInOut.h"
-
 #include "Back.h"
 #include "StageLoad.h"
 #include "Hukidasi.h"
@@ -152,7 +150,7 @@ namespace StageManager
 					RemoveAll({ caTaskName, FadeInOut::caTaskName }, NOT_REMOVE_NAME);
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
 
-					//			Add<Back::Obj>();
+					//Add<Back::Obj>();
 					byte bStageGroup = 0, bNowStage = 0;
 					/*北氏>>ファインドする意味はある？*/
 					bStageGroup = bStageNum / 10;

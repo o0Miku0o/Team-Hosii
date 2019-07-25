@@ -1435,6 +1435,7 @@ public:
 	void SetDeg(const float angleD_)
 	{
 		angle = ModAngle(angleD_);
+		//原点を中心とした位置に移動
 		float  pp[4][2] =
 		{
 			{ -dx , -dy },
@@ -1473,7 +1474,6 @@ public:
 			//pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
-
 		const float ang = ModAngle(angle);
 		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
@@ -1493,13 +1493,13 @@ public:
 		if (lpTmp.y + h < Win.t) return;
 
 		//POINT dp[3];
+
 		for (int i = 0; i < POINT_MAX; ++i)
 		{
 			pDrawPoint[i] = AdjustCamPosToPOINT(&p[i]);
 			//pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
-
 		const float ang = ModAngle(angle);
 		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
@@ -2777,6 +2777,7 @@ class Rep
 	Rep(const Rep &);
 	Rep(const Rep &&);
 	Rep &operator = (const Rep &) = default;
+
 public:
 	/*終端に要素を追加*/
 	static bool Push(const double dData)

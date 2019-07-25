@@ -12,6 +12,7 @@
 #include "StageLoad.h"
 #include "Result.h"
 #include "GameInit.h"
+#include "KeyMove.h"
 
 namespace Cursor
 {
@@ -35,18 +36,18 @@ namespace Cursor
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		//spMove = std::shared_ptr<Move>(new KeyMove(pPos, fSpd));
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 		fSpd = 12.f;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-
+		spMove.reset();
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
 		const float fCursorX = rCursorBase.GetPosX();
@@ -57,7 +58,6 @@ namespace Cursor
 		MoveKeyBoard(kb, fCursorX, fCursorY, fCursorW, fCursorH);
 		/*パッド移動*/
 		MovePad(pad, fCursorX, fCursorY, fCursorW, fCursorH);
-
 		//spMove->Update();
 		//rCursorBase.SetPos(&pPos);
 
@@ -103,6 +103,9 @@ namespace Cursor
 		constexpr float fScaleWMax = 1800.f;
 		constexpr float fScaleHMax = 400.f;
 		bool bFlag = false;
+
+
+		bool bHitFlag = false;
 		Hukidasi::StageGroup sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 		if (auto us = Find<StageSelectObjEarth::Obj>(StageSelectObjEarth::caTaskName))
 		{
@@ -111,7 +114,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rEarth.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
+				bHitFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_EARTH;
 
@@ -142,7 +145,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
+				bHitFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_ASTEROID;
 
@@ -173,7 +176,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
+				bHitFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_GALAXY;
 
@@ -204,7 +207,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rUranus.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
+				bHitFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_URANUS;
 
@@ -235,7 +238,7 @@ namespace Cursor
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
 				us->rBH.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
+				bHitFlag = true;
 
 				sGroup = Hukidasi::StageGroup::GROUP_BLACKHOLE;
 
@@ -261,7 +264,10 @@ namespace Cursor
 		}
 		if (auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName))
 		{
-			if (bFlag)
+			constexpr float fAddScale = 70.f;
+			constexpr float fScaleWMax = 1800.f;//2000;
+			constexpr float fScaleHMax = 400.f;//600;
+			if (bHitFlag)
 			{
 				Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 				hu->SetPos(&pPos);
@@ -323,7 +329,7 @@ namespace Cursor
 		}
 			else
 				rCursorBase.Move(&(Vector2::right * fSpd));
-	}
+		}
 	}
 	/*パッドでの移動*/
 	void Obj::MovePad(std::shared_ptr<JoyPad> &apPad, const float afX, const float afY, const float afW, const float afH)
@@ -345,4 +351,5 @@ namespace Cursor
 			}
 			rCursorBase.Move(&(apPad->Axis(JoyPad::Stick::STK_LEFT) * fSpd));
 		}
-	}}
+	}
+}

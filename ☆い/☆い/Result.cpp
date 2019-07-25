@@ -96,7 +96,7 @@ namespace Result
 
 		//em.Color(RGB(0, 255, 255));
 
-		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 		{
 			res->wsBGM.Pause();
 			res->wsBGM2.Pause();
@@ -115,7 +115,7 @@ namespace Result
 		auto kb = KB::GetState();
 
 		std::vector<TB_ptr> vsMoveStar;
-		for (auto &vs : FindAll<Star::Obj>(Star::caTaskName))
+		for (auto &vs : FindAll<Star::Obj>("星タスク"))
 		{
 			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
@@ -259,9 +259,7 @@ namespace Result
 			if (iRandomTime == 60) return;
 			rPercent.Draw(&s->iResult, &Frec(0.f, 16.f, 16.f, 16.f));
 		}
-
-
-
+	}
 		//Point pPos(800, 1000);
 		//if (sPercent.length() >= 3) pPos.x -= 6 * 30;
 		//em.Msg() = sPercent;

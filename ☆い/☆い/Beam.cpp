@@ -49,7 +49,25 @@ namespace Beam
 		vSpd.SetVec(rHitBase.GetDeg(), 20.f);
 		/*矩形を移動*/
 		rHitBase.Move(&vSpd);
+		/*エフェクト放出*/
+		EffectCreate();
+		/*画面外に出たら消滅*/
+		OutOfScreen();
+	}
+	/*タスクの描画処理*/
+	void Obj::Render()
+	{
+		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName))
+		{
+			//rHitBase.Draw(&stageRes->iStageImg, 16 * 10, 0, 16, 16, true, true);
 
+			Frec src(16.f * 10, 0.f, 16.f, 16.f);
+			rHitBase.Draw(&stageRes->iStageImg, &src, true);
+		}
+	}
+	/*エフェクト放出*/
+	void Obj::EffectCreate()
+	{
 		if (!FindNext<Beam::Obj>(caTaskName))
 		{
 			/*エフェクト放出*/
@@ -65,8 +83,10 @@ namespace Beam
 				ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, Eff1::Type::TYPE_BEAM, fAng);
 			}*/
 		}
-
-		/*画面外に出たら消滅*/
+	}
+	/*画面外に出たら消滅*/
+	void Obj::OutOfScreen()
+	{
 		if (rHitBase.GetPosX() > Rec::Win.r + 10.f) Remove(this);
 		if (rHitBase.GetPosX() < Rec::Win.l - 10.f) Remove(this);
 		if (rHitBase.GetPosY() > Rec::Win.b + 10.f) Remove(this);

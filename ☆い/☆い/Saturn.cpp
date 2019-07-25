@@ -39,11 +39,20 @@ namespace Saturn
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto vf = FindAll<Fragment::Obj>(Fragment::caTaskName);
-		for (auto &f : vf)
+		for (auto &f : FindAll<Fragment::Obj>(Fragment::caTaskName))
 		{
 			FragmentCheckhit(f);
 			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos)) {
+				/*エフェクト放出*/
+				byte loopmax = 31;
+				for (byte b = 0; b < loopmax; ++b)
+				{
+					auto ef1 = Add<Eff1::Obj>();
+					const fix fAng = ModAngle(360.f / loopmax * b);
+					Rec rEf(f->rFragment.GetPosX(), f->rFragment.GetPosY(), 5, 5);//constつけなくてもOK
+					Vector2 vSpd(cos(DtoR(fAng)) * 10, sin(DtoR(fAng)) * 10);
+					ef1->SetParam(&rEf, &vSpd, 15, Eff1::ChipType::TYPE_Y_FRG, fAng);
+				}
 				/*if (!f->bRotationActive)
 				{
 					f->pRotPos = cGravityCircle.GetPos();
@@ -83,7 +92,6 @@ namespace Saturn
 		std::string s = std::to_string(rSaturn.GetPosX()) + " " + std::to_string(rSaturn.GetPosY()) + " " + std::to_string(rSaturn.GetH());
 		f.Draw(&rSaturn.GetPos(), s.c_str());
 #endif // _DEBUG
-
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
 	{
