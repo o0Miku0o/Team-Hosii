@@ -50,11 +50,11 @@ namespace Tips
 	{
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
-			rBack.Draw(&res->iStageImg, &Frec(16.f, 0.f, 16.f, 16.f), true);
+			rBack.Draw(&res->iStageImg, &Frec(16.f, 0.f, 16.f, 16.f));
 		}
 		if (auto res = RB::Find<Tips::RS>(caResName))
 		{
-			rGuideBase.Draw(&res->iGuideBase, &Frec(0.f, 0.f, 64.f, 80.f), true);
+			rGuideBase.Draw(&res->iGuideBase, &Frec(0.f, 0.f, 64.f, 80.f));
 		}
 		if (bIsLoaded)
 		{

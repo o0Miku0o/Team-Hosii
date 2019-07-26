@@ -48,7 +48,7 @@ namespace StageSelectIcon
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iOffSetX + iAddOffSet), iOffSetY * 16.f, 16.f, 16.f);
-			rIcon.Draw(&res->iStageImg, &src, true);
+			rIcon.Draw(&res->iStageImg, &src);
 		}
 	}
 	void AnimEarth(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
