@@ -46,7 +46,6 @@ namespace Title
 
 		CreateStar();
 
-		Add<MiniGame::Obj>();
 		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		LogoInit();
 

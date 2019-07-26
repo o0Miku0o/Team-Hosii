@@ -162,6 +162,7 @@
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="StagePicture.h" />
     <ClInclude Include="StageSelect.h" />
+    <ClInclude Include="StageSelectIcon.h" />
     <ClInclude Include="StageSelectObjAsteroid.h" />
     <ClInclude Include="StageSelectObjBH.h" />
     <ClInclude Include="StageSelectObjEarth.h" />
@@ -171,6 +172,8 @@
     <ClInclude Include="StarGenerator.h" />
     <ClInclude Include="Saturn.h" />
     <ClInclude Include="Stop.h" />
+    <ClInclude Include="TimeAttack.h" />
+    <ClInclude Include="Tips.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Tutorial.h" />
   </ItemGroup>
@@ -210,6 +213,7 @@
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="StagePicture.cpp" />
     <ClCompile Include="StageSelect.cpp" />
+    <ClCompile Include="StageSelectIcon.cpp" />
     <ClCompile Include="StageSelectObjAsteroid.cpp" />
     <ClCompile Include="StageSelectObjBH.cpp" />
     <ClCompile Include="StageSelectObjEarth.cpp" />
@@ -218,6 +222,8 @@
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarGenerator.cpp" />
     <ClCompile Include="Saturn.cpp" />
+    <ClCompile Include="TimeAttack.cpp" />
+    <ClCompile Include="Tips.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="WinProg.cpp" />

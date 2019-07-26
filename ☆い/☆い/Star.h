@@ -108,6 +108,5 @@ namespace Star
 		void Render();
 		void CheckHit(TaskBase* fragment);
 	}*Obj_ptr;
-
 	void AnimStar(byte* const bFrame, byte* const bSrcX, byte* const bSrcY);
 }

@@ -1,4 +1,3 @@
-
  e_type hanabi
  c_type y_sta
  c_size 10 10

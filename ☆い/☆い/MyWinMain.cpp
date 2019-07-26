@@ -34,28 +34,28 @@ LRESULT CALLBACK WinProc(HWND hWnd_, UINT message_, WPARAM wParam_, LPARAM lPara
 		}
 		break;
 	}
-		//描画処理
-	case WM_PAINT:
-	{
-		HDC hDC;
-		PAINTSTRUCT ps;
-		//描画開始
-		hDC = BeginPaint(hWnd_, &ps);
-		//オフスクリーンをオンスクリーンに描画
-		Rec::DrawBackToFront(hDC);
+	//	//描画処理
+	//case WM_PAINT:
+	//{
+	//	HDC hDC;
+	//	PAINTSTRUCT ps;
+	//	//描画開始
+	//	hDC = BeginPaint(hWnd_, &ps);
+	//	//オフスクリーンをオンスクリーンに描画
+	//	Rec::DrawBackToFront(hDC);
 
-		if (auto kb = KB::GetState())
-		{
-			if (kb->On(VK_CONTROL) && kb->Down('Z'))
-			{
-				SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
-			}
-		}
+	//	if (auto kb = KB::GetState())
+	//	{
+	//		if (kb->On(VK_CONTROL) && kb->Down('Z'))
+	//		{
+	//			SaveBitMap(hDC, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
+	//		}
+	//	}
 
-		//描画終了
-		EndPaint(hWnd_, &ps);
-		break;
-	}
+	//	//描画終了
+	//	EndPaint(hWnd_, &ps);
+	//	break;
+	//}
 	case MM_WOM_DONE:
 	{
 		WSound::LoopProc(wParam_, lParam_);
@@ -171,7 +171,7 @@ inline bool WaitProcess(double * const setsec_, const double waitsec_)
 int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, int nWinMode_)
 {
 	Debug::DetectLeak();
-	Debug::Console c;
+//	Debug::Console c;
 
 	MSG msg;
 	//表示するウィンドウの定義、登録、表示
@@ -236,6 +236,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			if (Update()) PostQuitMessage(0);
 			//
 			Animation::UpdateAll();
+			auto kb = KB::GetState();
 
 #ifdef _DEBUG
 			auto kb = KB::GetState();
@@ -278,8 +279,8 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			//ゲームの描画処理
 			Render();
 
-			//auto hFront = GetDC(g_hWnd);
-			//Rec::DrawBackToFront(hFront);
+			auto hFront = GetDC(g_hWnd);
+			Rec::DrawBackToFront(hFront);
 
 //#ifdef _DEBUG
 //			if (kb->On(VK_CONTROL) && kb->Down('Z'))
@@ -287,7 +288,8 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 //				SaveBitMap(hFront, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
 //			}
 //#endif
-			//ReleaseDC(g_hWnd, hFront);
+
+			ReleaseDC(g_hWnd, hFront);
 
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
@@ -311,9 +313,9 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			tmptime2 = (double)timeGetTime();
 		}
 		//領域無効化
-		InvalidateRect(g_hWnd, nullptr, false);
+		//InvalidateRect(g_hWnd, nullptr, false);
 		//ウィンドウの更新を反映させる
-		UpdateWindow(g_hWnd);
+		//UpdateWindow(g_hWnd);
 	}
 	//終了処理
 	Finalize();

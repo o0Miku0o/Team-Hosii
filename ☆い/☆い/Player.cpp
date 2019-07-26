@@ -95,7 +95,6 @@ namespace Player
 
 		if (bIsReplay) ShotAngleFromReplay();
 		else           Rep::Push(fPAngle);
-
 		/*ƒKƒCƒhƒ‰ƒCƒ“*/
 		GuidLine();
 		rBase.SetDeg(fPAngle);
@@ -263,6 +262,7 @@ namespace Player
 		//		rBase.GetDeg(&pStandardPoint) + 145
 		//	);
 	}
+
 	void Obj::ShotAngleFromReplay()
 	{
 		if (!bIsReplay) return;
@@ -300,6 +300,7 @@ namespace Player
 			}
 		}
 	}
+
 	const Rep *Obj::ReplayLoad(const std::string &asRepFileName)
 	{
 		if (bIsReplay) return Rep::GetDataList();

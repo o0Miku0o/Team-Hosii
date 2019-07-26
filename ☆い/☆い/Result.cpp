@@ -96,7 +96,7 @@ namespace Result
 
 		//em.Color(RGB(0, 255, 255));
 
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.Pause();
 			res->wsBGM2.Pause();
@@ -123,7 +123,7 @@ namespace Result
 		}
 
 		std::vector<TB_ptr> vsMoveStar;
-		for (auto &vs : FindAll<Star::Obj>("星タスク"))
+		for (auto &vs : FindAll<Star::Obj>(Star::caTaskName))
 		{
 			if (vs->starColor == Star::Obj::StarColor::Yellow5)
 			{
@@ -190,29 +190,6 @@ namespace Result
 
 		//constexpr float fPercent = 100 / 9.f;
 
-		//else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN))
-		//{
-		//	RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-		//	if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
-		//	{
-		//		manager->bStageNum = manager->bNextStage;
-		//		if (manager->bStageNum == 255)
-		//		{
-		//			RemoveAll();
-		//			Add<StageManager::Obj>();
-		//			Add<Back::Obj>();
-		//			Add<StageSelect::Obj>();
-		//			Pause(2);
-		//		}
-		//		/*else
-		//		{
-		//			Add<Back::Obj>();
-		//			Add<StageSelect::Obj>();
-		//			Pause(2);
-		//		}*/
-		//	}
-		//	Pause(2);
-		//}
 		//ButtonResize();
 	}
 

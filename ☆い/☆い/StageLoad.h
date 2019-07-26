@@ -66,7 +66,6 @@ namespace StageLoad
 		};
 		BlackHole sBlackHole;
 
-
 		struct Meteo : public Base {
 			vector<Vector2> moveVec;
 		};

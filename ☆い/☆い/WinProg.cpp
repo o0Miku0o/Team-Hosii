@@ -2,8 +2,10 @@
 #include "Title.h"
 #include "GameInit.h"
 
-#include "Result.h"
-#include "StageManager.h"
+//#include "Result.h"
+//#include "StageManager.h"
+//#include "TimeAttack.h"
+//#include "MiniGame.h"
 
 //グローバル領域ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 
@@ -14,6 +16,8 @@ void Init()
 	/*TB::Add<StageManager::Obj>();
 	TB::Add<Result::Obj>()->SetParam(1, std::array<byte, 3>({ 2, 3, 1 }));/*/
 	TB::Add<GameInit::Obj>();/**/
+	/*TB::Add<StageManager::Obj>();
+	TB::Add<MiniGame::Obj>();*/
 }
 
 //終了処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//

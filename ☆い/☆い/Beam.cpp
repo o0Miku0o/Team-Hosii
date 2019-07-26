@@ -74,7 +74,6 @@ namespace Beam
 			/*エフェクト放出*/
 			//Eff1::Create("./data/effect/ef_beam.txt", &rHitBase.GetPos(), rHitBase.GetDeg());
 			effsp->run(rHitBase.GetPos(), rHitBase.GetDeg());
-
 			/*for (byte b = 0; b < 2; ++b)
 			{
 				auto ef1 = Add<Eff1::Obj>();

@@ -4,6 +4,7 @@
 #include "Title.h"
 #include "Result.h"
 #include "Eff1.h"
+#include "MiniGame.h"
 
 namespace Star
 {
@@ -48,7 +49,6 @@ namespace Star
 		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_chipY.txt"));
 		effsp1 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_fullY.txt"));
 		effsp2 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_reflect_frgY.txt"));
-
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -185,6 +185,7 @@ namespace Star
 			effsp->run(pPos, 0);
 		}
 	}
+
 	void Obj::CheckHitRed() {
 		starSound = Full;
 		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
@@ -227,6 +228,7 @@ namespace Star
 			effsp->run(pPos, 0);
 		}
 	}
+
 	void Obj::CheckHitBlue() {
 		starSound = Full;
 		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
@@ -297,6 +299,10 @@ namespace Star
 		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cStarhitbase.CheckHit(&cHit))
 		{
+			if (auto mg = Find<MiniGame::Obj>(MiniGame::caTaskName))
+			{
+				mg->fFragmentCnt++;
+			}
 			//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
 			//{
 			switch (oFragment->iColor) {

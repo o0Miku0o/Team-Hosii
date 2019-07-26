@@ -17,6 +17,8 @@
 #include "Gas.h"
 #include "Rail.h"
 #include "Tutorial.h"
+#include "MiniGame.h"
+#include "TimeAttack.h"
 #include <fstream>
 
 namespace StageLoad
@@ -61,6 +63,15 @@ namespace StageLoad
 	{
 		if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName)) {
 			bStageNum = manager->bStageNum;
+		}
+
+		if (bStageNum == 61)
+		{
+			Add<MiniGame::Obj>();
+		}
+		if (bStageNum == 71)
+		{
+			Add<TimeAttack::Obj>();
 		}
 
 		if (!isLoad && LoadStage(bStageNum)) {
@@ -247,7 +258,6 @@ namespace StageLoad
 
 		state[FRAGMENT] = true;
 	}
-
 
 	void Obj::LoadBreakStar(ifstream &ifs) {
 		Point pos;

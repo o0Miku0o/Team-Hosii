@@ -25,7 +25,7 @@ namespace MiniGame
 	{
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
-		int iFragmentCnt;
+		float fFragmentCnt;
 		int score;
 		float width, height;
 		Point pos1,pos2;
@@ -44,5 +44,5 @@ namespace MiniGame
 		void Update();
 		void Render();
 
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

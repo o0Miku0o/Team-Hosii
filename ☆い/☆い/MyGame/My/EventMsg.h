@@ -158,12 +158,10 @@ public:
 	{
 		is.Close();
 	}
-
 	void SetMsg(const std::string &_msg)
 	{
 		msg = _msg;
 	}
-
 	const Result IsOpened() const
 	{
 		return (is.IsOpened()) ? Result::RES_SUCCESS : Result::RES_FAILURE;
