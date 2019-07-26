@@ -14,6 +14,10 @@ x64/
 ipch
 *.bak
 
-☆い/☆い\.exe
+☆い/☆い.exe
 
-☆い/☆い/☆い\.exe
+☆い/☆い/☆い.exe
+
+☆い/☆い/data/demo/replay.txt
+☆い/☆い/data/data/log/log.txt
+☆い/☆い/data/ta_data/ta.txt
