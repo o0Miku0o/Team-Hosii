@@ -9,6 +9,7 @@
 #include "StageLoad.h"
 #include "StagePicture.h"
 #include "Cursor.h"
+#include "Title.h"
 
 namespace Result
 {
@@ -92,6 +93,7 @@ namespace Result
 		rHanko.SetPos(&Point(0.f, 0.f));
 		rHanko.Scaling(0.f, 0.f);
 		bPushHanko = false;
+		bWaitCnt = 120;
 		sp_ef = std::shared_ptr<Eff1::EffectCreater>(new Eff1::EffectCreater("./data/effect/ef_result_hanabi.txt"));
 
 		//em.Color(RGB(0, 255, 255));
@@ -149,6 +151,25 @@ namespace Result
 			{
 				const float fW = (rHanko.GetW() <= rRestart.GetW()) ? rRestart.GetW() : rHanko.GetW() - 120.f;
 				const float fH = (rHanko.GetH() <= rRestart.GetH()) ? rRestart.GetH() : rHanko.GetH() - 100.f;
+				if (fW <= rRestart.GetW())
+				{
+					if (bWaitCnt >= 120)
+					{
+						sp_ef->_set_chip_type("r_frg");
+						sp_ef->_set_spd(8.f);
+						sp_ef->run(Point(rRestart.GetPosX(), rRestart.GetPosY() + 26), 0);
+					}
+					--bWaitCnt;
+					if (!bWaitCnt)
+					{
+						RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+						Add<Back::Obj>();
+						/**Add<Title::Obj>();
+						/*/Add<StageSelect::Obj>();/**/
+						Pause(2);
+						return;
+					}
+				}
 				rHanko.Scaling(fW, fH);
 				rHanko.SetPos(&rRestart.GetPos());
 			}
@@ -159,7 +180,7 @@ namespace Result
 				iHanabiTime = 0;
 				if (iHanabiCount == 1) sp_ef->_set_chip_type("b_sta");
 				else sp_ef->_set_chip_type("r_sta");
-				const Point pos[3] =
+				static const Point pos[3] =
 				{
 					Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.55f),
 					Point(Rec::Win.r * 0.55f, Rec::Win.b * 0.75f),
@@ -175,7 +196,7 @@ namespace Result
 		if (iRandomTime <= 1)
 		{
 			auto cs = Add<Cursor::Obj>();
-			cs->rCursorBase.SetPos(&Point(1450.f, 1020.f));
+			cs->rCursorBase.SetPos(&rRestart.GetPos());
 		}
 		--iRandomTime;
 		sPercent = std::to_string(rand() % 101);
@@ -230,13 +251,13 @@ namespace Result
 			if (!bPushHanko)
 			{
 				rRestart.Draw(&s->iHanko, &Frec(16.f * 4, 0.f, 16.f, 16.f));
-				//#ifdef _DEBUG
+#ifdef _DEBUG
 				rRestart.SetColor(RGB(255, 0, 0));
 				rRestart.Draw();
-				//#endif
+#endif
 			}
 			auto divScore = (bScore.at(0) + bScore.at(1) + bScore.at(2)) / 3;
-			auto srcIdxX = (divScore <= 0) ? 1 : divScore;
+			auto srcIdxX = 3 - divScore + 1;
 			rHanko.Draw(&s->iHanko, &Frec(16.f * srcIdxX, 0.f, 16.f, 16.f));
 			//rNumber.Draw(&s->iResult, &Frec(16.f, 0.f, 16.f, 16.f), true);
 

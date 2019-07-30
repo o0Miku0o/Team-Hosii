@@ -37,8 +37,8 @@ namespace Cursor
 		void Init();
 		void Finalize();
 
-		void MoveKeyBoard(std::shared_ptr<KB> &apKB, const float afX, const float afY, const float afW, const float afH);
-		void MovePad(std::shared_ptr<JoyPad> &apPad, const float afX, const float afY, const float afW, const float afH);
+		void MoveKeyBoard(std::shared_ptr<KB> &apKB);
+		void MovePad(std::shared_ptr<JoyPad> &apPad);
 	public:
 		void Update();
 		void Render();

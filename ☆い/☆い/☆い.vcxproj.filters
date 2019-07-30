@@ -46,6 +46,8 @@
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="MyGame\My\CADAM.cpp" />
     <ClCompile Include="Fragment.cpp" />
+    <ClCompile Include="JecLogo.cpp" />
+    <ClCompile Include="Demo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -105,6 +107,8 @@
     <ClInclude Include="MyGame\My\MciWnd.h" />
     <ClInclude Include="MyGame\My\DShow.h" />
     <ClInclude Include="Fragment.h" />
+    <ClInclude Include="JecLogo.h" />
+    <ClInclude Include="Demo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

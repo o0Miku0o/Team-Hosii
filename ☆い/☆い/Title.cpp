@@ -10,6 +10,8 @@
 #include "Star.h"
 #include "Gas.h"
 
+#include "Demo.h"
+
 namespace Title
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
@@ -55,6 +57,9 @@ namespace Title
 		OtherInit();
 
 		PlayBgm();
+
+		/*‚¨‚µ*/
+		//Add<Demo::Obj>();
 
 		//ms.Read("./data/mci/demo.txt");
 		//while (ms.Size() > 1)
@@ -229,6 +234,7 @@ namespace Title
 		auto cs = Add<Cursor::Obj>();
 		//cs->pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
+		//cs->rCursorBase.SetPos(&rStart.GetPos());
 	}
 	/*™‚Ì¶¬*/
 	void Obj::CreateStar()

@@ -71,14 +71,16 @@ namespace Eff1
 	{
 	private:
 		static const std::map<const std::string, const Eff1::ChipType> m_type;
-		std::string ef_type, ch_type;
-		int num, life;
-		float w, h, op[2], spd;
+		std::string ef_type, ch_type, ef_type_old, ch_type_old;
+		int num, life, num_old, life_old;
+		float w, h, op[2], spd, w_old, h_old, op_old[2], spd_old;
 	public:
 		using SP = std::shared_ptr<EffectCreater>;
 		EffectCreater(const std::string &_filename)
 			: ef_type("nothing")
 			, ch_type("nothing")
+			, ef_type_old(ef_type)
+			, ch_type_old(ch_type)
 		{
 			std::ifstream _ifs(_filename);
 			if (!_ifs) return;
@@ -100,36 +102,43 @@ namespace Eff1
 				if (_cmd == "e_type")
 				{
 					_ifs >> ef_type;
+					ef_type_old = ef_type;
 					continue;
 				}
 				/*チップタイプ*/
 				if (_cmd == "c_type")
 				{
 					_ifs >> ch_type;
+					ch_type_old = ch_type;
 					continue;
 				}
 				/*サイズ*/
 				if (_cmd == "c_size")
 				{
 					_ifs >> w >> h;
+					w_old = w;
+					h_old = h;
 					continue;
 				}
 				/*個数*/
 				if (_cmd == "num")
 				{
 					_ifs >> num;
+					num_old = num;
 					continue;
 				}
 				/*寿命*/
 				if (_cmd == "life")
 				{
 					_ifs >> life;
+					life_old = life;
 					continue;
 				}
 				/*速さ*/
 				if (_cmd == "spd")
 				{
 					_ifs >> spd;
+					spd_old = spd;
 					continue;
 				}
 				/*オプション*/
@@ -143,12 +152,13 @@ namespace Eff1
 						break;
 					}
 					_ifs >> op[_idx];
+					op_old[_idx] = op[_idx];
 					continue;
 				}
 			}
 			_ifs.close();
 		}
-		void run(const Point &_pos, const float _angle) const
+		void run(const Point &_pos, const float _angle)
 		{
 			if (ef_type == "nothing" || ch_type == "nothing") return;
 			if (ef_type == "ougi")
@@ -159,10 +169,26 @@ namespace Eff1
 			{
 				CreateHanabi(num, m_type.at(ch_type), &_pos, w, h, _angle, life, spd, &Vector2(op[0], op[1]));
 			}
+			ef_type = ef_type_old;
+			ch_type = ch_type_old;
+			num = num_old;
+			w = w_old;
+			h = h_old;
+			for (size_t i = 0; i < sizeof(op) / sizeof(op[0]); ++i) op[i] = op_old[i];
+			life = life_old;
+			spd = spd_old;
 		}
 		void _set_chip_type(const std::string &_ch_type)
 		{
 			ch_type = _ch_type;
+		}
+		void _set_life(const int _life)
+		{
+			life = _life;
+		}
+		void _set_spd(const float _spd)
+		{
+			spd = _spd;
 		}
 	};
 }
