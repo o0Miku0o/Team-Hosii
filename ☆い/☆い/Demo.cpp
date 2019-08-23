@@ -27,18 +27,42 @@ namespace Demo
 		/*リソース生成*/
 		RB::Add<RS>(caResName);
 		/*タスクの生成*/
-
-		RemoveAll({ Demo::caTaskName }, NOT_REMOVE_NAME);
-
 		std::ifstream ifs("./data/demo/replay_stage.txt");
-		if (!ifs) return;
-		auto sm = Add<StageManager::Obj>();
-		ifs >> sm->bStageNum;
+		if (!ifs)
+		{
+			Remove(this);
+			return;
+		}
+		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+		{
+			ifs >> sm->bStageNum;
+			
+			/*入れ替え*/
+			Swap(sm, this);
+			///*強制的に入れ替え*/
+			//auto smn = sm->next;
+			//auto smp = sm->prev;
+			//auto n = this->next;
+			//auto p = this->prev;
+
+			//if(p) p->next = sm;
+			//else TB::top = sm;
+			//if(n) n->prev = sm;
+			//sm->next = n;
+			//sm->prev = p;
+
+			//if(smp) smp->next = this;
+			//else TB::top = this;
+			//if(smn) smn->prev = this;
+			//this->next = smn;
+			//this->prev = smp;
+		}
 		ifs.close();
 
 		Add<StageLoad::Obj>();
 		/*データの初期化*/
 		bIsLoad = false;
+		bFadeCompCnt = 0;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -48,6 +72,18 @@ namespace Demo
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		const auto kb = KB::GetState();
+		const auto pad = JoyPad::GetState(0);
+		if (kb->Down(VK_RETURN) || kb->Down(VK_RIGHT) || pad->Down(JOY_BUTTON6) || pad->Down(JOY_BUTTON2))
+		{
+			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+			{
+				res->wsBGM.Pause();
+			}
+			RemoveAll();
+			Add<JecLogo::Obj>();
+			return;
+		}
 		if (Find<StageLoad::Obj>(StageLoad::caTaskName)) return;
 		if (!bIsLoad)
 		{
@@ -63,10 +99,19 @@ namespace Demo
 			{
 				if (auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName))
 				{
-					if (!fade->bIsIn)
+					if (fade->IsComplete())
 					{
-						RemoveAll();
-						Add<JecLogo::Obj>();
+						if (bFadeCompCnt > 0)
+						{
+							bFadeCompCnt = 0;
+							if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+							{
+								res->wsBGM.Pause();
+							}
+							RemoveAll();
+							Add<JecLogo::Obj>();
+						}
+						++bFadeCompCnt;
 					}
 				}
 			}

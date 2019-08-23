@@ -44,6 +44,10 @@ namespace StageLoad
 		Add<Gas::Obj>();
 #endif
 		Add<Player::Obj>();
+		//if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+		//{
+		//	Swap(pl, sm);
+		//}
 
 		isLoad = false;
 		sFragement.state = false;

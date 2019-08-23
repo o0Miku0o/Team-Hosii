@@ -111,6 +111,8 @@ namespace FadeInOut
 	}
 	const bool Obj::IsComplete() const
 	{
-		return fStarSize >= fStarSizeMax || fStarSize <= fStarSizeMin;
+		if (bIsIn) return fStarSize <= fStarSizeMin;
+		else       return fStarSize >= fStarSizeMax;
+		//return fStarSize >= fStarSizeMax || fStarSize <= fStarSizeMin;
 	}
 }

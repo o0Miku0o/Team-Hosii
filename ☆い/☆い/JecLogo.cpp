@@ -23,12 +23,12 @@ namespace JecLogo
 		/*リソース生成*/
 		RB::Add<RS>(caResName);
 		/*タスクの生成*/
-
+		//RemoveAll({ caTaskName }, NOT_REMOVE_NAME);
 		/*データの初期化*/
 		rLogoBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f));
 		rLogoBase.Scaling(Rec::Win.r, Rec::Win.b);
 		fAlpha = 255;
-		iWaitCnt = 80;
+		iWaitCnt = 180;
 		bRev = false;
 	}
 	/*タスクの終了処理*/

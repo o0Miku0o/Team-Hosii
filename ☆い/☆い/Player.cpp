@@ -35,6 +35,9 @@ namespace Player
 
 		rBase = Rec(Rec::Win.l + 100.f, Rec::Win.b * 0.5f, 16 * 8.f, 16 * 8.f, 180);
 		rImgBase = rBase;
+		fSrcX = 10.f;
+		rImgBase.SetPos(&Point(cos(DtoR(rBase.GetDeg() + 90)) * 50.f + rBase.GetPosX(), sin(DtoR(rBase.GetDeg() + 90)) * 50.f + rBase.GetPosY()));
+		rImgBase.SetDeg(rBase.GetDeg());
 		pStandardPoint = Point(Rec::Win.r - 500.f, Rec::Win.b * 0.5f);
 		fSPDist = rBase.GetDist(&pStandardPoint);
 		fSPAngle = (float)rBase.GetDeg(&pStandardPoint) + 180;
@@ -50,13 +53,13 @@ namespace Player
 	void Obj::Finalize()
 	{
 		if (!bIsReplay) Rep::SaveFile("./data/demo/replay.txt");
-		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
-		{
-			std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
-			if (!ofs) return;
-			ofs << sm->bStageNum;
-			ofs.close();
-		}
+		//if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+		//{
+		//	std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+		//	if (!ofs) return;
+		//	ofs << sm->bStageNum;
+		//	ofs.close();
+		//}
 		//ReplayRelease();
 	}
 	/*タスクの更新処理*/

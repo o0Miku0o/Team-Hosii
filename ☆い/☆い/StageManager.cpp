@@ -162,6 +162,14 @@ namespace StageManager
 					{
 						bScores.at(bNowStage) = 2;
 					}
+
+					std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+					if (ofs)
+					{
+						ofs << bStageNum;
+						ofs.close();
+					}
+
 					bStageNum = bNextStage;
 					if (bStageNum == 255) {
 						RemoveAll();

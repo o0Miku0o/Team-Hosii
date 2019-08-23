@@ -64,28 +64,28 @@ constexpr double PI = 3.141592653589793238;
 
 //角度変換関数
 //度からラジアンに変換
-inline constexpr float DtoR(const float angleD_) noexcept
+inline constexpr float DtoR(const float angleD_)
 {
 	constexpr double cedTmp = PI / 180.0;
 	return float(angleD_ * cedTmp);
 }
 //角度変換関数
 //ラジアンから度に変換
-inline constexpr float RtoD(const float angleR_) noexcept
+inline constexpr float RtoD(const float angleR_)
 {
 	constexpr double cedTmp = 180. / PI;
 	return float(angleR_ * cedTmp);
 }
-inline constexpr int I_DtoR(const float angleD_) noexcept
+inline constexpr int I_DtoR(const float angleD_)
 {
 	return int(DtoR(angleD_));
 }
-inline constexpr int I_RtoD(const float angleR_) noexcept
+inline constexpr int I_RtoD(const float angleR_)
 {
 	return int(RtoD(angleR_));
 }
 //角度の修正
-inline constexpr float ModAngle(const float angleD_) noexcept
+inline constexpr float ModAngle(const float angleD_)
 {
 	float ang = angleD_;
 	if (ang > 180.f)
@@ -105,7 +105,7 @@ inline constexpr float ModAngle(const float angleD_) noexcept
 	return ang;
 }
 //平方根計算関数（標準より高速！）
-inline float Sqrt(const float val_) noexcept
+inline float Sqrt(const float val_)
 {
 	float xHalf = 0.5f * val_;
 	int   tmp = 0x5F3759DF - (*(int*)&val_ >> 1); //initial guess
@@ -116,7 +116,7 @@ inline float Sqrt(const float val_) noexcept
 	return xRes * val_;
 }
 //平方根計算関数（標準より高速！）
-inline double Sqrt(const double val_) noexcept
+inline double Sqrt(const double val_)
 {
 	double         xHalf = 0.5 * val_;
 	long long int  tmp = 0x5FE6EB50C7B537AAl - (*(long long int*)&val_ >> 1);//initial guess
@@ -127,7 +127,7 @@ inline double Sqrt(const double val_) noexcept
 	return xRes * val_;
 }
 /*高速cos(x)*/
-inline const double cos_fast(double angle) noexcept
+inline const double cos_fast(double angle)
 {
 	static const double waru[5] = { 1.0 / (3 * 4 * 5 * 6 * 7 * 8 * 9 * 10),-1.0 / (3 * 4 * 5 * 6 * 7 * 8),1.0 / (3 * 4 * 5 * 6),-1.0 / (3 * 4),1.0 };
 	constexpr double cedVal1 = 1.0 / 32.0;
@@ -148,34 +148,34 @@ inline const double cos_fast(double angle) noexcept
 	return 1.0 - (y * 0.5);
 }
 /*高速cos(x)*/
-inline const float cos_fast(float angle) noexcept
+inline const float cos_fast(float angle)
 {
 	return (float)cos_fast((double)angle);
 }
 /*高速sin(x)*/
-inline const double sin_fast(double angle) noexcept
+inline const double sin_fast(double angle)
 {
 	return cos_fast(angle - PI * 0.5);
 }
 /*高速sin(x)*/
-inline const float sin_fast(float angle) noexcept
+inline const float sin_fast(float angle)
 {
 	return (float)cos_fast(angle - PI * 0.5);
 }
 /*高速tan(x)*/
-inline const double tan_fast(double angle) noexcept
+inline const double tan_fast(double angle)
 {
 	const double _c = cos_fast(angle);
 	return (_c) ? cos_fast(angle - PI * 0.5) / _c : 0.0;
 }
 /*高速tan(x)*/
-inline const float tan_fast(float angle) noexcept
+inline const float tan_fast(float angle)
 {
 	const double _c = cos_fast(angle);
 	return float((_c) ? cos_fast(angle - PI * 0.5) / _c : 0.0);
 }
 /*高速sin(x)と高速cos(x)の同時取得*/
-inline void sincos_fast(double angle, double * const x, double * const y) noexcept
+inline void sincos_fast(double angle, double * const x, double * const y)
 {
 	angle = angle / 32.0;
 	static double waru[8] = { -1.0 / (3 * 4 * 5 * 6 * 7 * 8),-1.0 / (2 * 3 * 4 * 5 * 6 * 7),1.0 / (3 * 4 * 5 * 6),1.0 / (2 * 3 * 4 * 5),-1.0 / (3 * 4),-1.0 / (2 * 3),1.0,1.0 };
@@ -198,7 +198,7 @@ inline void sincos_fast(double angle, double * const x, double * const y) noexce
 	*y = s;
 }
 /*高速sin(x)と高速cos(x)の同時取得*/
-inline void sincos_fast(float angle, float * const x, float * const y) noexcept
+inline void sincos_fast(float angle, float * const x, float * const y)
 {
 	double dX = 0.0, dY = 0.0;
 	sincos_fast((double)angle, &dX, &dY);
@@ -207,34 +207,34 @@ inline void sincos_fast(float angle, float * const x, float * const y) noexcept
 }
 /*abs(x)*/
 template<class Value>
-inline constexpr Value Abs(const Value &x) noexcept
+inline constexpr Value Abs(const Value &x)
 {
 	return Value((x > 0) ? x : ((x < 0) ? -x : 0));
 }
 /*max(a, b)*/
 template<class Value>
-inline constexpr Value Max(const Value &a, const Value &b) noexcept
+inline constexpr Value Max(const Value &a, const Value &b)
 {
 	return Value((a > b) ? a : b);
 }
 /*min(a, b)*/
 template<class Value>
-inline constexpr Value Min(const Value &a, const Value &b) noexcept
+inline constexpr Value Min(const Value &a, const Value &b)
 {
 	return Value((a < b) ? a : b);
 }
 /*min(max(v, l), h)*/
 template<class Value>
-inline constexpr Value Clamp(const Value &v, const Value &l, const Value &h) noexcept
+inline constexpr Value Clamp(const Value &v, const Value &l, const Value &h)
 {
 	return Min(Max(v, l), h);
 }
 /*aとbを入れ替える*/
 template<class Value>
-inline void Swap(Value &a, Value &b) noexcept;
+inline void Swap(Value &a, Value &b);
 /*aとbを入れ替える*/
 template<class Value>
-inline void Swap(Value &a, Value &b) noexcept
+inline void Swap(Value &a, Value &b)
 {
 	const Value tmp = a;
 	a = b;
@@ -242,21 +242,21 @@ inline void Swap(Value &a, Value &b) noexcept
 }
 /*aとbを入れ替える*/
 template<>
-inline void Swap<>(int &a, int &b) noexcept
+inline void Swap<>(int &a, int &b)
 {
 	if (a == b) return;
 	a ^= b ^= a ^= b;
 }
 /*aとbを入れ替える*/
 template<>
-inline void Swap<>(LONG &a, LONG &b) noexcept
+inline void Swap<>(LONG &a, LONG &b)
 {
 	if (a == b) return;
 	a ^= b ^= a ^= b;
 }
 /*aとbを入れ替える*/
 template<>
-inline void Swap(float &a, float &b) noexcept
+inline void Swap(float &a, float &b)
 {
 	if (a == b) return;
 	const float fTmp = a;
@@ -265,7 +265,7 @@ inline void Swap(float &a, float &b) noexcept
 }
 /*aとbを入れ替える*/
 template<>
-inline void Swap(double &a, double &b) noexcept
+inline void Swap(double &a, double &b)
 {
 	if (a == b) return;
 	const double dTmp = a;
@@ -274,7 +274,7 @@ inline void Swap(double &a, double &b) noexcept
 }
 /*aとbを入れ替える*/
 template<class Value1, class Value2>
-inline void Swap(double &a, float &b) noexcept
+inline void Swap(double &a, float &b)
 {
 	if (a == (double)b) return;
 	const double dTmp = a;
@@ -283,7 +283,7 @@ inline void Swap(double &a, float &b) noexcept
 }
 /*aとbを入れ替える*/
 template<class Value1, class Value2>
-inline void Swap(float &a, double &b) noexcept
+inline void Swap(float &a, double &b)
 {
 	if ((double)a == b) return;
 	const double dTmp = (double)a;
@@ -291,22 +291,22 @@ inline void Swap(float &a, double &b) noexcept
 	b = dTmp;
 }
 /*randのfloat版*/
-inline const float randf() noexcept
+inline const float randf()
 {
 	return (float)rand();
 }
 /*randのfloat版（nで割った余り）*/
-inline const float randf(const int n) noexcept
+inline const float randf(const int n)
 {
 	return float(rand() % n);
 }
 /*ファルスかどうか*/
-inline constexpr bool IsFalse(const bool bResult) noexcept
+inline constexpr bool IsFalse(const bool bResult)
 {
 	return !bResult;
 }
 //
-inline constexpr bool LineCheckCross(const float ax, const float ay, const float bx, const float by, const float cx, const float cy, const float dx, const float dy) noexcept
+inline constexpr bool LineCheckCross(const float ax, const float ay, const float bx, const float by, const float cx, const float cy, const float dx, const float dy)
 {
 	float ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
 	float tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
@@ -339,25 +339,25 @@ public:
 	static const Vector2 down;
 
 	//コンストラクタ
-	Vector2(float x_, float y_) noexcept
+	Vector2(float x_, float y_)
 		: x(x_), y(y_)
 	{
 
 	}
 	//コンストラクタ
-	Vector2() noexcept
+	Vector2()
 		: x(0.f), y(0.f)
 	{
 
 	}
 	//コピーコンストラクタ
-	Vector2(const Vector2 &cpy_) noexcept
+	Vector2(const Vector2 &cpy_)
 		: x(cpy_.x), y(cpy_.y)
 	{
 
 	}
 	//角度と長さからベクトルを設定
-	void SetVec(const float angleD_, const float len_) noexcept
+	void SetVec(const float angleD_, const float len_)
 	{
 		const double ang = (double)DtoR(ModAngle(angleD_));
 		x = (float)cos_fast(ang) * len_;
@@ -367,54 +367,54 @@ public:
 		//y = sin(DtoR(angleD_)) * dist_;
 	}
 	//Xの値を取得
-	const float GetX() const noexcept
+	const float GetX() const
 	{
 		return x;
 	}
 	//Yの値を取得
-	const float GetY() const noexcept
+	const float GetY() const
 	{
 		return y;
 	}
 	//ベクトルの長さを取得
-	const float GetLen() const noexcept
+	const float GetLen() const
 	{
 		return Sqrt(x * x + y * y);
 	}
 	//ベクトルの角度を取得
-	const float GetDeg() const noexcept
+	const float GetDeg() const
 	{
 		return RtoD(atan2(y, x));
 	}
 	//内積を計算
-	const float Dot(const Vector2 *vec2_) const noexcept
+	const float Dot(const Vector2 *vec2_) const
 	{
 		return (x * vec2_->x + y * vec2_->y);
 	}
 	//外積を計算
-	const float Cross(const Vector2 *vec2_) const noexcept
+	const float Cross(const Vector2 *vec2_) const
 	{
 		return (x * vec2_->y - y * vec2_->x);
 	}
 	//ベクトルのスカラー倍
-	Vector2 &MulVec(const float scalar_) noexcept
+	Vector2 &MulVec(const float scalar_)
 	{
 		x *= scalar_;
 		y *= scalar_;
 		return *this;
 	}
 	//ベクトルのスカラー倍
-	const Vector2 operator * (const float scalar_) const noexcept
+	const Vector2 operator * (const float scalar_) const
 	{
 		return Vector2(x * scalar_, y * scalar_);
 	}
 	//ベクトルの比較
-	const bool operator == (const Vector2 &vec2_) const noexcept
+	const bool operator == (const Vector2 &vec2_) const
 	{
 		return ((x == vec2_.x) ? ((y == vec2_.y) ? 1 : 0) : 0);
 	}
 	//ベクトルの比較
-	const bool operator != (const Vector2 &vec2_) const noexcept
+	const bool operator != (const Vector2 &vec2_) const
 	{
 		return ((x != vec2_.x) ? 1 : ((y != vec2_.y) ? 1 : 0));
 	}
@@ -426,7 +426,7 @@ struct Point
 	float x;
 	float y;
 	/*コンストラクタ*/
-	Point() noexcept
+	Point()
 		:
 		x(0.f),
 		y(0.f)
@@ -434,7 +434,7 @@ struct Point
 
 	}
 	/*コンストラクタ*/
-	Point(const float x_, const float y_) noexcept
+	Point(const float x_, const float y_)
 		:
 		x(x_),
 		y(y_)
@@ -451,7 +451,7 @@ struct Frec
 	float t;
 	float b;
 	/*コンストラクタ*/
-	Frec() noexcept
+	Frec()
 		:
 		l(0.f),
 		r(0.f),
@@ -461,7 +461,7 @@ struct Frec
 
 	}
 	/*コンストラクタ*/
-	Frec(const float l_, const float t_, const float r_, const float b_) noexcept
+	Frec(const float l_, const float t_, const float r_, const float b_)
 		:
 		l(l_),
 		r(r_),
@@ -485,7 +485,7 @@ private:
 	static std::shared_ptr<KB> instance;
 
 	/*コンストラクタ*/
-	KB() noexcept
+	KB()
 		: nowkey()
 		, prevkey()
 	{
@@ -501,7 +501,7 @@ public:
 		return 0;
 	}
 	/*インスタンスのアドレスを取得*/
-	static std::shared_ptr<KB> &GetState() noexcept
+	static std::shared_ptr<KB> &GetState()
 	{
 		return instance;
 	}
@@ -511,28 +511,28 @@ public:
 		instance = std::shared_ptr<KB>(new KB);
 	}
 	/*押した瞬間*/
-	bool Down(const char cKey) noexcept
+	bool Down(const char cKey)
 	{
 		const bool lcbNow = nowkey[cKey] & 0x80;
 		const bool lcbPrev = prevkey[cKey] & 0x80;
 		return (!lcbPrev && lcbNow);
 	}
 	/*押している*/
-	bool On(const char cKey) noexcept
+	bool On(const char cKey)
 	{
 		const bool lcbNow = nowkey[cKey] & 0x80;
 		const bool lcbPrev = prevkey[cKey] & 0x80;
 		return (lcbPrev && lcbNow);
 	}
 	/*離した瞬間*/
-	bool Up(const char cKey) noexcept
+	bool Up(const char cKey)
 	{
 		const bool lcbNow = nowkey[cKey] & 0x80;
 		const bool lcbPrev = prevkey[cKey] & 0x80;
 		return (lcbPrev && !lcbNow);
 	}
 	/*離している*/
-	bool Off(const char cKey) noexcept
+	bool Off(const char cKey)
 	{
 		const bool lcbNow = nowkey[cKey] & 0x80;
 		const bool lcbPrev = prevkey[cKey] & 0x80;
@@ -552,7 +552,7 @@ private:
 	short prevbut[MS_BUT_MAX];
 
 	/*コンストラクタ*/
-	MS() noexcept
+	MS()
 		: nowbut()
 		, prevbut()
 		, pos(0.f, 0.f)
@@ -580,7 +580,7 @@ public:
 		return 0;
 	}
 	/*インスタンスのアドレスを取得*/
-	static std::shared_ptr<MS> &GetState() noexcept
+	static std::shared_ptr<MS> &GetState()
 	{
 		return instance;
 	}
@@ -597,45 +597,45 @@ public:
 		return 0;
 	}
 	/*押した瞬間*/
-	bool Down(const MouseButton but_) noexcept
+	bool Down(const MouseButton but_)
 	{
 		const bool lcbNow = nowbut[but_] & (short)0x8000;
 		const bool lcbPrev = prevbut[but_] & (short)0x8000;
 		return (!lcbPrev && lcbNow);
 	}
 	/*押している*/
-	bool On(const MouseButton but_) noexcept
+	bool On(const MouseButton but_)
 	{
 		const bool lcbNow = nowbut[but_] & (short)0x8000;
 		const bool lcbPrev = prevbut[but_] & (short)0x8000;
 		return (lcbPrev && lcbNow);
 	}
 	/*離した瞬間*/
-	bool Up(const MouseButton but_) noexcept
+	bool Up(const MouseButton but_)
 	{
 		const bool lcbNow = nowbut[but_] & (short)0x8000;
 		const bool lcbPrev = prevbut[but_] & (short)0x8000;
 		return (lcbPrev && !lcbNow);
 	}
 	/*離している*/
-	bool Off(const MouseButton but_) noexcept
+	bool Off(const MouseButton but_)
 	{
 		const bool lcbNow = nowbut[but_] & (short)0x8000;
 		const bool lcbPrev = prevbut[but_] & (short)0x8000;
 		return (!lcbPrev && !lcbNow);
 	}
 	/*カーソルの位置を取得*/
-	const Point &GetPos() noexcept
+	const Point &GetPos()
 	{
 		return pos;
 	}
 	/*カーソルのX座標*/
-	float GetPosX() noexcept
+	float GetPosX()
 	{
 		return pos.x;
 	}
 	/*カーソルのY座標*/
-	float GetPosY() noexcept
+	float GetPosY()
 	{
 		return pos.y;
 	}
@@ -652,7 +652,7 @@ private:
 
 public:
 	//コンストラクタ
-	Image() noexcept
+	Image()
 		:hBmpDC(nullptr), hMaskBmpDC(nullptr),
 		hBmp(nullptr), hMaskBmp(nullptr),
 		oldBkColor(0),
@@ -721,22 +721,22 @@ public:
 		}
 	}
 	//ビットマップを取得
-	const BITMAP &GetBmpInfo() const noexcept
+	const BITMAP &GetBmpInfo() const
 	{
 		return BmpInfo;
 	}
 	//ビットマップと関連付けられているデバイスを取得
-	const HDC GetImageHandle() const noexcept
+	const HDC GetImageHandle() const
 	{
 		return hBmpDC;
 	}
 	//マスクビットマップと関連付けられているデバイスを取得
-	const HDC GetMaskHandle() const noexcept
+	const HDC GetMaskHandle() const
 	{
 		return hMaskBmpDC;
 	}
 	//マスクビットマップを取得
-	const HBITMAP GetMaskBitMap() const noexcept
+	const HBITMAP GetMaskBitMap() const
 	{
 		return hMaskBmp;
 	}
@@ -884,7 +884,7 @@ public:
 		}
 	}
 	/*コンストラクタ*/
-	WSound() noexcept
+	WSound()
 		:
 		wFormatEx({}),
 		wHdr({}),
@@ -992,7 +992,7 @@ private:
 	Vector2 vStickAxis[Stick::STK_MAX];
 	Vector2 vInitAxis[Stick::STK_MAX];
 	bool bResult;
-	JoyPad() noexcept
+	JoyPad()
 		: jInfoNow()
 		, jInfoPrev()
 		, vStickAxis()
@@ -1079,35 +1079,35 @@ public:
 		}
 		return 0;
 	}
-	const bool Down(const DWORD adwButton) const noexcept
+	const bool Down(const DWORD adwButton) const
 	{
 		const bool lcbPrev = jInfoPrev.dwButtons & adwButton;
 		const bool lcbNow = jInfoNow.dwButtons & adwButton;
 		return !lcbPrev && lcbNow;
 	}
-	const bool On(const DWORD adwButton) const noexcept
+	const bool On(const DWORD adwButton) const
 	{
 		const bool lcbPrev = jInfoPrev.dwButtons & adwButton;
 		const bool lcbNow = jInfoNow.dwButtons & adwButton;
 		return lcbPrev && lcbNow;
 	}
-	const bool Up(const DWORD adwButton) const noexcept
+	const bool Up(const DWORD adwButton) const
 	{
 		const bool lcbPrev = jInfoPrev.dwButtons & adwButton;
 		const bool lcbNow = jInfoNow.dwButtons & adwButton;
 		return lcbPrev && !lcbNow;
 	}
-	const bool Off(const DWORD adwButton) const noexcept
+	const bool Off(const DWORD adwButton) const
 	{
 		const bool lcbPrev = jInfoPrev.dwButtons & adwButton;
 		const bool lcbNow = jInfoNow.dwButtons & adwButton;
 		return !lcbPrev && !lcbNow;
 	}
-	const Vector2 &Axis(const Stick asStick) const noexcept
+	const Vector2 &Axis(const Stick asStick) const
 	{
 		return vStickAxis[asStick];
 	}
-	const float GetRad(const Stick asStick) const noexcept
+	const float GetRad(const Stick asStick) const
 	{
 		const float lcfAxisX = vStickAxis[asStick].GetX(), lcfAxisY = vStickAxis[asStick].GetY();
 		if (lcfAxisX || lcfAxisY)
@@ -1116,7 +1116,7 @@ public:
 		}
 		return 0.f;
 	}
-	const float GetDeg(const Stick asStick) const noexcept
+	const float GetDeg(const Stick asStick) const
 	{
 		return RtoD(GetRad(asStick));
 	}
@@ -1212,40 +1212,40 @@ public:
 		if (hAlphaDc) DeleteDC(hAlphaDc);
 	}
 	//カメラの座標に合わせて位置を調整する
-	static const Point &AdjustCamPos(const Point * const pPos) noexcept
+	static const Point &AdjustCamPos(const Point * const pPos)
 	{
 		pAdjust.x = -(Cam.x - Win.r * 0.5f) + pPos->x;
 		pAdjust.y = -(Cam.y - Win.b * 0.5f) + pPos->y;
 		return pAdjust;
 	}
-	static const POINT AdjustCamPosToPOINT(const Point * const pPos) noexcept
+	static const POINT AdjustCamPosToPOINT(const Point * const pPos)
 	{
 		auto lpTmp = AdjustCamPos(pPos);
 		return { (long)lpTmp.x, (long)lpTmp.y };
 	}
 	//カメラの座標を設定
-	static void SetCameraPos(const Point * const pPos) noexcept
+	static void SetCameraPos(const Point * const pPos)
 	{
 		Cam = *pPos;
 	}
 	//カメラを移動
-	static void MoveCamera(const Vector2 * const vMove) noexcept
+	static void MoveCamera(const Vector2 * const vMove)
 	{
 		Cam.x += vMove->GetX();
 		Cam.y += vMove->GetY();
 	}
 	//カメラの座標を取得
-	static const Point &GetCameraPos() noexcept
+	static const Point &GetCameraPos()
 	{
 		return Cam;
 	}
 	//カメラのX座標を取得
-	static const float GetCameraPosX() noexcept
+	static const float GetCameraPosX()
 	{
 		return Cam.x;
 	}
 	//カメラのY座標を取得
-	static const float GetCameraPosY() noexcept
+	static const float GetCameraPosY()
 	{
 		return Cam.y;
 	}
@@ -1268,12 +1268,12 @@ public:
 		frZoom.t = (Win.b * (1.f - frZoom.b)) * 0.5f;
 	}
 	//オフスクリーンのハンドルを取得
-	static HDC GetOffScreenHandle() noexcept
+	static HDC GetOffScreenHandle()
 	{
 		return off;
 	}
 	//コンストラクタ
-	Rec(const float cx_, const float cy_, const float w_, const float h_, float angleD_ = 0) noexcept
+	Rec(const float cx_, const float cy_, const float w_, const float h_, float angleD_ = 0)
 		:w(w_), h(h_), cColor(WHITE_COLOR)
 	{
 		p[CENTER].x = cx_;
@@ -1331,35 +1331,35 @@ public:
 		}
 	}
 	//コンストラクタ
-	Rec() noexcept
+	Rec()
 		:dx(0.f), dy(0.f), angle(0), w(0.f), h(0.f), cColor(WHITE_COLOR)
 	{
 		for (int i = 0; i < POINT_MAX; ++i)
 			p[i] = { 0.,0. };
 	}
 	//コピーコンストラクタ
-	Rec(const Rec & cpyrec_) noexcept
+	Rec(const Rec & cpyrec_)
 		:dx(cpyrec_.dx), dy(cpyrec_.dy), angle(cpyrec_.angle), w(cpyrec_.w), h(cpyrec_.h), cColor(cpyrec_.cColor)
 	{
 		for (int i = 0; i < POINT_MAX; ++i)
 			p[i] = cpyrec_.p[i];
 	}
 	//枠線の色設定
-	const COLORREF SetColor(const COLORREF ccColor) noexcept
+	const COLORREF SetColor(const COLORREF ccColor)
 	{
 		auto cOld = cColor;
 		cColor = ccColor;
 		return cOld;
 	}
 	//色設定
-	const COLORREF SetColor(const byte r_, const byte g_, const byte b_) noexcept
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_)
 	{
 		auto cOld = cColor;
 		cColor = RGB(r_, b_, b_);
 		return cOld;
 	}
 	//矩形を移動させる
-	void SetPos(const Point * const pos_) noexcept
+	void SetPos(const Point * const pos_)
 	{
 		//原点を中心とした位置に移動
 		float  pp[4][2] =
@@ -1380,7 +1380,7 @@ public:
 		}
 	}
 	//矩形を拡大縮小させる
-	void Scaling(const float recw_, const float rech_) noexcept
+	void Scaling(const float recw_, const float rech_)
 	{
 		w = recw_;
 		h = rech_;
@@ -1435,7 +1435,7 @@ public:
 		}
 	}
 	//自分の角度（ディグリー）を設定するメンバ関数
-	void SetDeg(const float angleD_) noexcept
+	void SetDeg(const float angleD_)
 	{
 		angle = ModAngle(angleD_);
 		float  pp[4][2] =
@@ -1456,7 +1456,7 @@ public:
 		}
 	}
 	//自分の角度（ディグリー）を取得するメンバ関数
-	float GetDeg() const noexcept
+	float GetDeg() const
 	{
 		return angle;
 	}
@@ -1674,7 +1674,7 @@ public:
 		DeleteObject(hPen);
 	}
 	//矩形同士の線分交差判定用メンバ関数
-	bool CheckHit(const Rec * const rec_) noexcept
+	bool CheckHit(const Rec * const rec_)
 	{
 		const float ang = ModAngle(angle);
 		if ((ang >= -1 && ang <= 1) || (ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
@@ -1783,42 +1783,42 @@ public:
 			);
 	}
 	//矩形の幅
-	float GetW() const noexcept
+	float GetW() const
 	{
 		return w;
 	}
 	//矩形の高さ
-	float GetH() const noexcept
+	float GetH() const
 	{
 		return h;
 	}
 	//指定座標との角度(ラジアン)を取得するメンバ関数
-	float GetRad(const float x_, const float y_) const noexcept
+	float GetRad(const float x_, const float y_) const
 	{
 		return atan2(y_ - p[CENTER].y, x_ - p[CENTER].x);
 	}
 	//別の矩形との角度(ラジアン)を取得するメンバ関数
-	float GetRad(const Rec * const rec_) const noexcept
+	float GetRad(const Rec * const rec_) const
 	{
 		return atan2(rec_->p[CENTER].y - p[CENTER].y, rec_->p[CENTER].x - p[CENTER].x);
 	}
 	//指定座標との角度(ディグリー)を取得するメンバ関数
-	float GetDeg(const float x_, const float y_) const noexcept
+	float GetDeg(const float x_, const float y_) const
 	{
 		return RtoD(atan2(y_ - p[CENTER].y, x_ - p[CENTER].x));
 	}
 	//指定座標との角度(ディグリー)を取得するメンバ関数
-	float GetDeg(const Point * const pos_) const noexcept
+	float GetDeg(const Point * const pos_) const
 	{
 		return RtoD(atan2(pos_->y - p[CENTER].y, pos_->x - p[CENTER].x));
 	}
 	//別の矩形との角度(ディグリー)を取得するメンバ関数
-	float GetDeg(const Rec * const rec_) const noexcept
+	float GetDeg(const Rec * const rec_) const
 	{
 		return RtoD(atan2(rec_->p[CENTER].y - p[CENTER].y, rec_->p[CENTER].x - p[CENTER].x));
 	}
 	//矩形を移動させる
-	void Move(const Vector2 * const vec2_) noexcept
+	void Move(const Vector2 * const vec2_)
 	{
 		for (int i = 0; i < POINT_MAX; ++i)
 		{
@@ -1827,7 +1827,7 @@ public:
 		}
 	}
 	//点との距離を取得するメンバ関数
-	float GetDist(const float x_, const float y_) const noexcept
+	float GetDist(const float x_, const float y_) const
 	{
 		float dx = p[CENTER].x - x_;
 		float dy = p[CENTER].y - y_;
@@ -1835,7 +1835,7 @@ public:
 		return Sqrt(dx * dx + dy * dy);
 	}
 	//点との距離を取得するメンバ関数
-	float GetDist(const Point * const pos_) const noexcept
+	float GetDist(const Point * const pos_) const
 	{
 		float dx = p[CENTER].x - pos_->x;
 		float dy = p[CENTER].y - pos_->y;
@@ -1843,7 +1843,7 @@ public:
 		return Sqrt(dx * dx + dy * dy);
 	}
 	//別の矩形との距離を取得するメンバ関数
-	float GetDist(const Rec * const rec_) const noexcept
+	float GetDist(const Rec * const rec_) const
 	{
 		float dx = p[CENTER].x - rec_->p[CENTER].x;
 		float dy = p[CENTER].y - rec_->p[CENTER].y;
@@ -1851,42 +1851,42 @@ public:
 		return Sqrt(dx * dx + dy * dy);
 	}
 	//矩形の中心点を返すメンバ関数
-	const Point &GetPos() const noexcept
+	const Point &GetPos() const
 	{
 		return p[CENTER];
 	}
 	//矩形の中心点のX座標
-	float GetPosX() const noexcept
+	float GetPosX() const
 	{
 		return p[CENTER].x;
 	}
 	//矩形の中心点のY座標
-	float GetPosY() const noexcept
+	float GetPosY() const
 	{
 		return p[CENTER].y;
 	}
 	//矩形の左上の座標を取得
-	const Point &GetTL() const noexcept
+	const Point &GetTL() const
 	{
 		return p[TOP_LEFT];
 	}
 	//矩形の右上の座標を取得
-	const Point &GetTR() const noexcept
+	const Point &GetTR() const
 	{
 		return p[TOP_RIGHT];
 	}
 	//矩形の左下の座標を取得
-	const Point &GetBL() const noexcept
+	const Point &GetBL() const
 	{
 		return p[BOTTOM_LEFT];
 	}
 	//矩形の右下の座標を取得
-	const Point &GetBR() const noexcept
+	const Point &GetBR() const
 	{
 		return p[BOTTOM_RIGHT];
 	}
 	//現在のサイズが（0, 0）かどうか
-	const bool SizeZero() const noexcept
+	const bool SizeZero() const
 	{
 		return (!w && !h);
 	}
@@ -1901,7 +1901,7 @@ struct FontOP
 	DWORD CharSet;       // 書体設定 
 	DWORD PitchAndFamily;// 文字の間隔
 
-	FontOP() noexcept
+	FontOP()
 		:
 		Weight(FW_REGULAR),
 		Italic(FALSE),
@@ -1912,7 +1912,7 @@ struct FontOP
 	{
 
 	}
-	FontOP(const int Weight_, const DWORD Italic_, const DWORD Underline_, const DWORD StrikeOut_, const DWORD CharSet_, const DWORD PitchAndFamily_) noexcept
+	FontOP(const int Weight_, const DWORD Italic_, const DWORD Underline_, const DWORD StrikeOut_, const DWORD CharSet_, const DWORD PitchAndFamily_)
 		:
 		Weight(Weight_),
 		Italic(Italic_),
@@ -1936,7 +1936,7 @@ private:
 	HFONT hf;
 public:
 	//コンストラクタ
-	Font() noexcept
+	Font()
 		:
 		hf(nullptr),
 		hOff(Rec::GetOffScreenHandle()),
@@ -1977,14 +1977,14 @@ public:
 		if (hf) DeleteObject(hf);
 	}
 	//色設定
-	const COLORREF SetColor(const COLORREF col_) noexcept
+	const COLORREF SetColor(const COLORREF col_)
 	{
 		auto cOld = col_;
 		col = col_;
 		return cOld;
 	}
 	//色設定
-	const COLORREF SetColor(const byte r_, const byte g_, const byte b_) noexcept
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_)
 	{
 		auto cOld = col;
 		col = RGB(r_, g_, b_);
@@ -2089,36 +2089,36 @@ private:
 
 public:
 	/*コンストラクタ*/
-	Circle() noexcept
+	Circle()
 		: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(WHITE_COLOR), center({ 0.f,0.f }), radius(1.f)
 	{
 
 	}
 	/*コンストラクタ*/
-	Circle(const Point * const position_, const float radius_) noexcept
+	Circle(const Point * const position_, const float radius_)
 		: hPen(nullptr), hOff(Rec::GetOffScreenHandle()), color(WHITE_COLOR), center(*position_), radius(radius_)
 	{
 
 	}
 	/*中心座標設定*/
-	void SetPos(const Point * const pos_) noexcept
+	void SetPos(const Point * const pos_)
 	{
 		center = *pos_;
 	}
 	/*半径設定*/
-	void SetRadius(const float radius_) noexcept
+	void SetRadius(const float radius_)
 	{
 		radius = radius_;
 	}
 	/*色設定*/
-	const COLORREF SetColor(const COLORREF color_) noexcept
+	const COLORREF SetColor(const COLORREF color_)
 	{
 		auto cOld = color;
 		color = color_;
 		return cOld;
 	}
 	/*色設定*/
-	const COLORREF SetColor(const byte r_, const byte g_, const byte b_) noexcept
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_)
 	{
 		auto cOld = color;
 		//color = r_ | (unsigned short)g_ << 8 | (unsigned long)b_ << 16;
@@ -2126,22 +2126,22 @@ public:
 		return cOld;
 	}
 	/*座標取得*/
-	const Point &GetPos() const noexcept
+	const Point &GetPos() const
 	{
 		return center;
 	}
 	/*X座標取得*/
-	const float GetPosX() const noexcept
+	const float GetPosX() const
 	{
 		return center.x;
 	}
 	/*Y座標取得*/
-	const float GetPosY() const noexcept
+	const float GetPosY() const
 	{
 		return center.y;
 	}
 	/*半径取得*/
-	const float GetRadius() const noexcept
+	const float GetRadius() const
 	{
 		return radius;
 	}
@@ -2171,7 +2171,7 @@ public:
 		hPen = nullptr;
 	}
 	/*当たり判定*/
-	const bool CheckHit(const Circle * const circle_) const noexcept
+	const bool CheckHit(const Circle * const circle_) const
 	{
 		/*半径の合計*/
 		float dist = this->radius + circle_->radius;
@@ -2183,7 +2183,7 @@ public:
 		return ((dist * dist) > (distx * distx + disty * disty));
 	}
 	/*当たり判定*/
-	const bool CheckHit(const Point * const point_) const noexcept
+	const bool CheckHit(const Point * const point_) const
 	{
 		/*中心から点までのX軸上の距離*/
 		float distx = center.x - point_->x;
@@ -2219,7 +2219,7 @@ class Line
 	float len;
 public:
 	/*コンストラクタ*/
-	Line() noexcept
+	Line()
 		:
 		hPen(nullptr),
 		hOff(Rec::GetOffScreenHandle()),
@@ -2238,7 +2238,7 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*コンストラクタ*/
-	Line(const Point * const spos_, const Point * const epos_) noexcept
+	Line(const Point * const spos_, const Point * const epos_)
 		:
 		hPen(nullptr),
 		hOff(Rec::GetOffScreenHandle()),
@@ -2257,7 +2257,7 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*始点設定*/
-	void SetPos(const Point * const spos_) noexcept
+	void SetPos(const Point * const spos_)
 	{
 		epos = Point(epos.x - spos.x, epos.y - spos.y);
 		spos = *spos_;
@@ -2266,7 +2266,7 @@ public:
 		epos.y += spos_->y;
 	}
 	/*始点と終点設定*/
-	void SetPos(const Point * const spos_, const Point * const epos_) noexcept
+	void SetPos(const Point * const spos_, const Point * const epos_)
 	{
 		spos = *spos_;
 		epos = *epos_;
@@ -2281,7 +2281,7 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*始点と終点設定*/
-	void SetPos(const Point * const spos_, const float angleD_, const float len_) noexcept
+	void SetPos(const Point * const spos_, const float angleD_, const float len_)
 	{
 		spos = *spos_;
 
@@ -2300,7 +2300,7 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*始点設定*/
-	void SetSPos(const Point * const spos_) noexcept
+	void SetSPos(const Point * const spos_)
 	{
 		spos = *spos_;
 
@@ -2314,7 +2314,7 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*終点設定*/
-	void SetEPos(const Point * const epos_) noexcept
+	void SetEPos(const Point * const epos_)
 	{
 		epos = *epos_;
 
@@ -2328,26 +2328,26 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*色設定*/
-	const COLORREF SetColor(const COLORREF color_) noexcept
+	const COLORREF SetColor(const COLORREF color_)
 	{
 		auto cOld = color;
 		color = color_;
 		return cOld;
 	}
 	/*色設定*/
-	const COLORREF SetColor(const byte r_, const byte g_, const byte b_) noexcept
+	const COLORREF SetColor(const byte r_, const byte g_, const byte b_)
 	{
 		auto cOld = color;
 		color = RGB(r_, g_, b_);
 		return cOld;
 	}
 	/*幅設定*/
-	void SetWidth(const int width_) noexcept
+	void SetWidth(const int width_)
 	{
 		width = width_;
 	}
 	/*角度設定*/
-	void SetDeg(const float angleD_) noexcept
+	void SetDeg(const float angleD_)
 	{
 		angle = angleD_;
 
@@ -2362,7 +2362,7 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*長さ設定*/
-	void SetLen(const float len_) noexcept
+	void SetLen(const float len_)
 	{
 		len = len_;
 		if (len_)
@@ -2383,42 +2383,42 @@ public:
 		vec2 = Vector2(epos.x - spos.x, epos.y - spos.y);
 	}
 	/*始点取得*/
-	const Point &GetSPos() const noexcept
+	const Point &GetSPos() const
 	{
 		return spos;
 	}
 	/*終点取得*/
-	const Point &GetEPos() const noexcept
+	const Point &GetEPos() const
 	{
 		return epos;
 	}
 	/*角度取得*/
-	float GetDeg() const noexcept
+	float GetDeg() const
 	{
 		return angle;
 	}
 	/*角度取得*/
-	float GetDeg(const Line * const line_) const noexcept
+	float GetDeg(const Line * const line_) const
 	{
 		return RtoD(atan2(line_->spos.y - spos.y, line_->spos.x - spos.x));
 	}
 	/*角度取得*/
-	float GetDeg(const Rec * const rec_) const noexcept
+	float GetDeg(const Rec * const rec_) const
 	{
 		return RtoD(atan2(rec_->GetPosY() - spos.y, rec_->GetPosX() - spos.x));
 	}
 	/*角度取得*/
-	float GetDeg(const Point * const pos_) const noexcept
+	float GetDeg(const Point * const pos_) const
 	{
 		return RtoD(atan2(pos_->y - spos.y, pos_->x - spos.x));
 	}
 	/*長さ取得*/
-	float GetLen() const noexcept
+	float GetLen() const
 	{
 		return len;
 	}
 	/*距離取得*/
-	float GetDist(const Circle * const circle_) const noexcept
+	float GetDist(const Circle * const circle_) const
 	{
 		const float dx = spos.x - circle_->GetPos().x;
 		const float dy = spos.y - circle_->GetPos().y;
@@ -2426,7 +2426,7 @@ public:
 		return Sqrt(dx * dx + dy * dy);
 	}
 	/*距離取得*/
-	float GetDist(const Point * const pos_) const noexcept
+	float GetDist(const Point * const pos_) const
 	{
 		const float dx = spos.x - pos_->x;
 		const float dy = spos.y - pos_->y;
@@ -2434,7 +2434,7 @@ public:
 		return Sqrt(dx * dx + dy * dy);
 	}
 	/*ベクトル取得*/
-	const Vector2 &GetVec() const noexcept
+	const Vector2 &GetVec() const
 	{
 		return vec2;
 	}
@@ -2476,7 +2476,7 @@ public:
 		return inter;
 	}
 	/*移動*/
-	void Move(const float movespd_) noexcept
+	void Move(const float movespd_)
 	{
 		const double ang = (double)DtoR(ModAngle(angle));
 		spos.x += (float)cos_fast(ang) * movespd_;
@@ -2526,12 +2526,12 @@ public:
 		DeleteObject(hPen);
 	}
 	/*当たり判定*/
-	bool CheckHit(const Line * const line_) noexcept
+	bool CheckHit(const Line * const line_)
 	{
 		return LineCheckCross(spos.x, spos.y, epos.x, epos.y, line_->spos.x, line_->spos.y, line_->epos.x, line_->epos.y);
 	}
 	/*当たり判定*/
-	bool CheckHit(const Rec * const rec_) noexcept
+	bool CheckHit(const Rec * const rec_)
 	{
 		return
 			(
@@ -2542,7 +2542,7 @@ public:
 				);
 	}
 	/*当たり判定*/
-	bool CheckHit(const Circle * const circle_) noexcept
+	bool CheckHit(const Circle * const circle_)
 	{
 		Vector2 vecA(circle_->GetPos().x - spos.x, circle_->GetPos().y - spos.y);
 		Vector2 vecB(circle_->GetPos().x - epos.x, circle_->GetPos().y - epos.y);
@@ -2569,7 +2569,7 @@ class Pixel
 	HBRUSH hBrush;
 	byte bSize;
 public:
-	Pixel() noexcept
+	Pixel()
 		:
 		pPos({}),
 		cColor(0),
@@ -2582,7 +2582,7 @@ public:
 		if (hPen) DeleteObject(hPen);
 		if (hBrush) DeleteObject(hBrush);
 	}
-	Pixel(const Point &crefpPos, const COLORREF ccColor, const byte cbSize) noexcept
+	Pixel(const Point &crefpPos, const COLORREF ccColor, const byte cbSize)
 		:
 		pPos(crefpPos),
 		cColor(ccColor),
@@ -2600,7 +2600,7 @@ public:
 		bSize(crefPixel.bSize)
 	{
 	}
-	const Point SetPos(const Point * const cppPos) noexcept
+	const Point SetPos(const Point * const cppPos)
 	{
 		const Point cpOld = pPos;
 		pPos = *cppPos;
@@ -2626,21 +2626,21 @@ public:
 		hBrush = CreateSolidBrush(cColor);
 		return ccOld;
 	}
-	const byte SetSize(const byte cbSize) noexcept
+	const byte SetSize(const byte cbSize)
 	{
 		const byte cbOld = bSize;
 		bSize = cbSize;
 		return cbOld;
 	}
-	const Point &GetPos() const noexcept
+	const Point &GetPos() const
 	{
 		return pPos;
 	}
-	const float GetPosX() const noexcept
+	const float GetPosX() const
 	{
 		return pPos.x;
 	}
-	const float GetPosY() const noexcept
+	const float GetPosY() const
 	{
 		return pPos.y;
 	}
@@ -2769,7 +2769,7 @@ class Rep
 	/*前の要素*/
 	Rep *rpPrev;
 	/*勝手にインスタンス化されないようにコンストラクタを封印*/
-	Rep() noexcept
+	Rep()
 		:
 		dData(0.0),
 		rpNext(nullptr),
@@ -2782,7 +2782,7 @@ class Rep
 	Rep &operator = (const Rep &) = default;
 public:
 	/*終端に要素を追加*/
-	static bool Push(const double dData)
+	static double Push(const double dData)
 	{
 		Rep rTmp;
 		rTmp.dData = (dData == DBL_MAX) ? dData - 1.0 : dData;
@@ -2791,20 +2791,20 @@ public:
 			auto rpIt = rpTop;
 			while (rpIt->rpNext) rpIt = rpIt->rpNext;
 			rpIt->rpNext = (Rep *)malloc(sizeof(Rep) * 1);
-			if (!rpIt->rpNext) return 1;
+			if (!rpIt->rpNext) return DBL_MAX;
 			rTmp.rpPrev = rpIt;
 			*rpIt->rpNext = rTmp;
 			++sDataSize;
 			return 0;
 		}
 		rpTop = (Rep *)malloc(sizeof(Rep) * 1);
-		if (!rpTop) return 1;
+		if (!rpTop) return DBL_MAX;
 		*rpTop = rTmp;
 		sDataSize = 1;
 		return 0;
 	}
 	/*読み込みデータを一つずつ取得*/
-	static const double Read() noexcept
+	static const double Read()
 	{
 		if (!rpOut) return DBL_MAX;
 		const double dRet = rpOut->dData;
@@ -2812,10 +2812,10 @@ public:
 		return dRet;
 	}
 	/*データの読み込み地点を設定*/
-	static bool SetPosition(const u_int uiIdx) noexcept
+	static double SetPosition(const u_int uiIdx)
 	{
-		if (uiIdx < 0) return 1;
-		if (!rpOut) return 1;
+		if (uiIdx < 0) return DBL_MAX;
+		//if (!rpOut) return DBL_MAX;
 		rpOut = rpTop;
 		for (u_int ui = 0; ui < uiIdx; ++ui)
 		{
@@ -2825,16 +2825,16 @@ public:
 		return 0;
 	}
 	/*データリストを取得*/
-	static const Rep * const GetDataList() noexcept
+	static const Rep * const GetDataList()
 	{
 		return rpTop;
 	}
 	/*リプレイデータリストをファイルへ書き込み*/
-	static bool SaveFile(const std::string &asFileName)
+	static double SaveFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
 		fopen_s(&fpFile, asFileName.c_str(), "wb");
-		if (!fpFile) return 1;
+		if (!fpFile) return DBL_MAX;
 		auto rpIt = rpTop;
 		while (rpIt)
 		{
@@ -2845,11 +2845,11 @@ public:
 		return 0;
 	}
 	/*ファイルからリプレイデータリストを読み込み*/
-	static bool LoadFile(const std::string &asFileName)
+	static double LoadFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
 		fopen_s(&fpFile, asFileName.c_str(), "rb");
-		if (!fpFile) return 1;
+		if (!fpFile) return DBL_MAX;
 		if (sDataSize) Clear();
 		double dTmp = 0;
 		while (fscanf_s(fpFile, "%lf", &dTmp) != EOF)
@@ -2866,9 +2866,9 @@ public:
 		return 0;
 	}
 	/*リプレイデータリストを削除*/
-	static bool Clear()
+	static double Clear()
 	{
-		if (!rpTop) return 1;
+		if (!rpTop) return DBL_MAX;
 		auto rpIt = rpTop;
 		while (rpIt)
 		{
@@ -2881,17 +2881,17 @@ public:
 		return 0;
 	}
 	/*次の要素を取得*/
-	const Rep * const GetNext() const noexcept
+	const Rep * const GetNext() const
 	{
 		return this->rpNext;
 	}
 	/*前の要素を取得*/
-	const Rep * const GetPrev() const noexcept
+	const Rep * const GetPrev() const
 	{
 		return this->rpPrev;
 	}
 	/*実際のデータを取得*/
-	const double GetData() const noexcept
+	const double GetData() const
 	{
 		return this->dData;
 	}
@@ -2907,16 +2907,16 @@ public:
 private:
 	int now_, min_, max_, add_;
 	ProcPtr proc_;
-	const bool _is_over() const noexcept
+	const bool _is_over() const
 	{
 		return now_ > max_;
 	}
-	const bool _is_under() const noexcept
+	const bool _is_under() const
 	{
 		return now_ < min_;
 	}
 public:
-	Counter(const int _now, const int _min, const int _max, const int _add = 1) noexcept
+	Counter(const int _now, const int _min, const int _max, const int _add = 1)
 		: now_(_now)
 		, min_(_min)
 		, max_(_max)
@@ -2926,7 +2926,7 @@ public:
 
 	}
 
-	Counter &operator ++ () noexcept
+	Counter &operator ++ ()
 	{
 		now_ += add_;
 		if (_is_over()) now_ = min_;
@@ -2934,7 +2934,7 @@ public:
 		if (proc_) proc_(now_);
 		return *this;
 	}
-	const Counter operator ++ (int) noexcept
+	const Counter operator ++ (int)
 	{
 		if (proc_) proc_(now_);
 		const Counter tmp = *this;
@@ -2944,57 +2944,57 @@ public:
 		return tmp;
 	}
 
-	Counter &proc(const ProcPtr &_proc) noexcept
+	Counter &proc(const ProcPtr &_proc)
 	{
 		proc_ = _proc;
 		return *this;
 	}
-	Counter &now(const int _now) noexcept
+	Counter &now(const int _now)
 	{
 		now_ = _now;
 		return *this;
 	}
-	Counter &max(const int _max) noexcept
+	Counter &max(const int _max)
 	{
 		max_ = _max;
 		return *this;
 	}
-	Counter &min(const int _min) noexcept
+	Counter &min(const int _min)
 	{
 		min_ = _min;
 		return *this;
 	}
-	Counter &add(const int _add) noexcept
+	Counter &add(const int _add)
 	{
 		add_ = _add;
 		return *this;
 	}
 
-	const int operator () () const noexcept
+	const int operator () () const
 	{
 		return now_;
 	}
-	const bool is_max() const noexcept
+	const bool is_max() const
 	{
 		return now_ >= max_;
 	}
-	const bool is_min() const noexcept
+	const bool is_min() const
 	{
 		return now_ <= min_;
 	}
-	const int now() const noexcept
+	const int now() const
 	{
 		return now_;
 	}
-	const int max() const noexcept
+	const int max() const
 	{
 		return max_;
 	}
-	const int min() const noexcept
+	const int min() const
 	{
 		return min_;
 	}
-	const int add() const noexcept
+	const int add() const
 	{
 		return add_;
 	}

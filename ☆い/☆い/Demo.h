@@ -25,6 +25,7 @@ namespace Demo
 	public:
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		bool bIsLoad;
+		byte bFadeCompCnt;
 
 		Obj() {}
 		~Obj() {}

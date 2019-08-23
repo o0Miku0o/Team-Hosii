@@ -58,6 +58,7 @@ namespace Title
 
 		PlayBgm();
 
+		iWaitFrame = 0;
 		/*お試し*/
 		//Add<Demo::Obj>();
 
@@ -101,6 +102,25 @@ namespace Title
 			LogoUpdate();
 
 			MeteoUpdate();
+
+//#ifdef _DEBUG
+			auto kb = KB::GetState();
+			if (kb->Down('Z'))
+			{
+				RemoveAll({ StageManager::caTaskName }, NOT_REMOVE_NAME);
+				Add<Demo::Obj>();
+				return;
+			}
+//#endif
+
+			if (iWaitFrame >= 60 * 10)
+			{
+				iWaitFrame = 0;
+				RemoveAll({ StageManager::caTaskName }, NOT_REMOVE_NAME);
+				Add<Demo::Obj>();
+				return;
+			}
+			++iWaitFrame;
 
 			if (Find<Cursor::Obj>(Cursor::caTaskName)) return;
 
@@ -253,6 +273,7 @@ namespace Title
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*アニメーション*/
