@@ -12,6 +12,7 @@ namespace MiniGame
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Image iButton;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -25,7 +26,8 @@ namespace MiniGame
 	{
 	public:
 		/*必要なメンバはここに追加*/
-		int iFragmentCnt;
+		Rec rButton;
+		float fFragmentCnt;
 		int score;
 		float width, height;
 		Point pos1,pos2;

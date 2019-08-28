@@ -11,7 +11,6 @@ namespace StageSelect
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
 		RS() { Init(); }
 		~RS() { Finalize(); }
 	private:
@@ -24,9 +23,10 @@ namespace StageSelect
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
 		Obj() {}
 		~Obj() {}
+		int iCnt;
+		Rec rHoudai;
 	private:
 		RS_ptr res;
 		void Init();

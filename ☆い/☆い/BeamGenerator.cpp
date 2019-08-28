@@ -4,6 +4,9 @@
 #include "Title.h"
 #include "StageManager.h"
 #include "BreakStar.h"
+#include "Cursor.h"
+#include "StageSelect.h"
+#include "Hukidasi.h"
 
 namespace BeamGenerator
 {
@@ -87,7 +90,21 @@ namespace BeamGenerator
 		}
 		auto beam = Add<Beam::Obj>();
 		beam->rHitBase.SetPos(&Point(Rec::Win.l, Rec::Win.b * 0.423f));
-		beam->rHitBase.Scaling(21.f, 16.f * 2.f);
+		beam->rHitBase.Scaling(45.f, 16.f * 2.f);
 		beam->rHitBase.SetDeg(0.f);
+	}
+	void Obj::SelectBeamCreate(float fAngle)
+	{
+		auto hd = Find<Hukidasi::Obj>(Hukidasi::caTaskName);
+		if (Find<Beam::Obj>(Beam::caTaskName) || !hd->rHukidasi.SizeZero())
+		{
+			Remove(this);
+			return;
+		}
+		auto bm = Add<Beam::Obj>();
+		bm->rHitBase.SetPos(&Point(Rec::Win.r*0.5f, Rec::Win.b));
+		bm->rHitBase.Scaling(64.f, 64.f);
+		bm->rHitBase.SetDeg(fAngle + 180);
+		Remove(this);
 	}
 }

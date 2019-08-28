@@ -9,7 +9,6 @@
 #include "StarGenerator.h"
 #include "Star.h"
 #include "Gas.h"
-#include "MiniGame.h"
 
 namespace Title
 {
@@ -46,7 +45,6 @@ namespace Title
 
 		CreateStar();
 
-		Add<MiniGame::Obj>();
 		/*ƒf[ƒ^‚Ì‰Šú‰»*/
 		LogoInit();
 

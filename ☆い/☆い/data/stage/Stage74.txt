@@ -1,0 +1,12 @@
+Star 1550 420 24
+Star 1550 580 24
+Star 900 150 23
+Star 1100 850 22
+Fragment 1260 250 2
+Fragment 550 150 2
+Fragment 1100 500 2
+Fragment 820 700 2
+Fragment 620 380 2
+Fragment 450 850 2
+Fragment 850 410 2
+Result 7 75

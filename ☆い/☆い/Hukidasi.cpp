@@ -25,19 +25,20 @@ namespace Hukidasi
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.2f);
 		/*テキストの幅に合わせて調整*/
 		faWidth[0] = 16.f * 4;
 		faWidth[1] = 16.f * 6;
 		faWidth[2] = 16.f * 8;
 		faWidth[3] = 16.f * 6;
 		faWidth[4] = 16.f * 7;
+		faWidth[5] = 16.f * 7;
+		faWidth[6] = 16.f * 7;
 
 		rTextBox.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) + 70.f));
 		fAddScale = 0.f;
 		fWidthMax = 1800.f;
 		fHeightMax = 400.f;
-		//constexpr float fScaleWMax = 1800.f;
-		//constexpr float fScaleHMax = 400.f;
 		bSetPictureCount = 0;
 	}
 	/*タスクの終了処理*/
@@ -53,7 +54,7 @@ namespace Hukidasi
 		auto sp = Find<StagePicture::Obj>(StagePicture::caTaskName);
 		if (rHukidasi.GetW() >= fWidthMax && rHukidasi.GetH() >= fHeightMax)
 		{
-			if (!sp)
+			if (!sp && (sGroup != StageSelectIcon::Type::FR && sGroup != StageSelectIcon::Type::TA))
 			{
 				/*画面の半分の位置、四分の一の位置*/
 				const float fHalfWidth = Rec::Win.r * 0.5f;
@@ -150,7 +151,7 @@ namespace Hukidasi
 		++bSetPictureCount;
 	}
 	/*ステージのグループの設定*/
-	void Obj::SetStageGroup(const StageGroup asStageGroup)
+	void Obj::SetStageGroup(const StageSelectIcon::Type asStageGroup)
 	{
 		sGroup = asStageGroup;
 	}

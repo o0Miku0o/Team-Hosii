@@ -4,11 +4,11 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
-
 #include "FadeInOut.h"
-
 #include "Back.h"
 #include "StageLoad.h"
+#include "TimeAttack.h"
+#include "Ranking.h"
 
 namespace StageManager
 {
@@ -147,37 +147,37 @@ namespace StageManager
 				{
 					bClearFragmentNum = 0;
 
-					RemoveAll({ caTaskName, FadeInOut::caTaskName }, NOT_REMOVE_NAME);
+					RemoveAll({ caTaskName, FadeInOut::caTaskName,TimeAttack::caTaskName }, NOT_REMOVE_NAME);
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-
 					//			Add<Back::Obj>();
-					if (auto manager = Find<StageManager::Obj>(caTaskName)) {
-						manager->bStageNum = manager->bNextStage;
-						if (manager->bStageNum == 255) {
+					if (bStageNum / 10 >= 7 && bStageNum - (bStageNum / 10 * 10) == 5)
+					{
+						if (auto ta = Find<TimeAttack::Obj>(TimeAttack::caTaskName))
+						{
+							ta->SaveTime();
+						}
+						RemoveAll();
+						Add<StageManager::Obj>();
+						Add<Back::Obj>();
+						Add<Ranking::Obj>();
+					}
+					else
+					{
+						bStageNum = bNextStage;
+						if (bStageNum == 255)
+						{
 							RemoveAll();
 							Add<StageManager::Obj>();
 							Add<Back::Obj>();
 							Add<StageSelect::Obj>();
 							Pause(2);
 						}
-						else {
+						else
+						{
 							Add<StageLoad::Obj>();
 							//Pause(2);
 						}
 					}
-
-
-					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					//auto re = Add<Result::Obj>();
-					//re->bNextStage = bNextStage;
-					//if (usBeamCount <= bClearFragmentNumMax)
-					//{
-					//	re->bScore = 3;
-					//}
-					//else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-					//{
-					//	re->bScore = 2;
-					//}
 					iResultCnt = 0;
 				}
 			}
@@ -186,9 +186,6 @@ namespace StageManager
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		//{
-		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
-		//}
+
 	}
 }

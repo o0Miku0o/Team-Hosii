@@ -1,6 +1,5 @@
 #pragma once
 #include "MyGame/MyApp.h"
-#include "Eff1.h"
 
 namespace Beam
 {
@@ -28,7 +27,6 @@ namespace Beam
 		Rec rHitBase;
 		Vector2 vSpd;
 		byte bLifeCount;
-		Eff1::EffectCreater::SP effsp;
 
 		Obj() {}
 		~Obj() {}

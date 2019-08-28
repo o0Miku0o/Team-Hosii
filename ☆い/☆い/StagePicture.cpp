@@ -22,7 +22,7 @@ namespace StagePicture
 		/*タスクの生成*/
 
 		/*データの初期化*/
-
+		SetRenderPriority(0.5f);
 		/*まだ画像は読み込まれていません。*/
 		bIsLoaded = false;
 	}

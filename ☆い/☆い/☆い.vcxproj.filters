@@ -47,6 +47,10 @@
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="MyGame\My\CADAM.cpp" />
     <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="Tips.cpp" />
+    <ClCompile Include="TimeAttack.cpp" />
+    <ClCompile Include="StageSelectIcon.cpp" />
+    <ClCompile Include="Ranking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -104,6 +108,10 @@
     <ClInclude Include="MyGame\My\Stream.h" />
     <ClInclude Include="MyGame\My\EventMsg.h" />
     <ClInclude Include="MiniGame.h" />
+    <ClInclude Include="TimeAttack.h" />
+    <ClInclude Include="Tips.h" />
+    <ClInclude Include="StageSelectIcon.h" />
+    <ClInclude Include="Ranking.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

@@ -2,6 +2,9 @@
 #include "Title.h"
 #include "GameInit.h"
 
+#include "StageManager.h"
+#include "TimeAttack.h"
+#include "MiniGame.h"
 //グローバル領域ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
 
 //初期化処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//
@@ -9,6 +12,8 @@ void Init()
 {
 	/*ここで最初のタスクを追加*/
 	TB::Add<GameInit::Obj>();
+	/*TB::Add<StageManager::Obj>();
+	TB::Add<MiniGame::Obj>();*/
 }
 
 //終了処理ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー//

@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Alien.h"
 #include "Effect.h"
+#include "MiniGame.h"
 
 namespace Fragment
 {
@@ -201,7 +202,9 @@ namespace Fragment
 				rFragment.Draw(&stageRes->iStageImg, &src, true);
 			}
 		}
+#ifdef _DEBUG
 		cFragmentHitBase.Draw();
+#endif
 	}
 
 	void Obj::Checkhitbeam(TaskBase* bm)
@@ -247,6 +250,10 @@ namespace Fragment
 		//cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
 		if (cFragmentHitBase.CheckHit(&oFragment->cFragmentHitBase))
 		{
+			if (auto mg = Find<MiniGame::Obj>(MiniGame::caTaskName))
+			{
+				mg->fFragmentCnt += 0.5f;
+			}
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest5.Play();

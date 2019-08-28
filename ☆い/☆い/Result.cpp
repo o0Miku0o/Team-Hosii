@@ -51,7 +51,7 @@ namespace Result
 			auto sp = Add<StagePicture::Obj>();
 			sp->LoadImg(1 * i + 1);
 			sp->SetSize(410.0f, 250.0f);
-			sp->SetPos(&Point(490 + i * 470, 250));
+			sp->SetPos(&Point(float(490 + i * 470), 250.f));
 		}
 
 		//¯‚ÌÀ•W
