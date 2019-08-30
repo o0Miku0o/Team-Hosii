@@ -12,6 +12,8 @@
 #include "Hukidasi.h"
 #include "StageLoad.h"
 
+#include "JecLogo.h"
+
 
 namespace StageSelect
 {
@@ -101,12 +103,20 @@ namespace StageSelect
 	{
 		//tamesi
 		const auto kb = KB::GetState();
+		/*地球ステージはいる*/
 		if (kb->Down('O'))
 		{
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
 			return;
+		}
+		auto pad = JoyPad::GetState(0);
+		/*ロゴ->タイトル*/
+		if (kb->Down('F') || pad->Down(JOY_BUTTON7))
+		{
+			RemoveAll();
+			Add<JecLogo::Obj>();
 		}
 	}
 	/*タスクの描画処理*/

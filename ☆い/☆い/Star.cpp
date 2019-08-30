@@ -28,6 +28,8 @@ namespace Star
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.2f);
+
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);

@@ -42,6 +42,7 @@ namespace Result
 		byte bNextStage;
 		byte bMoveStarIdx;
 
+		byte bWaitCnt;
 		bool bPushHanko;
 		//byte bScore;
 		//EventMsg em;

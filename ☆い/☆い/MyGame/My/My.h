@@ -10,6 +10,7 @@
 #include <thread>
 #include <mutex>
 #include <algorithm>
+#include <functional>
 #include "Stream.h"
 #include "FixedPoint.h"
 #include "CADAM.h"
@@ -17,7 +18,6 @@
 #include "MciScript.h"
 #include "MciWnd.h"
 #include "DShow.h"
-//#include "EventMsg.h"
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
@@ -165,12 +165,14 @@ inline const float sin_fast(float angle)
 /*高速tan(x)*/
 inline const double tan_fast(double angle)
 {
-	return FToD(Div(FP(cos_fast(angle - PI * 0.5)), FP(cos_fast(angle))));
+	const double _c = cos_fast(angle);
+	return (_c) ? cos_fast(angle - PI * 0.5) / _c : 0.0;
 }
 /*高速tan(x)*/
 inline const float tan_fast(float angle)
 {
-	return (float)FToD(Div(FP(cos_fast(angle - PI * 0.5)), FP(cos_fast((double)angle))));
+	const double _c = cos_fast(angle);
+	return float((_c) ? cos_fast(angle - PI * 0.5) / _c : 0.0);
 }
 /*高速sin(x)と高速cos(x)の同時取得*/
 inline void sincos_fast(double angle, double * const x, double * const y)
@@ -187,7 +189,7 @@ inline void sincos_fast(double angle, double * const x, double * const y)
 	} while (p < waru + 8);
 	c = c * z;
 	s = s * angle;
-	for (byte b = 0; b < 5; ++b)
+	for (int i = 0; i < 5; ++i)
 	{
 		s = s * (2.0 - c);
 		c = c * (4.0 - c);
@@ -1108,7 +1110,7 @@ public:
 	const float GetRad(const Stick asStick) const
 	{
 		const float lcfAxisX = vStickAxis[asStick].GetX(), lcfAxisY = vStickAxis[asStick].GetY();
-		if (!lcfAxisX || !lcfAxisY)
+		if (lcfAxisX || lcfAxisY)
 		{
 			return atan2(lcfAxisY, lcfAxisX);
 		}
@@ -1436,8 +1438,6 @@ public:
 	void SetDeg(const float angleD_)
 	{
 		angle = ModAngle(angleD_);
-
-		//原点を中心とした位置に移動
 		float  pp[4][2] =
 		{
 			{ -dx , -dy },
@@ -1476,6 +1476,7 @@ public:
 			//pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
+
 		const float ang = ModAngle(angle);
 		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
@@ -1501,6 +1502,7 @@ public:
 			//pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
+
 		const float ang = ModAngle(angle);
 		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
@@ -2448,7 +2450,7 @@ public:
 			inter = Point();
 			return inter;
 		}
-		inter = Point((float)*(xy + 0), (float)*(xy + 1));
+		inter = Point((float)xy[0], (float)xy[1]);
 		return inter;
 	}
 	/*線と線の交点を取得*/
@@ -2778,10 +2780,9 @@ class Rep
 	Rep(const Rep &);
 	Rep(const Rep &&);
 	Rep &operator = (const Rep &) = default;
-
 public:
 	/*終端に要素を追加*/
-	static bool Push(const double dData)
+	static double Push(const double dData)
 	{
 		Rep rTmp;
 		rTmp.dData = (dData == DBL_MAX) ? dData - 1.0 : dData;
@@ -2790,14 +2791,14 @@ public:
 			auto rpIt = rpTop;
 			while (rpIt->rpNext) rpIt = rpIt->rpNext;
 			rpIt->rpNext = (Rep *)malloc(sizeof(Rep) * 1);
-			if (!rpIt->rpNext) return 1;
+			if (!rpIt->rpNext) return DBL_MAX;
 			rTmp.rpPrev = rpIt;
 			*rpIt->rpNext = rTmp;
 			++sDataSize;
 			return 0;
 		}
 		rpTop = (Rep *)malloc(sizeof(Rep) * 1);
-		if (!rpTop) return 1;
+		if (!rpTop) return DBL_MAX;
 		*rpTop = rTmp;
 		sDataSize = 1;
 		return 0;
@@ -2811,9 +2812,10 @@ public:
 		return dRet;
 	}
 	/*データの読み込み地点を設定*/
-	static bool SetPosition(const u_int uiIdx)
+	static double SetPosition(const u_int uiIdx)
 	{
-		if (uiIdx < 0) return 1;
+		if (uiIdx < 0) return DBL_MAX;
+		//if (!rpOut) return DBL_MAX;
 		rpOut = rpTop;
 		for (u_int ui = 0; ui < uiIdx; ++ui)
 		{
@@ -2828,11 +2830,11 @@ public:
 		return rpTop;
 	}
 	/*リプレイデータリストをファイルへ書き込み*/
-	static bool SaveFile(const std::string &asFileName)
+	static double SaveFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
 		fopen_s(&fpFile, asFileName.c_str(), "wb");
-		if (!fpFile) return 1;
+		if (!fpFile) return DBL_MAX;
 		auto rpIt = rpTop;
 		while (rpIt)
 		{
@@ -2843,11 +2845,11 @@ public:
 		return 0;
 	}
 	/*ファイルからリプレイデータリストを読み込み*/
-	static bool LoadFile(const std::string &asFileName)
+	static double LoadFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
 		fopen_s(&fpFile, asFileName.c_str(), "rb");
-		if (!fpFile) return 1;
+		if (!fpFile) return DBL_MAX;
 		if (sDataSize) Clear();
 		double dTmp = 0;
 		while (fscanf_s(fpFile, "%lf", &dTmp) != EOF)
@@ -2864,9 +2866,9 @@ public:
 		return 0;
 	}
 	/*リプレイデータリストを削除*/
-	static bool Clear()
+	static double Clear()
 	{
-		if (!rpTop) return 1;
+		if (!rpTop) return DBL_MAX;
 		auto rpIt = rpTop;
 		while (rpIt)
 		{
@@ -2893,4 +2895,108 @@ public:
 	{
 		return this->dData;
 	}
+};
+
+#undef max
+#undef min
+
+class Counter
+{
+public:
+	using ProcPtr = std::function<void(const int)>;
+private:
+	int now_, min_, max_, add_;
+	ProcPtr proc_;
+	const bool _is_over() const
+	{
+		return now_ > max_;
+	}
+	const bool _is_under() const
+	{
+		return now_ < min_;
+	}
+public:
+	Counter(const int _now, const int _min, const int _max, const int _add = 1)
+		: now_(_now)
+		, min_(_min)
+		, max_(_max)
+		, add_(_add)
+		, proc_(nullptr)
+	{
+
+	}
+
+	Counter &operator ++ ()
+	{
+		now_ += add_;
+		if (_is_over()) now_ = min_;
+		if (_is_under()) now_ = max_;
+		if (proc_) proc_(now_);
+		return *this;
+	}
+	const Counter operator ++ (int)
+	{
+		if (proc_) proc_(now_);
+		const Counter tmp = *this;
+		now_ += add_;
+		if (_is_over()) now_ = min_;
+		if (_is_under()) now_ = max_;
+		return tmp;
+	}
+
+	Counter &proc(const ProcPtr &_proc)
+	{
+		proc_ = _proc;
+		return *this;
+	}
+	Counter &now(const int _now)
+	{
+		now_ = _now;
+		return *this;
+	}
+	Counter &max(const int _max)
+	{
+		max_ = _max;
+		return *this;
+	}
+	Counter &min(const int _min)
+	{
+		min_ = _min;
+		return *this;
+	}
+	Counter &add(const int _add)
+	{
+		add_ = _add;
+		return *this;
+	}
+
+	const int operator () () const
+	{
+		return now_;
+	}
+	const bool is_max() const
+	{
+		return now_ >= max_;
+	}
+	const bool is_min() const
+	{
+		return now_ <= min_;
+	}
+	const int now() const
+	{
+		return now_;
+	}
+	const int max() const
+	{
+		return max_;
+	}
+	const int min() const
+	{
+		return min_;
+	}
+	const int add() const
+	{
+		return add_;
+	}
+
 };

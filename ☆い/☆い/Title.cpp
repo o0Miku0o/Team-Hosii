@@ -11,6 +11,8 @@
 #include "Gas.h"
 #include "MiniGame.h"
 
+#include "Demo.h"
+
 namespace Title
 {
 	/*リソースの初期化処理*/
@@ -57,6 +59,10 @@ namespace Title
 
 		PlayBgm();
 
+		iWaitFrame = 0;
+		/*お試し*/
+		//Add<Demo::Obj>();
+
 		//ms.Read("./data/mci/demo.txt");
 		//while (ms.Size() > 1)
 		//{
@@ -100,6 +106,25 @@ namespace Title
 			LogoUpdate();
 
 			MeteoUpdate();
+
+//#ifdef _DEBUG
+			auto kb = KB::GetState();
+			if (kb->Down('Z'))
+			{
+				RemoveAll({ StageManager::caTaskName }, NOT_REMOVE_NAME);
+				Add<Demo::Obj>();
+				return;
+			}
+//#endif
+
+			if (iWaitFrame >= 60 * 10)
+			{
+				iWaitFrame = 0;
+				RemoveAll({ StageManager::caTaskName }, NOT_REMOVE_NAME);
+				Add<Demo::Obj>();
+				return;
+			}
+			++iWaitFrame;
 
 			if (Find<Cursor::Obj>(Cursor::caTaskName)) return;
 
@@ -233,6 +258,7 @@ namespace Title
 		auto cs = Add<Cursor::Obj>();
 		//cs->pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
+		//cs->rCursorBase.SetPos(&rStart.GetPos());
 	}
 	/*☆の生成*/
 	void Obj::CreateStar()
@@ -251,6 +277,7 @@ namespace Title
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*アニメーション*/

@@ -46,6 +46,8 @@
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="MyGame\My\CADAM.cpp" />
     <ClCompile Include="Fragment.cpp" />
+    <ClCompile Include="JecLogo.cpp" />
+    <ClCompile Include="Demo.cpp" />
     <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="Tips.cpp" />
     <ClCompile Include="TimeAttack.cpp" />
@@ -109,6 +111,8 @@
     <ClInclude Include="MyGame\My\MciWnd.h" />
     <ClInclude Include="MyGame\My\DShow.h" />
     <ClInclude Include="Fragment.h" />
+    <ClInclude Include="JecLogo.h" />
+    <ClInclude Include="Demo.h" />
     <ClInclude Include="MiniGame.h" />
     <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="Tips.h" />

@@ -5,6 +5,8 @@
 #include "Fragment.h"
 #include "FadeInOut.h"
 
+#include <fstream>
+
 //#include "Rail.h"
 
 namespace Player
@@ -33,6 +35,9 @@ namespace Player
 
 		rBase = Rec(Rec::Win.l + 100.f, Rec::Win.b * 0.5f, 16 * 8.f, 16 * 8.f, 180);
 		rImgBase = rBase;
+		fSrcX = 10.f;
+		rImgBase.SetPos(&Point(cos(DtoR(rBase.GetDeg() + 90)) * 50.f + rBase.GetPosX(), sin(DtoR(rBase.GetDeg() + 90)) * 50.f + rBase.GetPosY()));
+		rImgBase.SetDeg(rBase.GetDeg());
 		pStandardPoint = Point(Rec::Win.r - 500.f, Rec::Win.b * 0.5f);
 		fSPDist = rBase.GetDist(&pStandardPoint);
 		fSPAngle = (float)rBase.GetDeg(&pStandardPoint) + 180;
@@ -47,7 +52,14 @@ namespace Player
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		Rep::SaveFile("./data/demo/replay.txt");
+		if (!bIsReplay) Rep::SaveFile("./data/demo/replay.txt");
+		//if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+		//{
+		//	std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+		//	if (!ofs) return;
+		//	ofs << sm->bStageNum;
+		//	ofs.close();
+		//}
 		//ReplayRelease();
 	}
 	/*タスクの更新処理*/
@@ -61,32 +73,32 @@ namespace Player
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 		/*ビームを生成*/
-		BeamCreateFromPad(pad);
-		BeamCreateFromKeyBoard(kb);
-
 		if(bIsReplay) BeamCreateFromReplay();
-		else          Rep::Push(pad->Down(JOY_BUTTON6) || kb->Down(VK_RIGHT));
+		else
+		{
+			BeamCreateFromPad(pad);
+			BeamCreateFromKeyBoard(kb);
+			Rep::Push(pad->Down(JOY_BUTTON6) || pad->Down(JOY_BUTTON2) || kb->Down(VK_RETURN) || kb->Down(VK_RIGHT));
+		}
 
 		float fSpdY = 0;
 		float fPadSpd = 0;
-		float fRepSpd = 0.f;
 		if (!Find<Beam::Obj>(Beam::caTaskName))
 		{
 			/*入力からスピードを取得*/
 			fSpdY = GetSpdFromKeyBoard(kb);
 			fPadSpd = GetSpdFromPad(pad);
 
-			float fAng = 0.5f;
+			float fAng = 0.8f;
 
 			ShotAngleFromPad(pad, fAng);
 			ShotAngleFromKeyBoard(kb, fAng);
 		}
 
-		if (bIsReplay) fRepSpd = GetSpdFromReplay();
-		else                     Rep::Push(fSpdY);
-
 		fSpdY = ((fPadSpd) ? fPadSpd : fSpdY);
-		fSpdY = ((fRepSpd) ? fRepSpd : fSpdY);
+
+		if (bIsReplay) fSpdY = GetSpdFromReplay();
+		else                     Rep::Push(fSpdY);
 
 		float fPosX = rBase.GetPosX();
 		float fAfterPosY = GetAfterPosY(fSpdY);
@@ -134,7 +146,7 @@ namespace Player
 	/*パッド入力からビームを生成*/
 	void Obj::BeamCreateFromPad(std::shared_ptr<JoyPad> &apPad)
 	{
-		if (apPad->Down(JOY_BUTTON6))
+		if (apPad->Down(JOY_BUTTON6) || apPad->Down(JOY_BUTTON2))
 		{
 			if (!Find<Beam::Obj>(Beam::caTaskName))
 			{
@@ -149,11 +161,15 @@ namespace Player
 	/*キーボード入力からビームを生成*/
 	void Obj::BeamCreateFromKeyBoard(std::shared_ptr<KB> &apKB)
 	{
-		if (apKB->Down(VK_RIGHT))
+		if (apKB->Down(VK_RETURN) || apKB->Down(VK_RIGHT))
 		{
 			if (!Find<Beam::Obj>(Beam::caTaskName))
 			{
 				auto bm = Add<BeamGenerator::Obj>();
+				if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+				{
+					res->wsTest4.Play();
+				}
 			}
 		}
 	}
@@ -204,10 +220,11 @@ namespace Player
 	const float Obj::GetSpdFromPad(std::shared_ptr<JoyPad> &apPad)
 	{
 		if (!apPad->Axis(JoyPad::Stick::STK_LEFT).GetY()) return 0.f;
-		float fSpdY = apPad->Axis(JoyPad::Stick::STK_LEFT).GetY() * 5.0f;
+		float fAxisY = apPad->Axis(JoyPad::Stick::STK_LEFT).GetY();
+		float fSpdY = (fAxisY * 3.0f) * Abs(fAxisY * 3.0f);
 		if (apPad->On(JOY_BUTTON5))
 		{
-			fSpdY *= 0.5f;
+			fSpdY *= 0.2f;
 		}
 		return fSpdY;
 	}
@@ -245,9 +262,10 @@ namespace Player
 		{
 			afAddAngle *= 0.5f;
 		}
+		float fAxisY = apPad->Axis(JoyPad::Stick::STK_RIGHT).GetY();
 		fPAngle = Clamp
 		(
-			fPAngle + apPad->Axis(JoyPad::Stick::STK_RIGHT).GetY() * afAddAngle,
+			fPAngle + (fAxisY * afAddAngle) * Abs(fAxisY * afAddAngle),
 			rBase.GetDeg(&pStandardPoint) + 145,
 			rBase.GetDeg(&pStandardPoint) + 215
 		);

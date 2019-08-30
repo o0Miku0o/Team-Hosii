@@ -150,10 +150,9 @@ namespace StageManager
 
 					RemoveAll({ caTaskName, FadeInOut::caTaskName,TimeAttack::caTaskName }, NOT_REMOVE_NAME);
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-
 					//Add<Back::Obj>();
+
 					byte bStageGroup = 0, bNowStage = 0;
-					/*北氏>>ファインドする意味はある？*/
 					bStageGroup = bStageNum / 10;
 					bNowStage = bStageNum - bStageGroup * 10 - 1;
 					if (usBeamCount <= bClearFragmentNumMax)
@@ -164,6 +163,14 @@ namespace StageManager
 					{
 						bScores.at(bNowStage) = 2;
 					}
+
+					std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+					if (ofs)
+					{
+						ofs << bStageNum;
+						ofs.close();
+					}
+
 					bStageNum = bNextStage;
 					if (bStageNum == 255) {
 						RemoveAll();
@@ -171,14 +178,10 @@ namespace StageManager
 						Add<StageManager::Obj>();
 						auto re = Add<Result::Obj>();
 						re->SetParam(bStageGroup, bScores);
-						//Add<StageManager::Obj>();
-						//Add<Back::Obj>();
-						//Add<StageSelect::Obj>();
 						Pause(2);
 					}
 					else {
 						Add<StageLoad::Obj>();
-						//Pause(2);
 					}
 					iResultCnt = 0;
 				}
