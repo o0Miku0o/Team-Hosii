@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Eff1.h"
 
 namespace Beam
 {
@@ -27,6 +28,7 @@ namespace Beam
 		Rec rHitBase;
 		Vector2 vSpd;
 		byte bLifeCount;
+		Eff1::EffectCreater::SP effsp;
 
 		Obj() {}
 		~Obj() {}
@@ -34,8 +36,11 @@ namespace Beam
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void EffectCreate();
+		void OutOfScreen();
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

@@ -1,10 +1,13 @@
 #include "StageSelect.h"
 #include "StageManager.h"
-#include "StageSelectObjUS.h"
-#include "StageSelectObjEarth.h"
-#include "StageSelectObjGalaxy.h"
-#include "StageSelectObjBH.h"
-#include "StageSelectObjAsteroid.h"
+//<<<<<<< HEAD
+//#include "StageSelectObjUS.h"
+//#include "StageSelectObjEarth.h"
+//#include "StageSelectObjGalaxy.h"
+//#include "StageSelectObjBH.h"
+//#include "StageSelectObjAsteroid.h"
+//=======
+#include "StageSelectIcon.h"
 #include "Cursor.h"
 #include "Hukidasi.h"
 #include "StageLoad.h"
@@ -29,18 +32,55 @@ namespace StageSelect
 	{
 		/*タスク名設定*/
 		SetName(caTaskName);
+//<<<<<<< HEAD
+//		/*リソース生成*/
+//
+//		/*タスクの生成*/
+//		Add<StageSelectObjGalaxy::Obj>();
+//		Add<StageSelectObjBH::Obj>();
+//		Add<StageSelectObjAsteroid::Obj>();
+//		auto es = Add<StageSelectObjEarth::Obj>();
+//		Add<StageSelectObjUS::Obj>();
+//		Add<Hukidasi::Obj>();
+//		auto cs = Add<Cursor::Obj>();
+//		//cs->pPos = es->rEarth.GetPos();
+//		cs->rCursorBase.SetPos(&es->rEarth.GetPos());
+//=======
+
 		/*リソース生成*/
 
 		/*タスクの生成*/
-		Add<StageSelectObjGalaxy::Obj>();
-		Add<StageSelectObjBH::Obj>();
-		Add<StageSelectObjAsteroid::Obj>();
-		auto es = Add<StageSelectObjEarth::Obj>();
-		Add<StageSelectObjUS::Obj>();
+		auto earth = Add<StageSelectIcon::Obj>();
+		earth->type = StageSelectIcon::Type::ET;
+		earth->rIcon.SetPos(&Point(400.f, 400.f));
+		
+		auto icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::MT;
+		icon->rIcon.SetPos(&Point(650.f, 200.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::GL;
+		icon->rIcon.SetPos(&Point(950.f, 400.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::US;
+		icon->rIcon.SetPos(&Point(1250.f, 200.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::BH;
+		icon->rIcon.SetPos(&Point(1500.f, 400.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::FR;
+		icon->rIcon.SetPos(&Point(650.f, 600.f));
+
+		icon = Add<StageSelectIcon::Obj>();
+		icon->type = StageSelectIcon::Type::TA;
+		icon->rIcon.SetPos(&Point(1250.f, 600.f));
+
 		Add<Hukidasi::Obj>();
 		auto cs = Add<Cursor::Obj>();
-		//cs->pPos = es->rEarth.GetPos();
-		cs->rCursorBase.SetPos(&es->rEarth.GetPos());
+		cs->rCursorBase.SetPos(&earth->rIcon.GetPos());
 
 		/*データの初期化*/
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))

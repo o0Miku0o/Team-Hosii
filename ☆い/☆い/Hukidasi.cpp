@@ -150,7 +150,7 @@ namespace Hukidasi
 		++bSetPictureCount;
 	}
 	/*ステージのグループの設定*/
-	void Obj::SetStageGroup(const StageGroup asStageGroup)
+	void Obj::SetStageGroup(const StageSelectIcon::Type asStageGroup)
 	{
 		sGroup = asStageGroup;
 	}

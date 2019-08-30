@@ -64,6 +64,8 @@ namespace BlackHole
 		cOutCircle.SetPos(&pPos);
 		cOutCircle.SetRadius(cInnerCircle.GetRadius()*2.00f);
 		cOutCircle.SetColor(224, 44, 135);
+		cInnerInner.SetPos(&pPos);
+		cInnerInner.SetRadius(cInnerCircle.GetRadius()*0.10f);
 		//--fAngle;
 		rBlackHole.SetDeg(fAngle);
 
@@ -136,7 +138,30 @@ namespace BlackHole
 		cBm.SetPos(&oBeam->rHitBase.GetPos());
 		if (cOutCircle.CheckHit(&cBm)) {
 			if (cInnerCircle.CheckHit(&cBm)) {
-				Remove(bm);
+				if (cInnerInner.CheckHit(&cBm)) {
+					Remove(bm);
+				}
+				else {
+					Point posStart = oBeam->rHitBase.GetPos();
+					Point posEnd = cInnerInner.GetPos();
+					float lenX = posEnd.x - posStart.x;
+					float lenY = posEnd.y - posStart.y;
+					float dist = lenX * lenX + lenY * lenY;
+
+					Point setPos;
+
+					if (dist > 0.01f) {
+						float len = sqrt(dist);						
+						Vector2 vec = Vector2(oBeam->vSpd.GetX() * 0.8f + (lenX / len) * 0.2f, oBeam->vSpd.GetY() * 0.8f + (lenY / len) * 0.2f);
+						oBeam->vSpd = vec;
+					}
+					setPos.x += posStart.x + oBeam->vSpd.GetX();
+					setPos.y += posStart.y + oBeam->vSpd.GetY();
+					oBeam->rHitBase.SetPos(&setPos);
+					oBeam->rHitBase.SetDeg(RtoD(atan2(lenY, lenX)));
+					oBeam->rHitBase.Scaling(oBeam->rHitBase.GetW() * 0.4f, oBeam->rHitBase.GetH() * 0.4f);
+
+				}
 			}
 			else {
 				while (oBeam->rHitBase.GetDeg() > 360) {
@@ -152,10 +177,10 @@ namespace BlackHole
 		Circle cFg;
 		cFg.SetRadius(oFrag->rFragment.GetW()*0.5f);
 		cFg.SetPos(&oFrag->rFragment.GetPos());
-		if (oFrag->bMoveActive) {
-			if (cOutCircle.CheckHit(&cFg)) {
+		if (cOutCircle.CheckHit(&cFg)) {
+			if (oFrag->bMoveActive) {
 				if (cInnerCircle.CheckHit(&cFg)) {
-					oFrag->rFragment.SetPos(&oFrag->pInitPos);
+					//oFrag->rFragment.SetPos(&oFrag->pInitPos);
 					oFrag->bMoveActive = false;
 				}
 				else {
@@ -164,6 +189,37 @@ namespace BlackHole
 						oFrag->rFragment.SetDeg(angle -= 360);
 					}
 					oFrag->rFragment.SetDeg(CalcAngle(oFrag->rFragment.GetPos(), cOutCircle.GetPos(), oFrag->rFragment.GetDeg()));
+				}
+			}
+			else {
+				if (cInnerCircle.CheckHit(&cFg)) {
+					Point posStart = oFrag->rFragment.GetPos();
+					Point posEnd = cInnerInner.GetPos();
+					float lenX = posEnd.x - posStart.x;
+					float lenY = posEnd.y - posStart.y;
+					float dist = lenX * lenX + lenY * lenY;
+
+					Point setPos;
+
+					if (dist > 0.01f) {
+						float len = sqrt(dist);
+
+						Vector2 vec = Vector2(oFrag->vMove.GetX() * 0.8f + (lenX / len) * 0.3f, oFrag->vMove.GetY() * 0.8f + (lenY / len) * 0.3f);
+						oFrag->vMove = vec;
+					}
+					setPos.x += posStart.x + oFrag->vMove.GetX();
+					setPos.y += posStart.y + oFrag->vMove.GetY();
+					oFrag->rFragment.SetPos(&setPos);
+					oFrag->rFragment.SetDeg(RtoD(atan2(lenY, lenX)));
+					oFrag->rFragment.Scaling(oFrag->rFragment.GetW() * 0.98f, oFrag->rFragment.GetH() * 0.98f);
+					oFrag->cFragmentHitBase.SetRadius(oFrag->cFragmentHitBase.GetRadius() * 0.98f);
+					if (cInnerInner.CheckHit(&cFg)) {
+						oFrag->rFragment = Rec(0.f, 0.f, 100.f, 100.f);
+						oFrag->rFragment.SetPos(&oFrag->pInitPos);
+						oFrag->cFragmentHitBase.SetRadius(oFrag->rFragment.GetH() * 0.4f);
+						oFrag->bMoveActive = false;
+
+					}
 				}
 			}
 		}

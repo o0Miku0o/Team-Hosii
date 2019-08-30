@@ -29,6 +29,7 @@ namespace Beam
 		rHitBase = Rec(0.f, Rec::Win.b * 0.5f, 30.f, 16.f);
 		bLifeCount = 0;
 		vSpd = Vector2::zero;
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_beam.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -49,28 +50,10 @@ namespace Beam
 		vSpd.SetVec(rHitBase.GetDeg(), 20.f);
 		/*矩形を移動*/
 		rHitBase.Move(&vSpd);
-
-		if (!FindNext<Beam::Obj>(caTaskName))
-		{
-			/*エフェクト放出*/
-			Eff1::Create("./data/effect/ef_beam.txt", &rHitBase.GetPos(), rHitBase.GetDeg());
-			/*for (byte b = 0; b < 2; ++b)
-			{
-				auto ef1 = Add<Eff1::Obj>();
-				const fix fAng = ModAngle(rHitBase.GetDeg() + 180.f + (rand() % 21 - 10));
-				const fix fRad = DtoR(fAng);
-				const fix fSpdX = cos_fast((float)fRad) * 2.f;
-				const fix fSpdY = sin_fast((float)fRad) * 2.f;
-				Rec rEf(rHitBase.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 9 - 4.f), rHitBase.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 9 - 4.f), 24.f, 3.f, fAng);
-				ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, Eff1::Type::TYPE_BEAM, fAng);
-			}*/
-		}
-
+		/*エフェクト放出*/
+		EffectCreate();
 		/*画面外に出たら消滅*/
-		if (rHitBase.GetPosX() > Rec::Win.r + 10.f) Remove(this);
-		if (rHitBase.GetPosX() < Rec::Win.l - 10.f) Remove(this);
-		if (rHitBase.GetPosY() > Rec::Win.b + 10.f) Remove(this);
-		if (rHitBase.GetPosY() < Rec::Win.t - 10.f) Remove(this);
+		OutOfScreen();
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
@@ -82,5 +65,33 @@ namespace Beam
 			Frec src(16.f * 10, 0.f, 16.f, 16.f);
 			rHitBase.Draw(&stageRes->iStageImg, &src);
 		}
+	}
+	/*エフェクト放出*/
+	void Obj::EffectCreate()
+	{
+		if (!FindNext<Beam::Obj>(caTaskName))
+		{
+			/*エフェクト放出*/
+			//Eff1::Create("./data/effect/ef_beam.txt", &rHitBase.GetPos(), rHitBase.GetDeg());
+			effsp->run(rHitBase.GetPos(), rHitBase.GetDeg());
+			/*for (byte b = 0; b < 2; ++b)
+			{
+				auto ef1 = Add<Eff1::Obj>();
+				const fix fAng = ModAngle(rHitBase.GetDeg() + 180.f + (rand() % 21 - 10));
+				const fix fRad = DtoR(fAng);
+				const fix fSpdX = cos_fast((float)fRad) * 2.f;
+				const fix fSpdY = sin_fast((float)fRad) * 2.f;
+				Rec rEf(rHitBase.GetPosX() + cos_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 9 - 4.f), rHitBase.GetPosY() + sin_fast(DtoR(ModAngle(fAng + (b * 180.f - 90.f)))) * (rand() % 9 - 4.f), 24.f, 3.f, fAng);
+				ef1->SetParam(&rEf, &Vector2(fSpdX, fSpdY), 20, Eff1::Type::TYPE_BEAM, fAng);
+			}*/
+		}
+	}
+	/*画面外に出たら消滅*/
+	void Obj::OutOfScreen()
+	{
+		if (rHitBase.GetPosX() > Rec::Win.r + 10.f) Remove(this);
+		if (rHitBase.GetPosX() < Rec::Win.l - 10.f) Remove(this);
+		if (rHitBase.GetPosY() > Rec::Win.b + 10.f) Remove(this);
+		if (rHitBase.GetPosY() < Rec::Win.t - 10.f) Remove(this);
 	}
 }

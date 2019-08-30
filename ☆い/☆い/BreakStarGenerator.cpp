@@ -53,6 +53,10 @@ namespace BreakStarGenerator
 			star->cHitbase.SetPos(&pPos.at(i));
 			star->iChange = iChange.at(i);
 			star->bBlackMode = bMode.at(i);
+			for (int j = 0; j < 5; j++)
+			{
+				star->rFrg[j].SetPos(&star->rStar.GetPos());
+			}
 		}
 	}
 }

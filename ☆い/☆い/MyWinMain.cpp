@@ -171,7 +171,7 @@ inline bool WaitProcess(double * const setsec_, const double waitsec_)
 int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, int nWinMode_)
 {
 	Debug::DetectLeak();
-	Debug::Console c;
+//	Debug::Console c;
 
 	MSG msg;
 	//表示するウィンドウの定義、登録、表示
@@ -236,6 +236,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			if (Update()) PostQuitMessage(0);
 			//
 			Animation::UpdateAll();
+			auto kb = KB::GetState();
 
 #ifdef _DEBUG
 			auto kb = KB::GetState();
@@ -277,16 +278,19 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			Rec::ResetOff(BLACKNESS);
 			//ゲームの描画処理
 			Render();
-
-			//auto hFront = GetDC(g_hWnd);
-			//Rec::DrawBackToFront(hFront);
+//
+//			auto hFront = GetDC(g_hWnd);
+//			Rec::DrawBackToFront(hFront);
+//
 //#ifdef _DEBUG
 //			if (kb->On(VK_CONTROL) && kb->Down('Z'))
 //			{
 //				SaveBitMap(hFront, &Rec::Win, "./data/image/other/Stage/ScreenShot.bmp");
 //			}
 //#endif
-			//ReleaseDC(g_hWnd, hFront);
+//
+//			ReleaseDC(g_hWnd, hFront);
+
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
 			{

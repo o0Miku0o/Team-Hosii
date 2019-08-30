@@ -4,12 +4,11 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
-
 #include "FadeInOut.h"
-
 #include "Back.h"
 #include "StageLoad.h"
 #include "Hukidasi.h"
+#include "TimeAttack.h"
 
 namespace StageManager
 {
@@ -149,7 +148,9 @@ namespace StageManager
 				{
 					bClearFragmentNum = 0;
 
-					RemoveAll({ caTaskName, FadeInOut::caTaskName }, NOT_REMOVE_NAME);
+					RemoveAll({ caTaskName, FadeInOut::caTaskName,TimeAttack::caTaskName }, NOT_REMOVE_NAME);
+					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					//Add<Back::Obj>();
 
 					byte bStageGroup = 0, bNowStage = 0;
 					bStageGroup = bStageNum / 10;

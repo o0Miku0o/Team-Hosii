@@ -9,6 +9,7 @@
 #include "StarGenerator.h"
 #include "Star.h"
 #include "Gas.h"
+#include "MiniGame.h"
 
 #include "Demo.h"
 
@@ -69,6 +70,9 @@ namespace Title
 		//}
 		//mw.Create(FindWindow(nullptr, WINNAME), "./data/sound/BGM1.wav");
 		//mw.Play();
+
+		//em.Open("./data/event/ev1.txt");
+		//em.Color(RGB(0, 255, 0));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()

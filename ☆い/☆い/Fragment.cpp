@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Alien.h"
 #include "Effect.h"
+#include "MiniGame.h"
 
 namespace Fragment
 {
@@ -54,6 +55,16 @@ namespace Fragment
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		if (rFragment.GetH() < 20.f) {
+			rFragment.Scaling(100.f, 100.f);
+		}
+		else if (rFragment.GetH() < 100.f) {
+			rFragment.Scaling(rFragment.GetW() + 6.f, rFragment.GetH() + 6.f);
+		}
+		else {
+			rFragment.Scaling(100.f, 100.f);
+		}
+
 		pPrevPos = rFragment.GetPos();
 		const auto kb = KB::GetState();
 		/*if (kb->Now('T') == 1)
@@ -84,6 +95,7 @@ namespace Fragment
 		{
 			vMove.SetVec(rFragment.GetDeg(), 15.f);
 			rFragment.Move(&vMove);
+			cFragmentHitBase.SetPos(&rFragment.GetPos());
 		}
 
 		//auto star = FindAll<Star::Obj>("星タスク");
@@ -102,10 +114,10 @@ namespace Fragment
 			iRotation = (iRotation + 1) % 360;
 			rFragment.SetPos(&pRotPos);
 		}
-		cFragmentHitBase.SetPos(&rFragment.GetPos());
 		if (rFragment.GetPosY() < Rec::Win.t - rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
@@ -114,6 +126,7 @@ namespace Fragment
 		if (rFragment.GetPosY() > Rec::Win.b + rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
@@ -123,6 +136,7 @@ namespace Fragment
 		{
 
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();	
@@ -131,6 +145,7 @@ namespace Fragment
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
 		{
 			rFragment.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&pInitPos);
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 		}
@@ -197,7 +212,9 @@ namespace Fragment
 				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 		}
-		//cFragmentHitBase.Draw();
+#ifdef _DEBUG
+		cFragmentHitBase.Draw();
+#endif // _DEBUG
 	}
 
 	void Obj::Checkhitbeam(TaskBase* bm)
@@ -238,18 +255,23 @@ namespace Fragment
 	void Obj::Checkhitfagment(TaskBase* fg)
 	{
 		Fragment::Obj* oFragment = (Fragment::Obj*)fg;
-		Circle cHit;
-		cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
-		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
-		if (cFragmentHitBase.CheckHit(&cHit))
+		//Circle cHit;
+		//cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
+		//cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
+		if (cFragmentHitBase.CheckHit(&oFragment->cFragmentHitBase))
 		{
+			if (auto mg = Find<MiniGame::Obj>(MiniGame::caTaskName))
+			{
+				mg->fFragmentCnt += 0.5f;
+			}
 			if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 			{
 				res->wsTest5.Play();
 				//res->wsTest1.Pause();
 			}
-			oFragment->rFragment.SetDeg(rFragment.GetDeg(&oFragment->rFragment));
-			cHit.GetRadius();
+			float f = ModAngle(rFragment.GetDeg(&oFragment->rFragment));
+			oFragment->rFragment.SetDeg(f);
+			//cHit.GetRadius();
 			float fDisx = (rFragment.GetPosX() - oFragment->rFragment.GetPosX()) / 2.f + oFragment->rFragment.GetPosX();
 			float fDisy = (rFragment.GetPosY() - oFragment->rFragment.GetPosY()) / 2.f + oFragment->rFragment.GetPosY();
 			Point pPos(fDisx, fDisy);
@@ -299,6 +321,7 @@ namespace Fragment
 		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
 			rFragment.SetPos(&oAlien->cAlienRHitBase.GetPos());
+			rFragment.Scaling(rFragment.GetW() * 0.4f, rFragment.GetH()* 0.4f);
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
 	}

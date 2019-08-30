@@ -48,6 +48,7 @@ namespace Title
 
 		//MciScript ms;
 		//MciWnd mw;
+		//EventMsg em;
 
 		Obj() {}
 		~Obj() {}

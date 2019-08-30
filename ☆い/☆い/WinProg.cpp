@@ -2,8 +2,10 @@
 #include "Title.h"
 #include "GameInit.h"
 
-#include "Result.h"
-#include "StageManager.h"
+//#include "Result.h"
+//#include "StageManager.h"
+//#include "TimeAttack.h"
+//#include "MiniGame.h"
 
 #include "JecLogo.h"
 

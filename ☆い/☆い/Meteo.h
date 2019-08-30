@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Eff1.h"
 
 namespace Meteo
 {
@@ -32,6 +33,7 @@ namespace Meteo
 
 		Point pInitPos;
 
+		Eff1::EffectCreater::SP effsp;
 		Obj() {}
 		~Obj() {}
 	private:
@@ -43,5 +45,5 @@ namespace Meteo
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

@@ -66,7 +66,6 @@ namespace Result
 	public:
 		void Update();
 		void Render();
-
 		void SetParam(const byte abStageGroupNumber, const std::array<byte, 3> &abScores);
 	}*OBJ_ptr;
 }

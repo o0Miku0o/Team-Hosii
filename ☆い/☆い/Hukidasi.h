@@ -1,5 +1,6 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "StageSelectIcon.h"
 
 namespace Hukidasi
 {
@@ -37,7 +38,7 @@ namespace Hukidasi
 		Obj() {}
 		~Obj() {}
 	private:
-		StageGroup sGroup;
+		StageSelectIcon::Type sGroup;
 		float faWidth[5];
 		Rec rHukidasi;
 		Rec rTextBox;
@@ -50,15 +51,15 @@ namespace Hukidasi
 		void Init();
 		void Finalize();
 
-		void Resize();
 	public:
 		void Update();
 		void Render();
 
+		void Resize();
 		void SetAddScale(const float afAddScale);
 		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
 		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
-		void SetStageGroup(const StageGroup asStageGroup);
+		void SetStageGroup(const StageSelectIcon::Type asStageGroup);
 	}*Obj_ptr;
 }

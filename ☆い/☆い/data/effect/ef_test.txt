@@ -1,0 +1,10 @@
+ e_type ougi
+ c_type b_sta
+ c_size 8 8
+ num    4
+ life   20
+ spd    2
+ op 0   -30
+ op 1   +30
+
+ do

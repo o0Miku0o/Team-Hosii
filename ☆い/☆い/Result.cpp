@@ -116,6 +116,14 @@ namespace Result
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
+		//‰¼‚Ì”²‚¯ˆ—
+		if (kb->Down(VK_SPACE)) {
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			Add<Back::Obj>();
+			Add<StageSelect::Obj>();
+			Pause(2);
+		}
+
 		std::vector<TB_ptr> vsMoveStar;
 		for (auto &vs : FindAll<Star::Obj>(Star::caTaskName))
 		{
@@ -190,7 +198,7 @@ namespace Result
 				++iHanabiCount;
 			}
 			++iHanabiTime;
-			sPercent = std::to_string(int((bScore.at(0) + bScore.at(1) + bScore.at(2)) * 100 / 9.f));	
+			sPercent = std::to_string(int((bScore.at(0) + bScore.at(1) + bScore.at(2)) * 100 / 9.f));
 			return;
 		}
 		if (iRandomTime <= 1)
@@ -203,29 +211,6 @@ namespace Result
 
 		//constexpr float fPercent = 100 / 9.f;
 
-		//else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN))
-		//{
-		//	RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-		//	if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
-		//	{
-		//		manager->bStageNum = manager->bNextStage;
-		//		if (manager->bStageNum == 255)
-		//		{
-		//			RemoveAll();
-		//			Add<StageManager::Obj>();
-		//			Add<Back::Obj>();
-		//			Add<StageSelect::Obj>();
-		//			Pause(2);
-		//		}
-		//		/*else
-		//		{
-		//			Add<Back::Obj>();
-		//			Add<StageSelect::Obj>();
-		//			Pause(2);
-		//		}*/
-		//	}
-		//	Pause(2);
-		//}
 		//ButtonResize();
 	}
 
@@ -280,14 +265,11 @@ namespace Result
 			if (iRandomTime == 60) return;
 			rPercent.Draw(&s->iResult, &Frec(0.f, 16.f, 16.f, 16.f));
 		}
-
-
-
-		//Point pPos(800, 1000);
-		//if (sPercent.length() >= 3) pPos.x -= 6 * 30;
-		//em.Msg() = sPercent;
-		//em.DrawAscii(pPos, 6 * 30, 24 * 30);
 	}
+	//Point pPos(800, 1000);
+	//if (sPercent.length() >= 3) pPos.x -= 6 * 30;
+	//em.Msg() = sPercent;
+	//em.DrawAscii(pPos, 6 * 30, 24 * 30);
 
 	void Obj::ButtonInit()
 	{
