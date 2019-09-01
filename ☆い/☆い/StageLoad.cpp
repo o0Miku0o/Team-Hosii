@@ -45,7 +45,7 @@ namespace StageLoad
 #ifndef _DEBUG
 		Add<Gas::Obj>();
 #endif
-		Add<Player::Obj>();
+		//Add<Player::Obj>();
 
 		isLoad = false;
 		for (int i = 0; i < 8; ++i) {
@@ -103,6 +103,7 @@ namespace StageLoad
 				auto fg = Add<FragmentGenerator::Obj>();
 				fg->Bridge2(sFragment.num, sFragment.pos, sFragment.imgSrc);
 			}
+
 			if (state[BLACKHOLE]) {
 				auto bh = Add<BlackHoleGenerator::Obj>();
 				bh->Bridge(sBlackHole.num, sBlackHole.pos, sBlackHole.size, sBlackHole.mode);
@@ -175,6 +176,10 @@ namespace StageLoad
 				fade = Add<FadeInOut::Obj>();
 				fade->bIsIn = false;
 			}
+			//フェードアウトに重ねることを防ぐため
+			Add<Player::Obj>();
+			//auto fade = Add<FadeInOut::Obj>();
+			//fade->bIsIn = false;
 		}
 	}
 	/*タスクの描画処理*/
@@ -258,6 +263,7 @@ namespace StageLoad
 
 		state[FRAGMENT] = true;
 	}
+
 
 	void Obj::LoadBreakStar(ifstream &ifs) {
 		Point pos;
@@ -412,6 +418,38 @@ namespace StageLoad
 		sAlien.aFGHit.push_back(aFHit);
 		sAlien.aAnim.push_back(aAnim);
 
+
+		//string bufMove, bufHitB, bufHitF, bufAnim;
+		//ifs >> x >> y >> bufMove >> bufHitB >> bufHitF >> bufAnim;
+		//sAlien.vpPos.push_back(Point(x, y));
+		////移動タイプを検索
+		//for (int i = 0; i < sizeof(arrMove) / sizeof(char*); ++i) {
+		//	if (bufMove == arrMove[i]) {
+		//		sAlien.vaMove.push_back(fPmove[i]);
+		//		break;
+		//	}
+		//}
+		////ビームの行動タイプを検索
+		//for (int i = 0; i < sizeof(arrHitB) / sizeof(char*); ++i) {
+		//	if (bufHitB == arrHitB[i]) {
+		//		sAlien.vaBMHit.push_back(fpBMHit[i]);
+		//		break;
+		//	}
+		//}
+		////欠片の行動タイプを検索
+		//for (int i = 0; i < sizeof(arrHitF) / sizeof(char*); ++i) {
+		//	if (bufHitF == arrHitF[i]) {
+		//		sAlien.vaFGHit.push_back(fpFGHit[i]);
+		//		break;
+		//	}
+		//}
+		////欠片の行動タイプを検索
+		//for (int i = 0; i < sizeof(arrAnim) / sizeof(char*); ++i) {
+		//	if (bufAnim == arrAnim[i]) {
+		//		sAlien.vaAnim.push_back(fpAnim[i]);
+		//		break;
+		//	}
+		//}
 		sAlien.num = sAlien.pos.size();
 		state[ALIEN] = true;
 	}

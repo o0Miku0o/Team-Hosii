@@ -10,7 +10,6 @@
 #include "Star.h"
 #include "Gas.h"
 #include "MiniGame.h"
-
 #include "Demo.h"
 
 namespace Title
@@ -60,6 +59,7 @@ namespace Title
 		PlayBgm();
 
 		iWaitFrame = 0;
+
 		/*お試し*/
 		//Add<Demo::Obj>();
 
@@ -70,7 +70,6 @@ namespace Title
 		//}
 		//mw.Create(FindWindow(nullptr, WINNAME), "./data/sound/BGM1.wav");
 		//mw.Play();
-
 		//em.Open("./data/event/ev1.txt");
 		//em.Color(RGB(0, 255, 0));
 	}
@@ -107,7 +106,7 @@ namespace Title
 
 			MeteoUpdate();
 
-//#ifdef _DEBUG
+			//#ifdef _DEBUG
 			auto kb = KB::GetState();
 			if (kb->Down('Z'))
 			{
@@ -115,7 +114,7 @@ namespace Title
 				Add<Demo::Obj>();
 				return;
 			}
-//#endif
+			//#endif
 
 			if (iWaitFrame >= 60 * 10)
 			{
@@ -195,7 +194,7 @@ namespace Title
 	}
 	void Obj::ButtonResize()
 	{
-		rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
+		rStart = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
 	}
 	/*メテオの更新*/
 	void Obj::MeteoUpdate()
@@ -293,7 +292,7 @@ namespace Title
 			*bAnim = ((*bAnim - 1) + 4) % 4;
 			/**/
 		}
-		++*bFrame;
+		++ * bFrame;
 	}
 	/*アニメーション*/
 	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
@@ -308,6 +307,6 @@ namespace Title
 			*bAnim = ((*bAnim - 1) + 4) % 4;
 			/**/
 		}
-		++*bFrame;
+		++ *bFrame;
 	}
 }

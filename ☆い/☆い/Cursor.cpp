@@ -15,6 +15,8 @@
 #include "KeyMove.h"
 #include "MiniGame.h"
 #include "TimeAttack.h"
+#include "Ranking.h"
+#include "StageSelectIcon.h"
 
 namespace Cursor
 {
@@ -38,7 +40,7 @@ namespace Cursor
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		//spMove = std::shared_ptr<Move>(new KeyMove(pPos, fSpd));
+		SetRenderPriority(0.7f);
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
 		fSpd = 12.f;
 	}
@@ -56,9 +58,6 @@ namespace Cursor
 		MoveKeyBoard(kb);
 		/*パッド移動*/
 		MovePad(pad);
-
-		//spMove->Update();
-		//rCursorBase.SetPos(&pPos);
 
 		if (auto ti = Find<Title::Obj>(Title::caTaskName))
 		{
@@ -79,6 +78,23 @@ namespace Cursor
 				}
 			}
 		}
+
+		if (auto ra = Find<Ranking::Obj>(Ranking::caTaskName))
+		{
+			ra->rButton.Scaling(16.f * 15.f, 16.f * 13.f);
+			if (ra->rButton.CheckHit(&rCursorBase.GetPos()))
+			{
+				ra->rButton.Scaling(16.f * 20.f, 16.f * 18.f);
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
+				{
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
+					Pause(2);
+				}
+			}
+		}
+
 		if (auto re = Find<Result::Obj>(Result::caTaskName))
 		{
 			//rCursorBase.SetPos(&re->rRestart.GetPos());
@@ -99,10 +115,11 @@ namespace Cursor
 				}
 			}
 		}
+
 		bool bHitFlag = false;
 		constexpr float fAddScale = 70.f;
-		constexpr float fScaleWMax = 1800.f;//2000;
-		constexpr float fScaleHMax = 400.f;//600;
+		float fScaleWMax = 1800.f;//2000;
+		float fScaleHMax = 400.f;//600;
 		auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName);
 		for (auto si : FindAll<StageSelectIcon::Obj>(StageSelectIcon::caTaskName))
 		{
@@ -121,13 +138,26 @@ namespace Cursor
 						manager->bStageNum = ((si->type + 1) * 10) + 1;
 
 						Add<StageLoad::Obj>();
-						
+
 						Pause(2);
 					}
 				}
+
 				if (hu)
 				{
 					Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+					if (si->type == StageSelectIcon::Type::FR || si->type == StageSelectIcon::Type::TA)
+					{
+						pPos.y = 910.f;
+						fScaleWMax = 1200.f;
+						fScaleHMax = 200.f;
+						hu->rTextBox.SetPos(&pPos);
+					}
+					else
+					{
+						hu->rTextBox.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) + 70.f));
+					}
+
 					hu->SetPos(&pPos);
 					hu->SetScaleMax(fScaleWMax, fScaleHMax);
 					hu->SetAddScale(fAddScale);
@@ -155,7 +185,7 @@ namespace Cursor
 		}
 	}
 	/*キーボードでの移動*/
-	void Obj::MoveKeyBoard(std::shared_ptr<KB> &apKB)
+	void Obj::MoveKeyBoard(std::shared_ptr<KB> & apKB)
 	{
 
 		if (apKB->On('W'))
@@ -198,7 +228,7 @@ namespace Cursor
 		rCursorBase.SetPos(&Point(fX, fY));
 	}
 	/*パッドでの移動*/
-	void Obj::MovePad(std::shared_ptr<JoyPad> &apPad)
+	void Obj::MovePad(std::shared_ptr<JoyPad> & apPad)
 	{
 		if (apPad->Axis(JoyPad::Stick::STK_LEFT) != Vector2::zero)
 		{

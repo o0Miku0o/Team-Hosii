@@ -31,16 +31,15 @@ namespace Star
 		Circle cStarhitbase;
 		Animation aAnimetor;
 
-//		int iChange;
-//		int iStarEffect;
-//		int iChangeCircle;
+		//		int iChange;
+		//		int iStarEffect;
+		//		int iChangeCircle;
 		int iAlpha;
 		int iCnt;
 		Vector2 vMove;
 		byte bAlpha;
 		char cAddAlpha;
 		Point pPos;
-
 		Eff1::EffectCreater::SP effsp;
 		Eff1::EffectCreater::SP effsp1;
 		Eff1::EffectCreater::SP effsp2;
@@ -69,7 +68,7 @@ namespace Star
 			EFTYellow5 = 47,
 			EFTYellow3_Red_Blue = 47,
 			EFTYellow4_Red = 47,
-			EFTYellow4_Blue =47,
+			EFTYellow4_Blue = 47,
 			EFTYellow2_Red = 48,
 			EFTYellow3_Red = 49,
 			EFTYellow2_Blue = 50,

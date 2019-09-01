@@ -1,7 +1,6 @@
 #include "MyGame/MyApp.h"
 #include "Title.h"
 #include "GameInit.h"
-
 //#include "Result.h"
 //#include "StageManager.h"
 //#include "TimeAttack.h"

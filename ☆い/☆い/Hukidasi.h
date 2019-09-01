@@ -37,21 +37,21 @@ namespace Hukidasi
 
 		Obj() {}
 		~Obj() {}
+		Rec rHukidasi;
 	private:
 		StageSelectIcon::Type sGroup;
-		float faWidth[5];
-		Rec rHukidasi;
-		Rec rTextBox;
+		float faWidth[StageSelectIcon::Type::TYPEMAX];
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
 		byte bSetPictureCount;
-			
+
 		RS_ptr res;
 		void Init();
 		void Finalize();
 
 	public:
+		Rec rTextBox;
 		void Update();
 		void Render();
 

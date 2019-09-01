@@ -47,7 +47,6 @@ namespace Star
 
 		iAlpha = 0;
 		iCnt = 0;
-
 		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_chipY.txt"));
 		effsp1 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_fullY.txt"));
 		effsp2 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_reflect_frgY.txt"));
@@ -234,13 +233,11 @@ namespace Star
 	void Obj::CheckHitBlue() {
 		starSound = Full;
 		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
-		//effsp1->_set_chip_type("b_sta");
-		//effsp1->run(pPos, 0);
-
 		switch (starColor) {
 		case Yellow2:
 			starColor = Yellow2_Blue;
 			starEffect = EFTYellow2_Blue;
+			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow2_Red:
 			starColor = Yellow2_Red_Blue;
@@ -249,11 +246,13 @@ namespace Star
 		case Yellow3:
 			starColor = Yellow3_Blue;
 			starEffect = EFTYellow3_Blue;
+			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow3_Red:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
+			Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow4_Blue;
@@ -381,8 +380,7 @@ namespace Star
 					}
 					ef1->SetParam(&rEf, &vSpd, 15, tEffectType, fAng);
 				}*/
-				float f = ModAngle(rStar.GetDeg(&oFragment->rFragment));
-				oFragment->rFragment.SetDeg(f);
+				oFragment->rFragment.SetDeg(rStar.GetDeg(&oFragment->rFragment));
 				//oFragment->rFragment.SetPos(&oFragment->pInitPos);
 				//oFragment->bMoveActive = false;
 			}

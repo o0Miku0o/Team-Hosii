@@ -2,6 +2,7 @@
 #include "Beam.h"
 #include "Fragment.h"
 #include "StageManager.h"
+#include "StageSelect.h"
 
 namespace Alien
 {
@@ -85,7 +86,9 @@ namespace Alien
 			Frec src(16.f * (iOffSetX + iAddOffSet), 16.f * iOffSetY, 16, 16);
 
 			rAlienR.Draw(&res->iStageImg, &src);
-			//cAlienRHitBase.Draw();
+#ifdef _DEBUG
+			cAlienRHitBase.Draw();
+#endif
 		}
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
@@ -97,7 +100,11 @@ namespace Alien
 		if (cAlienRHitBase.CheckHit(&cBmHit))
 		{
 			if (BMHitFunc) BMHitFunc(bm);
-			//Remove(bm);
+
+			if (!Find<StageSelect::Obj>(caTaskName))
+			{
+				Remove(this);
+			}
 		}
 	}
 	//void Obj::FragmentCheckhit(TaskBase* fr)

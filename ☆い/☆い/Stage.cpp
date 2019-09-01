@@ -6,7 +6,7 @@
 #include "Title.h"
 #include "TimeAttack.h"
 
-namespace Stage
+	namespace Stage
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
@@ -61,7 +61,7 @@ namespace Stage
 				res->wsBGM.Pause();
 			}
 			Add<Back::Obj>();
-			Add<Title::Obj>();	
+			Add<StageSelect::Obj>();
 			Pause(2);
 		}
 		if (kb->Down('R') || pad->Down(JOY_BUTTON4)) {

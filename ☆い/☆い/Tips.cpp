@@ -29,7 +29,6 @@ namespace Tips
 		/*タスクの生成*/
 
 		/*データの初期化*/
-
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
 		rGuideBase = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, 16.f * 75.f, 16.f * 55.f);
 		rTips = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.57f, 16.f * 62.5f, 16.f * 37.5f);
@@ -69,6 +68,5 @@ namespace Tips
 		sImgName += ").bmp";
 		iTips.ImageCreate(sImgName.c_str());
 		bIsLoaded = true;
-
 	}
 }

@@ -7,8 +7,9 @@
 #include "FadeInOut.h"
 #include "Back.h"
 #include "StageLoad.h"
-#include "Hukidasi.h"
 #include "TimeAttack.h"
+#include "Ranking.h"
+#include "Hukidasi.h"
 
 namespace StageManager
 {
@@ -171,17 +172,30 @@ namespace StageManager
 						ofs.close();
 					}
 
-					bStageNum = bNextStage;
-					if (bStageNum == 255) {
+					if (bStageNum / 10 >= 7 && bStageNum - (bStageNum / 10 * 10) == 5)
+					{
+						if (auto ta = Find<TimeAttack::Obj>(TimeAttack::caTaskName))
+						{
+							ta->SaveTime();
+						}
 						RemoveAll();
-
 						Add<StageManager::Obj>();
-						auto re = Add<Result::Obj>();
-						re->SetParam(bStageGroup, bScores);
-						Pause(2);
+						Add<Back::Obj>();
+						Add<Ranking::Obj>();
 					}
 					else {
-						Add<StageLoad::Obj>();
+						bStageNum = bNextStage;
+						if (bStageNum == 255) {
+							RemoveAll();
+
+							Add<StageManager::Obj>();
+							auto re = Add<Result::Obj>();
+							re->SetParam(bStageGroup, bScores);
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+						}
 					}
 					iResultCnt = 0;
 				}
@@ -191,9 +205,6 @@ namespace StageManager
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		//{
-		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
-		//}
+
 	}
 }

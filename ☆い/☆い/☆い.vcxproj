@@ -157,6 +157,7 @@
     <ClInclude Include="PadMove.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rail.h" />
+    <ClInclude Include="Ranking.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="Stage.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rail.cpp" />
+    <ClCompile Include="Ranking.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageLoad.cpp" />

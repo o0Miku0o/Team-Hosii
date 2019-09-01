@@ -4,7 +4,7 @@
 #include "StageLoad.h"
 #include "Hukidasi.h"
 
-namespace StageSelectIcon
+	namespace StageSelectIcon
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
@@ -51,7 +51,7 @@ namespace StageSelectIcon
 			rIcon.Draw(&res->iStageImg, &src);
 		}
 	}
-	void AnimEarth(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimEarth(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 37;
 		*iOffSetY = 1;
@@ -60,9 +60,9 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 1) % 4;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
-	void AnimMeteo(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimMeteo(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 41;
 		*iOffSetY = 1;
@@ -71,9 +71,9 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 1) % 4;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
-	void AnimGalaxy(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimGalaxy(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 45;
 		*iOffSetY = 1;
@@ -82,9 +82,9 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 2) % 8;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
-	void AnimUranus(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimUranus(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 33;
 		*iOffSetY = 1;
@@ -93,9 +93,9 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 1) % 4;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
-	void AnimBlackHole(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimBlackHole(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 53;
 		*iOffSetY = 1;
@@ -104,9 +104,9 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 2) % 8;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
-	void AnimTimeAttack(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimTimeAttack(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 85;
 		*iOffSetY = 1;
@@ -115,9 +115,9 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 1) % 4;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
-	void AnimFragment(int * const iAnimCount, int * const iAddOffSet, int * const iOffSetX, int * const iOffSetY)
+	void AnimFragment(int* const iAnimCount, int* const iAddOffSet, int* const iOffSetX, int* const iOffSetY)
 	{
 		*iOffSetX = 89;
 		*iOffSetY = 1;
@@ -126,6 +126,6 @@ namespace StageSelectIcon
 			*iAnimCount = 0;
 			*iAddOffSet = (*iAddOffSet + 1) % 4;
 		}
-		++*iAnimCount;
+		++ * iAnimCount;
 	}
 }

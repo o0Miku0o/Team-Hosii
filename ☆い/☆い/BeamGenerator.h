@@ -38,6 +38,7 @@ namespace BeamGenerator
 	public:
 		void Update();
 		void Render();
+		void SelectBeamCreate(float fAngle);
 
 	}*Obj_ptr;
 }

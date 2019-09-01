@@ -35,9 +35,9 @@ namespace BreakStar
 		cHitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
 		for (int i = 0; i < 5; i++)
 		{
-			rFrg[i] = Rec(Rec::Win.r*0.5f, Rec::Win.b*0.5f, 100.f, 100.f);
+			rFrg[i] = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, 100.f, 100.f);
+			rFrg[i].SetPos(&rStar.GetPos());
 			rFrg[i].SetDeg(-90.f + (float)i * 72.f);
-			
 		}
 		//rFrg1 = Rec(Rec::Win.r*0.5f, Rec::Win.b*0.5f, 100.f, 100.f);
 		//rFrg2 = Rec(Rec::Win.r*0.5f, Rec::Win.b*0.5f, 100.f, 100.f);
@@ -72,7 +72,7 @@ namespace BreakStar
 			auto vFgm = FindAll <Fragment::Obj>(Fragment::caTaskName);
 			if (vFgm.size())
 			{
-				for (auto &vf : vFgm)
+				for (auto& vf : vFgm)
 				{
 					FragmentCheckHit(vf);
 				}
@@ -183,7 +183,7 @@ namespace BreakStar
 #endif // _DEBUG
 		}
 	}
-	void Obj::BeamCheckHit(TaskBase* bm)
+	void Obj::BeamCheckHit(TaskBase * bm)
 	{
 		Beam::Obj* oBeam = (Beam::Obj*)bm;
 		Circle cHit;
@@ -221,13 +221,13 @@ namespace BreakStar
 			bHitAct = true;
 		}
 	}
-	void Obj::FragmentCheckHit(TaskBase* fr)
+	void Obj::FragmentCheckHit(TaskBase * fr)
 	{
 		Fragment::Obj* oFragment = (Fragment::Obj*)fr;
-		Circle cHit;
-		cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
-		cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
-		if (cHitbase.CheckHit(&cHit))
+		//Circle cHit;
+		//cHit.SetRadius(oFragment->cFragmentHitBase.GetRadius());
+		//cHit.SetPos(&oFragment->cFragmentHitBase.GetPos());
+		if (cHitbase.CheckHit(&oFragment->cFragmentHitBase))
 		{
 			auto res = RB::Find<StageManager::RS>(StageManager::caResName);
 			if (iChange <= 36)
@@ -258,6 +258,7 @@ namespace BreakStar
 			}
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->rFragment.SetDeg(oFragment->fInitAngle);
+			oFragment->cFragmentHitBase.SetPos(&oFragment->rFragment.GetPos());
 			oFragment->bMoveActive = false;
 			bHitAct = true;
 		}

@@ -48,6 +48,13 @@ namespace Result
 
 		//赤い枠線
 		//ここにスクショ貼りつける
+		for (int i = 0; i < 3; ++i)
+		{
+			auto sp = Add<StagePicture::Obj>();
+			sp->LoadImg(1 * i + 1);
+			sp->SetSize(410.0f, 250.0f);
+			sp->SetPos(&Point(float(490 + i * 470), 250.f));
+		}
 
 		//星の座標
 		vector<Frec> pStArr =

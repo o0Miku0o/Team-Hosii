@@ -25,6 +25,8 @@ namespace StageSelect
 		/*•K—v‚Èƒƒ“ƒo‚Í‚±‚±‚É’Ç‰Á*/
 		Obj() {}
 		~Obj() {}
+		int iCnt;
+		Rec rHoudai;
 	private:
 		RS_ptr res;
 		void Init();

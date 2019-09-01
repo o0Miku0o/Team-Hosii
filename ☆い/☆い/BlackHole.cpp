@@ -62,7 +62,7 @@ namespace BlackHole
 		pPos = rBlackHole.GetPos();
 		cInnerCircle.SetPos(&pPos);
 		cOutCircle.SetPos(&pPos);
-		cOutCircle.SetRadius(cInnerCircle.GetRadius()*2.00f);
+		cOutCircle.SetRadius(cInnerCircle.GetRadius()*1.80f);
 		cOutCircle.SetColor(224, 44, 135);
 		cInnerInner.SetPos(&pPos);
 		cInnerInner.SetRadius(cInnerCircle.GetRadius()*0.10f);
@@ -79,6 +79,7 @@ namespace BlackHole
 		cOutCircle.Draw();
 #ifdef _DEBUG
 		cInnerCircle.Draw();
+		cInnerInner.Draw();
 #endif // DEBUG
 	}
 	bool Obj::IsCreate() {
@@ -151,7 +152,7 @@ namespace BlackHole
 					Point setPos;
 
 					if (dist > 0.01f) {
-						float len = sqrt(dist);						
+						float len = sqrt(dist);
 						Vector2 vec = Vector2(oBeam->vSpd.GetX() * 0.8f + (lenX / len) * 0.2f, oBeam->vSpd.GetY() * 0.8f + (lenY / len) * 0.2f);
 						oBeam->vSpd = vec;
 					}
@@ -174,12 +175,12 @@ namespace BlackHole
 	}
 	void Obj::CheckHitFragment(TaskBase* fg) {
 		Fragment::Obj* oFrag = (Fragment::Obj*)fg;
-		Circle cFg;
-		cFg.SetRadius(oFrag->rFragment.GetW()*0.5f);
-		cFg.SetPos(&oFrag->rFragment.GetPos());
-		if (cOutCircle.CheckHit(&cFg)) {
+		//Circle cFg;
+		//cFg.SetRadius(oFrag->rFragment.GetW()*0.5f);
+		//cFg.SetPos(&oFrag->rFragment.GetPos());
+		if (cOutCircle.CheckHit(&oFrag->cFragmentHitBase)) {
 			if (oFrag->bMoveActive) {
-				if (cInnerCircle.CheckHit(&cFg)) {
+				if (cInnerCircle.CheckHit(&oFrag->cFragmentHitBase)) {
 					//oFrag->rFragment.SetPos(&oFrag->pInitPos);
 					oFrag->bMoveActive = false;
 				}
@@ -192,7 +193,7 @@ namespace BlackHole
 				}
 			}
 			else {
-				if (cInnerCircle.CheckHit(&cFg)) {
+				if (cInnerCircle.CheckHit(&oFrag->cFragmentHitBase)) {
 					Point posStart = oFrag->rFragment.GetPos();
 					Point posEnd = cInnerInner.GetPos();
 					float lenX = posEnd.x - posStart.x;
@@ -203,7 +204,6 @@ namespace BlackHole
 
 					if (dist > 0.01f) {
 						float len = sqrt(dist);
-
 						Vector2 vec = Vector2(oFrag->vMove.GetX() * 0.8f + (lenX / len) * 0.3f, oFrag->vMove.GetY() * 0.8f + (lenY / len) * 0.3f);
 						oFrag->vMove = vec;
 					}
@@ -213,10 +213,12 @@ namespace BlackHole
 					oFrag->rFragment.SetDeg(RtoD(atan2(lenY, lenX)));
 					oFrag->rFragment.Scaling(oFrag->rFragment.GetW() * 0.98f, oFrag->rFragment.GetH() * 0.98f);
 					oFrag->cFragmentHitBase.SetRadius(oFrag->cFragmentHitBase.GetRadius() * 0.98f);
-					if (cInnerInner.CheckHit(&cFg)) {
+					oFrag->cFragmentHitBase.SetPos(&oFrag->rFragment.GetPos());
+					if (cInnerInner.CheckHit(&oFrag->cFragmentHitBase)) {
 						oFrag->rFragment = Rec(0.f, 0.f, 100.f, 100.f);
 						oFrag->rFragment.SetPos(&oFrag->pInitPos);
 						oFrag->cFragmentHitBase.SetRadius(oFrag->rFragment.GetH() * 0.4f);
+						oFrag->cFragmentHitBase.SetPos(&oFrag->rFragment.GetPos());
 						oFrag->bMoveActive = false;
 
 					}

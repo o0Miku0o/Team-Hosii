@@ -214,7 +214,7 @@ namespace Fragment
 		}
 #ifdef _DEBUG
 		cFragmentHitBase.Draw();
-#endif // _DEBUG
+#endif
 	}
 
 	void Obj::Checkhitbeam(TaskBase* bm)

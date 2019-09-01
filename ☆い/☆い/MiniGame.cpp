@@ -1,6 +1,7 @@
 #include "MiniGame.h"
 #include "Fragment.h"
 #include "Star.h"
+#include "Beam.h"
 #include <fstream>
 
 //ミニゲームで使うタスクです
@@ -10,12 +11,12 @@ namespace MiniGame
 	/*リソースの初期化処理*/
 	void RS::Init()
 	{
-
+		iButton.ImageCreate("./data/image/other/button.bmp");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
 	{
-
+		
 	}
 	/*タスクの初期化処理*/
 	void Obj::Init()
@@ -23,7 +24,7 @@ namespace MiniGame
 		/*タスク名設定*/
 		SetName(caTaskName);
 		/*リソース生成*/
-
+		RB::Add<MiniGame::RS>(caResName);
 		/*タスクの生成*/
 
 		/*データの初期化*/
@@ -44,6 +45,7 @@ namespace MiniGame
 		height = 100.f;
 		pos1 = Point(Rec::Win.r*0.1f + width, Rec::Win.t + height - 30);
 		pos2 = Point(pos1.x + width * str[0].length() + width * 6, Rec::Win.t + height - 30);
+		rButton = Rec(1820.f, 980.f, 16.f * 11.f, 16.f * 11.f);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -85,27 +87,22 @@ namespace MiniGame
 				ifs >> score;
 				ifs.close();
 			}
-			auto fr = FindAll<Fragment::Obj>(Fragment::caTaskName);
-			for (auto vf : fr)
 			{
-				if (!vf->bMoveActive)
+				float prefFragCnt = fFragmentCnt;
+				auto fr = FindAll<Fragment::Obj>(Fragment::caTaskName);
+				for (auto vf : fr)
 				{
-					fFragmentCnt = 0;
+					if (vf->bMoveActive)
+					{
+						fFragmentCnt = prefFragCnt;
+					}
+					else
+					{
+						fFragmentCnt = 0;
+					}
 				}
 			}
 		}
-		//auto fr = FindAll<Fragment::Obj>(Fragment::caTaskName);
-		//for (auto vf : fr)
-		//{
-		//	if (vf->bMoveActive)
-		//	{
-		//	}
-		//	else
-		//	{
-		//		for (int i = 0; i < 2; ++i);
-		//		fFragmentCnt = 0;
-		//	}
-		//}
 		myMsg.SetMsg(str[0] + std::to_string((int)fFragmentCnt));
 		highMsg.SetMsg(str[1] + std::to_string(score));
 	}
@@ -114,5 +111,9 @@ namespace MiniGame
 	{
 		myMsg.DrawAscii(pos1, width, height);
 		highMsg.DrawAscii(pos2, width, height);
+		if (auto s = RB::Find<MiniGame::RS>(MiniGame::caResName))
+		{
+			rButton.Draw(&s->iButton, &Frec(16.f * 13.f, 0.f, 16.f, 16.f));
+		}
 	}
 }

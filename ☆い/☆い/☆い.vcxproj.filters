@@ -52,6 +52,7 @@
     <ClCompile Include="Tips.cpp" />
     <ClCompile Include="TimeAttack.cpp" />
     <ClCompile Include="StageSelectIcon.cpp" />
+    <ClCompile Include="Ranking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="Tips.h" />
     <ClInclude Include="StageSelectIcon.h" />
+    <ClInclude Include="Ranking.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

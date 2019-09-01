@@ -35,13 +35,12 @@ namespace TimeAttack
 		str = "00:00";
 		timeMsg.SetMsg(str);
 		timeMsg.Color(RGB(255, 150, 150));
+		bIsSaved = false;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		std::ofstream off("./data/ta_data/ta.txt",std::ios_base::app);
-		off << iTimeCnt << '\n';
-		off.close();
+		SaveTime();
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
@@ -59,8 +58,8 @@ namespace TimeAttack
 		{
 			iFrameCnt = 0;
 			iTimeCnt++;
-			std::string mn = (iTimeCnt / 60) < 10 ? "0" + std::to_string(iTimeCnt / 60) : "" + std::to_string(iTimeCnt / 60);
-			std::string sc = (iTimeCnt % 60) < 10 ? "0" + std::to_string(iTimeCnt % 60) : "" + std::to_string(iTimeCnt % 60);
+			std::string mn = (iTimeCnt / 60) < 10 ? "0" + std::to_string(iTimeCnt / 60) : std::to_string(iTimeCnt / 60);
+			std::string sc = (iTimeCnt % 60) < 10 ? "0" + std::to_string(iTimeCnt % 60) : std::to_string(iTimeCnt % 60);
 			str = mn + ":" + sc;
 			timeMsg.SetMsg(str);
 		}
@@ -70,5 +69,14 @@ namespace TimeAttack
 	void Obj::Render()
 	{
 		timeMsg.DrawAscii(pos, width, height);
+	}
+	void Obj::SaveTime()
+	{
+		if (bIsSaved)return;
+		std::ofstream off("./data/ta_data/ta.txt", std::ios_base::app);
+		if (!off)return;
+		off << iTimeCnt << ",";
+		off.close();
+		bIsSaved = true;
 	}
 }

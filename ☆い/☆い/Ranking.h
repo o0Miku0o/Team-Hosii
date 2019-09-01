@@ -2,10 +2,10 @@
 #include "MyGame/MyApp.h"
 #include "../☆い/MyGame/My/EventMsg.h"
 
-namespace MiniGame
+namespace Ranking
 {
-	const char caTaskName[] = { "ミニゲームタスク" };
-	const char caResName[] = { "ミニゲームリソース" };
+	const char caTaskName[] = { "ランキングタスク" };
+	const char caResName[] = { "ランキングリソース" };
 
 	/*リソースクラス*/
 	class RS : public ResourceBase
@@ -27,24 +27,31 @@ namespace MiniGame
 	public:
 		/*必要なメンバはここに追加*/
 		Rec rButton;
-		float fFragmentCnt;
-		int score;
-		float width, height;
-		Point pos1,pos2;
-		std::string str[2];
-		EventMsg myMsg;
-		EventMsg highMsg;
+		float width;
+		float height;
+		Point pos;
+		std::string str;
+		EventMsg titleMsg;
+		std::string sName[5];
+		float rwidth;
+		float rheight;
+		EventMsg rankMsg;
+		Point rankpos;
+		std::multimap<int, std::string> mRankmap;
+		std::multimap<int, std::string>::iterator newData;
+		int iNewindex;
+		EventMsg newMsg;
+
 		Obj() {}
 		~Obj() {}
 	private:
-
 		RS_ptr res;
 		void Init();
 		void Finalize();
-
 	public:
 		void Update();
 		void Render();
-
-	}*Obj_ptr;
+		void BeamCheckhit(TaskBase* bm);
+		void FragmentCheckhit(TaskBase* fr);
+	}*OBJ_ptr;
 }
