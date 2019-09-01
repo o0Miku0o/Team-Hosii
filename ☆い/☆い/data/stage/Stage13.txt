@@ -4,7 +4,6 @@ Fragment 750 400 2
 Fragment 970 150 2
 Fragment 1150 550 2
 Fragment 1500 750 2
- 
 Star 1100 900 22
 Star 1400 230 23
 Star 1700 500 24

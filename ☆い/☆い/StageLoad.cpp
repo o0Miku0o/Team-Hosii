@@ -41,7 +41,6 @@ namespace StageLoad
 		/*リソース生成*/
 
 		/*タスクの生成*/
-		
 		Add<Back::Obj>();
 #ifndef _DEBUG
 		Add<Gas::Obj>();

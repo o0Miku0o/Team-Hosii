@@ -29,7 +29,6 @@ namespace Tips
 		/*タスクの生成*/
 
 		/*データの初期化*/
-
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
 		rGuideBase = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, 16.f * 75.f, 16.f * 55.f);
 		rTips = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.57f, 16.f * 62.5f, 16.f * 37.5f);
@@ -50,11 +49,11 @@ namespace Tips
 	{
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
-			rBack.Draw(&res->iStageImg, &Frec(16.f, 0.f, 16.f, 16.f), true);
+			rBack.Draw(&res->iStageImg, &Frec(16.f, 0.f, 16.f, 16.f));
 		}
 		if (auto res = RB::Find<Tips::RS>(caResName))
 		{
-			rGuideBase.Draw(&res->iGuideBase, &Frec(0.f, 0.f, 64.f, 80.f), true);
+			rGuideBase.Draw(&res->iGuideBase, &Frec(0.f, 0.f, 64.f, 80.f));
 		}
 		if (bIsLoaded)
 		{
@@ -69,6 +68,5 @@ namespace Tips
 		sImgName += ").bmp";
 		iTips.ImageCreate(sImgName.c_str());
 		bIsLoaded = true;
-
 	}
 }

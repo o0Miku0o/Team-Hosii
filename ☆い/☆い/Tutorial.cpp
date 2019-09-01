@@ -83,10 +83,10 @@ namespace Tutorial
 				const float cfSrcX = 16.f * tBtn.bBtn * 2;
 				const float cfOfs = 16.f * tBtn.bState;
 				src.l = cfSrcX + cfOfs;
-				rTutoBase.Draw(&res->iTutoImg, &src, false);
+				rTutoBase.Draw(&res->iTutoImg, &src);
 				if (IsFalse(bEfVisible)) return;
 				src.l = 16.f * 11;
-				rEfBase.Draw(&res->iTutoImg, &src, false);
+				rEfBase.Draw(&res->iTutoImg, &src);
 			}
 			else
 			{
@@ -97,7 +97,7 @@ namespace Tutorial
 				}
 				else fSrcX = 16.f * (iaStickState[uiStickStateCount] + Buttons::BTN_MAX * 2);
 				src.l = fSrcX;
-				rTutoBase.Draw(&res->iTutoImg, &src, false);
+				rTutoBase.Draw(&res->iTutoImg, &src);
 			}
 		}
 	}

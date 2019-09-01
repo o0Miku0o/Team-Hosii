@@ -95,9 +95,9 @@ namespace FadeInOut
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName)) {
 			for (int i = 0; i < 4; ++i) {
 				Frec src(16, 0, 16, 16);
-				rSquere[i].Draw(&res->iStageImg, &src, false);
+				rSquere[i].Draw(&res->iStageImg, &src);
 			}
-			rStar.Draw(&res->tese, &Frec(0, 0, 16, 16), false);
+			rStar.Draw(&res->tese, &Frec(0, 0, 16, 16));
 		}
 	}
 	/*‰¼*/
@@ -111,6 +111,8 @@ namespace FadeInOut
 	}
 	const bool Obj::IsComplete() const
 	{
-		return fStarSize >= fStarSizeMax || fStarSize <= fStarSizeMin;
+		if (bIsIn) return fStarSize <= fStarSizeMin;
+		else       return fStarSize >= fStarSizeMax;
+		//return fStarSize >= fStarSizeMax || fStarSize <= fStarSizeMin;
 	}
 }

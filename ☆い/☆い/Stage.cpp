@@ -1,3 +1,4 @@
+<<<<<< < HEAD
 #include "StageSelect.h"
 #include "StageManager.h"
 #include "Stage.h"
@@ -6,7 +7,7 @@
 #include "Title.h"
 #include "TimeAttack.h"
 
-namespace Stage
+	namespace Stage
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()
@@ -61,7 +62,7 @@ namespace Stage
 				res->wsBGM.Pause();
 			}
 			Add<Back::Obj>();
-			Add<StageSelect::Obj>();	
+			Add<StageSelect::Obj>();
 			Pause(2);
 		}
 		if (kb->Down('R') || pad->Down(JOY_BUTTON4)) {

@@ -56,5 +56,5 @@ namespace BreakStar
 		void BeamCheckHit(TaskBase* beam);
 		void FragmentCheckHit(TaskBase* fragment);
 		void FrgCreate();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

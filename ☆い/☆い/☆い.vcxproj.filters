@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
@@ -11,7 +11,6 @@
     <ClCompile Include="BreakStar.cpp" />
     <ClCompile Include="BreakStarGenerator.cpp" />
     <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
     <ClCompile Include="GameInit.cpp" />
     <ClCompile Include="Gas.cpp" />
@@ -46,6 +45,9 @@
     <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="MyGame\My\CADAM.cpp" />
+    <ClCompile Include="Fragment.cpp" />
+    <ClCompile Include="JecLogo.cpp" />
+    <ClCompile Include="Demo.cpp" />
     <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="Tips.cpp" />
     <ClCompile Include="TimeAttack.cpp" />
@@ -65,7 +67,6 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Eff1.h" />
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="Fragment.h" />
     <ClInclude Include="FragmentGenerator.h" />
     <ClInclude Include="GameInit.h" />
     <ClInclude Include="Gas.h" />
@@ -107,6 +108,12 @@
     <ClInclude Include="KeyMove.h" />
     <ClInclude Include="MyGame\My\Stream.h" />
     <ClInclude Include="MyGame\My\EventMsg.h" />
+    <ClInclude Include="MyGame\My\MciScript.h" />
+    <ClInclude Include="MyGame\My\MciWnd.h" />
+    <ClInclude Include="MyGame\My\DShow.h" />
+    <ClInclude Include="Fragment.h" />
+    <ClInclude Include="JecLogo.h" />
+    <ClInclude Include="Demo.h" />
     <ClInclude Include="MiniGame.h" />
     <ClInclude Include="TimeAttack.h" />
     <ClInclude Include="Tips.h" />

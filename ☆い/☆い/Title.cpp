@@ -1,3 +1,4 @@
+<<<<<< < HEAD
 #include "Title.h"
 #include "StageManager.h"
 #include "Cursor.h"
@@ -9,8 +10,10 @@
 #include "StarGenerator.h"
 #include "Star.h"
 #include "Gas.h"
+#include "MiniGame.h"
+#include "Demo.h"
 
-namespace Title
+	namespace Title
 {
 	/*リソースの初期化処理*/
 	void RS::Init()
@@ -56,12 +59,25 @@ namespace Title
 
 		PlayBgm();
 
+		iWaitFrame = 0;
+
+		/*お試し*/
+		//Add<Demo::Obj>();
+
+		//ms.Read("./data/mci/demo.txt");
+		//while (ms.Size() > 1)
+		//{
+		//	ms.Send();
+		//}
+		//mw.Create(FindWindow(nullptr, WINNAME), "./data/sound/BGM1.wav");
+		//mw.Play();
 		//em.Open("./data/event/ev1.txt");
 		//em.Color(RGB(0, 255, 0));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
+		//ms.Send();
 		RB::Remove(caResName);
 	}
 	/*タスクの更新処理*/
@@ -90,6 +106,25 @@ namespace Title
 			LogoUpdate();
 
 			MeteoUpdate();
+
+			//#ifdef _DEBUG
+			auto kb = KB::GetState();
+			if (kb->Down('Z'))
+			{
+				RemoveAll({ StageManager::caTaskName }, NOT_REMOVE_NAME);
+				Add<Demo::Obj>();
+				return;
+			}
+			//#endif
+
+			if (iWaitFrame >= 60 * 10)
+			{
+				iWaitFrame = 0;
+				RemoveAll({ StageManager::caTaskName }, NOT_REMOVE_NAME);
+				Add<Demo::Obj>();
+				return;
+			}
+			++iWaitFrame;
 
 			if (Find<Cursor::Obj>(Cursor::caTaskName)) return;
 
@@ -160,7 +195,7 @@ namespace Title
 	}
 	void Obj::ButtonResize()
 	{
-		rStart = Rec(Rec::Win.r*0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
+		rStart = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.9f, 16 * 30, 16 * 5);
 	}
 	/*メテオの更新*/
 	void Obj::MeteoUpdate()
@@ -188,7 +223,7 @@ namespace Title
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * 4, 16.f * 1, 16.f, 16.f);
-			rMeteo.Draw(&res->iStageImg, &src, true);
+			rMeteo.Draw(&res->iStageImg, &src);
 		}
 	}
 	/*ロゴの描画*/
@@ -223,6 +258,7 @@ namespace Title
 		auto cs = Add<Cursor::Obj>();
 		//cs->pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
 		cs->rCursorBase.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f));
+		//cs->rCursorBase.SetPos(&rStart.GetPos());
 	}
 	/*☆の生成*/
 	void Obj::CreateStar()
@@ -241,6 +277,7 @@ namespace Title
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsBGM.PlayL();
+			res->wsBGM.Restart();
 		}
 	}
 	/*アニメーション*/
@@ -256,7 +293,7 @@ namespace Title
 			*bAnim = ((*bAnim - 1) + 4) % 4;
 			/**/
 		}
-		++*bFrame;
+		++ * bFrame;
 	}
 	/*アニメーション*/
 	void AnimShiBoshi(byte * const bFrame, byte * const bAnim, byte * const bAnim2)
@@ -271,6 +308,6 @@ namespace Title
 			*bAnim = ((*bAnim - 1) + 4) % 4;
 			/**/
 		}
-		++*bFrame;
+		++ *bFrame;
 	}
 }

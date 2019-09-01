@@ -171,11 +171,17 @@ inline bool WaitProcess(double * const setsec_, const double waitsec_)
 int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, int nWinMode_)
 {
 	Debug::DetectLeak();
+//	Debug::Console c;
 
 	MSG msg;
 	//表示するウィンドウの定義、登録、表示
 	if (ApplicationInitialize(hThisInst_, nWinMode_))
 		return 0;
+
+#ifdef USE_COM_INTERFACE
+	CoInitialize(nullptr);
+#endif
+
 	/*キーボード*/
 	KB::Create();
 	/*マウス*/
@@ -274,6 +280,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 
 			auto hFront = GetDC(g_hWnd);
 			Rec::DrawBackToFront(hFront);
+
 //#ifdef _DEBUG
 			if (kb->On(VK_CONTROL) && kb->Down('Z'))
 			{
@@ -281,6 +288,7 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 			}
 //#endif
 			ReleaseDC(g_hWnd, hFront);
+
 #ifdef _DEBUG
 			if (bCount >= sizeof(bArr) / sizeof(bArr[0]))
 			{
@@ -319,5 +327,8 @@ int WINAPI WinMain(HINSTANCE hThisInst_, HINSTANCE hPrevInst_, LPSTR lpszArgs_, 
 	//ウィンドウハンドルを破棄
 	DeleteObject(g_hWnd);
 	//終了
+#ifdef USE_COM_INTERFACE
+	CoUninitialize();
+#endif
 	return msg.wParam;
 }

@@ -9,6 +9,7 @@
 #include "StageLoad.h"
 #include "StagePicture.h"
 #include "Cursor.h"
+#include "Title.h"
 
 namespace Result
 {
@@ -17,6 +18,7 @@ namespace Result
 	{
 		iResult.ImageCreate("./data/image/other/ResultResource.bmp");
 		iHanko.ImageCreate("./data/image/other/ResultResource2.bmp");
+		iPaper.ImageCreate("./data/image/other/re.bmp");
 	}
 	/*リソースの終了処理*/
 	void RS::Finalize()
@@ -33,13 +35,13 @@ namespace Result
 		RB::Add<Result::RS>(caResName);// "リザルトリソース");
 
 		/*タスクの生成*/
-		auto cs = Add<Cursor::Obj>();
-		cs->rCursorBase.SetPos(&Point(1450.f, 1020.f));
+		//auto cs = Add<Cursor::Obj>();
+		//cs->rCursorBase.SetPos(&Point(1450.f, 1020.f));
 
 		/*データの初期化*/
 		ButtonInit();
 		rBack = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b);
-		rResult = Rec(Rec::Win.r * 0.5f, 700.f, 16.f * 95.f, 16.f * 100.f);
+		rResult = Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f/*700.f*/, 16.f * 95.f, Rec::Win.b/*16.f * 100.f*/);
 		//rNumber = Rec(1050.f, 800.f, 16.f * 16.f, 16.f * 17.f);
 
 		auto sg = Add<StarGenerator::Obj>();
@@ -71,10 +73,10 @@ namespace Result
 			Frec(640.f - 1000.f,430.f - 1000.f, 70.f,70.f),
 			Frec(810.f - 1000.f,430.f - 1000.f, 70.f,70.f),
 			Frec(960.f - 1000.f,430.f - 1000.f, 70.f,70.f),
-			Frec(1100.f - 1000.f,430.f - 1000.f, 70.f,70.f),
-			Frec(1360.f - 1000.f,430.f - 1000.f, 70.f,70.f),
-			Frec(1560.f - 1000.f,430.f - 1000.f, 70.f,70.f),
-			Frec(1760.f - 1000.f,430.f - 1000.f, 70.f,70.f)
+			Frec(1110.f - 1000.f,430.f - 1000.f, 70.f,70.f),
+			Frec(1280.f - 1000.f,430.f - 1000.f, 70.f,70.f),
+			Frec(1430.f - 1000.f,430.f - 1000.f, 70.f,70.f),
+			Frec(1580.f - 1000.f,430.f - 1000.f, 70.f,70.f)
 		};
 
 		//星の形(リソースの番号)
@@ -85,7 +87,23 @@ namespace Result
 		sg->Bridge(18, iArr, iEff, pStArr);
 		bNextStage = 0;
 		bMoveStarIdx = 0;
-		bScore = 1;
+		//bScore = 9;//1;
+		iRandomTime = 60;
+		iHanabiCount = 0;
+		iHanabiTime = 0;
+		bScore.at(0) = 3;
+		bScore.at(1) = 3;
+		bScore.at(2) = 3;
+		bScoreIdx = 0;
+		rPercent.SetPos(&Point(1190.f, 780.f));
+		rPercent.Scaling(120.f, 120.f);
+		rHanko.SetPos(&Point(0.f, 0.f));
+		rHanko.Scaling(0.f, 0.f);
+		bPushHanko = false;
+		bWaitCnt = 120;
+		sp_ef = std::shared_ptr<Eff1::EffectCreater>(new Eff1::EffectCreater("./data/effect/ef_result_hanabi.txt"));
+
+		//em.Color(RGB(0, 255, 255));
 
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
@@ -105,6 +123,14 @@ namespace Result
 		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
 
+		//仮の抜け処理
+		if (kb->Down(VK_SPACE)) {
+			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+			Add<Back::Obj>();
+			Add<StageSelect::Obj>();
+			Pause(2);
+		}
+
 		std::vector<TB_ptr> vsMoveStar;
 		for (auto &vs : FindAll<Star::Obj>(Star::caTaskName))
 		{
@@ -113,54 +139,96 @@ namespace Result
 				vsMoveStar.emplace_back(vs);
 			}
 		}
-		if (bMoveStarIdx < bScore)
+		if (bScoreIdx < 3)
 		{
-			auto st = (Star::Obj_ptr)vsMoveStar[bMoveStarIdx];
-			st->rStar.Move(&Vector2(20.f, 20.f));
-			if (st->rStar.GetPosY() >= 430.f)
+			if (bMoveStarIdx < bScore.at(bScoreIdx))
 			{
-				++bMoveStarIdx;
-				if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+				auto st = (Star::Obj_ptr)vsMoveStar.at(bMoveStarIdx + bScoreIdx * 3);
+				st->rStar.Move(&Vector2(40.f, 40.f));
+				if (st->rStar.GetPosY() >= 430.f)
 				{
-					res->wsTest2.Play();
+					++bMoveStarIdx;
+					if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+					{
+						res->wsTest2.Play();
+					}
 				}
+				return;
 			}
+			bMoveStarIdx = 0;
+			++bScoreIdx;
+			Pause(caTaskName, 30);
+			return;
 		}
-		else if (pad->Down(JOY_BUTTON6) || kb->Down('8') || kb->Down(VK_RETURN))
+		if (iRandomTime <= 0)
 		{
-			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
-			if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
+			if (bPushHanko)
 			{
-				manager->bStageNum = manager->bNextStage;
-				if (manager->bStageNum == 255)
+				const float fW = (rHanko.GetW() <= rRestart.GetW()) ? rRestart.GetW() : rHanko.GetW() - 120.f;
+				const float fH = (rHanko.GetH() <= rRestart.GetH()) ? rRestart.GetH() : rHanko.GetH() - 100.f;
+				if (fW <= rRestart.GetW())
 				{
-					RemoveAll();
-					Add<StageManager::Obj>();
-					Add<Back::Obj>();
-					Add<StageSelect::Obj>();
-					Pause(2);
+					if (bWaitCnt >= 120)
+					{
+						sp_ef->_set_chip_type("r_frg");
+						sp_ef->_set_spd(8.f);
+						sp_ef->run(Point(rRestart.GetPosX(), rRestart.GetPosY() + 26), 0);
+					}
+					--bWaitCnt;
+					if (!bWaitCnt)
+					{
+						RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+						Add<Back::Obj>();
+						/**Add<Title::Obj>();
+						/*/Add<StageSelect::Obj>();/**/
+						Pause(2);
+						return;
+					}
 				}
-				/*else
-				{
-					Add<Back::Obj>();
-					Add<StageSelect::Obj>();
-					Pause(2);
-				}*/
+				rHanko.Scaling(fW, fH);
+				rHanko.SetPos(&rRestart.GetPos());
 			}
-			Pause(2);
+			//static int tmp = 0, tmp2 = 0;
+			if (iHanabiCount >= (bScore.at(0) + bScore.at(1) + bScore.at(2)) / 3) return;
+			if (iHanabiTime >= 30)
+			{
+				iHanabiTime = 0;
+				if (iHanabiCount == 1) sp_ef->_set_chip_type("b_sta");
+				else sp_ef->_set_chip_type("r_sta");
+				static const Point pos[3] =
+				{
+					Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.55f),
+					Point(Rec::Win.r * 0.55f, Rec::Win.b * 0.75f),
+					Point(Rec::Win.r * 0.25f, Rec::Win.b * 0.85f)
+				};
+				sp_ef->run(pos[iHanabiCount], 0);
+				++iHanabiCount;
+			}
+			++iHanabiTime;
+			sPercent = std::to_string(int((bScore.at(0) + bScore.at(1) + bScore.at(2)) * 100 / 9.f));
+			return;
 		}
+		if (iRandomTime <= 1)
+		{
+			auto cs = Add<Cursor::Obj>();
+			cs->rCursorBase.SetPos(&rRestart.GetPos());
+		}
+		--iRandomTime;
+		sPercent = std::to_string(rand() % 101);
 
-		ButtonResize();
+		//constexpr float fPercent = 100 / 9.f;
+
+		//ButtonResize();
 	}
 
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (bScore == 3)
+		if ((bScore.at(0) + bScore.at(1) + bScore.at(2)) >= 9)
 		{
 			Rec::FullPaint(RGB(0, 255, 204));
 		}
-		else if (bScore == 2)
+		else if ((bScore.at(0) + bScore.at(1) + bScore.at(2)) >= 6)
 		{
 			Rec::FullPaint(RGB(255, 174, 0));
 		}
@@ -170,18 +238,63 @@ namespace Result
 		}
 		if (auto s = RB::Find<Result::RS>(Result::caResName))
 		{
-			rResult.Draw(&s->iResult, &Frec(0.f, 0.f, 16.f, 16.f), true);
-			rRestart.Draw(&s->iHanko, &Frec(0.f, 0.f, 16.f, 16.f), true);
+			//rResult.Draw(&s->iResult, &Frec(0.f, 0.f, 16.f, 16.f));
+			rResult.Draw(&s->iPaper, &Frec(0.f, 0.f, 64.f, 64.f));
+			if (!bPushHanko)
+			{
+				rRestart.Draw(&s->iHanko, &Frec(16.f * 4, 0.f, 16.f, 16.f));
+#ifdef _DEBUG
+				rRestart.SetColor(RGB(255, 0, 0));
+				rRestart.Draw();
+#endif
+			}
+			auto divScore = (bScore.at(0) + bScore.at(1) + bScore.at(2)) / 3;
+			auto srcIdxX = 3 - divScore + 1;
+			rHanko.Draw(&s->iHanko, &Frec(16.f * srcIdxX, 0.f, 16.f, 16.f));
 			//rNumber.Draw(&s->iResult, &Frec(16.f, 0.f, 16.f, 16.f), true);
+
+			for (size_t i = 0; i < sPercent.length(); ++i)
+			{
+				Rec rd(120 + 550.f, 120 + 600.f, 240.f, 240.f);
+				if (sPercent.length() >= 3) rd.Move(&Vector2(-240.f, 0));
+				const float fOfsX = (sPercent.at(i) - '0' + 1) * 16.f;
+				rd.Move(&Vector2(i * 240.f, 0.f));
+#ifdef _DEBUG
+				rd.SetColor(RGB(255, 0, 0));
+				rd.Draw();
+#endif
+				rd.Draw(&s->iResult, &Frec(fOfsX, 0.f, 16.f, 16.f));
+			}
+#ifdef _DEBUG
+			rPercent.SetColor(RGB(255, 0, 0));
+			rPercent.Draw();
+#endif
+			if (iRandomTime == 60) return;
+			rPercent.Draw(&s->iResult, &Frec(0.f, 16.f, 16.f, 16.f));
 		}
 	}
+	//Point pPos(800, 1000);
+	//if (sPercent.length() >= 3) pPos.x -= 6 * 30;
+	//em.Msg() = sPercent;
+	//em.DrawAscii(pPos, 6 * 30, 24 * 30);
 
 	void Obj::ButtonInit()
 	{
-		rRestart = Rec(0.f, 0.f, 0.f, 0.f);
+		rRestart = Rec(1460.f, 720.f, 0.f, 0.f);
 	}
-	void Obj::ButtonResize()
+	void Obj::SetParam(const byte abStageGroupNumber, const std::array<byte, 3> &abScores)
 	{
-		rRestart = Rec(1630.f, 1020.f, 16.f * 8.f, 16.f * 8.f);
+		bStageGroupNumber = abStageGroupNumber;
+		for (int i = 0; i < 3; ++i)
+		{
+			auto sp = Add<StagePicture::Obj>();
+			sp->LoadImg((bStageGroupNumber - 1) * 3 + i + 1);
+			sp->SetSize(410.0f, 250.0f);
+			sp->SetPos(&Point(490 + i * 470.f, 250.f));
+		}
+		for (size_t i = 0; i < abScores.size(); ++i)
+		{
+			bScore.at(i) = abScores.at(i);
+		}
 	}
 }

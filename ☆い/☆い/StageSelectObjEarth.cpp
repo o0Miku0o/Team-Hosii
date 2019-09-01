@@ -47,7 +47,7 @@ namespace StageSelectObjEarth
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rEarth.Draw(&res->iStageImg, &src, true);
+			rEarth.Draw(&res->iStageImg, &src);
 		}
 	}
 }

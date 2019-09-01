@@ -74,7 +74,7 @@ namespace Eff1
 		if (auto res = RB::Find<RS>(caResName))
 		{
 			Frec src(0.f, 16.f * tType, 16.f, 16.f);
-			rEffBase.Draw(&res->iEff1Img, &src, false);
+			rEffBase.Draw(&res->iEff1Img, &src);
 		}
 	}
 

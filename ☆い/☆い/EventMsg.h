@@ -1,5 +1,4 @@
-#pragma once
-
+#pragma once	
 #include "My.h"
 #include "Stream.h"
 
@@ -22,7 +21,7 @@ private:
 	size_t read_num;
 	COLORREF old_color;
 public:
-	EventMsg(const std::string &_filename, const size_t _interval = 1, const size_t _read_num = 1, const COLORREF _color = RGB(0, 0, 0))
+	EventMsg(const std::string& _filename, const size_t _interval = 1, const size_t _read_num = 1, const COLORREF _color = RGB(0, 0, 0))
 		: font()
 		, is(_filename)
 		, frame_count(0)
@@ -49,7 +48,7 @@ public:
 		Close();
 		font.Release();
 	}
-	const Result Open(const std::string &_filename)
+	const Result Open(const std::string& _filename)
 	{
 		return (is.Open(_filename)) ? Result::RES_SUCCESS : Result::RES_FAILURE;
 	}
@@ -134,7 +133,7 @@ public:
 		}
 		return Result::RES_SUCCESS;
 	}
-	void DrawAscii(const Point &_pos, const float _width, const float _height)
+	void DrawAscii(const Point & _pos, const float _width, const float _height)
 	{
 		Frec _src(0.f, 0.f, 6.f, 24.f);
 		draw.Scaling(_width, _height);
@@ -158,7 +157,7 @@ public:
 	{
 		is.Close();
 	}
-	void SetMsg(const std::string &_msg)
+	void SetMsg(const std::string & _msg)
 	{
 		msg = _msg;
 	}
@@ -166,7 +165,7 @@ public:
 	{
 		return (is.IsOpened()) ? Result::RES_SUCCESS : Result::RES_FAILURE;
 	}
-	const std::string &Msg() const
+	const std::string& Msg() const
 	{
 		return msg;
 	}

@@ -85,7 +85,7 @@ namespace Alien
 		{
 			Frec src(16.f * (iOffSetX + iAddOffSet), 16.f * iOffSetY, 16, 16);
 
-			rAlienR.Draw(&res->iStageImg, &src, true);
+			rAlienR.Draw(&res->iStageImg, &src);
 #ifdef _DEBUG
 			cAlienRHitBase.Draw();
 #endif

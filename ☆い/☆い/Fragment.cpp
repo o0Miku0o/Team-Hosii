@@ -55,6 +55,16 @@ namespace Fragment
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		if (rFragment.GetH() < 20.f) {
+			rFragment.Scaling(100.f, 100.f);
+		}
+		else if (rFragment.GetH() < 100.f) {
+			rFragment.Scaling(rFragment.GetW() + 6.f, rFragment.GetH() + 6.f);
+		}
+		else {
+			rFragment.Scaling(100.f, 100.f);
+		}
+
 		pPrevPos = rFragment.GetPos();
 		const auto kb = KB::GetState();
 		/*if (kb->Now('T') == 1)
@@ -187,19 +197,19 @@ namespace Fragment
 			if (iColor == 0)
 			{
 				Frec src(16.f * (aAnim.GetSrcX() + 2), 0.f, 16.f, 16.f);
-				rFragment.Draw(&stageRes->iStageImg, &src, true);
+				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 			else if (iColor == 1)
 			{
 
 				Frec src(16.f * (aAnim.GetSrcX() + 60), 0.f, 16.f, 16.f);
-				rFragment.Draw(&stageRes->iStageImg, &src, true);
+				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 			else if (iColor == 2)
 			{
 
 				Frec src(16.f * (aAnim.GetSrcX() + 68), 0.f, 16.f, 16.f);
-				rFragment.Draw(&stageRes->iStageImg, &src, true);
+				rFragment.Draw(&stageRes->iStageImg, &src);
 			}
 		}
 #ifdef _DEBUG
@@ -311,6 +321,7 @@ namespace Fragment
 		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
 			rFragment.SetPos(&oAlien->cAlienRHitBase.GetPos());
+			rFragment.Scaling(rFragment.GetW() * 0.4f, rFragment.GetH()* 0.4f);
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
 	}

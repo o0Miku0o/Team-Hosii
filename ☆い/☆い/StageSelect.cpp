@@ -6,7 +6,7 @@
 #include "StageLoad.h"
 #include "BeamGenerator.h"
 #include "AlienGenerator.h"
-
+#include "JecLogo.h"
 
 namespace StageSelect
 {
@@ -70,7 +70,7 @@ namespace StageSelect
 		{
 			sm->bStageNum = 11;
 		}
-		rHoudai = Rec(Rec::Win.r*0.5f, Rec::Win.b, 100.f, 100.f);
+		rHoudai = Rec(Rec::Win.r * 0.5f, Rec::Win.b, 100.f, 100.f);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -83,7 +83,7 @@ namespace StageSelect
 
 		this->iCnt++;
 		int ranX = rand() % int(Rec::Win.r - 100) + 50;
-		int ranY = rand() % int(Rec::Win.b*0.3f) + int(Rec::Win.b*0.7f);
+		int ranY = rand() % int(Rec::Win.b * 0.3f) + int(Rec::Win.b * 0.7f);
 		Point pos = Point(float(ranX), float(ranY));
 		//エイリアン生成
 		auto al = FindAll<Alien::Obj>(Alien::caTaskName);
@@ -117,21 +117,29 @@ namespace StageSelect
 				Alien::AnimReflectDL,
 				Alien::AnimReflectUL,
 			};
-			ag->Bridge(ceiNum, pPos, fpMove, fpBMHit, fpFGHit, (fpAnim+rand()%7));
+			ag->Bridge(ceiNum, pPos, fpMove, fpBMHit, fpFGHit, (fpAnim + rand() % 7));
 			iCnt = 0;
 		}
 		//tamesi
 		const auto kb = KB::GetState();
 		auto pad = JoyPad::GetState(0);
 		auto cs = Find<Cursor::Obj>(Cursor::caTaskName);
-		float fAng = cs->rCursorBase.GetDeg(&Point(Rec::Win.r*0.5f, Rec::Win.b));
+		float fAng = cs->rCursorBase.GetDeg(&Point(Rec::Win.r * 0.5f, Rec::Win.b));
 		rHoudai.SetDeg(fAng - 90);
+		/*地球ステージはいる*/
 		if (kb->Down('O'))
 		{
 			RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 			Add<StageLoad::Obj>();
 			Pause(2);
 			return;
+		}
+		auto pad = JoyPad::GetState(0);
+		/*ロゴ->タイトル*/
+		if (kb->Down('F') || pad->Down(JOY_BUTTON7))
+		{
+			RemoveAll();
+			Add<JecLogo::Obj>();
 		}
 		if (kb->Down('Z') || pad->Down(JOY_BUTTON6))
 		{
@@ -144,6 +152,6 @@ namespace StageSelect
 	{
 		auto res = RB::Find<StageManager::RS>(StageManager::caResName);
 		Frec src(0, 16.f, 16.f, 16.f);
-		rHoudai.Draw(&res->iStageImg, &src, true);
+		rHoudai.Draw(&res->iStageImg, &src);
 	}
 }

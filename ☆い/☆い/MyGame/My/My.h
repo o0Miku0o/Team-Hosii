@@ -4,16 +4,20 @@
 #include <string>
 #include <time.h>
 #include <vector>
+#include <array>
 #include <map>
 #include <mmsystem.h>
 #include <thread>
 #include <mutex>
 #include <algorithm>
+#include <functional>
 #include "Stream.h"
 #include "FixedPoint.h"
 #include "CADAM.h"
 #include "Debug.h"
-//#include "EventMsg.h"
+#include "MciScript.h"
+#include "MciWnd.h"
+#include "DShow.h"
 
 #pragma comment (lib, "msimg32.lib")
 #pragma comment (lib, "winmm.lib")
@@ -161,12 +165,14 @@ inline const float sin_fast(float angle)
 /*高速tan(x)*/
 inline const double tan_fast(double angle)
 {
-	return FToD(Div(FP(cos_fast(angle - PI * 0.5)), FP(cos_fast(angle))));
+	const double _c = cos_fast(angle);
+	return (_c) ? cos_fast(angle - PI * 0.5) / _c : 0.0;
 }
 /*高速tan(x)*/
 inline const float tan_fast(float angle)
 {
-	return (float)FToD(Div(FP(cos_fast(angle - PI * 0.5)), FP(cos_fast((double)angle))));
+	const double _c = cos_fast(angle);
+	return float((_c) ? cos_fast(angle - PI * 0.5) / _c : 0.0);
 }
 /*高速sin(x)と高速cos(x)の同時取得*/
 inline void sincos_fast(double angle, double * const x, double * const y)
@@ -183,7 +189,7 @@ inline void sincos_fast(double angle, double * const x, double * const y)
 	} while (p < waru + 8);
 	c = c * z;
 	s = s * angle;
-	for (byte b = 0; b < 5; ++b)
+	for (int i = 0; i < 5; ++i)
 	{
 		s = s * (2.0 - c);
 		c = c * (4.0 - c);
@@ -1104,7 +1110,7 @@ public:
 	const float GetRad(const Stick asStick) const
 	{
 		const float lcfAxisX = vStickAxis[asStick].GetX(), lcfAxisY = vStickAxis[asStick].GetY();
-		if (!lcfAxisX || !lcfAxisY)
+		if (lcfAxisX || lcfAxisY)
 		{
 			return atan2(lcfAxisY, lcfAxisX);
 		}
@@ -1355,27 +1361,22 @@ public:
 	//矩形を移動させる
 	void SetPos(const Point * const pos_)
 	{
-		for (int i = 0; i < POINT_MAX - 1; ++i)
+		//原点を中心とした位置に移動
+		float  pp[4][2] =
 		{
-			p[i].x -= p[CENTER].x;
-			p[i].y -= p[CENTER].y;
-		}
-		////原点を中心とした位置に移動
-		//float  pp[4][2] =
-		//{
-		//	{ -dx , -dy },
-		//	{ dx , -dy },
-		//	{ -dx ,  dy },
-		//	{ dx ,  dy },
-		//};
+			{ -dx , -dy },
+			{ dx , -dy },
+			{ -dx ,  dy },
+			{ dx ,  dy },
+		};
 
 		p[CENTER].x = pos_->x;
 		p[CENTER].y = pos_->y;
 
 		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			p[i].x += p[CENTER].x/* + pp[i][0]*/;
-			p[i].y += p[CENTER].y/* + pp[i][1]*/;
+			p[i].x = p[CENTER].x + pp[i][0];
+			p[i].y = p[CENTER].y + pp[i][1];
 		}
 	}
 	//矩形を拡大縮小させる
@@ -1436,9 +1437,7 @@ public:
 	//自分の角度（ディグリー）を設定するメンバ関数
 	void SetDeg(const float angleD_)
 	{
-		angle = angleD_;
-
-		//原点を中心とした位置に移動
+		angle = ModAngle(angleD_);
 		float  pp[4][2] =
 		{
 			{ -dx , -dy },
@@ -1446,27 +1445,14 @@ public:
 			{ -dx ,  dy },
 			{  dx ,  dy },
 		};
-
-		//原点に合わせて回転
-		double ang = (double)ModAngle(angle);
-		//if (ang < -1.f || ang > 1.f)
+		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			ang = (double)DtoR((float)ang);
-			for (int i = 0; i < POINT_MAX - 1; ++i)
-			{
-				p[i].x = float(cos_fast(ang) * pp[i][0] - sin_fast(ang) * pp[i][1]);
-				p[i].y = float(sin_fast(ang) * pp[i][0] + cos_fast(ang) * pp[i][1]);
+			const double newrad = DtoR(angle);
+			p[i].x = float(cos_fast(newrad) * pp[i][0] - sin_fast(newrad) * pp[i][1]);
+			p[i].y = float(sin_fast(newrad) * pp[i][0] + cos_fast(newrad) * pp[i][1]);
 
-				//p[i].x = cos(DtoR(angle)) * pp[i][0] - sin(DtoR(angle)) * pp[i][1];
-				//p[i].y = sin(DtoR(angle)) * pp[i][0] + cos(DtoR(angle)) * pp[i][1];
-			}
-
-			for (int i = 0; i < POINT_MAX - 1; ++i)
-			{
-				//原点に合わせておいたので元に戻す
-				p[i].x += p[CENTER].x;
-				p[i].y += p[CENTER].y;
-			}
+			p[i].x += p[CENTER].x;
+			p[i].y += p[CENTER].y;
 		}
 	}
 	//自分の角度（ディグリー）を取得するメンバ関数
@@ -1475,7 +1461,7 @@ public:
 		return angle;
 	}
 	//読み込んでおいたビットマップを描画
-	void Draw(Image * const mybitmap_, const bool rot_ = false)
+	void Draw(Image * const mybitmap_)
 	{
 		auto lpTmp = AdjustCamPos(&p[CENTER]);
 		if (lpTmp.x - w > Win.r) return;
@@ -1491,38 +1477,17 @@ public:
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
 
-		if (rot_)
+		const float ang = ModAngle(angle);
+		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
-			//回転と平行移動と拡縮に合わせて描画
-			const float ang = ModAngle(angle);
-			if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
-			{
-				//原点を中心とした位置に移動
-				float  pp[3][2] =
-				{
-					{ -dx , -dy },
-					{ dx , -dy },
-					{ -dx ,  dy },
-				};
-
-				for (int i = 0; i < 3; ++i)
-				{
-					pp[i][0] += lpTmp.x;
-					pp[i][1] += lpTmp.y;
-
-					pDrawPoint[i].x = (long)pp[i][0];
-					pDrawPoint[i].y = (long)pp[i][1];
-				}
-				/**/
-				PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
-				/**/
-			}
-			else/**/ PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+			Swap(pDrawPoint[TOP_LEFT], pDrawPoint[BOTTOM_RIGHT]);
+			Swap(pDrawPoint[TOP_RIGHT], pDrawPoint[BOTTOM_LEFT]);
+			PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), mybitmap_->GetBmpInfo().bmWidth / 2, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), mybitmap_->GetBmpInfo().bmWidth / 2, 0);
 		}
-		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
+		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), 0, 0, mybitmap_->GetBmpInfo().bmWidth / 2, mybitmap_->GetBmpInfo().bmHeight, mybitmap_->GetMaskBitMap(), 0, 0);
 	}
 	//読み込んでおいたビットマップを描画
-	void Draw(Image * const mybitmap_, const Frec * const frSrc, const bool rot_ = false)
+	void Draw(Image * const mybitmap_, const Frec * const frSrc)
 	{
 		auto lpTmp = AdjustCamPos(&p[CENTER]);
 		if (lpTmp.x - w > Win.r) return;
@@ -1531,41 +1496,19 @@ public:
 		if (lpTmp.y + h < Win.t) return;
 
 		//POINT dp[3];
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < POINT_MAX; ++i)
 		{
 			pDrawPoint[i] = AdjustCamPosToPOINT(&p[i]);
 			//pDrawPoint[i].x = (long)AdjustCamPos(&p[i]).x;
 			//pDrawPoint[i].y = (long)AdjustCamPos(&p[i]).y;
 		}
 
-		if (rot_)
+		const float ang = ModAngle(angle);
+		if ((ang >= 90.f && ang <= 180.f) || (ang <= -90.f && ang >= -180.f))
 		{
-			//回転と平行移動と拡縮に合わせて描画
-			//180度に近いときだけ回転用バッファを使用
-			const float ang = ModAngle(angle);
-			if ((ang >= 179.f && ang <= 181.f) || (ang <= -179.f && ang >= -181.f))
-			{
-				//原点を中心とした位置に移動
-				float  pp[3][2] =
-				{
-					{ -dx , -dy },
-					{ dx , -dy },
-					{ -dx ,  dy },
-				};
-
-				for (int i = 0; i < 3; ++i)
-				{
-					pp[i][0] += lpTmp.x;
-					pp[i][1] += lpTmp.y;
-
-					pDrawPoint[i].x = (long)pp[i][0];
-					pDrawPoint[i].y = (long)pp[i][1];
-				}
-				/**/
-				PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
-				/**/
-			}
-			else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
+			Swap(pDrawPoint[TOP_LEFT], pDrawPoint[BOTTOM_RIGHT]);
+			Swap(pDrawPoint[TOP_RIGHT], pDrawPoint[BOTTOM_LEFT]);
+			PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), int(frSrc->l + frSrc->r), (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), int(frSrc->l + frSrc->r), (int)frSrc->t);
 		}
 		else PlgBlt(off, pDrawPoint, mybitmap_->GetImageHandle(), (int)frSrc->l, (int)frSrc->t, (int)frSrc->r, (int)frSrc->b, mybitmap_->GetMaskBitMap(), (int)frSrc->l, (int)frSrc->t);
 	}
@@ -2507,7 +2450,7 @@ public:
 			inter = Point();
 			return inter;
 		}
-		inter = Point((float)*(xy + 0), (float)*(xy + 1));
+		inter = Point((float)xy[0], (float)xy[1]);
 		return inter;
 	}
 	/*線と線の交点を取得*/
@@ -2834,34 +2777,34 @@ class Rep
 	{
 
 	}
+	Rep(const Rep &);
+	Rep(const Rep &&);
+	Rep &operator = (const Rep &) = default;
 public:
 	/*終端に要素を追加*/
-	static bool Push(const double dData)
+	static double Push(const double dData)
 	{
 		Rep rTmp;
 		rTmp.dData = (dData == DBL_MAX) ? dData - 1.0 : dData;
 		if (rpTop)
 		{
 			auto rpIt = rpTop;
-			while (rpIt->rpNext)
-			{
-				rpIt = rpIt->rpNext;
-			}
+			while (rpIt->rpNext) rpIt = rpIt->rpNext;
 			rpIt->rpNext = (Rep *)malloc(sizeof(Rep) * 1);
-			if (!rpIt->rpNext) return 1;
+			if (!rpIt->rpNext) return DBL_MAX;
 			rTmp.rpPrev = rpIt;
 			*rpIt->rpNext = rTmp;
 			++sDataSize;
 			return 0;
 		}
 		rpTop = (Rep *)malloc(sizeof(Rep) * 1);
-		if (!rpTop) return 1;
+		if (!rpTop) return DBL_MAX;
 		*rpTop = rTmp;
 		sDataSize = 1;
 		return 0;
 	}
 	/*読み込みデータを一つずつ取得*/
-	static const double Output()
+	static const double Read()
 	{
 		if (!rpOut) return DBL_MAX;
 		const double dRet = rpOut->dData;
@@ -2869,9 +2812,10 @@ public:
 		return dRet;
 	}
 	/*データの読み込み地点を設定*/
-	static bool SetPosition(const u_int uiIdx)
+	static double SetPosition(const u_int uiIdx)
 	{
-		if (uiIdx < 0) return 1;
+		if (uiIdx < 0) return DBL_MAX;
+		//if (!rpOut) return DBL_MAX;
 		rpOut = rpTop;
 		for (u_int ui = 0; ui < uiIdx; ++ui)
 		{
@@ -2886,11 +2830,11 @@ public:
 		return rpTop;
 	}
 	/*リプレイデータリストをファイルへ書き込み*/
-	static bool SaveFile(const char * const ccpFileName)
+	static double SaveFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
-		fopen_s(&fpFile, ccpFileName, "wb");
-		if (!fpFile) return 1;
+		fopen_s(&fpFile, asFileName.c_str(), "wb");
+		if (!fpFile) return DBL_MAX;
 		auto rpIt = rpTop;
 		while (rpIt)
 		{
@@ -2901,11 +2845,11 @@ public:
 		return 0;
 	}
 	/*ファイルからリプレイデータリストを読み込み*/
-	static bool LoadFile(const char * const ccpFileName)
+	static double LoadFile(const std::string &asFileName)
 	{
 		FILE *fpFile = nullptr;
-		fopen_s(&fpFile, ccpFileName, "rb");
-		if (!fpFile) return 1;
+		fopen_s(&fpFile, asFileName.c_str(), "rb");
+		if (!fpFile) return DBL_MAX;
 		if (sDataSize) Clear();
 		double dTmp = 0;
 		while (fscanf_s(fpFile, "%lf", &dTmp) != EOF)
@@ -2922,9 +2866,9 @@ public:
 		return 0;
 	}
 	/*リプレイデータリストを削除*/
-	static bool Clear()
+	static double Clear()
 	{
-		if (!rpTop) return 1;
+		if (!rpTop) return DBL_MAX;
 		auto rpIt = rpTop;
 		while (rpIt)
 		{
@@ -2951,4 +2895,108 @@ public:
 	{
 		return this->dData;
 	}
+};
+
+#undef max
+#undef min
+
+class Counter
+{
+public:
+	using ProcPtr = std::function<void(const int)>;
+private:
+	int now_, min_, max_, add_;
+	ProcPtr proc_;
+	const bool _is_over() const
+	{
+		return now_ > max_;
+	}
+	const bool _is_under() const
+	{
+		return now_ < min_;
+	}
+public:
+	Counter(const int _now, const int _min, const int _max, const int _add = 1)
+		: now_(_now)
+		, min_(_min)
+		, max_(_max)
+		, add_(_add)
+		, proc_(nullptr)
+	{
+
+	}
+
+	Counter &operator ++ ()
+	{
+		now_ += add_;
+		if (_is_over()) now_ = min_;
+		if (_is_under()) now_ = max_;
+		if (proc_) proc_(now_);
+		return *this;
+	}
+	const Counter operator ++ (int)
+	{
+		if (proc_) proc_(now_);
+		const Counter tmp = *this;
+		now_ += add_;
+		if (_is_over()) now_ = min_;
+		if (_is_under()) now_ = max_;
+		return tmp;
+	}
+
+	Counter &proc(const ProcPtr &_proc)
+	{
+		proc_ = _proc;
+		return *this;
+	}
+	Counter &now(const int _now)
+	{
+		now_ = _now;
+		return *this;
+	}
+	Counter &max(const int _max)
+	{
+		max_ = _max;
+		return *this;
+	}
+	Counter &min(const int _min)
+	{
+		min_ = _min;
+		return *this;
+	}
+	Counter &add(const int _add)
+	{
+		add_ = _add;
+		return *this;
+	}
+
+	const int operator () () const
+	{
+		return now_;
+	}
+	const bool is_max() const
+	{
+		return now_ >= max_;
+	}
+	const bool is_min() const
+	{
+		return now_ <= min_;
+	}
+	const int now() const
+	{
+		return now_;
+	}
+	const int max() const
+	{
+		return max_;
+	}
+	const int min() const
+	{
+		return min_;
+	}
+	const int add() const
+	{
+		return add_;
+	}
+
 };

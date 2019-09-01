@@ -74,7 +74,7 @@ namespace Neptune
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i; 
-			rNeptune.Draw(&res->iStageImg, &src, true);
+			rNeptune.Draw(&res->iStageImg, &src);
 		}
 #ifdef _DEBUG
 		cNeptuneHitBase.Draw();

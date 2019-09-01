@@ -77,7 +77,7 @@ namespace Jupitor
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rJupitor.Draw(&res->iStageImg, &src, true);
+			rJupitor.Draw(&res->iStageImg, &src);
 		}
 		cGravityCircle.Draw();
 #ifdef _DEBUG

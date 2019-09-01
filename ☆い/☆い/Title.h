@@ -41,10 +41,13 @@ namespace Title
 		float fStartImgSrcY;
 		float fMSpdBase;
 		float fMScale;
+		int iWaitFrame;
 		byte bAlpha;
 		char cAddAlpha;
 		bool bShineFlag;
 
+		//MciScript ms;
+		//MciWnd mw;
 		//EventMsg em;
 
 		Obj() {}

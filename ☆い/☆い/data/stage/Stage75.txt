@@ -9,4 +9,4 @@ Fragment 1300 420 2
 Fragment 1200 100 2
 Fragment 1000 300 2
 Fragment 900 900 2
-Result 10 255
+Result 13 255

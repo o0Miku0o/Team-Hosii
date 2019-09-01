@@ -34,8 +34,11 @@ namespace Beam
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void EffectCreate();
+		void OutOfScreen();
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

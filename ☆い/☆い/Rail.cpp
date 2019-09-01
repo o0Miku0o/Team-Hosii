@@ -41,7 +41,7 @@ namespace Rail
 	{
 		if (auto res = RB::Find<Rail::RS>(caResName))
 		{
-			rRailBase.Draw(&res->iRailImg, false);
+			rRailBase.Draw(&res->iRailImg, &Frec(0.f, 0.f, 16.f, 96.f));
 		}
 	}
 }

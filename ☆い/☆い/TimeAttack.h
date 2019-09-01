@@ -2,7 +2,7 @@
 #include "MyGame/MyApp.h"
 #include "../☆い/MyGame/My/EventMsg.h"
 
-namespace TimeAttack
+	namespace TimeAttack
 {
 	const char caTaskName[] = { "タイムアタックタスク" };
 	const char caResName[] = { "タイムアタックリソース" };
@@ -19,7 +19,7 @@ namespace TimeAttack
 		void Init();
 		void Finalize();
 	};
-	typedef RS *RS_ptr;
+	typedef RS* RS_ptr;
 	/*タスクオブジェクトクラス*/
 	typedef class Obj : public TaskBase
 	{

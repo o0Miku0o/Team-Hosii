@@ -28,11 +28,13 @@ namespace Star
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.2f);
+
 		rStar = Rec(Rec::Win.r * 0.75f, Rec::Win.b * 0.5f, 100, 100);
 		rStarCircle = Rec(rStar.GetPosX(), rStar.GetPosY(), rStar.GetW()*1.4f, rStar.GetH()*1.4f);
 		cStarhitbase = Circle(&rStar.GetPos(), rStar.GetW() / 2);
-//		iChange = 0;
-//		iStarEffect = 0;
+		//iChange = 0;
+		//iStarEffect = 0;
 		bAlpha = 5;
 		cAddAlpha = 5;
 
@@ -40,12 +42,14 @@ namespace Star
 		starCircle = NonComplete;
 		starSound = NonSound;
 		starEffect = NonEFT;
-
 		aAnimetor.SetAnim(AnimStar, 0);
-//		iChangeCircle = 85;
+		//iChangeCircle = 85;
 
 		iAlpha = 0;
 		iCnt = 0;
+		effsp = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_chipY.txt"));
+		effsp1 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_star_fullY.txt"));
+		effsp2 = Eff1::EffectCreater::SP(new Eff1::EffectCreater("./data/effect/ef_reflect_frgY.txt"));
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -92,7 +96,7 @@ namespace Star
 			//Frec srcE(16.f * iStarEffect, 0, 16.f, 16.f);
 			Frec srcE(16.f * starEffect, 0, 16.f, 16.f);
 
-			rStar.Draw(&res->iStageImg, &src, true);
+			rStar.Draw(&res->iStageImg, &src);
 
 			rStar.DrawAlpha(&res->iStageImg, &srcE, bAlpha);
 
@@ -134,51 +138,55 @@ namespace Star
 		case Yellow2:
 			starColor = Yellow3;
 			starEffect = EFTYellow3;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Red:
 			starColor = Yellow3_Red;
 			starEffect = EFTYellow3_Red;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Blue:
 			starColor = Yellow3_Blue;
 			starEffect = EFTYellow3_Blue;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow2_Red_Blue:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow4;
 			starEffect = EFTYellow4;
-			Eff1::Create("./data/effect/ef_star_chipY.txt", &pPos, 0);
 			break;
 		case Yellow3_Red:
 			starColor = Yellow4_Red;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow3_Blue:
 			starColor = Yellow4_Blue;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow5;
 			starEffect = EFTYellow5;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullY.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
 		}
+
+		if (starCircle == Complete)
+		{
+			effsp1->_set_chip_type("y_sta");
+			effsp1->run(pPos, 0);
+		}
+		else
+		{
+			effsp->_set_chip_type("y_sta");
+			effsp->run(pPos, 0);
+		}
 	}
+
 	void Obj::CheckHitRed() {
 		starSound = Full;
 		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
@@ -186,35 +194,42 @@ namespace Star
 		case Yellow2:
 			starColor = Yellow2_Red;
 			starEffect = EFTYellow2_Red;
-			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow2_Blue:
 			starColor = Yellow2_Red_Blue;
 			starEffect = EFTYellow2_Red_Blue;
-			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow3_Red;
 			starEffect = EFTYellow3_Red;
-			Eff1::Create("./data/effect/ef_star_chipR.txt", &pPos, 0);
 			break;
 		case Yellow3_Blue:
 			starColor = Yellow3_Red_Blue;
 			starEffect = EFTYellow3_Red_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullR.txt", &pPos, 0);
 			break;
 		case Yellow4:
 			starColor = Yellow4_Red;
 			starEffect = EFTYellow4_Red;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullR.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
 			break;
 		}
+
+		if (starCircle == Complete)
+		{
+			effsp1->_set_chip_type("r_sta");
+			effsp1->run(pPos, 0);
+		}
+		else
+		{
+			effsp->_set_chip_type("r_sta");
+			effsp->run(pPos, 0);
+		}
 	}
+
 	void Obj::CheckHitBlue() {
 		starSound = Full;
 		pPos = Point(rStar.GetPosX(), rStar.GetPosY() + 25.f);
@@ -227,7 +242,6 @@ namespace Star
 		case Yellow2_Red:
 			starColor = Yellow2_Red_Blue;
 			starEffect = EFTYellow2_Red_Blue;
-			Eff1::Create("./data/effect/ef_star_chipB.txt", &pPos, 0);
 			break;
 		case Yellow3:
 			starColor = Yellow3_Blue;
@@ -244,11 +258,21 @@ namespace Star
 			starColor = Yellow4_Blue;
 			starEffect = EFTYellow4_Blue;
 			starCircle = Complete;
-			Eff1::Create("./data/effect/ef_star_fullB.txt", &pPos, 0);
 			break;
 		default:
 			starSound = Reflact;
 			break;
+		}
+
+		if (starCircle == Complete)
+		{
+			effsp1->_set_chip_type("b_sta");
+			effsp1->run(pPos, 0);
+		}
+		else
+		{
+			effsp->_set_chip_type("b_sta");
+			effsp->run(pPos, 0);
 		}
 	}
 
@@ -294,7 +318,6 @@ namespace Star
 				break;
 			}
 
-
 			if (starSound == Full) {
 				SoundPlay(Full);
 				Remove(fr);
@@ -331,8 +354,10 @@ namespace Star
 			else if (starSound == Reflact) {
 				SoundPlay(Reflact);
 				/*エフェクト放出*/
-				static std::string fileName[3] = { "./data/effect/ef_reflect_frgY.txt","./data/effect/ef_reflect_frgR.txt","./data/effect/ef_reflect_frgB.txt" };
-				Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+				static std::string fileName[3] = { "y_frg","r_frg","b_frg" };
+				//Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+				effsp2->_set_chip_type(fileName[oFragment->iColor]);
+				effsp2->run(oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
 				/*byte loopmax = 31;
 				for (byte b = 0; b < loopmax; ++b)
 				{
@@ -359,358 +384,16 @@ namespace Star
 				//oFragment->rFragment.SetPos(&oFragment->pInitPos);
 				//oFragment->bMoveActive = false;
 			}
-
-			//旧ichange
-
-			//switch (iChange)
+			//iChange = min(iChange + 1, 22 + 13);
+			//if (iChange > 4)
 			//{
-			//case 22:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 23;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 26;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 28;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 23:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 24;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 27;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 29;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 24:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iChangeCircle = 86;
-			//		iChange = 25;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iChangeCircle = 86;
-			//		iChange = 33;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iChangeCircle = 86;
-			//		iChange = 32;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 25:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
-			//case 26:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 27;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 30;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 27:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iChangeCircle = 86;
-			//		iChange = 31;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	else
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	break;
-			//case 28:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 29;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iChangeCircle = 85;
-			//		iChange = 30;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	break;
-			//case 29:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iChangeCircle = 86;
-			//		iChange = 31;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	else
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	break;
-			//case 30:
-			//	iChangeCircle = 85;
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iChangeCircle = 86;
-			//		iChange = 31;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	else
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	break;
-			//case 31:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
-			//case 32:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
-			//case 33:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
+			//	iChange = 0;
 			//}
 
-			//旧ieffct
-
-			//switch (iStarEffect)
-			//{
-			//case 44:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iStarEffect = 45;
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iStarEffect = 46;
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iStarEffect = 47;
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 45:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iStarEffect = 46;
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iStarEffect = 47;
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iStarEffect = 48;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 46:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
-			//case 47:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
-			//case 48:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iStarEffect = 49;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iStarEffect = 50;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iStarEffect = 51;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 49:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iStarEffect = 49;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iStarEffect = 50;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iStarEffect = 51;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 50:
-			//	oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//	res->wsTest5.Play();
-			//	oFragment->bMoveActive = false;
-			//	break;
-			//case 51:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iStarEffect = 52;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iStarEffect = 44;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	break;
-			//case 53:
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		iStarEffect = 54;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	else
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	break;
-			//case 54:
-			//	if (oFragment->iColor == 0)
-			//	{
-			//		iStarEffect = 55;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 1)
-			//	{
-			//		iStarEffect = 56;
-			//		res->wsTest2.Play();
-			//		Remove(fr);
-			//	}
-			//	if (oFragment->iColor == 2)
-			//	{
-			//		oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			//		res->wsTest5.Play();
-			//		oFragment->bMoveActive = false;
-			//	}
-			//	break;
-			//}
+			/*oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			oFragment->bMoveActive = false;*/
+			//		}
 		}
-
-		//iChange = min(iChange + 1, 22 + 13);
-		//if (iChange > 4)
-		//{
-		//	iChange = 0;
-		//}
-
-		/*oFragment->rFragment.SetPos(&oFragment->pInitPos);
-		oFragment->bMoveActive = false;*/
-		//		}
 	}
 	void AnimStar(byte * const bFrame, byte * const bSrcX, byte * const bSrcY)
 	{

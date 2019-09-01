@@ -74,7 +74,7 @@ namespace BlackHole
 	void Obj::Render()
 	{
 		if (auto stageRes = RB::Find<StageManager::RS>(StageManager::caResName)) {
-			rBlackHole.Draw(&stageRes->iStageImg, &Frec(16.f * (aAnim.GetSrcX() + 53), 16, 16, 16)/*Frec(192, 0, 16, 16)*/, true);
+			rBlackHole.Draw(&stageRes->iStageImg, &Frec(16.f * (aAnim.GetSrcX() + 53), 16, 16, 16)/*Frec(192, 0, 16, 16)*/);
 		}
 		cOutCircle.Draw();
 #ifdef _DEBUG
@@ -153,7 +153,6 @@ namespace BlackHole
 
 					if (dist > 0.01f) {
 						float len = sqrt(dist);
-						
 						Vector2 vec = Vector2(oBeam->vSpd.GetX() * 0.8f + (lenX / len) * 0.2f, oBeam->vSpd.GetY() * 0.8f + (lenY / len) * 0.2f);
 						oBeam->vSpd = vec;
 					}
@@ -205,7 +204,6 @@ namespace BlackHole
 
 					if (dist > 0.01f) {
 						float len = sqrt(dist);
-
 						Vector2 vec = Vector2(oFrag->vMove.GetX() * 0.8f + (lenX / len) * 0.3f, oFrag->vMove.GetY() * 0.8f + (lenY / len) * 0.3f);
 						oFrag->vMove = vec;
 					}

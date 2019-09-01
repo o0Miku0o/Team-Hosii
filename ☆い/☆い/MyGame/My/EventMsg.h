@@ -145,7 +145,7 @@ public:
 			draw.SetPos(&_d_pos);
 			_src.l = (msg.at(i) % 32) * 6.f;
 			_src.t = (msg.at(i) / 32) * 24.f;
-			draw.Draw(&font, &_src, false);
+			draw.Draw(&font, &_src);
 		}
 	}
 	void Clear()
@@ -166,7 +166,9 @@ public:
 	{
 		return (is.IsOpened()) ? Result::RES_SUCCESS : Result::RES_FAILURE;
 	}
+
 	const std::string &Msg() const
+
 	{
 		return msg;
 	}

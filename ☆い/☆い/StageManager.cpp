@@ -9,6 +9,7 @@
 #include "StageLoad.h"
 #include "TimeAttack.h"
 #include "Ranking.h"
+#include "Hukidasi.h"
 
 namespace StageManager
 {
@@ -102,6 +103,7 @@ namespace StageManager
 		//Add<StageSelect::Obj>();
 		/*データの初期化*/
 		pTutorialPos = Point(0.f, 0.f);
+		for (auto &it : bScores) it = 1;
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
@@ -149,7 +151,27 @@ namespace StageManager
 
 					RemoveAll({ caTaskName, FadeInOut::caTaskName,TimeAttack::caTaskName }, NOT_REMOVE_NAME);
 					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					//			Add<Back::Obj>();
+					//Add<Back::Obj>();
+
+					byte bStageGroup = 0, bNowStage = 0;
+					bStageGroup = bStageNum / 10;
+					bNowStage = bStageNum - bStageGroup * 10 - 1;
+					if (usBeamCount <= bClearFragmentNumMax)
+					{
+						bScores.at(bNowStage) = 3;
+					}
+					else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					{
+						bScores.at(bNowStage) = 2;
+					}
+
+					std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+					if (ofs)
+					{
+						ofs << bStageNum;
+						ofs.close();
+					}
+
 					if (bStageNum / 10 >= 7 && bStageNum - (bStageNum / 10 * 10) == 5)
 					{
 						if (auto ta = Find<TimeAttack::Obj>(TimeAttack::caTaskName))
@@ -161,21 +183,18 @@ namespace StageManager
 						Add<Back::Obj>();
 						Add<Ranking::Obj>();
 					}
-					else
-					{
+					else {
 						bStageNum = bNextStage;
-						if (bStageNum == 255)
-						{
+						if (bStageNum == 255) {
 							RemoveAll();
+
 							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
+							auto re = Add<Result::Obj>();
+							re->SetParam(bStageGroup, bScores);
 							Pause(2);
 						}
-						else
-						{
+						else {
 							Add<StageLoad::Obj>();
-							//Pause(2);
 						}
 					}
 					iResultCnt = 0;

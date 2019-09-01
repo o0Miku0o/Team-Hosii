@@ -103,7 +103,7 @@ namespace Meteo
 		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16 * 4, 16, 16, 16);
-			rMeteo.Draw(&res->iStageImg, &src, true);
+			rMeteo.Draw(&res->iStageImg, &src);
 		}
 		//cMeteoHitBase.Draw();
 	}
