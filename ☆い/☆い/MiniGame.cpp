@@ -113,7 +113,7 @@ namespace MiniGame
 		highMsg.DrawAscii(pos2, width, height);
 		if (auto s = RB::Find<MiniGame::RS>(MiniGame::caResName))
 		{
-			rButton.Draw(&s->iButton, &Frec(16.f * 13.f, 0.f, 16.f, 16.f), true);
+			rButton.Draw(&s->iButton, &Frec(16.f * 13.f, 0.f, 16.f, 16.f));
 		}
 	}
 }

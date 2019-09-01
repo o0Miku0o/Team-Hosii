@@ -1,4 +1,3 @@
-<<<<<< < HEAD
 #include "StageSelect.h"
 #include "StageManager.h"
 #include "Stage.h"

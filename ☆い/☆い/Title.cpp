@@ -1,4 +1,3 @@
-<<<<<< < HEAD
 #include "Title.h"
 #include "StageManager.h"
 #include "Cursor.h"
@@ -13,7 +12,7 @@
 #include "MiniGame.h"
 #include "Demo.h"
 
-	namespace Title
+namespace Title
 {
 	/*ƒŠƒ\[ƒX‚Ì‰Šú‰»ˆ—*/
 	void RS::Init()

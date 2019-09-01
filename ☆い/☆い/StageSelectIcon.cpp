@@ -1,4 +1,3 @@
-<<<<<< < HEAD
 #include "StageSelectIcon.h"
 #include "StageManager.h"
 #include "Cursor.h"

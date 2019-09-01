@@ -134,7 +134,6 @@ namespace StageSelect
 			Pause(2);
 			return;
 		}
-		auto pad = JoyPad::GetState(0);
 		/*ƒƒS->ƒ^ƒCƒgƒ‹*/
 		if (kb->Down('F') || pad->Down(JOY_BUTTON7))
 		{

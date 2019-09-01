@@ -123,21 +123,21 @@ namespace BreakStar
 			if (bBlackMode)
 			{
 				Frec src(16.f * (iChange + iTime / 100), 0, 16.f, 16.f);
-				rStar.Draw(&res->iStageImg, &src, true);
+				rStar.Draw(&res->iStageImg, &src);
 			}
 			else
 			{
 				if (!bCrach)
 				{
 					Frec src(16.f * iChange, 0, 16.f, 16.f);
-					rStar.Draw(&res->iStageImg, &src, true);
+					rStar.Draw(&res->iStageImg, &src);
 				}
 				else
 				{
 					Frec frg1(16.f * 2, 0.f, 16.f, 16.f);
 					for (int i = 0; i < 5; i++)
 					{
-						rFrg[i].Draw(&res->iStageImg, &frg1, true);
+						rFrg[i].Draw(&res->iStageImg, &frg1);
 					}
 					//rFrg1.Draw(&res->iStageImg, &frg1, true);
 					//rFrg2.Draw(&res->iStageImg, &frg1, true);

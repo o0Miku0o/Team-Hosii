@@ -93,7 +93,7 @@ namespace Ranking
 	{
 		if (auto s = RB::Find<Ranking::RS>(Ranking::caResName))
 		{
-			rButton.Draw(&s->iButton, &Frec(0.f, 0.f, 16.f, 16.f), true);
+			rButton.Draw(&s->iButton, &Frec(0.f, 0.f, 16.f, 16.f));
 		}
 
 		titleMsg.DrawAscii(pos, width, height);

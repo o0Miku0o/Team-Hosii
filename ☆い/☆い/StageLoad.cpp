@@ -45,7 +45,7 @@ namespace StageLoad
 #ifndef _DEBUG
 		Add<Gas::Obj>();
 #endif
-		Add<Player::Obj>();
+		//Add<Player::Obj>();
 
 		isLoad = false;
 		for (int i = 0; i < 8; ++i) {
@@ -176,6 +176,8 @@ namespace StageLoad
 				fade = Add<FadeInOut::Obj>();
 				fade->bIsIn = false;
 			}
+			//フェードアウトに重ねることを防ぐため
+			Add<Player::Obj>();
 			//auto fade = Add<FadeInOut::Obj>();
 			//fade->bIsIn = false;
 		}
