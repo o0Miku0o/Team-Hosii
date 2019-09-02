@@ -1361,22 +1361,27 @@ public:
 	//矩形を移動させる
 	void SetPos(const Point * const pos_)
 	{
-		//原点を中心とした位置に移動
-		float  pp[4][2] =
+		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			{ -dx , -dy },
-			{ dx , -dy },
-			{ -dx ,  dy },
-			{ dx ,  dy },
-		};
+			p[i].x -= p[CENTER].x;
+			p[i].y -= p[CENTER].y;
+		}
+		////原点を中心とした位置に移動
+		//float  pp[4][2] =
+		//{
+		//	{ -dx , -dy },
+		//	{ dx , -dy },
+		//	{ -dx ,  dy },
+		//	{ dx ,  dy },
+		//};
 
 		p[CENTER].x = pos_->x;
 		p[CENTER].y = pos_->y;
 
 		for (int i = 0; i < POINT_MAX - 1; ++i)
 		{
-			p[i].x = p[CENTER].x + pp[i][0];
-			p[i].y = p[CENTER].y + pp[i][1];
+			p[i].x += p[CENTER].x/* + pp[i][0]*/;
+			p[i].y += p[CENTER].y/* + pp[i][1]*/;
 		}
 	}
 	//矩形を拡大縮小させる
