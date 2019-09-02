@@ -3,6 +3,9 @@
 
 namespace Stage
 {
+	const char caTaskName[] = { "ステージタスク" };
+	const char caResName[] = { "ステージリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -31,5 +34,5 @@ namespace Stage
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

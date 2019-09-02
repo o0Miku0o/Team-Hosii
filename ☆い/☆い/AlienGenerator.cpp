@@ -15,7 +15,7 @@ namespace AlienGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("宇宙人生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/

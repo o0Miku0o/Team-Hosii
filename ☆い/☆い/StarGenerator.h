@@ -5,6 +5,9 @@ using namespace std;
 
 namespace StarGenerator
 {
+	const char caTaskName[] = { "星生成タスク" };
+	const char caResName[] = { "星生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -34,7 +37,8 @@ namespace StarGenerator
 		void Update();
 		void Render();
 		void Bridge(const int iNum, const int* iChange, const Point* pPos);
-		void Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos);
-		void Bridge(const int iNum, const vector<int> iChange, const vector<int> iEffect, const vector<Point> pPos);
-	}*OBJ_ptr;
+		void Bridge(const int iNum, const vector<int> &iChange, const vector<Point> &pPos);
+		void Bridge(const int iNum, const vector<int> &iChange, const vector<int> &iEffect, const vector<Point> &pPos);
+		void Bridge(const int iNum, const vector<int> &iChange, const vector<int> &iEffect, const vector<Frec> &fRec);
+	}*Obj_ptr;
 }

@@ -3,6 +3,9 @@
 
 namespace BeamGenerator
 {
+	const char caTaskName[] = { "ビーム生成タスク" };
+	const char caResName[] = { "ビーム生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -29,9 +32,13 @@ namespace BeamGenerator
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void BeamCreate(TaskBase *atpPlayer);
+		void TitleBeamCreate();
 	public:
 		void Update();
 		void Render();
+		void SelectBeamCreate(float fAngle);
 
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

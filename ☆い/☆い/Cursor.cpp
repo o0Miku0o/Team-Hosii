@@ -6,15 +6,17 @@
 #include "StageSelectObjGalaxy.h"
 #include "StageSelectObjBH.h"
 #include "StageSelectObjAsteroid.h"
-#include "Stage1-1.h"
-#include "Stage2-1.h"
-#include "Stage3-1.h"
-#include "Stage4-1.h"
-#include "Stage5-1.h"
 #include "Title.h"
 #include "StageSelect.h"
 #include "Hukidasi.h"
 #include "StageLoad.h"
+#include "Result.h"
+#include "GameInit.h"
+#include "KeyMove.h"
+#include "MiniGame.h"
+#include "TimeAttack.h"
+#include "Ranking.h"
+#include "StageSelectIcon.h"
 
 namespace Cursor
 {
@@ -32,95 +34,43 @@ namespace Cursor
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("カーソルタスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
 
 		/*データの初期化*/
+		SetRenderPriority(0.7f);
 		rCursorBase = Rec(0.f, 0.f, 16.f * 4, 16.f * 4);
+		fSpd = 12.f;
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-
+		spMove.reset();
 	}
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto pad = JoyPad::GetState(0);
 		auto kb = KB::GetState();
-		if (kb->On('W'))
-		{
-			if (rCursorBase.GetPosY() <= Rec::Win.t + rCursorBase.GetH() / 2) {
-				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.t + rCursorBase.GetH() / 2));
-			}
-			else
-				rCursorBase.Move(&(Vector2::up * 8.f));
-		}
-		if (kb->On('S'))
-		{
-			if (rCursorBase.GetPosY() >= Rec::Win.b - rCursorBase.GetH() / 2) {
-				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.b - rCursorBase.GetH() / 2));
-			}
-			else
-				rCursorBase.Move(&(Vector2::down * 8.f));
+		auto pad = JoyPad::GetState(0);
+		/*キーボード移動*/
+		MoveKeyBoard(kb);
+		/*パッド移動*/
+		MovePad(pad);
 
-		}
-		if (kb->On('A'))
+		if (auto ti = Find<Title::Obj>(Title::caTaskName))
 		{
-			if (rCursorBase.GetPosX() <= Rec::Win.l + rCursorBase.GetW() / 2) {
-				rCursorBase.SetPos(&Point(Rec::Win.l + rCursorBase.GetW() / 2, rCursorBase.GetPosY()));
-			}
-			else
-				rCursorBase.Move(&(Vector2::left * 8.f));
-		}
-		if (kb->On('D'))
-		{
-			if (rCursorBase.GetPosX() >= Rec::Win.r - rCursorBase.GetW() / 2) {
-				rCursorBase.SetPos(&Point(Rec::Win.r - rCursorBase.GetW() / 2, rCursorBase.GetPosY()));
-			}
-			else
-				rCursorBase.Move(&(Vector2::right * 8.f));
-		}
-		if (pad->GetAxisL() != Vector2::zero)
-		{
-
-			if (rCursorBase.GetPosX() - rCursorBase.GetW() * 0.5f - 1 < Rec::Win.l) {
-				rCursorBase.SetPos(&Point(Rec::Win.l + rCursorBase.GetW() * 0.5f, rCursorBase.GetPosY()));
-			}
-			else if (rCursorBase.GetPosX() + rCursorBase.GetW() * 0.5f > Rec::Win.r) {
-				rCursorBase.SetPos(&Point(Rec::Win.r - rCursorBase.GetW() *0.5f, rCursorBase.GetPosY()));
-			}
-			if (rCursorBase.GetPosY() - rCursorBase.GetW() * 0.5f - 1 < Rec::Win.t) {
-				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.t + rCursorBase.GetW() * 0.5f));
-			}
-			else if (rCursorBase.GetPosY() + rCursorBase.GetH() * 0.5f > Rec::Win.r) {
-				rCursorBase.SetPos(&Point(rCursorBase.GetPosX(), Rec::Win.b - rCursorBase.GetW()));
-			}
-			rCursorBase.Move(&(pad->GetAxisL() * 8.f));
-		}
-		if (auto ti = Find<Title::Obj>("タイトルタスク"))
-		{
+			//rCursorBase.SetPos(&ti->rStart.GetPos());
 			ti->fStartImgSrcY = 0.f;
 			ti->rStart.Scaling(16 * 30.f, 16 * 5.f);
 			if (ti->rStart.CheckHit(&rCursorBase.GetPos()))
 			{
 				ti->fStartImgSrcY = 1.f;
 				ti->rStart.Scaling(16 * 30.f * 1.5f, 16 * 5.f * 1.5f);
-				if (kb->Down(VK_RETURN))
+				if (kb->Down(VK_RETURN) || kb->Down(VK_RIGHT) || pad->Down(JOY_BUTTON6) || pad->Down(JOY_BUTTON2))
 				{
-					RemoveAll();
-					Add<StageManager::Obj>();
-					Add<Back::Obj>();
-					Add<StageSelect::Obj>();
-					Pause(2);
-					return;
-				}
-				if (pad->Down(J_BUT_6))
-				{
-					RemoveAll();
-					Add<StageManager::Obj>();
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
 					Add<Back::Obj>();
 					Add<StageSelect::Obj>();
 					Pause(2);
@@ -128,217 +78,96 @@ namespace Cursor
 				}
 			}
 		}
-		//auto sl = Find<StageSelect::Obj>("ステージ選択タスク");
+
+		if (auto ra = Find<Ranking::Obj>(Ranking::caTaskName))
+		{
+			ra->rButton.Scaling(16.f * 15.f, 16.f * 13.f);
+			if (ra->rButton.CheckHit(&rCursorBase.GetPos()))
+			{
+				ra->rButton.Scaling(16.f * 20.f, 16.f * 18.f);
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
+				{
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					Add<Back::Obj>();
+					Add<StageSelect::Obj>();
+					Pause(2);
+				}
+			}
+		}
+
+		if (auto re = Find<Result::Obj>(Result::caTaskName))
+		{
+			//rCursorBase.SetPos(&re->rRestart.GetPos());
+			re->rRestart.Scaling(16.f * 15.f, 16.f * 12.f);
+			if (re->rRestart.CheckHit(&rCursorBase.GetPos()))
+			{
+				re->rRestart.Scaling(16.f * 19.f, 16.f * 16.f);
+				if (kb->Down(VK_RETURN) || kb->Down(VK_RIGHT) || pad->Down(JOY_BUTTON6) || pad->Down(JOY_BUTTON2))
+				{
+					if (re->rHanko.GetPosX() != re->rRestart.GetPosX()) re->rHanko.Scaling(16.f * 19.f * 10.f, 16.f * 16.f * 10.f);
+					re->bPushHanko = true;
+					//RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					//Add<Back::Obj>();
+					//Add<Title::Obj>();
+					////Add<StageSelect::Obj>();
+					//Pause(2);
+					return;
+				}
+			}
+		}
+
+		bool bHitFlag = false;
 		constexpr float fAddScale = 70.f;
-		constexpr float fScaleWMax = 1800.f;
-		constexpr float fScaleHMax = 400.f;
-		bool bFlag = false;
-		Point pPos;
-		Hukidasi::PictureGroup pGroup = Hukidasi::PictureGroup::GROUP_UP;
-		if (auto us = Find<StageSelectObjEarth::Obj>("地球タスク"))
+		float fScaleWMax = 1800.f;//2000;
+		float fScaleHMax = 400.f;//600;
+		auto hu = Find<Hukidasi::Obj>(Hukidasi::caTaskName);
+		for (auto si : FindAll<StageSelectIcon::Obj>(StageSelectIcon::caTaskName))
 		{
-			us->rEarth.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rEarth.GetPos(), us->rEarth.GetW() * 0.5f);
+			si->rIcon.Scaling(16.f * 10.f, 16.f * 10.f);
+			Circle cHit;
+			cHit.SetPos(&si->rIcon.GetPos());
+			cHit.SetRadius(si->rIcon.GetW() / 2);
 			if (cHit.CheckHit(&rCursorBase.GetPos()))
 			{
-				us->rEarth.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-				
-				pGroup = Hukidasi::PictureGroup::GROUP_UP;
-
-				//if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
-				//{
-				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				//	Add<Back::Obj>();
-				//	Add<Stage11::Obj>();
-				//	Pause(2);
-				//	return;
-				//}
-
-				//試遊会
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-						manager->bStageNum = 11;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
-				}
-			}
-		}
-		if (auto us = Find<StageSelectObjAsteroid::Obj>("小惑星タスク"))
-		{
-			us->rAsteroid.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rAsteroid.GetPos(), us->rAsteroid.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rAsteroid.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
-
-				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
-				//{
-				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				//	Add<Back::Obj>();
-				//	Add<Stage21::Obj>();
-				//	Pause(2);
-				//	return;
-				//}
-
-				//試遊会
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-						manager->bStageNum = 21;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
-				}
-			}
-		}
-		if (auto us = Find<StageSelectObjGalaxy::Obj>("銀河タスク"))
-		{
-			us->rGalaxy.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rGalaxy.GetPos(), us->rGalaxy.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rGalaxy.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-
-				pGroup = Hukidasi::PictureGroup::GROUP_UP;
-        
-				//if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6))
-				//{
-				//	RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				//	Add<Back::Obj>();
-				//	Add<Stage31::Obj>();
-				//	Pause(2);
-				//	return;
-				//}
-
-				//試遊会
-				if (kb->Down(VK_RETURN) || pad->Down(J_BUT_6)) {
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-						manager->bStageNum = 31;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
-					}
-				}
-			}
-		}
-		if (auto us = Find<StageSelectObjUS::Obj>("天王星タスク"))
-		{
-			us->rUranus.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rUranus.GetPos(), us->rUranus.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rUranus.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
-
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
-				
-				pGroup = Hukidasi::PictureGroup::GROUP_DOWN;
-
-				if (kb->Down(VK_RETURN)|| pad->Down(J_BUT_6))
+				si->rIcon.Scaling(16.f * 15.f, 16.f * 15.f);
+				if (kb->Down(VK_RETURN) || pad->Down(JOY_BUTTON6))
 				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-						manager->bStageNum = 41;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
+					RemoveAll(StageManager::caTaskName, NOT_REMOVE_NAME);
+					if (auto manager = Find<StageManager::Obj>(StageManager::caTaskName))
+					{
+						manager->bStageNum = ((si->type + 1) * 10) + 1;
+
+						Add<StageLoad::Obj>();
+
+						Pause(2);
 					}
 				}
-			}
-		}
-		if (auto us = Find<StageSelectObjBH::Obj>("ブラックホール地帯タスク"))
-		{
-			us->rBH.Scaling(16 * 10, 16 * 10);
-			Circle cHit(&us->rBH.GetPos(), us->rBH.GetW() * 0.5f);
-			if (cHit.CheckHit(&rCursorBase.GetPos()))
-			{
-				us->rBH.Scaling(16 * 15, 16 * 15);
-				bFlag = true;
 
-				pPos = Point(Rec::Win.r * 0.5f, Rec::Win.b * 0.25f);
-				
-				pGroup = Hukidasi::PictureGroup::GROUP_UP;
-
-				if (kb->Down(VK_RETURN)||pad->Down(J_BUT_6))
+				if (hu)
 				{
-					RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-					if (auto manager = Find<StageManager::Obj>("ステージ統括タスク")) {
-						manager->bStageNum = 51;
-						if (manager->bStageNum == 255) {
-							RemoveAll();
-							Add<StageManager::Obj>();
-							Add<Back::Obj>();
-							Add<StageSelect::Obj>();
-							Pause(2);
-						}
-						else {
-							Add<StageLoad::Obj>();
-							Pause(2);
-						}
+					Point pPos(Rec::Win.r * 0.5f, Rec::Win.b * 0.75f);
+					if (si->type == StageSelectIcon::Type::FR || si->type == StageSelectIcon::Type::TA)
+					{
+						pPos.y = 910.f;
+						fScaleWMax = 1200.f;
+						fScaleHMax = 200.f;
+						hu->rTextBox.SetPos(&pPos);
 					}
+					else
+					{
+						hu->rTextBox.SetPos(&Point(Rec::Win.r * 0.5f, Rec::Win.b * (0.75f * 0.75f) + 70.f));
+					}
+
+					hu->SetPos(&pPos);
+					hu->SetScaleMax(fScaleWMax, fScaleHMax);
+					hu->SetAddScale(fAddScale);
+					hu->SetStageGroup(si->type);
 				}
-			}
-		}
-		if (auto hu = Find<Hukidasi::Obj>("吹き出しタスク"))
-		{
-			if (bFlag)
-			{
-				hu->SetPos(&pPos);
-				hu->SetScaleMax(fScaleWMax, fScaleHMax);
-				hu->SetAddScale(fAddScale);
-				hu->SetStageGroup(pGroup);
+				break;
 			}
 			else
 			{
-				hu->SetAddScale(-fAddScale);
+				if (hu)hu->SetAddScale(-fAddScale);
 			}
 		}
 	}
@@ -346,13 +175,85 @@ namespace Cursor
 	void Obj::Render()
 	{
 		//33
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
-			Frec src(16.f * 32, 16.f, 16.f, 16.f);
+			Frec src(16.f * 32, 16.f, 15.f, 15.f);
 			rCursorBase.Draw(&res->iStageImg, &src);
 #ifdef _DEBUG
 			rCursorBase.Draw();
 #endif // _DEBUG
+		}
+	}
+	/*キーボードでの移動*/
+	void Obj::MoveKeyBoard(std::shared_ptr<KB> & apKB)
+	{
+
+		if (apKB->On('W'))
+		{
+			rCursorBase.Move(&(Vector2::up * fSpd));
+		}
+		if (apKB->On('S'))
+		{
+			rCursorBase.Move(&(Vector2::down * fSpd));
+		}
+		if (apKB->On('A'))
+		{
+			rCursorBase.Move(&(Vector2::left * fSpd));
+		}
+		if (apKB->On('D'))
+		{
+			rCursorBase.Move(&(Vector2::right * fSpd));
+		}
+		//画面外の判定処理
+		float fX = rCursorBase.GetPosX();
+		float fY = rCursorBase.GetPosY();
+		const float fW = rCursorBase.GetW();
+		const float fH = rCursorBase.GetH();
+		if (fX <= Rec::Win.l + fW * 0.5f)
+		{
+			fX = Rec::Win.l + fW * 0.5f;
+		}
+		else if (fX >= Rec::Win.r - fW * 0.5f)
+		{
+			fX = Rec::Win.r - fW * 0.5f;
+		}
+		if (fY <= Rec::Win.t + fH * 0.5f)
+		{
+			fY = Rec::Win.t + fH * 0.5f;
+		}
+		else if (fY >= Rec::Win.b - fH * 0.5f)
+		{
+			fY = Rec::Win.b - fH * 0.5f;
+		}
+		rCursorBase.SetPos(&Point(fX, fY));
+	}
+	/*パッドでの移動*/
+	void Obj::MovePad(std::shared_ptr<JoyPad> & apPad)
+	{
+		if (apPad->Axis(JoyPad::Stick::STK_LEFT) != Vector2::zero)
+		{
+			rCursorBase.Move(&(apPad->Axis(JoyPad::Stick::STK_LEFT) * fSpd));
+			float fX = rCursorBase.GetPosX();
+			float fY = rCursorBase.GetPosY();
+			const float fW = rCursorBase.GetW();
+			const float fH = rCursorBase.GetH();
+			if (fX - fW * 0.5f < Rec::Win.l)
+			{
+				fX = Rec::Win.l + fW * 0.5f;
+			}
+			else if (fX + fW * 0.5f > Rec::Win.r)
+			{
+				fX = Rec::Win.r - fW * 0.5f;
+			}
+			if (fY - fH * 0.5f < Rec::Win.t)
+			{
+				fY = Rec::Win.t + fH * 0.5f;
+			}
+			else if (fY + fH * 0.5f > Rec::Win.b)
+			{
+				fY = Rec::Win.b - fH * 0.5f;
+			}
+			rCursorBase.SetPos(&Point(fX, fY));
 		}
 	}
 }

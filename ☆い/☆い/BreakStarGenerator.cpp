@@ -15,7 +15,7 @@ namespace BreakStarGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("壊す星生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -53,6 +53,10 @@ namespace BreakStarGenerator
 			star->cHitbase.SetPos(&pPos.at(i));
 			star->iChange = iChange.at(i);
 			star->bBlackMode = bMode.at(i);
+			for (int j = 0; j < 5; ++j)
+			{
+				star->rFrg[j].SetPos(&star->rStar.GetPos());
+			}
 		}
 	}
 }

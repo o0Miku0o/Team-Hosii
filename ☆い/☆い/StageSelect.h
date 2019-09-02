@@ -3,12 +3,14 @@
 
 namespace StageSelect
 {
+	const char caTaskName[] = { "ステージ選択タスク" };
+	const char caResName[] = { "ステージ選択リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
 		RS() { Init(); }
 		~RS() { Finalize(); }
 	private:
@@ -21,9 +23,10 @@ namespace StageSelect
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
 		Obj() {}
 		~Obj() {}
+		int iCnt;
+		Rec rHoudai;
 	private:
 		RS_ptr res;
 		void Init();
@@ -31,5 +34,5 @@ namespace StageSelect
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

@@ -2,6 +2,7 @@
 #include "StageManager.h"
 #include "Beam.h"
 #include "Fragment.h"
+#include "Eff1.h"
 
 namespace Jupitor
 {
@@ -19,7 +20,7 @@ namespace Jupitor
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("木星タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
@@ -27,6 +28,7 @@ namespace Jupitor
 		rJupitor = Rec(800, 270, 16 * 20, 16 * 20);
 		cJupitorHitBase = Circle(&rJupitor.GetPos(), rJupitor.GetW()*0.4f);
 		cGravityCircle = Circle(&rJupitor.GetPos(), rJupitor.GetW()*0.8f);
+		cGravityCircle.SetColor(0, 255, 0);
 		rGravityCircle = Rec(rJupitor.GetPosX(), rJupitor.GetPosY(), rJupitor.GetW()*2.f, rJupitor.GetH()*2.f);
 	}
 	/*タスクの終了処理*/
@@ -37,7 +39,7 @@ namespace Jupitor
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto vf = FindAll<Fragment::Obj>("欠片タスク");
+		auto vf = FindAll<Fragment::Obj>(Fragment::caTaskName);
 		for (auto &f : vf)
 		{
 			FragmentCheckhit(f);
@@ -52,7 +54,7 @@ namespace Jupitor
 				}
 			}
 		}
-		if (auto beam = Find<Beam::Obj>("ビームタスク"))
+		if (auto beam = Find<Beam::Obj>(Beam::caTaskName))
 		{
 			BeamCheckhit(beam);
 		}
@@ -61,21 +63,12 @@ namespace Jupitor
 		cGravityCircle.SetPos(&rJupitor.GetPos());
 		cGravityCircle.SetRadius(rJupitor.GetW()*0.8f);
 		rGravityCircle = Rec(rJupitor.GetPosX(), rJupitor.GetPosY(), rJupitor.GetW()*2.f, rJupitor.GetH()*2.f);
-		if (iAlpha == 0)
-		{
-			iCnt = 3;
-		}
-		else if (iAlpha == 255)
-		{
-			iCnt = -3;
-		}
-		iAlpha += iCnt;
 
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iAnimCount + 12), 16, 16, 16);
 			if (i >= 20)
@@ -84,13 +77,11 @@ namespace Jupitor
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rJupitor.Draw(&res->iStageImg, &src, true);
-			Frec src2(16.f*83.f, 0, 16, 16);
-			rGravityCircle.DrawAlpha(&res->iStageImg, &src2, iAlpha);
+			rJupitor.Draw(&res->iStageImg, &src);
 		}
+		cGravityCircle.Draw();
 #ifdef _DEBUG
 		cJupitorHitBase.Draw();
-		cGravityCircle.Draw();
 		Font f;
 		std::string s = std::to_string(rJupitor.GetPosX()) + " " + std::to_string(rJupitor.GetPosY()) + " " + std::to_string(rJupitor.GetH());
 		f.Draw(&rJupitor.GetPos(), s.c_str());
@@ -115,9 +106,15 @@ namespace Jupitor
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cJupitorHitBase.CheckHit(&cFrHit))
 		{
-			oFragment->rFragment.SetPos(&oFragment->pInitPos);
-			oFragment->bMoveActive = false;
-			oFragment->bRotationActive = true;
+			/*エフェクト放出*/
+			static std::string fileName[3] = { "./data/effect/ef_remove_frgY.txt","./data/effect/ef_remove_frgR.txt","./data/effect/ef_remove_frgB.txt" };
+			Eff1::Create(fileName[oFragment->iColor], &oFragment->rFragment.GetPos(), oFragment->rFragment.GetDeg());
+			oFragment->rFragment.SetDeg(rJupitor.GetDeg(&oFragment->rFragment));
+			//oFragment->bPreRotationActive = !oFragment->bRotationActive;
+			//oFragment->HitAfterInit();
+			//oFragment->rFragment.SetPos(&oFragment->pInitPos);
+			//oFragment->bMoveActive = false;
+			//oFragment->bRotationActive = true;
 		}
 	}
 }

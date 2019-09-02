@@ -15,7 +15,7 @@ namespace StarGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("星生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -41,29 +41,49 @@ namespace StarGenerator
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(pPos + i);
 			star->cStarhitbase.SetPos(pPos + i);
-			star->iChange = *(iChange+i);
+	//		star->iChange = *(iChange+i);
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<Point> pPos) {
+	void Obj::Bridge(const int iNum, const vector<int> &iChange, const vector<Point> &pPos) {
 		for (int i = 0; i < iNum; ++i)
 		{	
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(&pPos.at(i));
 			star->cStarhitbase.SetPos(&pPos.at(i));
-			star->iChange = iChange.at(i);
+			//star->iChange = iChange.at(i);
+			star->starColor = (Star::Obj::StarColor)iChange.at(i);
 		}
 		Remove(this);
 	}
-	void Obj::Bridge(const int iNum, const vector<int> iChange, const vector<int> iEffect, const vector<Point> pPos)
+	void Obj::Bridge(const int iNum, const vector<int> &iChange, const vector<int> &iEffect, const vector<Point> &pPos)
 	{
 		for (int i = 0; i < iNum; ++i)
 		{
 			auto star = Add<Star::Obj>();
 			star->rStar.SetPos(&pPos.at(i));
 			star->cStarhitbase.SetPos(&pPos.at(i));
-			star->iChange = iChange.at(i);
-			star->iStarEffect = iEffect.at(i);
+		//	star->iChange = iChange.at(i);
+		//	star->iStarEffect = iEffect.at(i);
+			star->starColor = (Star::Obj::StarColor)iChange.at(i);
+			star->starEffect = (Star::Obj::StarEffect)iEffect.at(i);
+		}
+		Remove(this);
+	}
+	void Obj::Bridge(const int iNum, const vector<int> &iChange, const vector<int> &iEffect, const vector<Frec> &fRec)
+	{
+		Point pPos;
+		for (int i = 0; i < iNum; ++i)
+		{
+			auto star = Add<Star::Obj>();
+			pPos = Point(fRec.at(i).l, fRec.at(i).t);
+			star->rStar.SetPos(&pPos);
+			star->rStar.Scaling(fRec.at(i).r, fRec.at(i).b);
+			star->cStarhitbase.SetPos(&pPos);
+			//	star->iChange = iChange.at(i);
+			//	star->iStarEffect = iEffect.at(i);
+			star->starColor = (Star::Obj::StarColor)iChange.at(i);
+			star->starEffect = (Star::Obj::StarEffect)iEffect.at(i);
 		}
 		Remove(this);
 	}

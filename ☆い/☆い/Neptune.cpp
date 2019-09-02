@@ -19,7 +19,7 @@ namespace Neptune
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("海王星タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
@@ -38,22 +38,22 @@ namespace Neptune
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		auto vf = FindAll<Fragment::Obj>("欠片タスク");
+		auto vf = FindAll<Fragment::Obj>(Fragment::caTaskName);
 		for (auto &f : vf)
 		{
 			FragmentCheckhit(f);
-			if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos))
-			{
-				if (!f->bRotationActive)
-				{
-					f->pRotPos = cGravityCircle.GetPos();
-					f->fRotRadius = cGravityCircle.GetRadius()-1;
-					f->bRotationActive = true;
-					f->bMoveActive = false;
-				}
-			}
+			//if (cGravityCircle.CheckHit(&f->rFragment.GetPos()) && !cGravityCircle.CheckHit(&f->pPrevPos))
+			//{
+			//	if (!f->bRotationActive)
+			//	{
+			//		f->pRotPos = cGravityCircle.GetPos();
+			//		f->fRotRadius = cGravityCircle.GetRadius()-1;
+			//		f->bRotationActive = true;
+			//		f->bMoveActive = false;
+			//	}
+			//}
 		}
-		if (auto beam = Find<Beam::Obj>("ビームタスク"))
+		if (auto beam = Find<Beam::Obj>(Beam::caTaskName))
 		{
 			BeamCheckhit(beam);
 		}
@@ -65,7 +65,7 @@ namespace Neptune
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iAnimCount + 16), 16, 16, 16);
 			if (i >= 25)
@@ -74,7 +74,7 @@ namespace Neptune
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i; 
-			rNeptune.Draw(&res->iStageImg, &src, true);
+			rNeptune.Draw(&res->iStageImg, &src);
 		}
 #ifdef _DEBUG
 		cNeptuneHitBase.Draw();
@@ -103,9 +103,10 @@ namespace Neptune
 		cFrHit.SetPos(&oFragment->rFragment.GetPos());
 		if (cNeptuneHitBase.CheckHit(&cFrHit))
 		{
+	//		oFragment->HitAfterInit();
 			oFragment->rFragment.SetPos(&oFragment->pInitPos);
 			oFragment->bMoveActive = false;
-			oFragment->bRotationActive = true;
+			//oFragment->bRotationActive = true;
 		}
 	}
 }

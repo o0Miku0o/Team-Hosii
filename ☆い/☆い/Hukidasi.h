@@ -1,18 +1,26 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "StageSelectIcon.h"
 
 namespace Hukidasi
 {
-	enum PictureGroup
+	const char caTaskName[] = { "吹き出しタスク" };
+	const char caResName[] = { "吹き出しリソース" };
+
+	enum StageGroup
 	{
-		GROUP_UP,
-		GROUP_DOWN,
+		GROUP_EARTH,
+		GROUP_ASTEROID,
+		GROUP_GALAXY,
+		GROUP_URANUS,
+		GROUP_BLACKHOLE
 	};
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Image iTextImg;
 
 		RS() { Init(); }
 		~RS() { Finalize(); }
@@ -29,28 +37,29 @@ namespace Hukidasi
 
 		Obj() {}
 		~Obj() {}
-	private:
-		PictureGroup pGroup;
 		Rec rHukidasi;
-		Point pFontPos[2];
+	private:
+		StageSelectIcon::Type sGroup;
+		float faWidth[StageSelectIcon::Type::TYPEMAX];
 		float fAddScale;
 		float fWidthMax;
 		float fHeightMax;
-		byte bIsSetPictureCount;
-			
+		byte bSetPictureCount;
+
 		RS_ptr res;
 		void Init();
 		void Finalize();
 
-		void Resize();
 	public:
+		Rec rTextBox;
 		void Update();
 		void Render();
 
+		void Resize();
 		void SetAddScale(const float afAddScale);
 		void SetScaleMax(const float afWMax, const float afHMax);
 		void SetPos(const Point * const appPos);
 		void SetStagePicture(const unsigned int auiStageNumber, const Frec * const apfrPosSize);
-		void SetStageGroup(const PictureGroup asStageGroup);
-	}*OBJ_ptr;
+		void SetStageGroup(const StageSelectIcon::Type asStageGroup);
+	}*Obj_ptr;
 }

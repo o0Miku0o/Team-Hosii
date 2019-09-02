@@ -3,6 +3,9 @@
 
 namespace Saturn
 {
+	const char caTaskName[] = { "土星タスク" };
+	const char caResName[] = { "土星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -38,5 +41,5 @@ namespace Saturn
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

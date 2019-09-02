@@ -5,6 +5,9 @@ using namespace std;
 
 namespace FragmentGenerator
 {
+	const char caTaskName[] = { "欠片生成タスク" };
+	const char caResName[] = { "欠片生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -35,6 +38,6 @@ namespace FragmentGenerator
 		void Render();
 		void Bridge(const int iNum, const Point * const pPos, const int * const iColor);
 		void Bridge2(const int iNum, const vector<Point> pPos, const vector<int> iColor);
-
-	}*OBJ_ptr;
+		void Bridge3(const int iNum, const vector<Point>& pPos, const vector<int>& iColor, const vector<float>& angle);
+	}*Obj_ptr;
 }

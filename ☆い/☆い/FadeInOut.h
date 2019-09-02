@@ -3,12 +3,15 @@
 
 namespace FadeInOut
 {
+	const char caTaskName[] = { "フェイドインアウトタスク" };
+	const char caResName[] = { "フェイドインアウトリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
-
+		
 		RS() { Init(); }
 		~RS() { Finalize(); }
 	private:
@@ -26,10 +29,17 @@ namespace FadeInOut
 		Obj() {}
 		~Obj() {}
 	private:
-		Rec rec[4];			//フェイドインアウト用の角側に配置
+		Rec rSquere[4];			//フェイドインアウト用の角側に配置
 		float fSize;		//矩形の大きさ
 		float fSizeValue;	//fSizeの変化量
 		bool bActive;		//起動フラグ
+
+		Rec rStar;
+		float fStarSize;
+		float fStarSizeValue;
+		
+		float fStarSizeMax;
+		float fStarSizeMin;
 
 		RS_ptr res;
 		void Init();
@@ -37,5 +47,10 @@ namespace FadeInOut
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+
+		/*仮*/
+		void Start();
+		void Stop();
+		const bool IsComplete() const;
+	}*Obj_ptr;
 }

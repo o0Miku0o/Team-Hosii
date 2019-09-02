@@ -3,6 +3,9 @@
 
 namespace Meteo
 {
+	const char caTaskName[] = { "隕石タスク" };
+	const char caResName[] = { "隕石リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -40,5 +43,5 @@ namespace Meteo
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

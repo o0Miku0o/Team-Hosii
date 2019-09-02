@@ -3,6 +3,9 @@
 
 namespace StageSelectObjBH
 {
+	const char caTaskName[] = { "ブラックホール地帯タスク" };
+	const char caResName[] = { "ブラックホール地帯リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -34,5 +37,5 @@ namespace StageSelectObjBH
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

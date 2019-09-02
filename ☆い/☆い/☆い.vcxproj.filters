@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
@@ -11,38 +11,19 @@
     <ClCompile Include="BreakStar.cpp" />
     <ClCompile Include="BreakStarGenerator.cpp" />
     <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="FragmentGenerator.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameInit.cpp" />
     <ClCompile Include="Gas.cpp" />
     <ClCompile Include="Jupitor.cpp" />
     <ClCompile Include="Meteo.cpp" />
     <ClCompile Include="MeteoGenerator.cpp" />
     <ClCompile Include="MyGame\My\Animation.cpp" />
-    <ClCompile Include="MyGame\My\CGDM.cpp" />
     <ClCompile Include="MyGame\My\My.cpp" />
     <ClCompile Include="MyGame\TaskBase.cpp" />
     <ClCompile Include="MyWinMain.cpp" />
     <ClCompile Include="Neptune.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Result.cpp" />
-    <ClCompile Include="Stage1-1.cpp" />
-    <ClCompile Include="Stage1-2.cpp" />
-    <ClCompile Include="Stage1-3.cpp" />
-    <ClCompile Include="Stage2-1.cpp" />
-    <ClCompile Include="Stage2-2.cpp" />
-    <ClCompile Include="Stage2-3.cpp" />
-    <ClCompile Include="Stage3-1.cpp" />
-    <ClCompile Include="Stage3-2.cpp" />
-    <ClCompile Include="Stage3-3.cpp" />
-    <ClCompile Include="Stage4-1.cpp" />
-    <ClCompile Include="Stage4-2.cpp" />
-    <ClCompile Include="Stage4-3.cpp" />
-    <ClCompile Include="Stage5-1.cpp" />
-    <ClCompile Include="Stage5-2.cpp" />
-    <ClCompile Include="Stage5-3.cpp" />
-    <ClCompile Include="StageLoad.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StageSelectObjAsteroid.cpp" />
@@ -60,6 +41,18 @@
     <ClCompile Include="StagePicture.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="FadeInOut.cpp" />
+    <ClCompile Include="Rail.cpp" />
+    <ClCompile Include="StageLoad.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
+    <ClCompile Include="MyGame\My\CADAM.cpp" />
+    <ClCompile Include="Fragment.cpp" />
+    <ClCompile Include="JecLogo.cpp" />
+    <ClCompile Include="Demo.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="Tips.cpp" />
+    <ClCompile Include="TimeAttack.cpp" />
+    <ClCompile Include="StageSelectIcon.cpp" />
+    <ClCompile Include="Ranking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -74,9 +67,7 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Eff1.h" />
     <ClInclude Include="Effect.h" />
-    <ClInclude Include="Fragment.h" />
     <ClInclude Include="FragmentGenerator.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="GameInit.h" />
     <ClInclude Include="Gas.h" />
     <ClInclude Include="Jupitor.h" />
@@ -84,7 +75,6 @@
     <ClInclude Include="MeteoGenerator.h" />
     <ClInclude Include="MyGame\MyApp.h" />
     <ClInclude Include="MyGame\My\Animation.h" />
-    <ClInclude Include="MyGame\My\CGDM.h" />
     <ClInclude Include="MyGame\My\FixedPoint.h" />
     <ClInclude Include="MyGame\My\My.h" />
     <ClInclude Include="MyGame\TaskBase.h" />
@@ -92,21 +82,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Result.h" />
-    <ClInclude Include="Stage1-1.h" />
-    <ClInclude Include="Stage1-2.h" />
-    <ClInclude Include="Stage1-3.h" />
-    <ClInclude Include="Stage2-1.h" />
-    <ClInclude Include="Stage2-2.h" />
-    <ClInclude Include="Stage2-3.h" />
-    <ClInclude Include="Stage3-1.h" />
-    <ClInclude Include="Stage3-2.h" />
-    <ClInclude Include="Stage3-3.h" />
-    <ClInclude Include="Stage4-1.h" />
-    <ClInclude Include="Stage4-2.h" />
-    <ClInclude Include="Stage4-3.h" />
-    <ClInclude Include="Stage5-1.h" />
-    <ClInclude Include="Stage5-2.h" />
-    <ClInclude Include="Stage5-3.h" />
     <ClInclude Include="StageLoad.h" />
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="StageSelect.h" />
@@ -123,6 +98,27 @@
     <ClInclude Include="StagePicture.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="FadeInOut.h" />
+    <ClInclude Include="Rail.h" />
+    <ClInclude Include="Tutorial.h" />
+    <ClInclude Include="MyGame\My\CADAM.h" />
+    <ClInclude Include="MyGame\My\Move.h" />
+    <ClInclude Include="MyGame\My\Debug.h" />
+    <ClInclude Include="Stop.h" />
+    <ClInclude Include="PadMove.h" />
+    <ClInclude Include="KeyMove.h" />
+    <ClInclude Include="MyGame\My\Stream.h" />
+    <ClInclude Include="MyGame\My\EventMsg.h" />
+    <ClInclude Include="MyGame\My\MciScript.h" />
+    <ClInclude Include="MyGame\My\MciWnd.h" />
+    <ClInclude Include="MyGame\My\DShow.h" />
+    <ClInclude Include="Fragment.h" />
+    <ClInclude Include="JecLogo.h" />
+    <ClInclude Include="Demo.h" />
+    <ClInclude Include="MiniGame.h" />
+    <ClInclude Include="TimeAttack.h" />
+    <ClInclude Include="Tips.h" />
+    <ClInclude Include="StageSelectIcon.h" />
+    <ClInclude Include="Ranking.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="☆い.rc" />

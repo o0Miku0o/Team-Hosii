@@ -20,7 +20,7 @@ namespace GameInit
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ゲーム開始タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/

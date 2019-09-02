@@ -16,13 +16,13 @@ namespace StagePicture
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ステージピクチャータスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
 
 		/*データの初期化*/
-
+		SetRenderPriority(0.5f);
 		/*まだ画像は読み込まれていません。*/
 		bIsLoaded = false;
 	}
@@ -42,7 +42,7 @@ namespace StagePicture
 	{
 		if (bIsLoaded)
 		{
-			//rPictureBase.Draw(&iStageImg, false);
+			rPictureBase.Draw(&iStageImg, &Frec(0.f, 0.f, 480.f, 270.f));
 		}
 #ifdef _DEBUG
 		rPictureBase.SetColor(RGB(255, 0, 0));

@@ -2,6 +2,7 @@
 #include "Beam.h"
 #include "Fragment.h"
 #include "StageManager.h"
+#include "StageSelect.h"
 
 namespace Alien
 {
@@ -19,7 +20,7 @@ namespace Alien
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("宇宙人タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -46,9 +47,9 @@ namespace Alien
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (Find<Beam::Obj>("ビームタスク"))
+		if (Find<Beam::Obj>(Beam::caTaskName))
 		{
-			for (auto &bm : FindAll<Beam::Obj>("ビームタスク"))
+			for (auto &bm : FindAll<Beam::Obj>(Beam::caTaskName))
 			{
 				BeamCheckhit(bm);
 			}
@@ -62,6 +63,7 @@ namespace Alien
 		//	}
 		//}
 		Point pPos;
+		/*移動関係の関数を実行*/
 		if (moveFunc)
 		{
 			moveFunc(&pPos, &pCenter, &iTime, &fAddAngle);
@@ -70,7 +72,7 @@ namespace Alien
 
 		rAlienR.SetDeg(rAlienR.GetDeg() + fAddAngle);
 		cAlienRHitBase.SetPos(&rAlienR.GetPos());
-
+		/*アニメーション関数を実行*/
 		if (AnimFunc)
 		{
 			AnimFunc(&iAnimCount, &iAddOffSet, &iOffSetX, &iOffSetY);
@@ -79,12 +81,14 @@ namespace Alien
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iOffSetX + iAddOffSet), 16.f * iOffSetY, 16, 16);
 
-			rAlienR.Draw(&res->iStageImg, &src, true);
-			//cAlienRHitBase.Draw();
+			rAlienR.Draw(&res->iStageImg, &src);
+#ifdef _DEBUG
+			cAlienRHitBase.Draw();
+#endif
 		}
 	}
 	void Obj::BeamCheckhit(TaskBase* bm)
@@ -96,7 +100,11 @@ namespace Alien
 		if (cAlienRHitBase.CheckHit(&cBmHit))
 		{
 			if (BMHitFunc) BMHitFunc(bm);
-			//Remove(bm);
+
+			if (!Find<StageSelect::Obj>(caTaskName))
+			{
+				Remove(this);
+			}
 		}
 	}
 	//void Obj::FragmentCheckhit(TaskBase* fr)
@@ -217,7 +225,7 @@ namespace Alien
 	}
 	void FGReflectDR(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}
@@ -227,7 +235,7 @@ namespace Alien
 	}
 	void FGReflectUR(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}
@@ -237,7 +245,7 @@ namespace Alien
 	}
 	void FGReflectDL(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}
@@ -247,7 +255,7 @@ namespace Alien
 	}
 	void FGReflectUL(TaskBase * const tTask)
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			res->wsTest7.Play();
 		}

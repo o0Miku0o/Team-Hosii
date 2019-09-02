@@ -19,7 +19,7 @@ namespace Back
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("背景タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -103,7 +103,7 @@ namespace Back
 	/*背景画像の描画*/
 	void Obj::BackBaseDraw()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			rBackBase.Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
 		}
@@ -119,7 +119,7 @@ namespace Back
 	/*背景の星の更新*/
 	void Obj::BackStarDraw()
 	{
-		auto ti = Find<Title::Obj>("タイトルタスク");
+		auto ti = Find<Title::Obj>(Title::caTaskName);
 		for (auto &ap : pBackStar)
 		{
 			if (ti)

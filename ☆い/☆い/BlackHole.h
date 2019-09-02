@@ -1,8 +1,12 @@
 #pragma once
 #include "MyGame\TaskBase.h"
+#include "MyGame/My/Animation.h"
 
 namespace BlackHole
 {
+	const char caTaskName[] = { "ブラックホールタスク" };
+	const char caResName[] = { "ブラックホールリソース" };
+
 	/*リソース*/
 	class RS : public ResourceBase
 	{
@@ -24,6 +28,7 @@ namespace BlackHole
 		/*ここにタスクごとの変数を追加*/
 		Rec	rBlackHole; //描画用
 		Circle cInnerCircle , cOutCircle; //内側円
+		Circle cInnerInner;
 		Point pPos;
 		bool bBigger;
 		bool bMove;
@@ -31,6 +36,7 @@ namespace BlackHole
 		Point pEndPos;
 		Point pStartPos;
 		float fAngle;
+		Animation aAnim;
 
 		//普通
 		bool IsCreate();
@@ -55,5 +61,7 @@ namespace BlackHole
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
+
+	void AnimBH(byte *bFrame, byte *bSrcX, byte *bSrcY);
 }

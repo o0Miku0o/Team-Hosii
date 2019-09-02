@@ -5,6 +5,9 @@ using namespace std;
 
 namespace MeteoGenerator
 {
+	const char caTaskName[] = { "隕石生成タスク" };
+	const char caResName[] = { "隕石生成リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -35,5 +38,5 @@ namespace MeteoGenerator
 		void Render();
 		void Bridge(const int iNum, const Point * const pPos, const Vector2 * const vSpd);
 		void Bridge(const int iNum, const vector<Point> pPos, const vector<Vector2> vSpd);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

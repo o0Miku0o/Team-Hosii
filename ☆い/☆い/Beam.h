@@ -3,6 +3,9 @@
 
 namespace Beam
 {
+	const char caTaskName[] = { "ビームタスク" };
+	const char caResName[] = { "ビームリソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -31,8 +34,11 @@ namespace Beam
 		RS_ptr res;
 		void Init();
 		void Finalize();
+
+		void EffectCreate();
+		void OutOfScreen();
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

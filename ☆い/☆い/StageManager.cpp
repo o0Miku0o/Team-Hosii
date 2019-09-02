@@ -4,8 +4,12 @@
 #include "BeamGenerator.h"
 #include "Beam.h"
 #include "Player.h"
-
 #include "FadeInOut.h"
+#include "Back.h"
+#include "StageLoad.h"
+#include "TimeAttack.h"
+#include "Ranking.h"
+#include "Hukidasi.h"
 
 namespace StageManager
 {
@@ -13,6 +17,8 @@ namespace StageManager
 	void RS::Init()
 	{
 		iStageImg.ImageCreate("./data/image/main/resource.bmp");
+
+		tese.ImageCreate("./data/image/other/fade.bmp");
 
 		wsTest.SoundCreate("./data/sound/爆発音.wav");
 
@@ -90,12 +96,14 @@ namespace StageManager
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("ステージ統括タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
-		RB::Add<RS>("ステージ統括リソース");
+		RB::Add<RS>(caResName);
 		/*タスクの生成*/
 		//Add<StageSelect::Obj>();
 		/*データの初期化*/
+		pTutorialPos = Point(0.f, 0.f);
+		for (auto &it : bScores) it = 1;
 		bClearFragmentNum = 0;
 		bClearFragmentNumMax = 255;
 		usBeamCount = 0;
@@ -111,38 +119,92 @@ namespace StageManager
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
+		if (auto pl = Find<Player::Obj>(Player::caTaskName))
+		{
+			pTutorialPos.x = pl->pPos.x + 130.f;
+			pTutorialPos.y = pl->pPos.y - 130.f;
+		}
 		if (bClearFragmentNum >= bClearFragmentNumMax)
 		{
 			//時間を止めて！！！
 			//フェイドイン＆＆フェイドアウトの時間に入れ替え
-			if (++iResultCnt >= 140)
-			{
-				bClearFragmentNum = 0;
-				RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
-				auto re = Add<Result::Obj>();
-				re->bNextStage = bNextStage;
-				if (usBeamCount <= bClearFragmentNumMax)
+			auto fade = Find<FadeInOut::Obj>(FadeInOut::caTaskName);
+			++iResultCnt;
+			if (iResultCnt == 1) {
+				if (fade)
 				{
-					re->bScore = 3;
+					//fade->bActive = false;
+					fade->Start();
+					fade->bIsIn = true;
 				}
-				else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+				else
 				{
-					re->bScore = 2;
+					fade = Add<FadeInOut::Obj>();
+					fade->bIsIn = true;
 				}
-				iResultCnt = 0;
 			}
-			else if(iResultCnt == 1) {
-				auto fade = Add<FadeInOut::Obj>();
-				fade->bIsIn = true;
+			else if (fade)//Find<FadeInOut::Obj>("フェイドインアウトタスク") == nullptr)
+			{
+				if (fade->IsComplete())
+				{
+					bClearFragmentNum = 0;
+
+					RemoveAll({ caTaskName, FadeInOut::caTaskName,TimeAttack::caTaskName }, NOT_REMOVE_NAME);
+					//RemoveAll("ステージ統括タスク", NOT_REMOVE_NAME);
+					//Add<Back::Obj>();
+
+					byte bStageGroup = 0, bNowStage = 0;
+					bStageGroup = bStageNum / 10;
+					bNowStage = bStageNum - bStageGroup * 10 - 1;
+					if (usBeamCount <= bClearFragmentNumMax)
+					{
+						bScores.at(bNowStage) = 3;
+					}
+					else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+					{
+						bScores.at(bNowStage) = 2;
+					}
+
+					std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+					if (ofs)
+					{
+						ofs << bStageNum;
+						ofs.close();
+					}
+
+					if (bStageNum / 10 >= 7 && bStageNum - (bStageNum / 10 * 10) == 5)
+					{
+						if (auto ta = Find<TimeAttack::Obj>(TimeAttack::caTaskName))
+						{
+							ta->SaveTime();
+						}
+						RemoveAll();
+						Add<StageManager::Obj>();
+						Add<Back::Obj>();
+						Add<Ranking::Obj>();
+					}
+					else {
+						bStageNum = bNextStage;
+						if (bStageNum == 255) {
+							RemoveAll();
+
+							Add<StageManager::Obj>();
+							auto re = Add<Result::Obj>();
+							re->SetParam(bStageGroup, bScores);
+							Pause(2);
+						}
+						else {
+							Add<StageLoad::Obj>();
+						}
+					}
+					iResultCnt = 0;
+				}
 			}
 		}
 	}
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		//if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
-		//{
-		//	Rec(Rec::Win.r * 0.5f, Rec::Win.b * 0.5f, Rec::Win.r, Rec::Win.b).Draw(&res->iStageImg, &Frec(0.f, 0.f, 16.f, 16.f));
-		//}
+
 	}
 }

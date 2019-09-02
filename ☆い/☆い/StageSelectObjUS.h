@@ -3,6 +3,9 @@
 
 namespace StageSelectObjUS
 {
+	const char caTaskName[] = { "天王星タスク" };
+	const char caResName[] = { "天王星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -34,5 +37,5 @@ namespace StageSelectObjUS
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

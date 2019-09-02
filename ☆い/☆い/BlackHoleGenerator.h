@@ -5,6 +5,9 @@ using namespace std;
 
 namespace BlackHoleGenerator
 {
+	const char caTaskName[] = { "ブラックホール生成タスク" };
+	const char caResName[] = { "ブラックホール生成リソース" };
+
 	/*リソース*/
 	class RS : public ResourceBase
 	{
@@ -45,5 +48,5 @@ namespace BlackHoleGenerator
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

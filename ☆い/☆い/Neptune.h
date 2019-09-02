@@ -3,6 +3,9 @@
 
 namespace Neptune
 {
+	const char caTaskName[] = { "海王星タスク" };
+	const char caResName[] = { "海王星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -38,5 +41,5 @@ namespace Neptune
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

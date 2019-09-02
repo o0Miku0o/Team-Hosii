@@ -17,12 +17,12 @@ namespace StageSelectObjAsteroid
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("小惑星タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rAsteroid = Rec(650, 400, 16 * 10, 16 * 10);
+		rAsteroid = Rec(650, 400 - 200.f, 16 * 10, 16 * 10);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -37,7 +37,7 @@ namespace StageSelectObjAsteroid
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iAnimCount + 41), 16, 16, 16);
 
@@ -47,7 +47,7 @@ namespace StageSelectObjAsteroid
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rAsteroid.Draw(&res->iStageImg, &src, true);
+			rAsteroid.Draw(&res->iStageImg, &src);
 		}
 	}
 }

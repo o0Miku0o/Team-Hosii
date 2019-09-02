@@ -17,12 +17,12 @@ namespace StageSelectObjEarth
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("地球タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 		/*タスクの生成*/
 
 		/*データの初期化*/
-		rEarth = Rec(400, 600, 16 * 10, 16 * 10);
+		rEarth = Rec(400, 600 - 200.f, 16 * 10, 16 * 10);
 	}
 	/*タスクの終了処理*/
 	void Obj::Finalize()
@@ -37,7 +37,7 @@ namespace StageSelectObjEarth
 	/*タスクの描画処理*/
 	void Obj::Render()
 	{
-		if (auto res = RB::Find<StageManager::RS>("ステージ統括リソース"))
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
 		{
 			Frec src(16.f * (iAnimCount + 37), 16, 16, 16);
 
@@ -47,7 +47,7 @@ namespace StageSelectObjEarth
 				iAnimCount = (iAnimCount + 1) % 4;
 			}
 			++i;
-			rEarth.Draw(&res->iStageImg, &src, true);
+			rEarth.Draw(&res->iStageImg, &src);
 		}
 	}
 }

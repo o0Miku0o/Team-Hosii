@@ -15,7 +15,7 @@ namespace FragmentGenerator
 	void Obj::Init()
 	{
 		/*タスク名設定*/
-		SetName("欠片生成タスク");
+		SetName(caTaskName);
 		/*リソース生成*/
 
 		/*タスクの生成*/
@@ -57,5 +57,18 @@ namespace FragmentGenerator
 			fragment->iColor = iColor.at(i);
 		}
 		Remove(this);
+	}
+	void Obj::Bridge3(const int iNum, const vector<Point>& pPos, const vector<int>& iColor, const vector<float>& angle)
+	{
+		for (int i = 0; i < 5; ++i)
+		{
+			auto fragment = Add<Fragment::Obj>();
+			fragment->rFragment.SetPos(&pPos.at(i));
+			fragment->cFragmentHitBase.SetPos(&pPos.at(i));
+			fragment->pInitPos = pPos.at(i);
+			fragment->iColor = iColor.at(i);
+			fragment->rFragment.SetDeg(angle.at(i));
+			fragment->fInitAngle = angle.at(i);
+		}
 	}
 }

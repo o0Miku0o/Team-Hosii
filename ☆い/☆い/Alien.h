@@ -3,6 +3,9 @@
 
 namespace Alien
 {
+	const char caTaskName[] = { "宇宙人タスク" };
+	const char caResName[] = { "宇宙人リソース" };
+
 	/*動きを制御する関数ポインタ*/
 	using Move = void(*)(Point*, const Point*, int * const, float * const);
 	/*当たった後の動きを制御する関数ポインタ*/
@@ -53,7 +56,7 @@ namespace Alien
 		void Render();
 		void BeamCheckhit(TaskBase* bm);
 		void FragmentCheckhit(TaskBase* fr);
-	}*OBJ_ptr;
+	}*Obj_ptr;
 	void MoveHorizontal(Point* pPos, const Point* pCenter, int * const iCount, float * const fAddAngle);
 	void Move_Horizontal(Point* pPos, const Point* pCenter, int * const iCount, float * const fAddAngle);
 	void MoveVertical(Point* pPos, const Point* pCenter, int * const iCount, float * const fAddAngle);

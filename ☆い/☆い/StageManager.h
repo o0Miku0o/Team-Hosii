@@ -3,12 +3,16 @@
 
 namespace StageManager
 {
+	const char caTaskName[] = { "ステージ統括タスク" };
+	const char caResName[] = { "ステージ統括リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
 	public:
 		/*必要なメンバはここに追加*/
 		Image iStageImg;
+		Image tese;
 		WSound wsTest;
 		WSound wsTest2;
 		WSound wsTest3;
@@ -38,6 +42,8 @@ namespace StageManager
 	{
 	public:
 		/*必要なメンバはここに追加*/
+		Point pTutorialPos;
+		std::array<byte, 3> bScores;
 		u_short usBeamCount;
 		byte bClearFragmentNumMax;
 		byte bClearFragmentNum;
@@ -55,5 +61,5 @@ namespace StageManager
 	public:
 		void Update();
 		void Render();
-	}*OBJ_ptr;
+	}*Obj_ptr;
 }

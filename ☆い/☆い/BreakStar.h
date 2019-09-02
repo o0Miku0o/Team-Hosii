@@ -1,8 +1,12 @@
 #pragma once
 #include "MyGame/MyApp.h"
+#include "Eff1.h"
 
 namespace BreakStar
 {
+	const char caTaskName[] = { "壊す星タスク" };
+	const char caResName[] = { "壊す星リソース" };
+
 	/*リソースクラス*/
 	class RS : public ResourceBase
 	{
@@ -24,12 +28,21 @@ namespace BreakStar
 		/*必要なメンバはここに追加*/
 		Rec rStar;
 		Circle cHitbase;
-		
+		Rec rFrg[5] = {};
+		Rec rFrg1;
+		Rec rFrg2;
+		Rec rFrg3;
+		Rec rFrg4;
+
 		int iChange;
 		int iTime;
 		bool bHitAct;
 		bool bBlackMode;
-		Vector2 vMove;
+		bool bCrach;
+		//Vector2 vMove;
+		Vector2 vVec;
+		int cnt;
+		Eff1::EffectCreater::SP effsp;
 
 		Obj() {}
 		~Obj() {}
@@ -42,5 +55,6 @@ namespace BreakStar
 		void Render();
 		void BeamCheckHit(TaskBase* beam);
 		void FragmentCheckHit(TaskBase* fragment);
-	}*OBJ_ptr;
+		void FrgCreate();
+	}*Obj_ptr;
 }
