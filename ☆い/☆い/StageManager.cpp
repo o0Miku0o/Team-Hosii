@@ -172,8 +172,8 @@ namespace StageManager
 						ofs << bStageNum;
 						ofs.close();
 					}
-
-					if (bStageNum / 10 >= 7 && bStageNum - (bStageNum / 10 * 10) == 5)
+					
+					if (bStageNum == 75)
 					{
 						if (auto ta = Find<TimeAttack::Obj>(TimeAttack::caTaskName))
 						{
