@@ -156,23 +156,24 @@ namespace StageManager
 					byte bStageGroup = 0, bNowStage = 0;
 					bStageGroup = bStageNum / 10;
 					bNowStage = bStageNum - bStageGroup * 10 - 1;
-					if (usBeamCount <= bClearFragmentNumMax)
-					{
-						bScores.at(bNowStage) = 3;
+					if (bStageGroup != 7) {
+						if (usBeamCount <= bClearFragmentNumMax)
+						{
+							bScores.at(bNowStage) = 3;
+						}
+						else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
+						{
+							bScores.at(bNowStage) = 2;
+						}
 					}
-					else if (usBeamCount <= u_short(bClearFragmentNumMax * 2))
-					{
-						bScores.at(bNowStage) = 2;
-					}
-
 					std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
 					if (ofs)
 					{
 						ofs << bStageNum;
 						ofs.close();
 					}
-
-					if (bStageNum / 10 >= 7 && bStageNum - (bStageNum / 10 * 10) == 5)
+					
+					if (bStageNum == 75)
 					{
 						if (auto ta = Find<TimeAttack::Obj>(TimeAttack::caTaskName))
 						{

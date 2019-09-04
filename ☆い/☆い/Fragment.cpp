@@ -117,7 +117,7 @@ namespace Fragment
 		if (rFragment.GetPosY() < Rec::Win.t - rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
-			cFragmentHitBase.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&rFragment.GetPos());
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
@@ -126,7 +126,7 @@ namespace Fragment
 		if (rFragment.GetPosY() > Rec::Win.b + rFragment.GetH())
 		{
 			rFragment.SetPos(&pInitPos);
-			cFragmentHitBase.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&rFragment.GetPos());
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();
@@ -136,7 +136,7 @@ namespace Fragment
 		{
 
 			rFragment.SetPos(&pInitPos);
-			cFragmentHitBase.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&rFragment.GetPos());
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 			//Add<Fragment::Obj>();	
@@ -145,7 +145,7 @@ namespace Fragment
 		if (rFragment.GetPosX() < Rec::Win.l - rFragment.GetW())
 		{
 			rFragment.SetPos(&pInitPos);
-			cFragmentHitBase.SetPos(&pInitPos);
+			cFragmentHitBase.SetPos(&rFragment.GetPos());
 			rFragment.SetDeg(fInitAngle);
 			bMoveActive = false;
 		}

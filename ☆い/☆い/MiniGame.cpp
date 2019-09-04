@@ -67,7 +67,8 @@ namespace MiniGame
 	void Obj::Update()
 	{
 		auto pd = JoyPad::GetState(0);
-		if (pd->Down(JOY_BUTTON6))
+		auto kb = KB::GetState();
+		if (pd->Down(JOY_BUTTON6)|| kb->Down(VK_RIGHT))
 		{
 			if (score < fFragmentCnt)
 			{
