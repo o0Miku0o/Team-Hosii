@@ -6,4 +6,4 @@ BreakStar 1900 1000 37
 BreakStar 600  540 34
 Star 1200  850 22
 Star 1100  200 23
-Result 8 255
+Result 5 255

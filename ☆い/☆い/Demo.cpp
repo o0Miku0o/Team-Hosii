@@ -35,7 +35,9 @@ namespace Demo
 		}
 		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
-			ifs >> sm->bStageNum;
+			int nb;
+			ifs >> nb;
+			sm->bStageNum = nb;
 			
 			/*“ü‚ê‘Ö‚¦*/
 			Swap(sm, this);

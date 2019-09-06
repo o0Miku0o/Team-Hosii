@@ -75,7 +75,7 @@ namespace TimeAttack
 		if (bIsSaved)return;
 		std::ofstream off("./data/ta_data/ta.txt", std::ios_base::app);
 		if (!off)return;
-		off << iTimeCnt << ",";
+		off << iTimeCnt << "\n";
 		off.close();
 		bIsSaved = true;
 	}

@@ -1,6 +1,6 @@
 Fragment 500  250 2
-Fragment 800  550 60
-Fragment 1200 700 68
+Fragment 800  550 2
+Fragment 1200 700 2
 Star 1500 400 24
 Star   1200 900 23 
 Result 3 13

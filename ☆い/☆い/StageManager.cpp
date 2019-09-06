@@ -166,11 +166,14 @@ namespace StageManager
 							bScores.at(bNowStage) = 2;
 						}
 					}
-					std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
-					if (ofs)
+					if (bStageGroup != 6 && bStageGroup != 7)
 					{
-						ofs << bStageNum;
-						ofs.close();
+						std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);
+						if (ofs)
+						{
+							ofs << (int)bStageNum;
+							ofs.close();
+						}
 					}
 					
 					if (bStageNum == 75)

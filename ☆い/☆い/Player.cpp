@@ -52,7 +52,16 @@ namespace Player
 	/*タスクの終了処理*/
 	void Obj::Finalize()
 	{
-		if (!bIsReplay) Rep::SaveFile("./data/demo/replay.txt");
+		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
+		{
+			byte bStageGroup = sm->bStageNum / 10;
+			if (bStageGroup == 6 || bStageGroup == 7) return;
+		}
+		if (!bIsReplay)
+		{
+			Rep::SaveFile("./data/demo/replay.txt");
+			Rep::Clear();
+		}
 		//if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		//{
 		//	std::ofstream ofs("./data/demo/replay_stage.txt", std::ios_base::trunc);

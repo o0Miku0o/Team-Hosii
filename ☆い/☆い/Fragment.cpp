@@ -55,15 +55,18 @@ namespace Fragment
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (rFragment.GetH() < 20.f) {
-			rFragment.Scaling(100.f, 100.f);
-		}
-		else if (rFragment.GetH() < 100.f) {
-			rFragment.Scaling(rFragment.GetW() + 6.f, rFragment.GetH() + 6.f);
-		}
-		else {
-			rFragment.Scaling(100.f, 100.f);
-		}
+		//if (rFragment.GetH() < 33.f) {
+		//	rFragment.Scaling(100.f, 100.f);
+		//}
+		////else if (rFragment.GetH() < 100.f) {
+		////	float sin =rFragment.GetH();
+
+		////}
+		///*else {
+		//	rFragment.Scaling(100.f, 100.f);
+		//}*/
+
+		cFragmentHitBase.SetPos(&rFragment.GetPos());
 
 		pPrevPos = rFragment.GetPos();
 		const auto kb = KB::GetState();

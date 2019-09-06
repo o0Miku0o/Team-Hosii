@@ -2,4 +2,4 @@ Star 1600  200 23
 Star 1600  880 23
 Star 1700  540 24
 BreakStar 600 540 34
-Result 8 43
+Result 5 43
