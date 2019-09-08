@@ -27,18 +27,32 @@ namespace Demo
 		/*リソース生成*/
 		RB::Add<RS>(caResName);
 		/*タスクの生成*/
-		std::ifstream ifs("./data/demo/replay_stage.txt");
+		replayStage = "./data/demo/replay_stage.txt";
+		replayFile = "./data/demo/replay.txt";
+		__int64 temp = getFileSize(replayFile);
+		if (temp < 1024) {
+			std::string files[2] = { "./data/demo/replay_bac0.txt" ,"./data/demo/replay_bac1.txt" };
+			std::string stages[2] = { "./data/demo/replay_stage_bac0.txt",  "./data/demo/replay_stage_bac1.txt" };
+			//replayFile = "./data/demo/replay_bac.txt";
+			//replayStage = "./data/demo/replay_stage_bac.txt";
+			int random = rand() % 2;
+			replayFile = files[random];
+			replayStage += stages[random];
+		}
+		std::ifstream ifs(replayStage);
+		//std::ifstream ifs("./data/demo/replay_stage.txt");
 		if (!ifs)
 		{
 			Remove(this);
 			return;
 		}
+
 		if (auto sm = Find<StageManager::Obj>(StageManager::caTaskName))
 		{
 			int nb;
 			ifs >> nb;
 			sm->bStageNum = nb;
-			
+
 			/*入れ替え*/
 			Swap(sm, this);
 			///*強制的に入れ替え*/
@@ -91,7 +105,8 @@ namespace Demo
 		{
 			if (auto pl = Find<Player::Obj>(Player::caTaskName))
 			{
-				pl->ReplayLoad("./data/demo/replay.txt");
+				pl->ReplayLoad(replayFile);
+				//pl->ReplayLoad("./data/demo/replay.txt");
 				bIsLoad = true;
 			}
 		}
@@ -123,5 +138,12 @@ namespace Demo
 	void Obj::Render()
 	{
 
+	}
+	//ファイルの大きさをバイトで返す
+	//__int64 は Long タイプ
+	__int64 Obj::getFileSize(const std::string &asRepFileName) {
+		struct _stati64 statbuf;
+		if (_stati64(asRepFileName.c_str(), &statbuf)) return -1;
+		return statbuf.st_size;
 	}
 }

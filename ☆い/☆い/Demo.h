@@ -32,6 +32,13 @@ namespace Demo
 	private:
 		void Init();
 		void Finalize();
+
+		std::string replayStage;
+		std::string replayFile;
+
+		//ファイルの大きさをバイトで返す
+		//__int64 は Long タイプ
+		__int64 getFileSize(const std::string &asRepFileName);
 	public:
 		void Update();
 		void Render();
