@@ -101,7 +101,7 @@ namespace Alien
 		{
 			if (BMHitFunc) BMHitFunc(bm);
 
-			if (!Find<StageSelect::Obj>(caTaskName))
+			if (Find<StageSelect::Obj>(StageSelect::caTaskName))
 			{
 				Remove(this);
 			}

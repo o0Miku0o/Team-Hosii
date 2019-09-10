@@ -37,7 +37,7 @@ namespace Demo
 			//replayStage = "./data/demo/replay_stage_bac.txt";
 			int random = rand() % 2;
 			replayFile = files[random];
-			replayStage += stages[random];
+			replayStage = stages[random];
 		}
 		std::ifstream ifs(replayStage);
 		//std::ifstream ifs("./data/demo/replay_stage.txt");

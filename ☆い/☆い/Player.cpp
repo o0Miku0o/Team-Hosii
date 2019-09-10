@@ -194,6 +194,10 @@ namespace Player
 		if (!d) return;
 		if (Find<Beam::Obj>(Beam::caTaskName)) return;
 		Add<BeamGenerator::Obj>();
+		if (auto res = RB::Find<StageManager::RS>(StageManager::caResName))
+		{
+			res->wsTest4.Play();
+		}
 	}
 	/*ˆÚ“®‘¬“x‚©‚çˆÚ“®Œã‚ÌÀ•W‚ğæ“¾*/
 	const float Obj::GetAfterPosY(const float afSpdY)

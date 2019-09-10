@@ -38,7 +38,7 @@ namespace Beam
 	/*タスクの更新処理*/
 	void Obj::Update()
 	{
-		if (bLifeCount >= 65) Remove(this);
+		if (bLifeCount >=75) Remove(this);
 		++bLifeCount;
 		/*移動ベクトル設定*/
 		if (auto prev = FindPrev<Beam::Obj>(caTaskName))

@@ -324,7 +324,7 @@ namespace Fragment
 		if (cFragmentHitBase.CheckHit(&cAlHit) && !cAlHit.CheckHit(&cPreHit))
 		{
 			rFragment.SetPos(&oAlien->cAlienRHitBase.GetPos());
-			rFragment.Scaling(rFragment.GetW() * 0.4f, rFragment.GetH()* 0.4f);
+		//	rFragment.Scaling(rFragment.GetW() * 0.4f, rFragment.GetH()* 0.4f);
 			if (oAlien->FGHitFunc)oAlien->FGHitFunc(this);
 		}
 	}
